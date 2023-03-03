@@ -10,10 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\Assembly-CSharp.dll" Private="False" />
     <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
     <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
     <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\Shared\Hollowed\hollowed.dll</HintPath>
+	  Private="False"
+    </Reference>
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
     <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
   </ItemGroup>
