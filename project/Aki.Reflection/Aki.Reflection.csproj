@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Aki</Company>
+    <Copyright>Copyright @ Aki 2022</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\Assembly-CSharp.dll" Private="False" />
+    <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
+    <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
+    <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />
+    <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aki.Common\Aki.Common.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"window.title": "SPT-AKI Modules"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-dotnettools.csharp"
+		]
+	},
+	"tasks":{
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "build",
+				"type": "shell",
+				"command": "dotnet cake",
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				}
+			}
+		]
+	}	
+}

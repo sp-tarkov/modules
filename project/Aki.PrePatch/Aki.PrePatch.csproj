@@ -1,0 +1,30 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>aki_PrePatch</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Aki</Company>
+    <Copyright>Copyright @ Aki 2022</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\Assembly-CSharp.dll" Private="False" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aki.Common\Aki.Common.csproj" />
+    <ProjectReference Include="..\Aki.Reflection\Aki.Reflection.csproj" />
+  </ItemGroup>
+
+</Project>

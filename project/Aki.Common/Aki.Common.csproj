@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Aki</Company>
+    <Copyright>Copyright @ Aki 2022</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+</Project>
