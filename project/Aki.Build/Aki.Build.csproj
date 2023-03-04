@@ -5,13 +5,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2022</Copyright>
+    <Company>SPT Aki</Company>
+    <Copyright>Copyright @ SPT Aki 2023</Copyright>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="Build.ps1" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
