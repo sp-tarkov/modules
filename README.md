@@ -24,8 +24,15 @@ Aki.SinglePlayer   | Simulating online game while offline
 
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into Modules' `Project/Shared/` folder
 
-## Build
-
+## Build (vscode)
 1. File > Open Workspace > Modules.code-workspace
 2. Terminal > Run Build Task...
-3. Copy-paste content inside `Build` into `%gamedir%`, overwrite when prompted.
+3. Copy contents of `/Build` into SPT game folder and overwrite
+
+## Build (VS)
+1. Open solution
+2. Restore nuget packages
+3. Run `dotnet new tool-manifest`
+4. Run `dotnet tool install Cake.Tool`
+5. Build solution
+6. Copy contents of `/Build` into SPT game folder and overwrite
