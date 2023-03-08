@@ -18,8 +18,8 @@ namespace Aki.Custom.Patches
             var desiredType = typeof(MatchmakerOfflineRaidScreen);
             var desiredMethod = desiredType.GetMethod(nameof(MatchmakerOfflineRaidScreen.Show));
 
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
+            Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
+            Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
 
             return desiredMethod;
         }
@@ -44,13 +44,9 @@ namespace Aki.Custom.Patches
             {
                 raidSettings.BotSettings.BotAmount = settings.AiAmount;
                 raidSettings.WavesSettings.BotAmount = settings.AiAmount;
-
                 raidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
-
                 raidSettings.WavesSettings.IsBosses = settings.BossEnabled;
-
                 raidSettings.BotSettings.IsScavWars = false;
-
                 raidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
             }
         }
@@ -58,12 +54,16 @@ namespace Aki.Custom.Patches
         [PatchPostfix]
         private static void PatchPostfix()
         {
-            // disable "no progression save" panel
+            // Hide "no progression save" panel
             var offlineRaidScreenContent = GameObject.Find("Matchmaker Offline Raid Screen").transform.Find("Content").transform;
             var warningPanel = offlineRaidScreenContent.Find("WarningPanelHorLayout");
             warningPanel.gameObject.SetActive(false);
             var spacer = offlineRaidScreenContent.Find("Space (1)");
             spacer.gameObject.SetActive(false);
+
+            // Disable "Enable practice mode for this raid" toggle
+            var practiceModeComponent = GameObject.Find("SoloModeCheckmarkBlocker").GetComponent<UiElementBlocker>();
+            practiceModeComponent.SetBlock(true, "Raids in SPT are always Offline raids. Don't worry - your progress will be saved!");
         }
     }
 }
