@@ -24,6 +24,7 @@ namespace Aki.Custom
                 new BotDifficultyPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new OfflineRaidMenuPatch().Enable();
+                new OfflineRaidSettingsMenuPatch().Enable();
                 new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
