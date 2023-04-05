@@ -15,7 +15,7 @@ namespace Aki.Core.Patches
         {
             try
             {
-                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class228");
+                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class229");
                 var value = Traverse.Create(type).Field("TransportPrefixes").GetValue<Dictionary<ETransportProtocolType, string>>();
                 value[ETransportProtocolType.HTTPS] = "http://";
                 value[ETransportProtocolType.WSS] = "ws://";
