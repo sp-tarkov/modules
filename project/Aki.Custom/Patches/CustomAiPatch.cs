@@ -91,7 +91,7 @@ namespace Aki.Custom.Patches
 
         private static bool BotIsSptPmc(WildSpawnType role)
         {
-            return (long)role == 33 || (long)role == 32;
+            return (int)role == AkiBotsPrePatcher.sptBearValue || (int)role == AkiBotsPrePatcher.sptUsecValue;
         }
 
         private static string GetCurrentMap()
