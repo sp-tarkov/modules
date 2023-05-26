@@ -54,6 +54,7 @@ namespace Aki.Custom.Airdrops
             instance.paraAnimator = instance.boxSync.Parachute.GetComponent<Animator>();
             instance.paraMaterial = instance.boxSync.Parachute.GetComponentInChildren<Renderer>().material;
             instance.fallSpeed = crateFallSpeed;
+
             return instance;
         }
 
@@ -64,6 +65,7 @@ namespace Aki.Custom.Airdrops
 
             var crate = Instantiate(easyAssets.GetAsset<GameObject>(CRATE_PATH));
             crate.SetActive(false);
+
             return crate;
         }
 
@@ -193,8 +195,11 @@ namespace Aki.Custom.Airdrops
             AudioSource.SetRolloff(clip.Falloff);
             AudioSource.source1.volume = volume;
             
-            if (AudioSource.source1.isPlaying) return;
-            
+            if (AudioSource.source1.isPlaying)
+            {
+                return;
+            }
+
             AudioSource.source1.clip = clip.Clip;
             AudioSource.source1.loop = looped;
             AudioSource.source1.Play();
@@ -231,8 +236,11 @@ namespace Aki.Custom.Airdrops
         
         private void ReleaseAudioSource()
         {
-            if (audioSource == null) return;
-            
+            if (audioSource == null)
+            {
+                return;
+            }
+
             audioSource.transform.parent = null;
             audioSource.Release();
             audioSource = null;

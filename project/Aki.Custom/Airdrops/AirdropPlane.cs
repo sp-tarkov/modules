@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Comfort.Common;
 using EFT;
-using EFT.Airdrop;
 using EFT.SynchronizableObjects;
 using UnityEngine;
 

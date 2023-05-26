@@ -18,9 +18,12 @@ namespace Aki.Custom.Airdrops
         public async void Start()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            
-            if (gameWorld == null) Destroy(this);
-            
+
+            if (gameWorld == null)
+            {
+                Destroy(this);
+            }
+
             airdropParameters = AirdropUtil.InitAirdropParams(gameWorld, isFlareDrop);
 
             if (!airdropParameters.AirdropAvailable)
@@ -31,14 +34,17 @@ namespace Aki.Custom.Airdrops
 
             try
             {
-                airdropPlane = await AirdropPlane.Init(airdropParameters.RandomAirdropPoint, 
-                    airdropParameters.DropHeight, airdropParameters.Config.PlaneVolume, airdropParameters.Config.PlaneSpeed);
+                airdropPlane = await AirdropPlane.Init(
+                    airdropParameters.RandomAirdropPoint,
+                    airdropParameters.DropHeight,
+                    airdropParameters.Config.PlaneVolume,
+                    airdropParameters.Config.PlaneSpeed);
                 airdropBox = await AirdropBox.Init(airdropParameters.Config.CrateFallSpeed);
                 factory = new ItemFactoryUtil();
             }
             catch
             {
-                Debug.LogError($"[AKI-AIRDROPS]: Unable to create plane or crate, airdrop won't occur");
+                Debug.LogError("[AKI-AIRDROPS]: Unable to create plane or crate, airdrop won't occur");
                 Destroy(this);
                 throw;
             }
@@ -55,14 +61,17 @@ namespace Aki.Custom.Airdrops
                 StartPlane();
             }
 
-            if (!airdropParameters.PlaneSpawned) return;
-            
+            if (!airdropParameters.PlaneSpawned)
+            {
+                return;
+            }
+
             if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
             {
                 StartBox();
                 BuildLootContainer();
             }
-            
+
             if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
             {
                 airdropParameters.DistanceTraveled += Time.deltaTime * airdropParameters.Config.PlaneSpeed;
@@ -100,7 +109,7 @@ namespace Aki.Custom.Airdrops
         private void SetDistanceToDrop()
         {
             airdropParameters.DistanceToDrop = Vector3.Distance(
-                new Vector3(airdropParameters.RandomAirdropPoint.x, airdropParameters.DropHeight, airdropParameters.RandomAirdropPoint.z), 
+                new Vector3(airdropParameters.RandomAirdropPoint.x, airdropParameters.DropHeight, airdropParameters.RandomAirdropPoint.z),
                 airdropPlane.transform.position);
         }
     }
