@@ -1,4 +1,5 @@
 ﻿using System;
+using Aki.Common;
 using Aki.Custom.Airdrops.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
@@ -6,7 +7,7 @@ using BepInEx;
 
 namespace Aki.Custom
 {
-    [BepInPlugin("com.spt-aki.custom", "AKI.Custom", "1.0.0")]
+    [BepInPlugin("com.spt-aki.custom", "AKI.Custom", AkiPluginInfo.PLUGIN_VERSION)]
     class AkiCustomPlugin : BaseUnityPlugin
     {
         public AkiCustomPlugin()

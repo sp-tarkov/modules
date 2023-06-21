@@ -1,10 +1,11 @@
 using System;
+using Aki.Common;
 using Aki.Core.Patches;
 using BepInEx;
 
 namespace Aki.Core
 {
-    [BepInPlugin("com.spt-aki.core", "AKI.Core", "1.0.0")]
+    [BepInPlugin("com.spt-aki.core", "AKI.Core", AkiPluginInfo.PLUGIN_VERSION)]
 	class AkiCorePlugin : BaseUnityPlugin
 	{
         public AkiCorePlugin()

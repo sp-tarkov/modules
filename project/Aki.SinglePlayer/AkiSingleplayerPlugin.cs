@@ -1,4 +1,5 @@
 using System;
+using Aki.Common;
 using Aki.SinglePlayer.Patches.Healing;
 using Aki.SinglePlayer.Patches.MainMenu;
 using Aki.SinglePlayer.Patches.Progression;
@@ -9,7 +10,7 @@ using BepInEx;
 
 namespace Aki.SinglePlayer
 {
-    [BepInPlugin("com.spt-aki.singleplayer", "AKI.Singleplayer", "1.0.0")]
+    [BepInPlugin("com.spt-aki.singleplayer", "AKI.Singleplayer", AkiPluginInfo.PLUGIN_VERSION)]
     class AkiSingleplayerPlugin : BaseUnityPlugin
     {
         public AkiSingleplayerPlugin()
