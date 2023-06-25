@@ -5,6 +5,7 @@ using EFT;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using Aki.SinglePlayer.Models.RaidFix;
+using System;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -65,13 +66,15 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             // load bundles for bot profile
             var continuation = new BundleLoader(taskScheduler);
             __result = taskAwaiter.ContinueWith(continuation.LoadBundles, taskScheduler).Unwrap();
+
             return false;
         }
 
         private static Profile GetFirstResult(Task<Profile[]> task)
         {
             var result = task.Result[0];
-            Logger.LogInfo($"Loading bot profile from server. role: {result.Info.Settings.Role} side: {result.Side}");
+            Logger.LogInfo($"{DateTime.Now:T} Loading bot {result.Info.Nickname} profile from server. role: {result.Info.Settings.Role} side: {result.Side}");
+
             return result;
         }
     }
