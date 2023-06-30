@@ -47,6 +47,8 @@ namespace Aki.SinglePlayer
                 new LighthouseBridgePatch().Enable();
                 new LighthouseTransmitterPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
+                new SmokeGrenadeFuseSoundFixPatch().Enable();
+                new PlayerToggleSoundFixPatch().Enable();
             }
             catch (Exception ex)
             {
