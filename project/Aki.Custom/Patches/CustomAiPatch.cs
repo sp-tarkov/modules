@@ -98,7 +98,7 @@ namespace Aki.Custom.Patches
         {
             var gameWorld = Singleton<GameWorld>.Instance;
 
-            return gameWorld.RegisteredPlayers[0].Location;
+            return gameWorld.MainPlayer.Location;
         }
 
         private static bool CacheIsStale()

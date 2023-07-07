@@ -21,7 +21,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
                 .GetMethod("FindActiveEffect", BindingFlags.Instance | BindingFlags.Public)
                 .MakeGenericMethod(typeof(ActiveHealthControllerClass)
                 .GetNestedType("Stun", BindingFlags.Instance | BindingFlags.NonPublic))
-                .Invoke(Singleton<GameWorld>.Instance.AllPlayers[0].ActiveHealthController, new object[] { EBodyPart.Common }) != null;
+                .Invoke(Singleton<GameWorld>.Instance.MainPlayer.ActiveHealthController, new object[] { EBodyPart.Common }) != null;
 
             return shouldInvoke;
         }

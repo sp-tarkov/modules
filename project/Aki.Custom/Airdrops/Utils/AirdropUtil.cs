@@ -27,52 +27,57 @@ namespace Aki.Custom.Airdrops.Utils
                 return 100;
             }
 
-            string location = gameWorld.RegisteredPlayers[0].Location;
+            // Get players current location
+            string playerLocation = gameWorld.MainPlayer.Location;
 
-            int result = 25;
-            switch (location.ToLower())
+            int result = 0;
+            switch (playerLocation.ToLower())
             {
                 case "bigmap":
-                {
-                    result = config.AirdropChancePercent.Bigmap;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Bigmap;
+                        break;
+                    }
                 case "interchange":
-                {
-                    result = config.AirdropChancePercent.Interchange;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Interchange;
+                        break;
+                    }
                 case "rezervbase":
-                {
-                    result = config.AirdropChancePercent.Reserve;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Reserve;
+                        break;
+                    }
                 case "shoreline":
-                {
-                    result = config.AirdropChancePercent.Shoreline;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Shoreline;
+                        break;
+                    }
                 case "woods":
-                {
-                    result = config.AirdropChancePercent.Woods;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Woods;
+                        break;
+                    }
                 case "lighthouse":
-                {
-                    result = config.AirdropChancePercent.Lighthouse;
-                    break;
-                }
+                    {
+                        result = config.AirdropChancePercent.Lighthouse;
+                        break;
+                    }
                 case "tarkovstreets":
-                {
-                    result = config.AirdropChancePercent.TarkovStreets;
+                    {
+                        result = config.AirdropChancePercent.TarkovStreets;
+                        break;
+                    }
+                default:
+                    Debug.LogError($"[AKI-AIRDROPS]: Map with name {playerLocation} not handled, defaulting spawn chance to 25%");
+                    result = 25;
                     break;
-                }
             }
 
             return result;
         }
 
-        public static bool ShouldAirdropOccur(int dropChance, List<AirdropPoint> airdropPoints)
+        private static bool ShouldAirdropOccur(int dropChance, List<AirdropPoint> airdropPoints)
         {
             return airdropPoints.Count > 0 && Random.Range(0, 100) <= dropChance;
         }
@@ -81,15 +86,16 @@ namespace Aki.Custom.Airdrops.Utils
         {
             var serverConfig = GetConfigFromServer();
             var allAirdropPoints = LocationScene.GetAll<AirdropPoint>().ToList();
-            var playerPosition = gameWorld.RegisteredPlayers[0].Position;
+            var playerPosition = gameWorld.MainPlayer.Position;
             var flareAirdropPoints = new List<AirdropPoint>();
             var dropChance = ChanceToSpawn(gameWorld, serverConfig, isFlare);
+            var flareSpawnRadiusDistance = 100f;
 
             if (isFlare && allAirdropPoints.Count > 0)
             {
                 foreach (AirdropPoint point in allAirdropPoints)
                 {
-                    if (Vector3.Distance(playerPosition, point.transform.position) <= 100f)
+                    if (Vector3.Distance(playerPosition, point.transform.position) <= flareSpawnRadiusDistance)
                     {
                         flareAirdropPoints.Add(point);
                     }
@@ -98,7 +104,7 @@ namespace Aki.Custom.Airdrops.Utils
 
             if (flareAirdropPoints.Count == 0 && isFlare)
             {
-                Debug.LogError($"[AKI-AIRDROPS]: Airdrop called in by flare, Unable to find an airdropPoint within 100m, defaulting to normal drop");
+                Debug.LogError($"[AKI-AIRDROPS]: Airdrop called in by flare, Unable to find an airdropPoint within {flareSpawnRadiusDistance}m, defaulting to normal drop");
                 flareAirdropPoints.Add(allAirdropPoints.OrderBy(_ => Guid.NewGuid()).FirstOrDefault());
             }
 
