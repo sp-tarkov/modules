@@ -32,8 +32,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 Logger.LogError("Unable to Find Gameworld or RegisterPlayers... Unable to Disable Extracts for Scav raid");
             }
 
-            // One of the RegisteredPlayers will have the IsYourPlayer flag set, which will be our own Player instance.
-            Player player = gameWorld.RegisteredPlayers.Find(p => p.IsYourPlayer);
+            Player player = gameWorld.MainPlayer;
 
             var exfilController = gameWorld.ExfiltrationController;
 

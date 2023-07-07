@@ -29,7 +29,6 @@ namespace Aki.Custom.Patches
             var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
 
             raidSettings.RaidMode = ERaidMode.Local;
-            raidSettings.BotSettings.IsEnabled = true;
 
             // Default checkbox to be ticked
             ____offlineModeToggle.isOn = true;

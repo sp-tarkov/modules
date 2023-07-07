@@ -14,7 +14,7 @@ namespace Aki.SinglePlayer.Models.Progression
         private bool _addedToEnemy;
         private List<MineDirectionalColliders> _mines;
         private RecodableItemClass _transmitter;
-        private List<Player> _bosses;
+        private List<IAIDetails> _bosses;
         private bool _aggressor;
         private bool _disabledDoor;
         private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
@@ -22,10 +22,13 @@ namespace Aki.SinglePlayer.Models.Progression
         public void Start()
         {
             _gameWorld = Singleton<GameWorld>.Instance;
-            _bosses = new List<Player>();
+            _bosses = new List<IAIDetails>();
             _mines = GameObject.FindObjectsOfType<MineDirectionalColliders>().ToList();
 
-            if (_gameWorld == null || _gameWorld.MainPlayer.Location.ToLower() != "lighthouse") return;
+            if (_gameWorld == null || !string.Equals(_gameWorld.MainPlayer.Location, "lighthouse", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
 
             // if player is a scav, there is no need to continue this method.
             if (_gameWorld.MainPlayer.Side == EPlayerSide.Savage)
@@ -55,7 +58,10 @@ namespace Aki.SinglePlayer.Models.Progression
 
             _timer += Time.deltaTime;
 
-            if (_timer < 10f) return;
+            if (_timer < 10f)
+            {
+                return;
+            }
 
             if (_bosses.Count == 0)
             {
@@ -100,22 +106,23 @@ namespace Aki.SinglePlayer.Models.Progression
 
         private void SetupBosses()
         {
-            foreach (var player in _gameWorld.AllPlayers)
+            foreach (var aiBot in _gameWorld.AllAlivePlayersList)
             {
-                if (!player.IsYourPlayer)
+                if (!aiBot.IsYourPlayer)
                 {
-                    if (player.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || player.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
+                    // Edge case of bossZryachiy not being hostile to player
+                    if (aiBot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || aiBot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
                     {
-                        // Sub to Bosses OnDeath event, Set mainplayer to aggressor on this script
-                        player.OnPlayerDeadOrUnspawn += player1 =>
+                        // Subscribe to Bosses OnDeath event
+                        aiBot.OnPlayerDeadOrUnspawn += player1 =>
                         {
-                            if (player1.KillerId != null && player1.KillerId == _gameWorld.MainPlayer.ProfileId)
+                            if (player1?.KillerId == _gameWorld.MainPlayer.ProfileId)
                             {
                                 _aggressor = true;
                             }
                         };
 
-                        _bosses.Add(player);
+                        _bosses.Add(aiBot);
                     }
                 }
             }

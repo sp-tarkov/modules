@@ -111,13 +111,16 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         {
             var profile = PatchConstants.BackEndSession.Profile;
             var menuController = (object)GetMenuController();
+
+            // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field("gclass2784_0").GetValue<GClass2784>();
-            var gclass = new MatchmakerOfflineRaidScreen.GClass2773(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var matchmakerPlayersController = Traverse.Create(menuController).Field("gclass3027_0").GetValue<GClass3027>();
+
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3016(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
-            // ready method
+            // Ready method
             gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_67");
             gclass.ShowScreen(EScreenState.Queued);
         }
@@ -132,10 +135,10 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 raidSettings.WavesSettings.IsBosses = true;
             }
 
-            // set offline raid values
+            // Set offline raid values
             _isLocalField.SetValue(menuController, raidSettings.Local);
 
-            // load ready screen method
+            // Load ready screen method
             _onReadyScreenMethod.Invoke(menuController, null);
         }
 

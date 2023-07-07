@@ -23,8 +23,12 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
         public GetNewBotTemplatesPatch()
         {
-            _getNewProfileMethod = typeof(BotsPresets)
-                .GetMethod(nameof(BotsPresets.GetNewProfile), PatchConstants.PrivateFlags);
+            var desiredType = typeof(BotsPresets);
+            _getNewProfileMethod = desiredType
+                .GetMethod(nameof(BotsPresets.GetNewProfile), BindingFlags.Instance | BindingFlags.NonPublic); // want the func with 2 params (protected)
+
+            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
+            Logger.LogDebug($"{this.GetType().Name} Method: {_getNewProfileMethod?.Name}");
         }
 
         protected override MethodBase GetTargetMethod()
@@ -36,13 +40,14 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         private bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
-            return (parameters.Length == 2
+            return (parameters.Length == 3
                 && parameters[0].Name == "data"
-                && parameters[1].Name == "cancellationToken");
+                && parameters[1].Name == "cancellationToken"
+                && parameters[2].Name == "withDelete");
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, IBotData data)
+        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, GClass626 data, bool withDelete)
         {
             /*
                 in short when client wants new bot and GetNewProfile() return null (if not more available templates or they don't satisfy by Role and Difficulty condition)
@@ -57,7 +62,17 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
             var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             var taskAwaiter = (Task<Profile>)null;
-            var profile = (Profile)_getNewProfileMethod.Invoke(__instance, new object[] { data });
+
+            try
+            {
+                _getNewProfileMethod.Invoke(__instance, new object[] { data, true });
+            }
+            catch (Exception e)
+            {
+                Logger.LogDebug($"getnewbot failed: {e.Message} {e.InnerException}");
+                throw;
+            }
+            
 
             // load from server
             var source = data.PrepareToLoadBackend(1).ToList();

@@ -15,7 +15,7 @@ namespace Aki.Core.Patches
         {
             try
             {
-                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class229");
+                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class226");
                 var value = Traverse.Create(type).Field("TransportPrefixes").GetValue<Dictionary<ETransportProtocolType, string>>();
                 value[ETransportProtocolType.HTTPS] = "http://";
                 value[ETransportProtocolType.WSS] = "ws://";
@@ -34,7 +34,7 @@ namespace Aki.Core.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref GStruct22 legacyParams)
+        private static bool PatchPrefix(ref GStruct21 legacyParams)
         {
             //Console.WriteLine($"Original url {legacyParams.Url}");
             legacyParams.Url = legacyParams.Url
