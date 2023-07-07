@@ -106,7 +106,7 @@ namespace Aki.SinglePlayer.Models.Progression
 
         private void SetupBosses()
         {
-            foreach (var aiBot in _gameWorld.RegisteredPlayers)
+            foreach (var aiBot in _gameWorld.AllAlivePlayersList)
             {
                 if (!aiBot.IsYourPlayer)
                 {
@@ -114,9 +114,9 @@ namespace Aki.SinglePlayer.Models.Progression
                     if (aiBot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || aiBot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
                     {
                         // Subscribe to Bosses OnDeath event
-                        aiBot.OnIPlayerDeadOrUnspawn += player1 =>
+                        aiBot.OnPlayerDeadOrUnspawn += player1 =>
                         {
-                            if (player1?.Profile.KillerId == _gameWorld.MainPlayer.ProfileId)
+                            if (player1?.KillerId == _gameWorld.MainPlayer.ProfileId)
                             {
                                 _aggressor = true;
                             }
