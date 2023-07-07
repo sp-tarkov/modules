@@ -17,7 +17,7 @@ namespace Aki.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = typeof(RaidSettingsWindow);
-            var desiredMethod = desiredType.GetMethod("method_9", BindingFlags.NonPublic | BindingFlags.Instance);
+            var desiredMethod = desiredType.GetMethod("method_8", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
