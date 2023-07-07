@@ -2,7 +2,6 @@ using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -21,7 +20,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
             _flags = BindingFlags.Instance | BindingFlags.NonPublic;
             _targetInterface = PatchConstants.EftTypes.Single(IsTargetInterface);
-            _targetType = PatchConstants.EftTypes.Single(IsTargetType);
+            _targetType = typeof(BotsPresets);
             _profilesField = _targetType.GetField("list_0", _flags);
         }
 
