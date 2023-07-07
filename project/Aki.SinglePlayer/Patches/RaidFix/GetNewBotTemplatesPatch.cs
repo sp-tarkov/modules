@@ -25,7 +25,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         {
             var desiredType = typeof(BotsPresets);
             _getNewProfileMethod = desiredType
-                .GetMethod(nameof(BotsPresets.GetNewProfile), PatchConstants.PublicFlags);
+                .GetMethod(nameof(BotsPresets.GetNewProfile), BindingFlags.Instance | BindingFlags.NonPublic); // want the func with 2 params (protected)
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {_getNewProfileMethod?.Name}");
@@ -62,7 +62,17 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
             var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             var taskAwaiter = (Task<Profile>)null;
-            var profile = (Profile)_getNewProfileMethod.Invoke(__instance, new object[] { data, true });
+
+            try
+            {
+                _getNewProfileMethod.Invoke(__instance, new object[] { data, true });
+            }
+            catch (Exception e)
+            {
+                Logger.LogDebug($"getnewbot failed: {e.Message} {e.InnerException}");
+                throw;
+            }
+            
 
             // load from server
             var source = data.PrepareToLoadBackend(1).ToList();
