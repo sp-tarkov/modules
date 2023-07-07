@@ -1,4 +1,4 @@
-﻿using Aki.Reflection.Patching;
+using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using BepInEx.Bootstrap;
 using EFT.Communications;
@@ -63,7 +63,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
                     ConsoleScreen.LogError(line);
                 }
             }
-            
+
             _messageShown = true;
         }
     }
