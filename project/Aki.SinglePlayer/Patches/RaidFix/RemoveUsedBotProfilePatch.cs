@@ -10,10 +10,10 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 {
     public class RemoveUsedBotProfilePatch : ModulePatch
     {
-        private static BindingFlags _flags;
-        private static Type _targetInterface;
-        private static Type _targetType;
-        private static FieldInfo _profilesField;
+        private static readonly BindingFlags _flags;
+        private static readonly Type _targetInterface;
+        private static readonly Type _targetType;
+        private static readonly FieldInfo _profilesField;
 
         static RemoveUsedBotProfilePatch()
         {
@@ -41,21 +41,11 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Profile __result, object __instance, IBotData data)
+        private static bool PatchPrefix(ref Profile __result, object __instance, GClass626 data, ref bool withDelete)
         {
-            var profiles = (List<Profile>)_profilesField.GetValue(__instance);
+            withDelete = true;
 
-            if (profiles.Count > 0)
-            {
-                // second parameter makes client remove used profiles
-                __result = data.ChooseProfile(profiles, true);
-            }
-            else
-            {
-                __result = null;
-            }
-
-            return false;
+            return true; // Do original method
         }
     }
 }

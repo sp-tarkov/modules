@@ -7,8 +7,8 @@ namespace Aki.PrePatch
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
 
-        public static int sptUsecValue = 32;
-        public static int sptBearValue = 33;
+        public static int sptUsecValue = 33;
+        public static int sptBearValue = 34;
 
         public static void Patch(ref AssemblyDefinition assembly)
         {

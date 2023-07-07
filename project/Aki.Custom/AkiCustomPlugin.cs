@@ -25,7 +25,8 @@ namespace Aki.Custom
                 new BotDifficultyPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new OfflineRaidMenuPatch().Enable();
-                new RaidSettingsWindowPatch().Enable();
+                // Fixed in live, no need for patch
+                //new RaidSettingsWindowPatch().Enable();
                 new OfflineRaidSettingsMenuPatch().Enable();
                 new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();

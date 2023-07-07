@@ -49,9 +49,9 @@ namespace Aki.Custom.Patches
         private static bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
-            return (parameters.Length == 6 
-                    && parameters[0].Name == "bundleLock" 
-                    && parameters[1].Name == "defaultKey" 
+            return (parameters.Length == 6
+                    && parameters[0].Name == "bundleLock"
+                    && parameters[1].Name == "defaultKey"
                     && parameters[4].Name == "shouldExclude");
         }
 

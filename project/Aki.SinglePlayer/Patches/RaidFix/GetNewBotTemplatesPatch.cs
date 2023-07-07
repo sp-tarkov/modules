@@ -36,9 +36,10 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         private bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
-            return (parameters.Length == 2
+            return (parameters.Length == 3
                 && parameters[0].Name == "data"
-                && parameters[1].Name == "cancellationToken");
+                && parameters[1].Name == "cancellationToken"
+                && parameters[2].Name == "withDelete");
         }
 
         [PatchPrefix]
