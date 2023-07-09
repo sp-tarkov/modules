@@ -25,12 +25,16 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         {
             var desiredType = typeof(BotsPresets);
             _getNewProfileMethod = desiredType
-                .GetMethod(nameof(BotsPresets.GetNewProfile), BindingFlags.Instance | BindingFlags.NonPublic); // want the func with 2 params (protected)
+                .GetMethod(nameof(BotsPresets.GetNewProfile), BindingFlags.Instance | BindingFlags.NonPublic); // want the func with 2 params (protected + inherited from base)
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {_getNewProfileMethod?.Name}");
         }
 
+        /// <summary>
+        /// Looking for CreateProfile()
+        /// </summary>
+        /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
             return typeof(BotsPresets).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -47,42 +51,11 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, GClass626 data, bool withDelete)
+        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, GClass626 data, ref bool withDelete)
         {
-            /*
-                in short when client wants new bot and GetNewProfile() return null (if not more available templates or they don't satisfy by Role and Difficulty condition)
-                then client gets new piece of WaveInfo collection (with Limit = 30 by default) and make request to server
-                but use only first value in response (this creates a lot of garbage and cause freezes)
-                after patch we request only 1 template from server
+            withDelete = true;
 
-                along with other patches this one causes to call data.PrepareToLoadBackend(1) gets the result with required role and difficulty:
-                new[] { new WaveInfo() { Limit = 1, Role = role, Difficulty = difficulty } }
-                then perform request to server and get only first value of resulting single element collection
-            */
-
-            var taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            var taskAwaiter = (Task<Profile>)null;
-
-            try
-            {
-                _getNewProfileMethod.Invoke(__instance, new object[] { data, true });
-            }
-            catch (Exception e)
-            {
-                Logger.LogDebug($"getnewbot failed: {e.Message} {e.InnerException}");
-                throw;
-            }
-            
-
-            // load from server
-            var source = data.PrepareToLoadBackend(1).ToList();
-            taskAwaiter = PatchConstants.BackEndSession.LoadBots(source).ContinueWith(GetFirstResult, taskScheduler);
-
-            // load bundles for bot profile
-            var continuation = new BundleLoader(taskScheduler);
-            __result = taskAwaiter.ContinueWith(continuation.LoadBundles, taskScheduler).Unwrap();
-
-            return false;
+            return true; // do original method
         }
 
         private static Profile GetFirstResult(Task<Profile[]> task)
