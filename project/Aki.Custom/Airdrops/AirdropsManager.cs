@@ -1,4 +1,5 @@
-﻿using Aki.Custom.Airdrops.Models;
+﻿using Aki.Common.Http;
+using Aki.Custom.Airdrops.Models;
 using Aki.Custom.Airdrops.Utils;
 using Comfort.Common;
 using EFT;
@@ -69,7 +70,7 @@ namespace Aki.Custom.Airdrops
             if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
             {
                 StartBox();
-                BuildLootContainer();
+                BuildLootContainer(airdropParameters.Config);
             }
 
             if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
@@ -100,10 +101,11 @@ namespace Aki.Custom.Airdrops
             airdropBox.StartCoroutine(airdropBox.DropCrate(dropPos));
         }
 
-        private void BuildLootContainer()
+        private void BuildLootContainer(AirdropConfigModel config)
         {
-            factory.BuildContainer(airdropBox.container);
-            factory.AddLoot(airdropBox.container);
+            var lootData = factory.GetLoot();
+            factory.BuildContainer(airdropBox.container, config, lootData.DropType);
+            factory.AddLoot(airdropBox.container, lootData);
         }
 
         private void SetDistanceToDrop()

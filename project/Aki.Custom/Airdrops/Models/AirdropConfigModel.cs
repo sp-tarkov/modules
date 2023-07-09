@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Aki.Custom.Airdrops.Models
 {
@@ -27,6 +28,9 @@ namespace Aki.Custom.Airdrops.Models
         
         [JsonProperty("crateFallSpeed")]
         public float CrateFallSpeed { get; set; }
+
+        [JsonProperty("containerIds")]
+        public Dictionary<string, string> ContainerIds { get; set; }
     }
 
     public class AirdropChancePercent
