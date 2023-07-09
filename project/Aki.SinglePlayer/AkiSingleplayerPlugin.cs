@@ -49,6 +49,7 @@ namespace Aki.SinglePlayer
                 new EmptyInfilFixPatch().Enable();
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new PlayerToggleSoundFixPatch().Enable();
+                new PluginErrorNotifierPatch().Enable();
             }
             catch (Exception ex)
             {
