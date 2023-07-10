@@ -50,6 +50,13 @@ namespace Aki.Custom.Patches
             }
             else
             {
+                // Weird edge case - without this you get spammed with key already in enemy list error when you move around on lighthouse
+                // Make zryachiy use existing isEnemy() code
+                if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
+                {
+                    return false; // do original method
+                }
+
                 if (__instance.Side == EPlayerSide.Usec)
                 {
                     if (requester.Side == EPlayerSide.Bear || requester.Side == EPlayerSide.Savage ||
