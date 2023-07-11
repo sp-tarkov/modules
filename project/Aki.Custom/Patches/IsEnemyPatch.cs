@@ -42,7 +42,13 @@ namespace Aki.Custom.Patches
         private static bool PatchPrefix(ref bool __result, BotGroupClass __instance, IAIDetails requester)
         {
             var isEnemy = false; // default not an enemy
-            
+            if (requester == null)
+            {
+                __result = isEnemy;
+
+                return true; // Skip original
+            }
+
             // Check existing enemies list
             if (__instance.Enemies.Any(x=> x.Value.Player.Id == requester.Id))
             {
