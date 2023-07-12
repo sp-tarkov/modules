@@ -56,7 +56,7 @@ namespace Aki.Custom.Patches
                     var randomType = WeightedRandom(mapSettings.Keys.ToArray(), mapSettings.Values.ToArray());
                     if (Enum.TryParse(randomType, out WildSpawnType newAiType))
                     {
-                        Console.WriteLine($"Updated spt bot {___botOwner_0.Profile.Info.Nickname}: {___botOwner_0.Profile.Info.Settings.Role} to {newAiType}");
+                        Console.WriteLine($"Updated spt bot {___botOwner_0.Profile.Info.Nickname}: {___botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain");
                         ___botOwner_0.Profile.Info.Settings.Role = newAiType;
                     }
                     else
@@ -118,7 +118,7 @@ namespace Aki.Custom.Patches
             // Get weightings for PMCs from server and store in dict
             var result = RequestHandler.GetJson($"/singleplayer/settings/bot/getBotBehaviours/");
             botTypeCache = JsonConvert.DeserializeObject<Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>>(result);
-            Console.WriteLine($"cached: {botTypeCache.Count} bots");
+            Console.WriteLine($"Added {botTypeCache.Count} bots to client cache");
         }
 
         private static string WeightedRandom(string[] botTypes, int[] weights)

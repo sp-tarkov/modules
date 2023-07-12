@@ -39,7 +39,7 @@ namespace Aki.SinglePlayer.Patches.Quests
             
             if (dogtagItem == null)
             {
-                Logger.LogError("DogtagPatch error > DogTag slot item is null somehow.");
+                Logger.LogError($"DogtagPatch error > DogTag slot item on {__instance.Profile?.Info?.Nickname} is null somehow.");
                 return;
             }
 
