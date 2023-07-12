@@ -50,7 +50,7 @@ namespace Aki.Custom.Patches
             }
 
             // Check existing enemies list
-            if (__instance.Enemies.Any(x=> x.Value.Player.Id == requester.Id))
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Value.Player.Id == requester.Id))
             {
                 isEnemy = true;
             }
