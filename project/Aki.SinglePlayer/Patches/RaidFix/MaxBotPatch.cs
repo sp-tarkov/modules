@@ -36,19 +36,13 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         [PatchPrefix]
         private static void PatchPreFix(ref int maxCount)
         {
-            var json = RequestHandler.GetJson("/singleplayer/settings/bot/maxCap");
-            var isParsable = int.TryParse(json, out maxCount);
-
-            if (isParsable)
+            if (int.TryParse(RequestHandler.GetJson("/singleplayer/settings/bot/maxCap"), out int parsedMaxCount))
             {
-                if (maxCount == -1)
-                {
-                    return;
-                }
-
-                maxCount = isParsable
-                    ? maxCount
-                    : 20;
+                maxCount = parsedMaxCount;
+            }
+            else
+            {
+                Logger.LogWarning($"Unable to parse data from singleplayer/settings/bot/maxCap, using existing map max of {maxCount}");
             }
         }
     }
