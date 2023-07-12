@@ -67,8 +67,8 @@ namespace Aki.Custom.Patches
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error processing log: {ex.Message}");
-                Console.WriteLine(ex.StackTrace);
+                Logger.LogError($"Error processing log: {ex.Message}");
+                Logger.LogError(ex.StackTrace);
             }
             
             return true; // Do original 
