@@ -37,9 +37,10 @@ namespace Aki.SinglePlayer.Patches.Quests
             var dogtagSlot = equipment.GetSlot(EquipmentSlot.Dogtag);
             var dogtagItem = dogtagSlot.ContainedItem;
             
-            if (dogtagItem == null)
+            // no dogtag item + its not on the player
+            if (dogtagItem == null && !__instance.IsYourPlayer)
             {
-                Logger.LogError($"DogtagPatch error > DogTag slot item on {__instance.Profile?.Info?.Nickname} is null somehow.");
+                Logger.LogError($"DogtagPatch error > DogTag slot item on: {__instance.Profile?.Info?.Nickname} is null somehow.");
                 return;
             }
 

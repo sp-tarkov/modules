@@ -66,12 +66,6 @@ namespace Aki.SinglePlayer.Patches.RaidFix
                 then perform request to server and get only first value of resulting single element collection
             */
 
-            if (___list_0?.Count > 0)
-            {
-                // List of profiles already has data, do original function
-                return true; // Do original function
-            }
-
             try
             {
                 // Force true to ensure bot profile is deleted after use
@@ -79,7 +73,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             }
             catch (Exception e)
             {
-                Logger.LogDebug($"getnewbot failed: {e.Message} {e.InnerException}");
+                Logger.LogDebug($"GetNewBotTemplatesPatch() getNewProfile() failed: {e.Message} {e.InnerException}");
                 throw;
             }
 

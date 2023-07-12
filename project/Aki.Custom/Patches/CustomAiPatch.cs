@@ -1,6 +1,5 @@
 ﻿using Aki.Common.Http;
 using Aki.Reflection.Patching;
-using Comfort.Common;
 using EFT;
 using Newtonsoft.Json;
 using System;
@@ -56,12 +55,12 @@ namespace Aki.Custom.Patches
                     var randomType = WeightedRandom(mapSettings.Keys.ToArray(), mapSettings.Values.ToArray());
                     if (Enum.TryParse(randomType, out WildSpawnType newAiType))
                     {
-                        Console.WriteLine($"Updated spt bot {___botOwner_0.Profile.Info.Nickname}: {___botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain");
+                        Logger.LogWarning($"Updated spt bot {___botOwner_0.Profile.Info.Nickname}: {___botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain");
                         ___botOwner_0.Profile.Info.Settings.Role = newAiType;
                     }
                     else
                     {
-                        Console.WriteLine($"Couldnt not update spt bot {___botOwner_0.Profile.Info.Nickname} to the new type, random type {randomType} does not exist for WildSpawnType");
+                        Logger.LogError($"Couldnt not update spt bot {___botOwner_0.Profile.Info.Nickname} to random type {randomType}, does not exist for WildSpawnType enum");
                     }
                 }
             }
@@ -118,7 +117,7 @@ namespace Aki.Custom.Patches
             // Get weightings for PMCs from server and store in dict
             var result = RequestHandler.GetJson($"/singleplayer/settings/bot/getBotBehaviours/");
             botTypeCache = JsonConvert.DeserializeObject<Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>>(result);
-            Console.WriteLine($"Added {botTypeCache.Count} bots to client cache");
+            Logger.LogWarning($"Cached bot.json/pmcType PMC brain weights in client");
         }
 
         private static string WeightedRandom(string[] botTypes, int[] weights)
@@ -141,7 +140,8 @@ namespace Aki.Custom.Patches
                 }
             }
 
-            Console.WriteLine("failed to get random bot weighting, returned assault");
+            Logger.LogError("failed to get random bot weighting, returned assault");
+
             return "assault";
         }
     }
