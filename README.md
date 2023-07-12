@@ -41,6 +41,7 @@ Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into Modules' `
 1. Open solution
 2. Restore nuget packages
 3. Run `dotnet new tool-manifest`
-4. Run `dotnet tool install Cake.Tool`
-5. Build solution
-6. Copy contents of `/Build` into SPT game folder and overwrite
+4. Sometimes you need to run `dotnet tool restore`
+5. Run `dotnet tool install Cake.Tool`
+6. Build solution
+7. Copy contents of `/Build` into SPT game folder and overwrite
