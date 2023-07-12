@@ -38,6 +38,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         {
             if (int.TryParse(RequestHandler.GetJson("/singleplayer/settings/bot/maxCap"), out int parsedMaxCount))
             {
+                Logger.LogWarning($"Set max bot cap to: {parsedMaxCount}");
                 maxCount = parsedMaxCount;
             }
             else
