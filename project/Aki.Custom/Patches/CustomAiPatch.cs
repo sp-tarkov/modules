@@ -3,6 +3,7 @@ using Aki.Reflection.Patching;
 using EFT;
 using Newtonsoft.Json;
 using System;
+using Comfort.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
