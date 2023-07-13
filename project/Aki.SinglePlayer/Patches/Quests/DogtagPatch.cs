@@ -25,33 +25,69 @@ namespace Aki.SinglePlayer.Patches.Quests
             return typeof(Player).GetMethod("OnBeenKilledByAggressor", _flags);
         }
 
+        /// <summary>
+        /// Patch OnBeenKilledByAggressor()
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="aggressor">Player who killed this individuak</param>
+        /// <param name="damageInfo">Data on how they died</param>
         [PatchPostfix]
         private static void PatchPostfix(Player __instance, Player aggressor, DamageInfo damageInfo)
         {
-            if (__instance.Profile.Info.Side == EPlayerSide.Savage)
+            if (__instance.Profile?.Info?.Side == EPlayerSide.Savage)
             {
+                // Scav died, we don't care
                 return;
             }
 
-            var equipment = (EquipmentClass)_getEquipmentProperty.GetValue(__instance);
-            var dogtagSlot = equipment.GetSlot(EquipmentSlot.Dogtag);
-            var dogtagItem = dogtagSlot.ContainedItem;
-            
-            // no dogtag item + its not on the player
-            if (dogtagItem == null && !__instance.IsYourPlayer)
+            Item dogtagItem = GetDogTagItemFromPlayerWhoDied(__instance);
+            if (dogtagItem == null)
             {
+                if (__instance.IsYourPlayer)
+                {
+                    // Human player, expected behaviour
+                    return;
+                }
+
                 Logger.LogError($"DogtagPatch error > DogTag slot item on: {__instance.Profile?.Info?.Nickname} is null somehow.");
                 return;
             }
 
             var itemComponent = dogtagItem.GetItemComponent<DogtagComponent>();
-
             if (itemComponent == null)
             {
                 Logger.LogError("DogtagPatch error > DogTagComponent on dog tag slot is null. Something went horrifically wrong!");
                 return;
             }
 
+            UpdateDogtagItemWithDeathDetails(__instance, aggressor, damageInfo, itemComponent);
+        }
+
+        private static Item GetDogTagItemFromPlayerWhoDied(Player __instance)
+        {
+            var equipment = (EquipmentClass)_getEquipmentProperty.GetValue(__instance);
+            if (equipment == null)
+            {
+                Logger.LogError("DogtagPatch error > Player has no equipment");
+
+                return null;
+            }
+
+            var dogtagSlot = equipment.GetSlot(EquipmentSlot.Dogtag);
+            if (dogtagSlot == null)
+            {
+                Logger.LogError("DogtagPatch error > Player has no dogtag slot");
+
+                return null;
+            }
+
+            var dogtagItem = dogtagSlot?.ContainedItem;
+
+            return dogtagItem;
+        }
+
+        private static void UpdateDogtagItemWithDeathDetails(Player __instance, Player aggressor, DamageInfo damageInfo, DogtagComponent itemComponent)
+        {
             var victimProfileInfo = __instance.Profile.Info;
 
             itemComponent.AccountId = __instance.Profile.AccountId;
