@@ -10,6 +10,7 @@ var delPaths = GetDirectories("./**/*(obj|bin)");
 var licenseFile = "../LICENSE.md";
 var managedFolder = string.Format("{0}/{1}/{2}", buildDir, "EscapeFromTarkov_Data", "Managed");
 var bepInExPluginsFolder = string.Format("{0}/{1}/{2}", buildDir, "BepInEx", "plugins");
+var bepInExPluginsSptFolder = string.Format("{0}/{1}", bepInExPluginsFolder, "spt");
 var bepInExPatchersFolder = string.Format("{0}/{1}/{2}", buildDir, "BepInEx", "patchers");
 var solutionPath = "./Modules.sln";
 
@@ -63,6 +64,7 @@ Task("CopyBuildData")
         CleanDirectory(buildDir);
         CreateDirectory(managedFolder);
         CreateDirectory(bepInExPluginsFolder);
+		CreateDirectory(bepInExPluginsSptFolder);
 		CreateDirectory(bepInExPatchersFolder);
         CopyFile(licenseFile, string.Format("{0}/LICENSE-Modules.txt", buildDir));
     })
@@ -82,7 +84,7 @@ Task("CopyBuildData")
             //Incase you want to see what is being copied for debuging
             //Spectre.Console.AnsiConsole.WriteLine(string.Format("Adding Module: {0}", dllPath.GetFilename()));
         
-            string moduleTransferPath = string.Format("{0}/{1}", bepInExPluginsFolder, dllPath.GetFilename());
+            string moduleTransferPath = string.Format("{0}/{1}", bepInExPluginsSptFolder, dllPath.GetFilename());
         
             CopyFile(dllPath, moduleTransferPath);
         }
