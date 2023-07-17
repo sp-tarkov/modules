@@ -50,6 +50,7 @@ namespace Aki.SinglePlayer
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new PlayerToggleSoundFixPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
+                new SpawnProcessNegativeValuePatch().Enable();
             }
             catch (Exception ex)
             {
