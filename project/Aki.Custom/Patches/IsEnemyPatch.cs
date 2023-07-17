@@ -50,9 +50,11 @@ namespace Aki.Custom.Patches
             }
 
             // Check existing enemies list
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Value.Player.Id == requester.Id))
+            // Could also check x.Value.Player?.Id - BSG do it this way
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Key.Id == requester.Id))
             {
-                isEnemy = true;
+                __result = true;
+                return true;
             }
             else
             {
