@@ -63,19 +63,32 @@ namespace Aki.Custom.Patches
             return false;
         }
 
-        public static string GetPairKey(KeyValuePair<string, BundleItem> x)
+        private static async Task Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
+                                      string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
         {
-            return x.Key;
-        }
+            // platform manifest
+            var path = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
+            var filepath = path + platformName;
+            var manifest = (File.Exists(filepath)) ? await GetManifestBundle(filepath) : await GetManifestJson(filepath);
 
-        public static BundleDetails GetPairValue(KeyValuePair<string, BundleItem> x)
-        {
-            return new BundleDetails
+            // load bundles
+            var bundleNames = manifest.GetAllAssetBundles().Union(BundleManager.Bundles.Keys).ToArray();
+            var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
+
+            if (bundleLock == null)
             {
-                FileName = x.Value.FileName,
-                Crc = x.Value.Crc,
-                Dependencies = x.Value.Dependencies
-            };
+                bundleLock = new BundleLock(int.MaxValue);
+            }
+
+            for (var i = 0; i < bundleNames.Length; i++)
+            {
+                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[] { bundleNames[i], path, manifest, bundleLock, bundleCheck });
+                await JobScheduler.Yield(EJobPriority.Immediate);
+            }
+
+            _manifestField.SetValue(instance, manifest);
+            _bundlesField.SetValue(instance, bundles);
+            _systemProperty.SetValue(instance, new DependencyGraph(bundles, defaultKey, shouldExclude));
         }
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(string filepath)
@@ -106,32 +119,19 @@ namespace Aki.Custom.Patches
             return manifest;
         }
 
-        private static async Task Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
-                                      string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
+        public static string GetPairKey(KeyValuePair<string, BundleItem> x)
         {
-            // platform manifest
-            var path = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
-            var filepath = path + platformName;
-            var manifest = (File.Exists(filepath)) ? await GetManifestBundle(filepath) : await GetManifestJson(filepath);
+            return x.Key;
+        }
 
-            // load bundles
-            var bundleNames = manifest.GetAllAssetBundles().Union(BundleManager.Bundles.Keys).ToArray();
-            var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
-
-            if (bundleLock == null)
+        public static BundleDetails GetPairValue(KeyValuePair<string, BundleItem> x)
+        {
+            return new BundleDetails
             {
-                bundleLock = new BundleLock(int.MaxValue);
-            }
-
-            for (var i = 0; i < bundleNames.Length; i++)
-            {
-                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[] { bundleNames[i], path, manifest, bundleLock, bundleCheck });
-                await JobScheduler.Yield(EJobPriority.Immediate);
-            }
-
-            _manifestField.SetValue(instance, manifest);
-            _bundlesField.SetValue(instance, bundles);
-            _systemProperty.SetValue(instance, new DependencyGraph(bundles, defaultKey, shouldExclude));
+                FileName = x.Value.FileName,
+                Crc = x.Value.Crc,
+                Dependencies = x.Value.Dependencies
+            };
         }
     }
 }
