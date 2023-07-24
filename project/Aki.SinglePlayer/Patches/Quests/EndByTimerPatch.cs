@@ -2,7 +2,6 @@ using Aki.Common.Http;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
-using System;
 using System.Linq;
 using System.Reflection;
 
@@ -42,13 +41,16 @@ namespace Aki.SinglePlayer.Patches.Quests
         [PatchPrefix]
         private static bool PrefixPatch(object __instance, ref ExitStatus exitStatus, ref string exitName)
         {
-            // No extract name and successful, its a MIA
-            if (string.IsNullOrEmpty(exitName?.Trim()) && exitStatus == ExitStatus.Survived)
+            var isParsed = bool.TryParse(RequestHandler.GetJson("/singleplayer/settings/raid/endstate"), out bool MIAOnRaidEnd);
+            if (isParsed)
             {
-                exitStatus = ExitStatus.MissingInAction;
-                exitName = null;
+                // No extract name and successful, its a MIA
+                if (MIAOnRaidEnd == true && string.IsNullOrEmpty(exitName?.Trim()) && exitStatus == ExitStatus.Survived)
+                {
+                    exitStatus = ExitStatus.MissingInAction;
+                    exitName = null;
+                }
             }
-
             return true; // Do original
         }
     }
