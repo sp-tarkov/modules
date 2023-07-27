@@ -41,6 +41,7 @@ namespace Aki.Custom
                 new CustomAiPatch().Enable();
                 new ExitWhileLootingPatch().Enable();
                 new QTEPatch().Enable();
+                new PmcFirstAidPatch().Enable();
             }
             catch (Exception ex)
             {
