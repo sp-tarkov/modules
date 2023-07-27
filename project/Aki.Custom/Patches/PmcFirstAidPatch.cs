@@ -33,7 +33,7 @@ namespace Aki.Custom.Patches
                 healthController.RemoveNegativeEffects(EBodyPart.RightArm);
             }
 
-            return false; // skip original
+            return true; // Do original
         }
     }
 }
