@@ -39,8 +39,10 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             return _targetInterface.IsAssignableFrom(type) && _targetInterface.IsAssignableFrom(type.BaseType);
         }
 
+        /// <summary>
+        /// BotsPresets.GetNewProfile()
         [PatchPrefix]
-        private static bool PatchPrefix(ref Profile __result, object __instance, GClass626 data, ref bool withDelete)
+        private static bool PatchPrefix(ref Profile __result, object __instance, GClass628 data, ref bool withDelete)
         {
             withDelete = true;
 

@@ -14,7 +14,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GClass397).GetMethod(methodName);
+            return typeof(GClass399).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
         [PatchPrefix]

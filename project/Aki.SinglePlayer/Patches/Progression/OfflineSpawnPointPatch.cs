@@ -33,6 +33,7 @@ namespace Aki.SinglePlayer.Patches.Progression
         {
             // GClass1812 as of 17349
             // GClass1886 as of 18876
+            // Remapped to SpawnSystemClass
             return (type.GetMethods(PatchConstants.PrivateFlags).Any(x => x.Name.IndexOf("CheckFarthestFromOtherPlayers", StringComparison.OrdinalIgnoreCase) != -1)
                 && type.IsClass);
         }

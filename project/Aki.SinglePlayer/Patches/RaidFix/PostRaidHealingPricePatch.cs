@@ -2,7 +2,7 @@
 using HarmonyLib;
 using System;
 using System.Reflection;
-using TraderInfo = EFT.Profile.GClass1727;
+using TraderInfo = EFT.Profile.GClass1729;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {

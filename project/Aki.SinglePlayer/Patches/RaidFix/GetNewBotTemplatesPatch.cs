@@ -55,7 +55,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         /// BotsPresets.GetNewProfile()
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, GClass626 data, ref bool withDelete)
+        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, GClass628 data, ref bool withDelete)
         {
             /*
                 When client wants new bot and GetNewProfile() return null (if not more available templates or they don't satisfy by Role and Difficulty condition)
