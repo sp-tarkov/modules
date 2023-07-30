@@ -22,6 +22,9 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             _ = nameof(JobPriority.General);
         }
 
+        /// <summary>
+        /// BotsPresets.GetNewProfile()
+        /// </summary>
         public GetNewBotTemplatesPatch()
         {
             var desiredType = typeof(BotsPresets);
@@ -94,7 +97,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         private static Profile GetFirstResult(Task<Profile[]> task)
         {
             var result = task.Result[0];
-            Logger.LogInfo($"{DateTime.Now:T} Loading bot {result.Info.Nickname} profile from server. role: {result.Info.Settings.Role} side: {result.Side}");
+            Logger.LogInfo($"{DateTime.Now:T} Loading bot: {result.Info.Nickname} profile from server. Role: {result.Info.Settings.Role} Side: {result.Side}");
 
             return result;
         }
