@@ -7,6 +7,9 @@ namespace Aki.Custom.Patches
 {
     public class OfflineRaidSettingsMenuPatch : ModulePatch
     {
+        /// <summary>
+        /// RaidSettingsWindow.Show()
+        /// </summary>
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = typeof(RaidSettingsWindow);

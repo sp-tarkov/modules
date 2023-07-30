@@ -163,7 +163,10 @@ namespace Aki.SinglePlayer.Models.Progression
                     };
 
                     // Save bot to list for later access
-                    _zryachiyAndFollowers.Add(aiBot);
+                    if (!_zryachiyAndFollowers.Contains(aiBot))
+                    {
+                        _zryachiyAndFollowers.Add(aiBot);
+                    }
                 }
             }
         }
@@ -176,7 +179,7 @@ namespace Aki.SinglePlayer.Models.Progression
             // If player is a scav, they must be added to the bosses enemy list otherwise they wont kill them
             foreach (var bot in _zryachiyAndFollowers)
             {
-                bot.AIData.BotOwner.BotsGroup.AddEnemy(_player);
+                bot.AIData.BotOwner.BotsGroup.CheckAndAddEnemy(_player);
             }
 
             // Flag player was added to enemy list
