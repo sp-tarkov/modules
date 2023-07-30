@@ -17,6 +17,9 @@ namespace Aki.Custom.Patches
         private static MethodInfo _addEnemy;
         private readonly string _targetMethodName = "CheckAndAddEnemy";
 
+        /// <summary>
+        /// BotGroupClass.CheckAndAddEnemy()
+        /// </summary>
         public CheckAndAddEnemyPatch()
         {
             _targetType = PatchConstants.EftTypes.Single(IsTargetType);
@@ -47,7 +50,7 @@ namespace Aki.Custom.Patches
         /// removes the !player.AIData.IsAI  check
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(object __instance, ref IAIDetails player, ref bool ignoreAI)
+        private static bool PatchPrefix(BotGroupClass __instance, IAIDetails player, ref bool ignoreAI, Dictionary<IAIDetails, BotSettingsClass> ___Enemies)
         {
             //var side = (EPlayerSide)_sideField.GetValue(__instance);
             //var botType = (WildSpawnType)_spawnTypeField.GetValue(__instance);
@@ -57,15 +60,15 @@ namespace Aki.Custom.Patches
                 return false; // do nothing and skip
             }
 
-            var enemies = (Dictionary<IAIDetails, BotSettingsClass>)_enemiesField.GetValue(__instance);
-            if (enemies.ContainsKey(player))
+            if (!___Enemies.ContainsKey(player))
             {
-                return false;// do nothing and skip
+                __instance.AddEnemy(player);
             }
 
             // Add enemy to list
             //if (!enemies.ContainsKey(player) && (!playerIsAi || ignoreAI))
-            _addEnemy.Invoke(__instance, new IAIDetails[] { player });
+            //_addEnemy.Invoke(__instance, new IAIDetails[] { player });
+            
 
             return false;
         }

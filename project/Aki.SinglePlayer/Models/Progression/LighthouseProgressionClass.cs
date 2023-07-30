@@ -15,7 +15,7 @@ namespace Aki.SinglePlayer.Models.Progression
         private bool _playerFlaggedAsEnemyToBosses;
         private List<MineDirectionalColliders> _bridgeMines;
         private RecodableItemClass _transmitter;
-        private List<IAIDetails> _zryachiyAndFollowers = new List<IAIDetails>();
+        private readonly List<IAIDetails> _zryachiyAndFollowers = new List<IAIDetails>();
         private bool _aggressor;
         private bool _isDoorDisabled;
         private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
@@ -158,7 +158,7 @@ namespace Aki.SinglePlayer.Models.Progression
                         if (player1?.KillerId == _player?.ProfileId)
                         {
                             _aggressor = true;
-                            _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01f);
+                            _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
                         }
                     };
 
