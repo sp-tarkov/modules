@@ -155,10 +155,10 @@ namespace Aki.SinglePlayer.Models.Progression
                     {
                         // If player kills zryachiy or follower, force aggressor state
                         // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
-                        if (player1?.KillerId == _player.ProfileId)
+                        if (player1?.KillerId == _player?.ProfileId)
                         {
                             _aggressor = true;
-                            _player.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
+                            _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01f);
                         }
                     };
 
