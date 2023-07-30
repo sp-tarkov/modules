@@ -43,9 +43,6 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(BotGroupClass __instance, IAIDetails player, ref bool ignoreAI)
         {
-            //var side = (EPlayerSide)_sideField.GetValue(__instance);
-            //var botType = (WildSpawnType)_spawnTypeField.GetValue(__instance);
-
             // Z already has player as enemy BUT Enemies dict is empty, adding them again causes 'existing key' errors
             if (__instance.InitialBotType == WildSpawnType.bossZryachiy || __instance.InitialBotType == WildSpawnType.followerZryachiy)
             {
