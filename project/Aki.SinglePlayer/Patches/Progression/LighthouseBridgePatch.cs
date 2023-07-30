@@ -17,8 +17,10 @@ namespace Aki.SinglePlayer.Patches.Progression
         private static void PatchPostfix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-
-            if (gameWorld == null || gameWorld.MainPlayer.Location.ToLower() != "lighthouse") return;
+            if (gameWorld == null || gameWorld.MainPlayer.Location.ToLower() != "lighthouse")
+            {
+                return;
+            }
 
             gameWorld.GetOrAddComponent<LighthouseProgressionClass>();
         }
