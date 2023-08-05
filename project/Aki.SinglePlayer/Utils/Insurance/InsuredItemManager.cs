@@ -4,7 +4,6 @@ using EFT;
 using EFT.InventoryLogic;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Aki.SinglePlayer.Utils.Insurance
 {
@@ -34,7 +33,6 @@ namespace Aki.SinglePlayer.Utils.Insurance
         public List<AkiInsuredItemClass> GetTrackedItems()
         {
             var itemsToSend = new List<AkiInsuredItemClass>();
-
             foreach (var item in items)
             {
                 var aki = new AkiInsuredItemClass
