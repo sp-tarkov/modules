@@ -22,6 +22,7 @@ namespace Aki.SinglePlayer
                 new OfflineSaveProfilePatch().Enable();
                 new OfflineSpawnPointPatch().Enable();
                 new ExperienceGainPatch().Enable();
+                new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new PlayerPatch().Enable();
                 new SelectLocationScreenPatch().Enable();
