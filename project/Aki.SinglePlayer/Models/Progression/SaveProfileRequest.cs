@@ -1,6 +1,8 @@
-﻿using Aki.SinglePlayer.Models.Healing;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using EFT;
+using System.Collections.Generic;
+using Aki.SinglePlayer.Models.Healing;
+using Aki.SinglePlayer.Models.RaidFix;
 
 namespace Aki.SinglePlayer.Models.Progression
 {
@@ -17,6 +19,9 @@ namespace Aki.SinglePlayer.Models.Progression
 
 		[JsonProperty("health")]
 		public PlayerHealth Health;
+
+		[JsonProperty("insurance")]
+		public List<AkiInsuredItemClass> Insurance;
 
 		public SaveProfileRequest()
 		{

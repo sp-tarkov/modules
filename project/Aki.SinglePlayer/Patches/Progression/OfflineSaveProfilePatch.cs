@@ -59,10 +59,11 @@ namespace Aki.SinglePlayer.Patches.Progression
                 : PatchConstants.BackEndSession.Profile;
 
             SaveProfileRequest request = new SaveProfileRequest
-			{
-				Exit = result.Value0.ToString().ToLowerInvariant(),
-				Profile = profile,
-				Health = Utils.Healing.HealthListener.Instance.CurrentHealth,
+            {
+                Exit = result.Value0.ToString().ToLowerInvariant(),
+                Profile = profile,
+                Health = Utils.Healing.HealthListener.Instance.CurrentHealth,
+                Insurance = Utils.Insurance.InsuredItemManager.Instance.GetTrackedItems(),
 				IsPlayerScav = ____raidSettings.IsScav
 			};
 
