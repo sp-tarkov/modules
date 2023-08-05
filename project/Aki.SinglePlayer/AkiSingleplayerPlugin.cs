@@ -51,6 +51,7 @@ namespace Aki.SinglePlayer
                 new PlayerToggleSoundFixPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
+                new InsuredItemManagerStartPatch().Enable();
             }
             catch (Exception ex)
             {
