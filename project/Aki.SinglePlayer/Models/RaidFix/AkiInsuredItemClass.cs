@@ -4,6 +4,7 @@
     {
         public string id;
         public float? durability = null;
+        public float? maxDurability = null;
         public byte? hits = null;
     }
 }

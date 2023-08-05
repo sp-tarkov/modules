@@ -20,7 +20,7 @@ namespace Aki.SinglePlayer.Models.Progression
 		[JsonProperty("health")]
 		public PlayerHealth Health;
 
-		[JsonProperty("Insurance")]
+		[JsonProperty("insurance")]
 		public List<AkiInsuredItemClass> Insurance;
 
 		public SaveProfileRequest()

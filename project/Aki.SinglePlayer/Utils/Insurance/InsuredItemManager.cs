@@ -4,6 +4,7 @@ using EFT;
 using EFT.InventoryLogic;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Aki.SinglePlayer.Utils.Insurance
 {
@@ -11,7 +12,6 @@ namespace Aki.SinglePlayer.Utils.Insurance
     {
         private static InsuredItemManager _instance;
         private List<Item> items;
-        private List<InsuredItemClass> insuredItems;
 
         public static InsuredItemManager Instance
         {
@@ -28,10 +28,7 @@ namespace Aki.SinglePlayer.Utils.Insurance
 
         public void Init()
         {
-            var player = Singleton<GameWorld>.Instance?.MainPlayer;
-
-            items = player?.Profile?.Inventory?.AllRealPlayerItems.ToList();
-            insuredItems = player?.Profile?.InsuredItems.ToList();
+            items = Singleton<GameWorld>.Instance?.MainPlayer?.Profile?.Inventory?.AllRealPlayerItems.ToList();
         }
 
         public List<AkiInsuredItemClass> GetTrackedItems()
@@ -40,18 +37,17 @@ namespace Aki.SinglePlayer.Utils.Insurance
 
             foreach (var item in items)
             {
-                // if the item does not exist in the "insured items" from the profile, skip
-                if (insuredItems.Exists(x => x.itemId == item.Id)) continue;
-
-                var aki = new AkiInsuredItemClass();
-
-                aki.id = item.Id;
+                var aki = new AkiInsuredItemClass
+                {
+                    id = item.Id
+                };
 
                 var dura = item.GetItemComponent<RepairableComponent>();
 
                 if (dura != null)
                 {
                     aki.durability = dura.Durability;
+                    aki.maxDurability = dura.MaxDurability;
                 }
 
                 var faceshield = item.GetItemComponent<FaceShieldComponent>();
