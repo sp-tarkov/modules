@@ -8,8 +8,15 @@ using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
+    /// <summary>
+    /// Fix xp gained value being 0 after a scav raid
+    /// </summary>
     public class ScavExperienceGainPatch : ModulePatch
     {
+        /// <summary>
+        /// Looking for SessionResultExitStatus Show() (private)
+        /// </summary>
+        /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = typeof(SessionResultExitStatus);
@@ -37,11 +44,12 @@ namespace Aki.SinglePlayer.Patches.Progression
         {
             if (activeProfile.Side == EPlayerSide.Savage)
             {
-                side = EPlayerSide.Savage;
-                int allInt = activeProfile.Stats.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
-                activeProfile.Stats.TotalSessionExperience = (int)((float)allInt * activeProfile.Stats.SessionExperienceMult * activeProfile.Stats.ExperienceBonusMult);
+                side = EPlayerSide.Savage; // Also set side to correct value (defaults to usec/bear when playing as scav)
+                int xpGainedInSession = activeProfile.Stats.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
+                activeProfile.Stats.TotalSessionExperience = (int)(xpGainedInSession * activeProfile.Stats.SessionExperienceMult * activeProfile.Stats.ExperienceBonusMult);
             }
-            return true;
+
+            return true; // Always do original method
         }
     }
 }
