@@ -10,7 +10,7 @@ namespace Aki.SinglePlayer.Utils.Insurance
     public class InsuredItemManager
     {
         private static InsuredItemManager _instance;
-        private List<Item> items;
+        private List<Item> _items;
 
         public static InsuredItemManager Instance
         {
@@ -27,13 +27,18 @@ namespace Aki.SinglePlayer.Utils.Insurance
 
         public void Init()
         {
-            items = Singleton<GameWorld>.Instance?.MainPlayer?.Profile?.Inventory?.AllRealPlayerItems.ToList();
+            _items = Singleton<GameWorld>.Instance?.MainPlayer?.Profile?.Inventory?.AllRealPlayerItems.ToList();
         }
 
         public List<AkiInsuredItemClass> GetTrackedItems()
         {
             var itemsToSend = new List<AkiInsuredItemClass>();
-            foreach (var item in items)
+            if (_items == null || _items.Count() == 0)
+            {
+                return itemsToSend;
+            }
+
+            foreach (var item in _items)
             {
                 var aki = new AkiInsuredItemClass
                 {
