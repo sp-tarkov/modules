@@ -27,7 +27,7 @@ namespace Aki.SinglePlayer.Utils.Insurance
 
         public void Init()
         {
-            _items = Singleton<GameWorld>.Instance?.MainPlayer?.Profile?.Inventory?.AllRealPlayerItems.ToList();
+            _items = Singleton<GameWorld>.Instance?.MainPlayer?.Profile?.Inventory?.AllRealPlayerItems?.ToList();
         }
 
         public List<AkiInsuredItemClass> GetTrackedItems()
