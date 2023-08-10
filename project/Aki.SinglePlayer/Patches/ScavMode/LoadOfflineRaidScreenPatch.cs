@@ -44,7 +44,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(MainMenuController).GetMethod("method_63", PatchConstants.PrivateFlags);
+            return typeof(MainMenuController).GetMethod("method_64", PatchConstants.PrivateFlags);
         }
 
         [PatchTranspiler]

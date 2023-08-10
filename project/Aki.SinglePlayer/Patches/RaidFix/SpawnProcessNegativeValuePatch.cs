@@ -29,12 +29,12 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static void PatchPreFix(ref int ___int_3)
+        private static void PatchPreFix(ref int ____maxBots)
         {
             // Spawn process
-            if (___int_3 < 0)
+            if (____maxBots < 0)
             {
-                ___int_3 = 0;
+                ____maxBots = 0;
             }
         }
     }
