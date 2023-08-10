@@ -7,6 +7,7 @@ using EFT.UI;
 using HarmonyLib;
 using System.Linq;
 using System.Reflection;
+using Comfort.Common;
 
 namespace Aki.Custom.Patches
 {
@@ -40,8 +41,8 @@ namespace Aki.Custom.Patches
                 Logger.LogInfo($"Server version: {_versionLabel}");
             }
 
-            Traverse.Create(MonoBehaviourSingleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
-            Traverse.Create(MonoBehaviourSingleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
+            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
+            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
             Traverse.Create(__result).Field("Major").SetValue(_versionLabel);
         }
     }

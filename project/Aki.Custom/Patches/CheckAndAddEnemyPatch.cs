@@ -56,7 +56,7 @@ namespace Aki.Custom.Patches
 
             if (!__instance.Enemies.ContainsKey(player))
             {
-                __instance.AddEnemy(player);
+                __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
             }            
 
             return false; // Skip original

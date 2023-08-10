@@ -54,7 +54,7 @@ namespace Aki.Custom.Patches
                 {
                     if (!group.Enemies.ContainsKey(aggressor) && ShouldAttack(aggressor, target, group))
                     {
-                        group.AddEnemy(aggressor);
+                        group.AddEnemy(aggressor, EBotEnemyCause.AddEnemyToAllGroupsInBotZone);
                     }
                 }
             }

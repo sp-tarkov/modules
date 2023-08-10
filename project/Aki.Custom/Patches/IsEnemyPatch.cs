@@ -71,7 +71,7 @@ namespace Aki.Custom.Patches
                         ShouldAttackUsec(requester))
                     {
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
                 else if (__instance.Side == EPlayerSide.Bear)
@@ -80,7 +80,7 @@ namespace Aki.Custom.Patches
                         ShouldAttackBear(requester))
                     {
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
                 else if (__instance.Side == EPlayerSide.Savage)
@@ -89,7 +89,7 @@ namespace Aki.Custom.Patches
                     {
                         // everyone else is an enemy to savage (scavs)
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
             }

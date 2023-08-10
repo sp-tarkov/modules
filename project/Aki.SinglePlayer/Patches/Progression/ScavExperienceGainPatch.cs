@@ -45,8 +45,8 @@ namespace Aki.SinglePlayer.Patches.Progression
             if (activeProfile.Side == EPlayerSide.Savage)
             {
                 side = EPlayerSide.Savage; // Also set side to correct value (defaults to usec/bear when playing as scav)
-                int xpGainedInSession = activeProfile.Stats.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
-                activeProfile.Stats.TotalSessionExperience = (int)(xpGainedInSession * activeProfile.Stats.SessionExperienceMult * activeProfile.Stats.ExperienceBonusMult);
+                int xpGainedInSession = activeProfile.Stats.Eft.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
+                activeProfile.Stats.Eft.TotalSessionExperience = (int)(xpGainedInSession * activeProfile.Stats.Eft.SessionExperienceMult * activeProfile.Stats.Eft.ExperienceBonusMult);
             }
 
             return true; // Always do original method

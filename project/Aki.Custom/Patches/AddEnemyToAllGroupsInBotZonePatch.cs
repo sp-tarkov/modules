@@ -63,7 +63,7 @@ namespace Aki.Custom.Patches
                         && group.ShallRevengeFor(target)
                         )
                     {
-                        group.AddEnemy(aggressor);
+                        group.AddEnemy(aggressor, EBotEnemyCause.AddEnemyToAllGroupsInBotZone);
                     }
                 }
             }
