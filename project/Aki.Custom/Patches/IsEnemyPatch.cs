@@ -39,7 +39,7 @@ namespace Aki.Custom.Patches
         /// Needed to ensure bot checks the enemy side, not just its botType
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, BotGroupClass __instance, IAIDetails requester)
+        private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IAIDetails requester)
         {
             var isEnemy = false; // default not an enemy
             if (requester == null)

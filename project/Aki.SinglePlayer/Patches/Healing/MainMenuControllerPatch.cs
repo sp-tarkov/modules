@@ -1,5 +1,6 @@
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
+using EFT.HealthSystem;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.Healing

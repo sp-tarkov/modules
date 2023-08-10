@@ -19,7 +19,7 @@ namespace Aki.Custom.Patches
 
         private bool IsTargetType(Type type)
         {
-            if (type.Name == nameof(BotControllerClass) && type.GetMethod(methodName) != null)
+            if (type.Name == nameof(BotsController) && type.GetMethod(methodName) != null)
             {
                 return true;
             }
@@ -42,7 +42,7 @@ namespace Aki.Custom.Patches
         /// This should fix that.
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(BotControllerClass __instance, IAIDetails aggressor, IAIDetails groupOwner, IAIDetails target)
+        private static bool PatchPrefix(BotsController __instance, IAIDetails aggressor, IAIDetails groupOwner, IAIDetails target)
         {
             BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
             foreach (var item in __instance.Groups())

@@ -16,7 +16,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
         static GetNewBotTemplatesPatch()
         {
-            _ = nameof(IBotData.PrepareToLoadBackend);
+            _ = nameof(IGetProfileData.PrepareToLoadBackend);
             _ = nameof(BotsPresets.GetNewProfile);
             _ = nameof(PoolManager.LoadBundlesAndCreatePools);
             _ = nameof(JobPriority.General);

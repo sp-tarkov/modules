@@ -16,11 +16,11 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotGroupClass).GetMethod(methodName);
+            return typeof(BotZoneGroupsDictionary).GetMethod(methodName);
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BotGroupClass __instance, IAIDetails person)
+        private static bool PatchPrefix(BotZoneGroupsDictionary __instance, IAIDetails person)
         {
             var botOwners = (List<BotOwner>)__instance.GetType().GetField("list_1", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
             if (botOwners.Any(x => x.Id == person.Id))

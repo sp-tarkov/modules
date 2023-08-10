@@ -20,7 +20,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotBrainClass).GetMethod("Activate", BindingFlags.Public | BindingFlags.Instance);
+            return typeof(StandartBotBrain).GetMethod("Activate", BindingFlags.Public | BindingFlags.Instance);
         }
 
         /// <summary>

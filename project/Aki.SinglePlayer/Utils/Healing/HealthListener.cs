@@ -6,6 +6,7 @@ using Aki.Reflection.Utils;
 using Aki.SinglePlayer.Models.Healing;
 using System.Linq;
 using BepInEx.Logging;
+using EFT.HealthSystem;
 
 namespace Aki.SinglePlayer.Utils.Healing
 {

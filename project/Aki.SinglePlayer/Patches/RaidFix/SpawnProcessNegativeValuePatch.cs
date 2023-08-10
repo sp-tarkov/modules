@@ -1,6 +1,7 @@
 using Aki.Common.Http;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
+using EFT;
 using System.Linq;
 using System.Reflection;
 
@@ -19,7 +20,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(BotSpawnerClass);
+            var desiredType = typeof(BotSpawner);
             var desiredMethod = desiredType.GetMethod("CheckOnMax", PatchConstants.PublicFlags);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");

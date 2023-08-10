@@ -16,7 +16,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
         static RemoveUsedBotProfilePatch()
         {
-            _ = nameof(IBotData.ChooseProfile);
+            _ = nameof(IGetProfileData.ChooseProfile);
 
             _flags = BindingFlags.Instance | BindingFlags.NonPublic;
             _targetInterface = PatchConstants.EftTypes.Single(IsTargetInterface);

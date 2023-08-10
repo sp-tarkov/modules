@@ -3,6 +3,7 @@ using Comfort.Common;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using System.Collections;
+using EFT.HealthSystem;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -17,9 +18,9 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         [PatchPrefix]
         static bool PatchPrefix()
         {
-            bool shouldInvoke = typeof(ActiveHealthControllerClass)
+            bool shouldInvoke = typeof(ActiveHealthController)
                 .GetMethod("FindActiveEffect", BindingFlags.Instance | BindingFlags.Public)
-                .MakeGenericMethod(typeof(ActiveHealthControllerClass)
+                .MakeGenericMethod(typeof(ActiveHealthController)
                 .GetNestedType("Stun", BindingFlags.Instance | BindingFlags.NonPublic))
                 .Invoke(Singleton<GameWorld>.Instance.MainPlayer.ActiveHealthController, new object[] { EBodyPart.Common }) != null;
 
