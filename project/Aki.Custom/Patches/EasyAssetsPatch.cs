@@ -82,7 +82,7 @@ namespace Aki.Custom.Patches
 
             for (var i = 0; i < bundleNames.Length; i++)
             {
-                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[] { bundleNames[i], path, manifest, bundleLock, bundleCheck });
+                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[] { bundleNames[i], path, manifest, bundleLock, bundleCheck, new Dictionary<string, AssetBundleCreateRequest>() });
                 await JobScheduler.Yield(EJobPriority.Immediate);
             }
 
