@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Aki.Reflection.Utils;
+using UnityEngine;
 using BindableState = BindableState<Diz.DependencyManager.ELoadState>;
 
 namespace Aki.Custom.Utils
@@ -33,7 +34,7 @@ namespace Aki.Custom.Utils
             _dependencyKeysProperty = Type.GetProperty("DependencyKeys");
             _keyProperty = Type.GetProperty("Key");
             _loadStateProperty = Type.GetProperty("LoadState");
-            _loadingCoroutineMethod = Type.GetMethods(_flags).Single(x => x.GetParameters().Length == 0 && x.ReturnType == typeof(Task));
+            _loadingCoroutineMethod = Type.GetMethods(_flags).Single(x => x.GetParameters().Length == 1 && x.ReturnType == typeof(Task));
         }
 
         public EasyBundleHelper(object easyBundle)
@@ -113,9 +114,9 @@ namespace Aki.Custom.Utils
             }
         }
 
-        public Task LoadingCoroutine()
+        public Task LoadingCoroutine(Dictionary<string, AssetBundle> bundles)
         {
-            return (Task)_loadingCoroutineMethod.Invoke(_instance, new object[] { });
+            return (Task)_loadingCoroutineMethod.Invoke(_instance, new object[] { bundles });
         }
     }
 }
