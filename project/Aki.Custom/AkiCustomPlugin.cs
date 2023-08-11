@@ -42,6 +42,7 @@ namespace Aki.Custom
                 new ExitWhileLootingPatch().Enable();
                 new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
+                new MongoIDPatch().Enable();
             }
             catch (Exception ex)
             {
