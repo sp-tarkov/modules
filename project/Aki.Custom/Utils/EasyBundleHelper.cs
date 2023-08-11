@@ -11,7 +11,7 @@ namespace Aki.Custom.Utils
 {
     public class EasyBundleHelper
     {
-        private const BindingFlags _flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        private const BindingFlags _NonPublicInstanceflags = BindingFlags.Instance | BindingFlags.NonPublic;
         private static readonly FieldInfo _pathField;
         private static readonly FieldInfo _keyWithoutExtensionField;
         private static readonly FieldInfo _bundleLockField;
@@ -27,14 +27,15 @@ namespace Aki.Custom.Utils
             _ = nameof(IBundleLock.IsLocked);
             _ = nameof(BindableState.Bind);
 
-            Type = PatchConstants.EftTypes.Single(x => x.GetMethod("set_SameNameAsset", _flags) != null);
-            _pathField = Type.GetField("string_1", _flags);
-            _keyWithoutExtensionField = Type.GetField("string_0", _flags);
-            _bundleLockField = Type.GetFields(_flags).FirstOrDefault(x => x.FieldType == typeof(IBundleLock));
+            Type = PatchConstants.EftTypes.Single(x => x.GetMethod("set_SameNameAsset", _NonPublicInstanceflags) != null);
+            _pathField = Type.GetField("string_1", _NonPublicInstanceflags);
+            _keyWithoutExtensionField = Type.GetField("string_0", _NonPublicInstanceflags);
+            _bundleLockField = Type.GetFields(_NonPublicInstanceflags).FirstOrDefault(x => x.FieldType == typeof(IBundleLock));
             _dependencyKeysProperty = Type.GetProperty("DependencyKeys");
             _keyProperty = Type.GetProperty("Key");
             _loadStateProperty = Type.GetProperty("LoadState");
-            _loadingCoroutineMethod = Type.GetMethods(_flags).Single(x => x.GetParameters().Length == 1 && x.ReturnType == typeof(Task));
+            // Function with one param and returns task (usually method_0())
+            _loadingCoroutineMethod = Type.GetMethods(_NonPublicInstanceflags).Single(x => x.GetParameters().Length == 1 && x.ReturnType == typeof(Task));
         }
 
         public EasyBundleHelper(object easyBundle)
