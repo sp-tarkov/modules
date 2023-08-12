@@ -33,7 +33,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             var menuControllerType = typeof(MainMenuController);
 
-            _onReadyScreenMethod = menuControllerType.GetMethod("method_39", PatchConstants.PrivateFlags);
+            // `MatchmakerInsuranceScreen` OnShowNextScreen
+            _onReadyScreenMethod = menuControllerType.GetMethod("method_41", PatchConstants.PrivateFlags);
+
             _isLocalField = menuControllerType.GetField("bool_0", PatchConstants.PrivateFlags);
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
 
@@ -45,8 +47,8 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            // OnShowNextScreen
-            return typeof(MainMenuController).GetMethod("method_65", PatchConstants.PrivateFlags);
+            // `MatchMakerSelectionLocationScreen` OnShowNextScreen
+            return typeof(MainMenuController).GetMethod("method_64", PatchConstants.PrivateFlags);
         }
 
         [PatchTranspiler]
@@ -122,8 +124,8 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
-            // Ready method
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_67");
+            // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_68");
             gclass.ShowScreen(EScreenState.Queued);
         }
 
