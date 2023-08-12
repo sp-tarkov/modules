@@ -4,7 +4,6 @@ using EFT;
 using System;
 using System.Linq;
 using System.Reflection;
-using static CW2.Animations.PhysicsSimulator.Val;
 
 namespace Aki.Custom.Patches
 {
