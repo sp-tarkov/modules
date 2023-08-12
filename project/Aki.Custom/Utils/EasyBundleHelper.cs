@@ -27,15 +27,24 @@ namespace Aki.Custom.Utils
             _ = nameof(IBundleLock.IsLocked);
             _ = nameof(BindableState.Bind);
 
+            // Class can be found as a private array inside EasyAssets.cs, next to DependencyGraph<IEasyBundle> 
             Type = PatchConstants.EftTypes.Single(x => x.GetMethod("set_SameNameAsset", _NonPublicInstanceflags) != null);
+            
             _pathField = Type.GetField("string_1", _NonPublicInstanceflags);
             _keyWithoutExtensionField = Type.GetField("string_0", _NonPublicInstanceflags);
             _bundleLockField = Type.GetFields(_NonPublicInstanceflags).FirstOrDefault(x => x.FieldType == typeof(IBundleLock));
             _dependencyKeysProperty = Type.GetProperty("DependencyKeys");
             _keyProperty = Type.GetProperty("Key");
             _loadStateProperty = Type.GetProperty("LoadState");
-            // Function with one param and returns task (usually method_0())
-            _loadingCoroutineMethod = Type.GetMethods(_NonPublicInstanceflags).Single(x => x.GetParameters().Length == 1 && x.ReturnType == typeof(Task));
+           
+            // Function with 0 params and returns task (usually method_0())
+            var possibleMethods = Type.GetMethods(_NonPublicInstanceflags).Where(x => x.GetParameters().Length == 0 && x.ReturnType == typeof(Task));
+            if (possibleMethods.Count() > 1)
+            {
+                Console.WriteLine($"Unable to find desired method as there are multiple possible matches: {string.Join(",", possibleMethods.Select(x => x.Name))}");
+            }
+
+            _loadingCoroutineMethod = possibleMethods.SingleOrDefault();
         }
 
         public EasyBundleHelper(object easyBundle)

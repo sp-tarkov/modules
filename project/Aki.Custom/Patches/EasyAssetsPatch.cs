@@ -30,6 +30,8 @@ namespace Aki.Custom.Patches
 
             _manifestField = type.GetField(nameof(EasyAssets.Manifest));
             _bundlesField = type.GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", PatchConstants.PrivateFlags);
+
+            // DependencyGraph<IEasyBundle>
             _systemProperty = type.GetProperty("System");
         }
 
