@@ -1,6 +1,10 @@
 ﻿using Aki.Reflection.Patching;
+using Aki.Reflection.Utils;
 using EFT;
+using System;
+using System.Linq;
 using System.Reflection;
+using static CW2.Animations.PhysicsSimulator.Val;
 
 namespace Aki.Custom.Patches
 {
@@ -10,11 +14,30 @@ namespace Aki.Custom.Patches
     /// </summary>
     public class PmcFirstAidPatch : ModulePatch
     {
+        private static Type _targetType;
         private static readonly string methodName = "FirstAidApplied";
+
+        public PmcFirstAidPatch()
+        {
+            _targetType = PatchConstants.EftTypes.FirstOrDefault(IsTargetType);
+        }
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GClass350).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+            return _targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+        }
+
+        /// <summary>
+        /// GCLass350 for client version 25782
+        /// </summary>
+        private bool IsTargetType(Type type)
+        {
+            if (type.GetMethod("GetHpPercent") != null && type.GetMethod("TryApplyToCurrentPart") != null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         [PatchPrefix]
