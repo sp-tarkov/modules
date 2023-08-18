@@ -21,8 +21,9 @@ namespace Aki.Custom.Patches
         private static readonly string medicalItemId = "5448f3ac4bdc2dce718b4569";
         private static readonly string injectorItemId = "5448f3a64bdc2d60728b456a";
         private static readonly string throwableItemId = "543be6564bdc2df4348b4568";
+        private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
-        private static readonly List<string> nonFiRItems = new List<string>(){ magazineId , drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId };
+        private static readonly List<string> nonFiRItems = new List<string>(){ magazineId , drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId };
         private static readonly Random random = new Random();
         private static Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> botTypeCache = new Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>();
         private static DateTime cacheDate = new DateTime();
@@ -119,7 +120,7 @@ namespace Aki.Custom.Patches
                     }
 
                     // Don't add FiR to grenades in pockets
-                    if (container.Name == "Pockets" && new List<string> { throwableItemId }.Any(item.Template._parent.Contains))
+                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId }.Any(item.Template._parent.Contains))
                     {
                         //Logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
