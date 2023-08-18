@@ -42,11 +42,11 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(out WildSpawnType __state, object __instance, BotOwner ___botOwner_0)
         {
-            // Store original type in state param
+            // Store original type in state param to allow acess in PatchPostFix()
             __state = ___botOwner_0.Profile.Info.Settings.Role;
             try
             {
-                if (BotIsSptPmc(___botOwner_0.Profile.Info.Settings.Role))
+                if (BotIsSptPmc(__state, ___botOwner_0))
                 {
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
                     {
@@ -80,7 +80,7 @@ namespace Aki.Custom.Patches
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Error processing log: {ex.Message}");
+                Logger.LogError($"Error running CustomAiPatch PatchPrefix(): {ex.Message}");
                 Logger.LogError(ex.StackTrace);
             }
             
@@ -175,15 +175,21 @@ namespace Aki.Custom.Patches
         [PatchPostfix]
         private static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
         {
-            if (BotIsSptPmc(__state))
+            if (BotIsSptPmc(__state, ___botOwner_0))
             {
                 // Set spt bot bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
         }
 
-        private static bool BotIsSptPmc(WildSpawnType role)
+        private static bool BotIsSptPmc(WildSpawnType role, BotOwner ___botOwner_0)
         {
+            if (___botOwner_0.Profile.Info.IsStreamerModeAvailable)
+            {
+                // PMCs can sometimes have thier role changed to 'assaultGroup' by the client, we need a alternate way to figure out if they're a spt pmc
+                return true;
+            }
+
             return (int)role == AkiBotsPrePatcher.sptBearValue || (int)role == AkiBotsPrePatcher.sptUsecValue;
         }
 
