@@ -1,6 +1,7 @@
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
+using System;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
@@ -28,13 +29,20 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static void PatchPreFix(ref int ____maxBots)
+        private static bool PatchPreFix(int wantSpawn, ref int toDelay, ref int toSpawn, ref int ____maxBots, int ____allBotsCount, int ____inSpawnProcess)
         {
-            // Spawn process
-            if (____maxBots < 0)
+
+            // Set bots to delay if alive bots + spawning bots count > maxbots
+            // ____inSpawnProcess can be negative, don't go below 0 when calculating
+            if ((____allBotsCount + Math.Max(____inSpawnProcess, 0)) > ____maxBots)
             {
-                ____maxBots = 0;
+                toDelay += wantSpawn;
+                toSpawn = 0;
+
+                return false; // Skip original
             }
+
+            return true; // Do original
         }
     }
 }
