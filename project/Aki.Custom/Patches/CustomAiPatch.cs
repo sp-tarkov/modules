@@ -24,8 +24,9 @@ namespace Aki.Custom.Patches
         private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
         private static readonly List<string> nonFiRItems = new List<string>(){ magazineId , drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId };
+
         private static readonly Random random = new Random();
-        private static Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> botTypeCache = new Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>();
+        private static readonly Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> botTypeCache = new Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>();
         private static DateTime cacheDate = new DateTime();
 
         protected override MethodBase GetTargetMethod()
@@ -43,7 +44,7 @@ namespace Aki.Custom.Patches
         private static bool PatchPrefix(out WildSpawnType __state, object __instance, BotOwner ___botOwner_0)
         {
             // Store original type in state param to allow acess in PatchPostFix()
-            __state = ___botOwner_0.Profile.Info.Settings.Role;
+            __state = FixAssaultGroupPmcsRole(___botOwner_0);
             try
             {
                 if (BotIsSptPmc(__state, ___botOwner_0))
@@ -85,6 +86,25 @@ namespace Aki.Custom.Patches
             }
             
             return true; // Do original 
+        }
+
+        /// <summary>
+        /// the client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (sptBear/sptUsec)
+        /// </summary>
+        /// <returns>WildSpawnType</returns>
+        private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
+        {
+            if (botOwner.Profile.Info.IsStreamerModeAvailable && botOwner.Profile.Info.Settings.Role == WildSpawnType.assaultGroup)
+            {
+                Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
+                // Its a PMC, figure out what the bot originally was and return it
+                return botOwner.Profile.Info.Side == EPlayerSide.Bear
+                    ? (WildSpawnType)AkiBotsPrePatcher.sptBearValue
+                    : (WildSpawnType)AkiBotsPrePatcher.sptUsecValue;
+            }
+
+            // Not broken pmc, return original role
+            return botOwner.Profile.Info.Settings.Role;
         }
 
         private static void ConfigurePMCFindInRaidStatus(BotOwner ___botOwner_0)
@@ -204,22 +224,29 @@ namespace Aki.Custom.Patches
         {
             TimeSpan cacheAge = DateTime.Now - cacheDate;
 
-            return cacheAge.Minutes > 20;
+            return cacheAge.Minutes > 15;
         }
 
         private static void ResetCacheDate()
         {
             cacheDate = DateTime.Now;
+            botTypeCache.Clear();
         }
 
         private static void HydrateCacheWithServerData()
         {
             // Get weightings for PMCs from server and store in dict
             var result = RequestHandler.GetJson($"/singleplayer/settings/bot/getBotBehaviours/");
-            botTypeCache = JsonConvert.DeserializeObject<Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>>(result);
+            botTypeCache.AddRange(JsonConvert.DeserializeObject<Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>>(result));
             Logger.LogWarning($"Cached bot.json/pmcType PMC brain weights in client");
         }
 
+        /// <summary>
+        /// Choose a value from a choice of values with weightings
+        /// </summary>
+        /// <param name="botTypes"></param>
+        /// <param name="weights"></param>
+        /// <returns></returns>
         private static string WeightedRandom(string[] botTypes, int[] weights)
         {
             var cumulativeWeights = new int[botTypes.Length];
