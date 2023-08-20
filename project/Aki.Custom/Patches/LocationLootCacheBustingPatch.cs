@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Aki.Custom.Patches
 {
     /// <summary>
-    /// BaseLocalGame appears to cache a maps loot data and reuse it when the variantId from method_6 is the same, this patch randomises the id to make caching less common
+    /// BaseLocalGame appears to cache a maps loot data and reuse it when the variantId from method_6 is the same, this patch exits the method early, never caching the data
     /// </summary>
     public class LocationLootCacheBustingPatch : ModulePatch
 	{
