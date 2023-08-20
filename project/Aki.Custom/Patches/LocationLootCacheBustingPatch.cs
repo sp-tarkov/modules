@@ -32,11 +32,9 @@ namespace Aki.Custom.Patches
         }
 
         [PatchPrefix]
-		private static void PatchPrefix(ref int variantId)
+		private static bool PatchPrefix()
 		{
-            var rand = new Random();
-            variantId = rand.Next(0, 100000);
-            Logger.LogError($"Randomised variantId to:{variantId}");
+            return false; // skip original
         }
     }
 }
