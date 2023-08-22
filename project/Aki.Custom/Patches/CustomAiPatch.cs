@@ -36,15 +36,17 @@ namespace Aki.Custom.Patches
 
         /// <summary>
         /// Get a randomly picked wildspawntype from server and change PMC bot to use it, this ensures the bot is generated with that random type altering its behaviour
+        /// Postfix will adjust it back to sptUsec/sptBear
         /// </summary>
         /// <param name="__state">state to save for postfix to use later</param>
         /// <param name="__instance"></param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
-        private static bool PatchPrefix(out WildSpawnType __state, object __instance, BotOwner ___botOwner_0)
+        private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            // Store original type in state param to allow acess in PatchPostFix()
-            __state = FixAssaultGroupPmcsRole(___botOwner_0);
+            
+            ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
+            __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
                 if (BotIsSptPmc(__state, ___botOwner_0))
