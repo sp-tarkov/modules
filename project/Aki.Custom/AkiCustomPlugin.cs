@@ -44,7 +44,7 @@ namespace Aki.Custom
                 new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
-                new RankPanelPatch().Enable();
+                //new RankPanelPatch().Enable();
             }
             catch (Exception ex)
             {

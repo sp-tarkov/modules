@@ -23,26 +23,31 @@ namespace Aki.Debugging.Patches
 
             if (____nickName.LocalizationKey == null)
             {
+                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _nickName.LocalizationKey was null");
             }
 
             if (____standing.text == null)
             {
+                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _standing.text was null");
             }
 
             if (____rankPanel == null)
             {
+                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _rankPanel was null");
             }
 
             if (___gclass1618_0?.LoyaltyLevel == null)
             {
+                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.LoyaltyLevel was null");
             }
 
             if (___gclass1618_0?.MaxLoyaltyLevel == null)
             {
+                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.MaxLoyaltyLevel was null");
             }
         }

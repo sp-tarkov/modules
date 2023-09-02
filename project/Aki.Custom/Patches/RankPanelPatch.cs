@@ -30,7 +30,6 @@ namespace Aki.Custom.Patches
                 ConsoleScreen.LogError("Game Broke!");
                 Logger.LogWarning("This Shouldn't happen!! Please report this in discord");
                 ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
-                return false;
             }
             return true;
         }
