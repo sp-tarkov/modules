@@ -46,7 +46,7 @@ namespace Aki.Custom.Patches
             {
                 __result = isEnemy;
 
-                return true; // Skip original
+                return false; // Skip original
             }
 
             // Check existing enemies list
@@ -54,7 +54,7 @@ namespace Aki.Custom.Patches
             if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Key.Id == requester.Id))
             {
                 __result = true;
-                return true;
+                return false; // Skip original
             }
             else
             {
@@ -62,7 +62,7 @@ namespace Aki.Custom.Patches
                 // Make zryachiy use existing isEnemy() code
                 if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
                 {
-                    return false; // do original method
+                    return false; // Skip original
                 }
 
                 if (__instance.Side == EPlayerSide.Usec)
@@ -96,7 +96,7 @@ namespace Aki.Custom.Patches
 
             __result = isEnemy;
 
-            return true; // Skip original
+            return false; // Skip original
         }
 
         /// <summary>
