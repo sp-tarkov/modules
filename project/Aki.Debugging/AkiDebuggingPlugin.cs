@@ -15,6 +15,7 @@ namespace Aki.Debugging
             try
             {
                 // new CoordinatesPatch().Enable();
+                new EndRaidDebug().Enable();
             }
             catch (Exception ex)
             {
