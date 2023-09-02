@@ -17,7 +17,7 @@ namespace Aki.Debugging.Patches
 
         [PatchPrefix]
         private static void PatchPreFix(ref LocalizedText ____nickName, ref TMP_Text ____standing,
-            ref RankPanel ____rankPanel, ref Profile.GClass1618 ____gclass1618_0)
+            ref RankPanel ____rankPanel, ref Profile.GClass1618 ___gclass1618_0)
         {
             Logger.Log(LogLevel.Info, "[AKI] Logging test");
 
@@ -36,12 +36,12 @@ namespace Aki.Debugging.Patches
                 Logger.Log(LogLevel.Error, "[AKI] _rankPanel was null");
             }
 
-            if (____gclass1618_0?.LoyaltyLevel == null)
+            if (___gclass1618_0?.LoyaltyLevel == null)
             {
                 Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.LoyaltyLevel was null");
             }
 
-            if (____gclass1618_0?.MaxLoyaltyLevel == null)
+            if (___gclass1618_0?.MaxLoyaltyLevel == null)
             {
                 Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.MaxLoyaltyLevel was null");
             }
