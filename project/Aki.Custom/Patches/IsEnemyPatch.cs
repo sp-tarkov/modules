@@ -39,7 +39,7 @@ namespace Aki.Custom.Patches
         /// Needed to ensure bot checks the enemy side, not just its botType
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IAIDetails requester)
+        private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
             var isEnemy = false; // default not an enemy
             if (requester == null)
@@ -104,7 +104,7 @@ namespace Aki.Custom.Patches
         /// </summary>
         /// <param name="requester"></param>
         /// <returns>bool</returns>
-        private static bool ShouldAttackUsec(IAIDetails requester)
+        private static bool ShouldAttackUsec(IPlayer requester)
         {
             var requesterMind = requester?.AIData?.BotOwner?.Settings?.FileSettings?.Mind;
 
@@ -121,7 +121,7 @@ namespace Aki.Custom.Patches
         /// </summary>
         /// <param name="requester"></param>
         /// <returns></returns>
-        private static bool ShouldAttackBear(IAIDetails requester)
+        private static bool ShouldAttackBear(IPlayer requester)
         {
             var requesterMind = requester.AIData?.BotOwner?.Settings?.FileSettings?.Mind;
 

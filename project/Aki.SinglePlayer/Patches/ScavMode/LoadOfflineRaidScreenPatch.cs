@@ -29,12 +29,12 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
-            _ = GClass2934.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+            _ = GClass2947.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             var menuControllerType = typeof(MainMenuController);
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = menuControllerType.GetMethod("method_41", PatchConstants.PrivateFlags);
+            _onReadyScreenMethod = menuControllerType.GetMethod("method_42", PatchConstants.PrivateFlags);
 
             _isLocalField = menuControllerType.GetField("bool_0", PatchConstants.PrivateFlags);
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
@@ -48,7 +48,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return typeof(MainMenuController).GetMethod("method_64", PatchConstants.PrivateFlags);
+            return typeof(MainMenuController).GetMethod("method_65", PatchConstants.PrivateFlags);
         }
 
         [PatchTranspiler]
@@ -118,14 +118,14 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass2934).ToLowerInvariant()}_0").GetValue<GClass2934>();
+            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass2947).ToLowerInvariant()}_0").GetValue<GClass2947>();
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass2923(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass2936(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_68");
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_69");
             gclass.ShowScreen(EScreenState.Queued);
         }
 

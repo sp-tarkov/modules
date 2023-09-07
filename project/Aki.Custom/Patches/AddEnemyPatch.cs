@@ -20,7 +20,7 @@ namespace Aki.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BotZoneGroupsDictionary __instance, IAIDetails person)
+        private static bool PatchPrefix(BotZoneGroupsDictionary __instance, IPlayer person)
         {
             var botOwners = (List<BotOwner>)__instance.GetType().GetField("list_1", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(__instance);
             if (botOwners.Any(x => x.Id == person.Id))

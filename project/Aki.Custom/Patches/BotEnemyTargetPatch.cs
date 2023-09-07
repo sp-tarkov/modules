@@ -40,7 +40,7 @@ namespace Aki.Custom.Patches
         /// This should fix that.
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(BotsController __instance, IAIDetails aggressor, IAIDetails groupOwner, IAIDetails target)
+        private static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
         {
             BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
             foreach (var item in __instance.Groups())
@@ -61,7 +61,7 @@ namespace Aki.Custom.Patches
 
             return false;
         }
-        private static bool ShouldAttack(IAIDetails attacker, IAIDetails victim, BotsGroup groupToCheck)
+        private static bool ShouldAttack(IPlayer attacker, IPlayer victim, BotsGroup groupToCheck)
         {
             // Group should target if player attack a victim on the same side or if the group is not on the same side as the player.
             bool shouldAttack = attacker.Side != groupToCheck.Side

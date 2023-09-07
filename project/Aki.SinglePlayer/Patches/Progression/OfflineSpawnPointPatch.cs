@@ -45,7 +45,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             ESpawnCategory category,
             EPlayerSide side,
             string groupId,
-            IAIDetails person,
+            IPlayer person,
             string infiltration)
         {
             var spawnPointsField = (ISpawnPoints)__instance.GetType().GetFields(PatchConstants.PrivateFlags).SingleOrDefault(f => f.FieldType == typeof(ISpawnPoints))?.GetValue(__instance);
