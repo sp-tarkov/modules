@@ -15,7 +15,7 @@ namespace Aki.SinglePlayer.Models.Progression
         private bool _playerFlaggedAsEnemyToBosses;
         private List<MineDirectionalColliders> _bridgeMines;
         private RecodableItemClass _transmitter;
-        private readonly List<IAIDetails> _zryachiyAndFollowers = new List<IAIDetails>();
+        private readonly List<IPlayer> _zryachiyAndFollowers = new List<IPlayer>();
         private bool _aggressor;
         private bool _isDoorDisabled;
         private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";

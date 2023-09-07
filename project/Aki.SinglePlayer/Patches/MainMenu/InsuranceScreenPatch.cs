@@ -32,7 +32,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
             //}
 
             var desiredType = typeof(MainMenuController);
-            var desiredMethod = desiredType.GetMethod("method_67", BindingFlags.NonPublic | BindingFlags.Instance);
+            var desiredMethod = desiredType.GetMethod("method_68", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

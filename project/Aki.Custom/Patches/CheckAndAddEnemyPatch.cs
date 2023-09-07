@@ -41,7 +41,7 @@ namespace Aki.Custom.Patches
         /// removes the !player.AIData.IsAI  check
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(BotsGroup __instance, IAIDetails player, ref bool ignoreAI)
+        private static bool PatchPrefix(BotsGroup __instance, IPlayer player, ref bool ignoreAI)
         {
             // Z already has player as enemy BUT Enemies dict is empty, adding them again causes 'existing key' errors
             if (__instance.InitialBotType == WildSpawnType.bossZryachiy || __instance.InitialBotType == WildSpawnType.followerZryachiy)
