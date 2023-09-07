@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace Aki.Custom.Patches
 {
+    /// <summary>
+    /// Send the tax amount for listing an item for sale on flea by player to server for later use when charging player
+    /// Client doesnt send this data and calculating it server-side isn't accurate
+    /// </summary>
     public class RagfairFeePatch : ModulePatch
     {
         public RagfairFeePatch()
