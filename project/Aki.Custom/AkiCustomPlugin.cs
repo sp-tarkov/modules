@@ -45,6 +45,7 @@ namespace Aki.Custom
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
                 //new RankPanelPatch().Enable();
+                new RagfairFeePatch().Enable();
             }
             catch (Exception ex)
             {
