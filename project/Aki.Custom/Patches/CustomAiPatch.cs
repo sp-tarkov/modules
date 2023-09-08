@@ -44,11 +44,16 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
+                if (BotIsPlayerScav(__state, ___botOwner_0))
+                {
+                    ___botOwner_0.Profile.Info.Settings.Role = WildSpawnType.bossKilla;
+                    return true; // Do original
+                }
+
                 if (BotIsSptPmc(__state, ___botOwner_0))
                 {
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
@@ -202,6 +207,11 @@ namespace Aki.Custom.Patches
                 // Set spt bot bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
+            else if (BotIsPlayerScav(__state, ___botOwner_0))
+            {
+                // Set pscav back to original type
+                ___botOwner_0.Profile.Info.Settings.Role = __state;
+            }
         }
 
         private static bool BotIsSptPmc(WildSpawnType role, BotOwner ___botOwner_0)
@@ -213,6 +223,17 @@ namespace Aki.Custom.Patches
             }
 
             return (int)role == AkiBotsPrePatcher.sptBearValue || (int)role == AkiBotsPrePatcher.sptUsecValue;
+        }
+
+        private static bool BotIsPlayerScav(WildSpawnType role, BotOwner ___botOwner_0)
+        {
+            if (___botOwner_0.Profile.Info.Nickname.Contains("(") && role == WildSpawnType.assault)
+            {
+                // Check bot is pscav by looking for the opening parentheses of their nickname e.g. scavname (pmc name)
+                return true;
+            }
+
+            return false;
         }
 
         private static string GetCurrentMap()
