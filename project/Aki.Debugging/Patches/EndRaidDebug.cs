@@ -19,8 +19,6 @@ namespace Aki.Debugging.Patches
         private static bool PatchPreFix(ref LocalizedText ____nickName, ref TMP_Text ____standing,
             ref RankPanel ____rankPanel, ref Profile.GClass1623 ___gclass1623_0)
         {
-            Logger.Log(LogLevel.Info, "[AKI] Logging test");
-
             if (____nickName.LocalizationKey == null)
             {
                 ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
