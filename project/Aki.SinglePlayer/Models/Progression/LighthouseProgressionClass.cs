@@ -27,13 +27,10 @@ namespace Aki.SinglePlayer.Models.Progression
             _player = _gameWorld?.MainPlayer;
 
             // Exit if not on lighthouse
-            if (_gameWorld == null || !string.Equals(_player.Location, "lighthouse", System.StringComparison.OrdinalIgnoreCase))
+            if (_gameWorld == null || !string.Equals(_player?.Location, "lighthouse", System.StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
-
-            // Expensive, run after gameworld / lighthouse checks above
-            _bridgeMines = FindObjectsOfType<MineDirectionalColliders>().ToList();
 
             // Player is a scav, exit
             if (_player.Side == EPlayerSide.Savage)
@@ -43,17 +40,28 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
+            // Get transmitter from players inventory
             _transmitter = GetTransmitterFromInventory();
-            if (PlayerHasTransmitterInInventory())
+
+            // Exit if transmitter does not exist and isnt green
+            if (!PlayerHasActiveTransmitterInInventory())
             {
-                GameObject.Find("Attack").SetActive(false);
-
-                // Zone was added in a newer version and the gameObject actually has a \
-                GameObject.Find("CloseZone\\").SetActive(false);
-
-                // Give access to Lightkeepers door
-                _gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
+                return;
             }
+
+            GameObject.Find("Attack").SetActive(false);
+
+            // Zone was added in a newer version and the gameObject actually has a \
+            GameObject.Find("CloseZone\\").SetActive(false);
+
+            // Give access to Lightkeepers door
+            _gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
+
+            // Expensive, run after gameworld / lighthouse checks above
+            _bridgeMines = FindObjectsOfType<MineDirectionalColliders>().ToList();
+
+            // Set mines to be non-active
+            SetBridgeMinesStatus(false);
         }
 
         public void Update()
@@ -82,6 +90,7 @@ namespace Aki.SinglePlayer.Models.Progression
                 SetupZryachiyAndFollowerHostility();
             }
 
+            // If Pscav set enemy and exit
             if (_isScav)
             {
                 MakeZryachiyAndFollowersHostileToPlayer();
@@ -89,30 +98,28 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
-            // (active/green)
-            if (PlayerHasActiveTransmitterInHands())
-            {
-                SetBridgeMinesStatus(false);
-            }
-            else
-            {
-                SetBridgeMinesStatus(true);
-            }
-
+            // If player becomes aggressor, block access to LK
             if (_aggressor)
             {
                 DisableAccessToLightKeeper();
             }
         }
 
+        /// <summary>
+        /// Gets transmitter from players inventory
+        /// </summary>
         private RecodableItemClass GetTransmitterFromInventory()
         {
-            return (RecodableItemClass)_player.Profile.Inventory.AllRealPlayerItems.FirstOrDefault(x => x.TemplateId == _transmitterId);
+            return (RecodableItemClass) _player.Profile.Inventory.AllRealPlayerItems.FirstOrDefault(x => x.TemplateId == _transmitterId);
         }
 
-        private bool PlayerHasTransmitterInInventory()
+        /// <summary>
+        /// Checks for transmitter status and exists in players inventory
+        /// </summary>
+        private bool PlayerHasActiveTransmitterInInventory()
         {
-            return _transmitter != null;
+            return _transmitter != null && 
+                   _transmitter?.RecodableComponent?.Status == RadioTransmitterStatus.Green;
         }
 
         /// <summary>
@@ -121,12 +128,6 @@ namespace Aki.SinglePlayer.Models.Progression
         private void IncrementLastUpdateTimer()
         {
             _timer += Time.deltaTime;
-        }
-
-        private bool PlayerHasActiveTransmitterInHands()
-        {
-            return _gameWorld?.MainPlayer?.HandsController?.Item?.TemplateId == _transmitterId
-                && _transmitter?.RecodableComponent?.Status == RadioTransmitterStatus.Green;
         }
 
         /// <summary>
@@ -142,6 +143,10 @@ namespace Aki.SinglePlayer.Models.Progression
             }
         }
 
+        /// <summary>
+        /// Put Zryachiy and followers into a list and sub to their death event
+        /// Make player agressor if player kills them.
+        /// </summary>
         private void SetupZryachiyAndFollowerHostility()
         {
             // only process non-players (ai)
