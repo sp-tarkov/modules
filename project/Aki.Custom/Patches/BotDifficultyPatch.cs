@@ -1,7 +1,8 @@
+using Aki.Common.Http;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
-using Aki.Common.Http;
 using EFT;
+using EFT.UI;
 using System.Linq;
 using System.Reflection;
 
@@ -22,7 +23,13 @@ namespace Aki.Custom.Patches
         private static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
         {
             __result = RequestHandler.GetJson($"/singleplayer/settings/bot/difficulty/{role}/{botDifficulty}");
-            return string.IsNullOrWhiteSpace(__result);
+            var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
+            if (resultIsNullEmpty)
+            {
+                ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
+            }
+
+            return resultIsNullEmpty; // Server data returned = false = skip original method
         }
     }
 }
