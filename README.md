@@ -23,7 +23,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 
 ## Requirements
 
-- Escape From Tarkov 26126
+- Escape From Tarkov 26198
 - BepInEx 5.4.21
 - Visual Studio Code
 - .NET 6 SDK
