@@ -15,6 +15,7 @@ namespace Aki.Custom.Patches
 {
     public class CustomAiPatch : ModulePatch
     {
+        private static readonly List<WildSpawnType> playerScavTypes = new List<WildSpawnType>() { WildSpawnType.bossKilla, WildSpawnType.pmcBot, WildSpawnType.bossGluhar };
         private static readonly string magazineId = "5448bc234bdc2d3c308b4569";
         private static readonly string drugId = "5448f3a14bdc2d27728b4569";
         private static readonly string mediKitItem = "5448f39d4bdc2d0a728b4568";
@@ -50,7 +51,7 @@ namespace Aki.Custom.Patches
             {
                 if (BotIsPlayerScav(__state, ___botOwner_0))
                 {
-                    ___botOwner_0.Profile.Info.Settings.Role = WildSpawnType.bossKilla;
+                    ___botOwner_0.Profile.Info.Settings.Role = playerScavTypes.Random();
                     return true; // Do original
                 }
 
