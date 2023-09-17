@@ -15,11 +15,9 @@ namespace Aki.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostFix(ref DefaultUIButton ___readyButton)
+        private static void PatchPostFix(ref DefaultUIButton ____readyButton)
         {
-            ___readyButton?.GameObject?.SetActive(false);
-
-            Logger.Log(LogLevel.Error, "ready button disabled");
+            ____readyButton?.GameObject?.SetActive(false);
         }
     }
 }
