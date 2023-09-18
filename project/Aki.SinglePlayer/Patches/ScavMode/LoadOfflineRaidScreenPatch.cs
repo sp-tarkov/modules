@@ -48,7 +48,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return typeof(MainMenuController).GetMethod("method_65", PatchConstants.PrivateFlags);
+            return typeof(MainMenuController).GetMethod("method_66", PatchConstants.PrivateFlags);
         }
 
         [PatchTranspiler]
@@ -97,7 +97,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             var brFalseLabel = generator.DefineLabel();
 
             // We build the method call for our substituted method and replace the initial method call with our own, also adding our new label
-            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel }};
+            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel } };
             codes[onReadyScreenMethodIndex] = callCode;
 
             // We build a new brfalse instruction and give it our new label, then replace the original brfalse instruction
@@ -125,7 +125,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_69");
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_70");
             gclass.ShowScreen(EScreenState.Queued);
         }
 
