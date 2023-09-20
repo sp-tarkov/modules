@@ -51,7 +51,7 @@ namespace Aki.Custom.Patches
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Key.Id == requester.Id))
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key.Id == requester.Id))
             {
                 __result = true;
                 return false; // Skip original
@@ -87,6 +87,11 @@ namespace Aki.Custom.Patches
                 {
                     if (requester.Side != EPlayerSide.Savage)
                     {
+                        //Lets exUsec warn Usecs and fire at will at Bears
+                        if (__instance.InitialBotType == WildSpawnType.exUsec)
+                        {
+                            return true; // Let BSG handle things
+                        }
                         // everyone else is an enemy to savage (scavs)
                         isEnemy = true;
                         __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
