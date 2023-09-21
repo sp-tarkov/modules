@@ -2,6 +2,7 @@
 using EFT;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx.Logging;
 
 namespace Aki.Custom.CustomAI
 {
@@ -16,7 +17,12 @@ namespace Aki.Custom.CustomAI
         private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
         private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId };
+        private ManualLogSource logger;
 
+        public PmcFoundInRaidEquipment(ManualLogSource logger)
+        {
+            this.logger = logger;
+        }
 
         public void ConfigurePMCFindInRaidStatus(BotOwner ___botOwner_0)
         {
@@ -32,28 +38,28 @@ namespace Aki.Custom.CustomAI
                     // Skip items that match container (array has itself as an item)
                     if (item.Id == container.Items.FirstOrDefault().Id)
                     {
-                        //Logger.LogError($"Skipping item {item.Id} {item.Name} as its same as container {container.FullId}");
+                        //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its same as container {container.FullId}");
                         continue;
                     }
 
                     // Dont add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
                     if (container.Name == "TacticalVest" && nonFiRItems.Any(item.Template._parent.Contains))
                     {
-                        //Logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
+                        //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
                     }
 
                     // Don't add FiR to weapons in backpack (server sometimes adds pre-made weapons to backpack to simulate PMCs looting bodies)
                     if (container.Name == "Backpack" && new List<string> { weaponId }.Any(item.Template._parent.Contains))
                     {
-                        //Logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
+                        //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
                     }
 
-                    // Don't add FiR to grenades in pockets
-                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId }.Any(item.Template._parent.Contains))
+                    // Don't add FiR to grenades/mags/ammo in pockets
+                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId }.Any(item.Template._parent.Contains))
                     {
-                        //Logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
+                        //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
                     }
 

@@ -10,7 +10,7 @@ namespace Aki.Custom.Patches
 {
     public class CustomAiPatch : ModulePatch
     {
-        private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment();
+        private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
         private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
 
         protected override MethodBase GetTargetMethod()
