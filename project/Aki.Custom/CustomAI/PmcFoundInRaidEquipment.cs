@@ -17,7 +17,20 @@ namespace Aki.Custom.CustomAI
         private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
         private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId };
-        private ManualLogSource logger;
+        
+        private static readonly string pistolId = "5447b5cf4bdc2d65278b4567"; 
+        private static readonly string smgId = "5447b5e04bdc2d62278b4567";
+        private static readonly string assaultRifleId = "5447b5f14bdc2d61278b4567";
+        private static readonly string assaultCarbineId = "5447b5fc4bdc2d87278b4567";
+        private static readonly string shotgunId = "5447b6094bdc2dc3278b4567";
+        private static readonly string marksmanRifleId = "5447b6194bdc2d67278b4567";
+        private static readonly string sniperRifleId = "5447b6254bdc2dc3278b4568";
+        private static readonly string machinegunId = "5447bed64bdc2d97278b4568";
+        private static readonly string grenadeLauncherId = "5447bedf4bdc2d87278b4568";
+        private static readonly string knifeId = "5447e1d04bdc2dff2f8b4567";
+
+        private static readonly List<string> weaponTypeIds = new List<string>() { pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId, grenadeLauncherId, knifeId };
+        private readonly ManualLogSource logger;
 
         public PmcFoundInRaidEquipment(ManualLogSource logger)
         {
@@ -50,7 +63,7 @@ namespace Aki.Custom.CustomAI
                     }
 
                     // Don't add FiR to weapons in backpack (server sometimes adds pre-made weapons to backpack to simulate PMCs looting bodies)
-                    if (container.Name == "Backpack" && new List<string> { weaponId }.Any(item.Template._parent.Contains))
+                    if (container.Name == "Backpack" && weaponTypeIds.Any(item.Template._parent.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
