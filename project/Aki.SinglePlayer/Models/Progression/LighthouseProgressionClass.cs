@@ -26,13 +26,14 @@ namespace Aki.SinglePlayer.Models.Progression
             _gameWorld = Singleton<GameWorld>.Instance;
             _player = _gameWorld?.MainPlayer;
 
-            // Exit if not on lighthouse
-            if (_gameWorld == null || !string.Equals(_player?.Location, "lighthouse", System.StringComparison.OrdinalIgnoreCase))
+            if (_gameWorld == null || _player == null)
             {
+                Destroy(this);
+
                 return;
             }
 
-            // Player is a scav, exit
+            // Player is a scav, no need to perform additional work below
             if (_player.Side == EPlayerSide.Savage)
             {
                 _isScav = true;
@@ -46,6 +47,8 @@ namespace Aki.SinglePlayer.Models.Progression
             // Exit if transmitter does not exist and isnt green
             if (!PlayerHasActiveTransmitterInInventory())
             {
+                Destroy(this);
+
                 return;
             }
 
@@ -152,6 +155,12 @@ namespace Aki.SinglePlayer.Models.Progression
             // only process non-players (ai)
             foreach (var aiBot in _gameWorld.AllAlivePlayersList.Where(x => !x.IsYourPlayer))
             {
+                // Bots that die on mounted guns get stuck in AllAlivePlayersList, need to check health
+                if (!aiBot.HealthController.IsAlive)
+                {
+                    continue;
+                }
+
                 // Edge case of bossZryachiy not being hostile to player
                 if (aiBot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || aiBot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
                 {
