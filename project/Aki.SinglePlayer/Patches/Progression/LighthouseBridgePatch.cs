@@ -26,27 +26,12 @@ namespace Aki.SinglePlayer.Patches.Progression
                 return;
             }
 
-            ConfigurePlayerScavFindInRaidStatus(gameWorld.MainPlayer);
-
             if (gameWorld.MainPlayer.Location.ToLower() != "lighthouse")
             {
                 return;
             }
 
             gameWorld.GetOrAddComponent<LighthouseProgressionClass>();
-        }
-
-        private static void ConfigurePlayerScavFindInRaidStatus(Player player)
-        {
-            if (player == null || player.Profile.Side != EPlayerSide.Savage)
-            {
-                return;
-            }
-
-            foreach (var item in player.Profile.Inventory.AllRealPlayerItems)
-            {
-                item.SpawnedInSession = true;
-            }
-        }
+        }        
     }
 }
