@@ -12,7 +12,6 @@ namespace Aki.Custom.Airdrops
         private AirdropPlane airdropPlane;
         private AirdropBox airdropBox;
         private ItemFactoryUtil factory;
-
         public bool isFlareDrop;
         private AirdropParametersModel airdropParameters;
 
@@ -55,34 +54,45 @@ namespace Aki.Custom.Airdrops
 
         public void FixedUpdate()
         {
-            airdropParameters.Timer += 0.02f;
+            try
+            {
+                airdropParameters.Timer += 0.02f;
 
-            if (airdropParameters.Timer >= airdropParameters.TimeToStart && !airdropParameters.PlaneSpawned)
-            {
-                StartPlane();
-            }
+                if (airdropParameters.Timer >= airdropParameters.TimeToStart && !airdropParameters.PlaneSpawned)
+                {
+                    StartPlane();
+                }
 
-            if (!airdropParameters.PlaneSpawned)
-            {
-                return;
-            }
+                if (!airdropParameters.PlaneSpawned)
+                {
+                    return;
+                }
 
-            if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
-            {
-                StartBox();
-                BuildLootContainer(airdropParameters.Config);
-            }
+                if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
+                {
+                    StartBox();
+                    BuildLootContainer(airdropParameters.Config);
+                }
 
-            if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
-            {
-                airdropParameters.DistanceTraveled += Time.deltaTime * airdropParameters.Config.PlaneSpeed;
-                var distanceToDrop = airdropParameters.DistanceToDrop - airdropParameters.DistanceTraveled;
-                airdropPlane.ManualUpdate(distanceToDrop);
+                if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
+                {
+                    airdropParameters.DistanceTraveled += Time.deltaTime * airdropParameters.Config.PlaneSpeed;
+                    var distanceToDrop = airdropParameters.DistanceToDrop - airdropParameters.DistanceTraveled;
+                    airdropPlane.ManualUpdate(distanceToDrop);
+                }
+                else
+                {
+                    Destroy(airdropPlane.gameObject);
+                    Destroy(this);
+                }
             }
-            else
+            catch
             {
+                Debug.LogError("[AKI-AIRDROPS]: An error occurred during the airdrop FixedUpdate process");
+                Destroy(airdropBox.gameObject);
                 Destroy(airdropPlane.gameObject);
                 Destroy(this);
+                throw;
             }
         }
 
