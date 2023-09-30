@@ -2,9 +2,6 @@
 using Aki.SinglePlayer.Models.Progression;
 using Comfort.Common;
 using EFT;
-using EFT.InventoryLogic;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.Progression
@@ -26,7 +23,7 @@ namespace Aki.SinglePlayer.Patches.Progression
                 return;
             }
 
-            if (gameWorld.MainPlayer.Location.ToLower() != "lighthouse")
+            if (gameWorld.MainPlayer.Location.ToLower() != "lighthouse" || gameWorld.MainPlayer.Side == EPlayerSide.Savage)
             {
                 return;
             }
