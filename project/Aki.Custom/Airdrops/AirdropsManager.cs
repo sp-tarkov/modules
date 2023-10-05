@@ -62,15 +62,11 @@ namespace Aki.Custom.Airdrops
 
         public void FixedUpdate()
         {
-<<<<<<< HEAD
             if (airdropParameters == null || airdropPlane == null || airdropBox == null) return;
-            
-            airdropParameters.Timer += 0.02f;
-=======
+
             try
             {
                 airdropParameters.Timer += 0.02f;
->>>>>>> bfc855a08fbe0410ef882b77200e9100d3f62f28
 
                 if (airdropParameters.Timer >= airdropParameters.TimeToStart && !airdropParameters.PlaneSpawned)
                 {
