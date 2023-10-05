@@ -8,7 +8,6 @@ namespace Aki.SinglePlayer.Models.Progression
 {
     public class LighthouseProgressionClass : MonoBehaviour
     {
-        private bool _isScav;
         private GameWorld _gameWorld;
         private Player _player;
         private float _timer;
@@ -29,14 +28,6 @@ namespace Aki.SinglePlayer.Models.Progression
             if (_gameWorld == null || _player == null)
             {
                 Destroy(this);
-
-                return;
-            }
-
-            // Player is a scav, no need to perform additional work below
-            if (_player.Side == EPlayerSide.Savage)
-            {
-                _isScav = true;
 
                 return;
             }
@@ -91,14 +82,6 @@ namespace Aki.SinglePlayer.Models.Progression
             if (_zryachiyAndFollowers.Count == 0)
             {
                 SetupZryachiyAndFollowerHostility();
-            }
-
-            // If Pscav set enemy and exit
-            if (_isScav)
-            {
-                MakeZryachiyAndFollowersHostileToPlayer();
-
-                return;
             }
 
             // If player becomes aggressor, block access to LK
@@ -183,21 +166,6 @@ namespace Aki.SinglePlayer.Models.Progression
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Iterate over bots gathered from SetupZryachiyHostility()
-        /// </summary>
-        private void MakeZryachiyAndFollowersHostileToPlayer()
-        {
-            // If player is a scav, they must be added to the bosses enemy list otherwise they wont kill them
-            foreach (var bot in _zryachiyAndFollowers)
-            {
-                bot.AIData.BotOwner.BotsGroup.CheckAndAddEnemy(_player);
-            }
-
-            // Flag player was added to enemy list
-            _playerFlaggedAsEnemyToBosses = true;
         }
 
         /// <summary>
