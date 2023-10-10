@@ -53,9 +53,11 @@ namespace Aki.SinglePlayer
                 new PluginErrorNotifierPatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
                 new InsuredItemManagerStartPatch().Enable();
+                new MapReadyButtonPatch().Enable();
             }
             catch (Exception ex)
             {
+                Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
                 Logger.LogError($"{GetType().Name}: {ex}");
                 throw;
             }

@@ -16,8 +16,23 @@ namespace Aki.SinglePlayer.Patches.MainMenu
 
         protected override MethodBase GetTargetMethod()
         {
+            //[CompilerGenerated]
+            //private void method_67()
+            //{
+            //    if (this.raidSettings_0.SelectedLocation.Id == "laboratory")
+            //    {
+            //        this.raidSettings_0.WavesSettings.IsBosses = true;
+            //    }
+            //    if (this.raidSettings_0.RaidMode == ERaidMode.Online)
+            //    {
+            //        this.method_40();
+            //        return;
+            //    }
+            //    this.method_41();
+            //}
+
             var desiredType = typeof(MainMenuController);
-            var desiredMethod = desiredType.GetMethod("method_66", BindingFlags.NonPublic | BindingFlags.Instance);
+            var desiredMethod = desiredType.GetMethod("method_69", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

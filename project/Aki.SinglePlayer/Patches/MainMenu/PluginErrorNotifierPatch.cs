@@ -61,14 +61,13 @@ namespace Aki.SinglePlayer.Patches.MainMenu
 
             // Show an error in the in-game console, we have to write this in reverse order because the
             // in-game console shows newer messages at the top
-            ConsoleScreen consoleScreen = MonoBehaviourSingleton<PreloaderUI>.Instance.Console;
             foreach (string line in errorMessage.Split('\n').Reverse())
             {
                 if (line.Length > 0)
                 {
                     // Note: We directly call the internal Log method to work around a bug in 'LogError' that passes an empty string
                     //       as the StackTrace parameter, which results in extra newlines being added to the console logs
-                    _directLogMethod.Invoke(consoleScreen, new object[] { line, null, LogType.Error });
+                    ConsoleScreen.LogError(line);
                 }
             }
 

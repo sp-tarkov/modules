@@ -7,6 +7,7 @@ using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -67,7 +68,7 @@ namespace Aki.SinglePlayer.Patches.Progression
 				IsPlayerScav = ____raidSettings.IsScav
 			};
 
-			RequestHandler.PutJson("/raid/profile/save", request.ToJson(_defaultJsonConverters.AddItem(new NotesJsonConverter()).ToArray()));
+            RequestHandler.PutJson("/raid/profile/save", request.ToJson(_defaultJsonConverters.AddItem(new NotesJsonConverter()).ToArray()));
         }
     }
 }

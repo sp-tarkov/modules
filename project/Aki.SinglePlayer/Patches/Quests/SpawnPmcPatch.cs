@@ -22,7 +22,7 @@ namespace Aki.SinglePlayer.Patches.Quests
 
         private static bool IsTargetType(Type type)
         {
-            if (!typeof(IBotData).IsAssignableFrom(type) || type.GetMethod("method_1", PatchConstants.PrivateFlags) == null)
+            if (!typeof(IGetProfileData).IsAssignableFrom(type) || type.GetMethod("method_1", PatchConstants.PrivateFlags) == null)
             {
                 return false;
             }

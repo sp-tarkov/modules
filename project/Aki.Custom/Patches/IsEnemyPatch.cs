@@ -39,22 +39,22 @@ namespace Aki.Custom.Patches
         /// Needed to ensure bot checks the enemy side, not just its botType
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, BotGroupClass __instance, IAIDetails requester)
+        private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
             var isEnemy = false; // default not an enemy
             if (requester == null)
             {
                 __result = isEnemy;
 
-                return true; // Skip original
+                return false; // Skip original
             }
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x=> x.Key.Id == requester.Id))
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key.Id == requester.Id))
             {
                 __result = true;
-                return true;
+                return false; // Skip original
             }
             else
             {
@@ -62,7 +62,7 @@ namespace Aki.Custom.Patches
                 // Make zryachiy use existing isEnemy() code
                 if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
                 {
-                    return false; // do original method
+                    return false; // Skip original
                 }
 
                 if (__instance.Side == EPlayerSide.Usec)
@@ -71,7 +71,7 @@ namespace Aki.Custom.Patches
                         ShouldAttackUsec(requester))
                     {
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
                 else if (__instance.Side == EPlayerSide.Bear)
@@ -80,23 +80,28 @@ namespace Aki.Custom.Patches
                         ShouldAttackBear(requester))
                     {
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
                 else if (__instance.Side == EPlayerSide.Savage)
                 {
                     if (requester.Side != EPlayerSide.Savage)
                     {
+                        //Lets exUsec warn Usecs and fire at will at Bears
+                        if (__instance.InitialBotType == WildSpawnType.exUsec)
+                        {
+                            return true; // Let BSG handle things
+                        }
                         // everyone else is an enemy to savage (scavs)
                         isEnemy = true;
-                        __instance.AddEnemy(requester);
+                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                     }
                 }
             }
 
             __result = isEnemy;
 
-            return true; // Skip original
+            return false; // Skip original
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace Aki.Custom.Patches
         /// </summary>
         /// <param name="requester"></param>
         /// <returns>bool</returns>
-        private static bool ShouldAttackUsec(IAIDetails requester)
+        private static bool ShouldAttackUsec(IPlayer requester)
         {
             var requesterMind = requester?.AIData?.BotOwner?.Settings?.FileSettings?.Mind;
 
@@ -121,7 +126,7 @@ namespace Aki.Custom.Patches
         /// </summary>
         /// <param name="requester"></param>
         /// <returns></returns>
-        private static bool ShouldAttackBear(IAIDetails requester)
+        private static bool ShouldAttackBear(IPlayer requester)
         {
             var requesterMind = requester.AIData?.BotOwner?.Settings?.FileSettings?.Mind;
 

@@ -17,9 +17,9 @@ namespace Aki.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BotOwner __instance, BotGroupClass group)
+        private static bool PatchPrefix(BotOwner __instance, BotsGroup group)
         {
-            IAIDetails selfToRemove = null;
+            IPlayer selfToRemove = null;
 
             foreach (var enemy in group.Enemies)
             {

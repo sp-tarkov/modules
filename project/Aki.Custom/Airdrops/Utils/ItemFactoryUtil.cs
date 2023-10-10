@@ -43,12 +43,15 @@ namespace Aki.Custom.Airdrops.Utils
                 if (item.IsPreset)
                 {
                     actualItem = itemFactory.GetPresetItem(item.Tpl);
+                    actualItem.SpawnedInSession = true;
+                    actualItem.GetAllItems().ExecuteForEach(x => x.SpawnedInSession = true);
                     resources = actualItem.GetAllItems().Select(x => x.Template).SelectMany(x => x.AllResources).ToArray();
                 }
                 else
                 {
                     actualItem = itemFactory.CreateItem(item.ID, item.Tpl, null);
                     actualItem.StackObjectsCount = item.StackCount;
+                    actualItem.SpawnedInSession = true;
 
                     resources = actualItem.Template.AllResources.ToArray();
                 }

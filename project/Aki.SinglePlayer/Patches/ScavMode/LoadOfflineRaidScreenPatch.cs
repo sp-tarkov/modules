@@ -29,10 +29,13 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
+            _ = GClass2952.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             var menuControllerType = typeof(MainMenuController);
 
-            _onReadyScreenMethod = menuControllerType.GetMethod("method_39", PatchConstants.PrivateFlags);
+            // `MatchmakerInsuranceScreen` OnShowNextScreen
+            _onReadyScreenMethod = menuControllerType.GetMethod("method_42", PatchConstants.PrivateFlags);
+
             _isLocalField = menuControllerType.GetField("bool_0", PatchConstants.PrivateFlags);
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
 
@@ -44,7 +47,8 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(MainMenuController).GetMethod("method_63", PatchConstants.PrivateFlags);
+            // `MatchMakerSelectionLocationScreen` OnShowNextScreen
+            return typeof(MainMenuController).GetMethod("method_66", PatchConstants.PrivateFlags);
         }
 
         [PatchTranspiler]
@@ -93,7 +97,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             var brFalseLabel = generator.DefineLabel();
 
             // We build the method call for our substituted method and replace the initial method call with our own, also adding our new label
-            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel }};
+            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel } };
             codes[onReadyScreenMethodIndex] = callCode;
 
             // We build a new brfalse instruction and give it our new label, then replace the original brfalse instruction
@@ -114,14 +118,14 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field("gclass3030_0").GetValue<GClass3030>();
+            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass2952).ToLowerInvariant()}_0").GetValue<GClass2952>();
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3019(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass2941(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
-            // Ready method
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_67");
+            // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_70");
             gclass.ShowScreen(EScreenState.Queued);
         }
 

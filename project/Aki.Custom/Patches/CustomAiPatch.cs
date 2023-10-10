@@ -1,77 +1,89 @@
-﻿using Aki.Common.Http;
-using Aki.Reflection.Patching;
+﻿using Aki.Reflection.Patching;
 using EFT;
-using Newtonsoft.Json;
 using System;
 using Comfort.Common;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Aki.PrePatch;
-using Random = System.Random;
+using Aki.Custom.CustomAI;
 
 namespace Aki.Custom.Patches
 {
     public class CustomAiPatch : ModulePatch
     {
-        private static readonly Random random = new Random();
-        private static Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> botTypeCache = new Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>();
-        private static DateTime cacheDate = new DateTime();
+        private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
+        private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotBrainClass).GetMethod("Activate", BindingFlags.Public | BindingFlags.Instance);
+            return typeof(StandartBotBrain).GetMethod("Activate", BindingFlags.Public | BindingFlags.Instance);
         }
 
         /// <summary>
         /// Get a randomly picked wildspawntype from server and change PMC bot to use it, this ensures the bot is generated with that random type altering its behaviour
+        /// Postfix will adjust it back to original type
         /// </summary>
         /// <param name="__state">state to save for postfix to use later</param>
         /// <param name="__instance"></param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
-        private static bool PatchPrefix(out WildSpawnType __state, object __instance, BotOwner ___botOwner_0)
+        private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            // Store original type in state param
-            __state = ___botOwner_0.Profile.Info.Settings.Role;
-            //Console.WriteLine($"Processing bot {___botOwner_0.Profile.Info.Nickname} with role {___botOwner_0.Profile.Info.Settings.Role}");
+            ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
+            __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
-                if (BotIsSptPmc(___botOwner_0.Profile.Info.Settings.Role))
+                if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0))
                 {
-                    string currentMapName = GetCurrentMap();
+                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType();
 
-                    if (!botTypeCache.TryGetValue(___botOwner_0.Profile.Info.Settings.Role, out var botSettings) || CacheIsStale())
+                    return true; // Do original
+                }
+                string currentMapName = GetCurrentMap();
+                if (AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0))
+                {
+                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
+
+                    return true; // Do original
+                }
+
+                if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+                {
+                    // Bot has inventory equipment
+                    if (___botOwner_0.Profile?.Inventory?.Equipment != null)
                     {
-                        ResetCacheDate();
-                        HydrateCacheWithServerData();
-
-                        if (!botTypeCache.TryGetValue(___botOwner_0.Profile.Info.Settings.Role, out botSettings))
-                        {
-                            throw new Exception($"Bots were refreshed from the server but the cache still doesnt contain an appropriate bot for type {___botOwner_0.Profile.Info.Settings.Role}");
-                        }
+                        pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(___botOwner_0);
                     }
 
-                    var mapSettings = botSettings[currentMapName.ToLower()];
-                    var randomType = WeightedRandom(mapSettings.Keys.ToArray(), mapSettings.Values.ToArray());
-                    if (Enum.TryParse(randomType, out WildSpawnType newAiType))
-                    {
-                        Logger.LogWarning($"Updated spt bot {___botOwner_0.Profile.Info.Nickname}: {___botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain");
-                        ___botOwner_0.Profile.Info.Settings.Role = newAiType;
-                    }
-                    else
-                    {
-                        Logger.LogError($"Couldnt not update spt bot {___botOwner_0.Profile.Info.Nickname} to random type {randomType}, does not exist for WildSpawnType enum");
-                    }
+                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Error processing log: {ex.Message}");
+                Logger.LogError($"Error running CustomAiPatch PatchPrefix(): {ex.Message}");
                 Logger.LogError(ex.StackTrace);
             }
             
             return true; // Do original 
+        }
+
+        /// <summary>
+        /// the client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (sptBear/sptUsec)
+        /// </summary>
+        /// <returns>WildSpawnType</returns>
+        private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
+        {
+            if (botOwner.Profile.Info.IsStreamerModeAvailable && botOwner.Profile.Info.Settings.Role == WildSpawnType.assaultGroup)
+            {
+                Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
+
+                // Its a PMC, figure out what the bot originally was and return it
+                return botOwner.Profile.Info.Side == EPlayerSide.Bear
+                    ? (WildSpawnType)AkiBotsPrePatcher.sptBearValue
+                    : (WildSpawnType)AkiBotsPrePatcher.sptUsecValue;
+            }
+
+            // Not broken pmc, return original role
+            return botOwner.Profile.Info.Settings.Role;
         }
 
         /// <summary>
@@ -82,16 +94,16 @@ namespace Aki.Custom.Patches
         [PatchPostfix]
         private static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
         {
-            if (BotIsSptPmc(__state))
+            if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
             {
                 // Set spt bot bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
-        }
-
-        private static bool BotIsSptPmc(WildSpawnType role)
-        {
-            return (int)role == AkiBotsPrePatcher.sptBearValue || (int)role == AkiBotsPrePatcher.sptUsecValue;
+            else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0))
+            {
+                // Set pscav back to original type
+                ___botOwner_0.Profile.Info.Settings.Role = __state;
+            }
         }
 
         private static string GetCurrentMap()
@@ -99,51 +111,6 @@ namespace Aki.Custom.Patches
             var gameWorld = Singleton<GameWorld>.Instance;
 
             return gameWorld.MainPlayer.Location;
-        }
-
-        private static bool CacheIsStale()
-        {
-            TimeSpan cacheAge = DateTime.Now - cacheDate;
-
-            return cacheAge.Minutes > 20;
-        }
-
-        private static void ResetCacheDate()
-        {
-            cacheDate = DateTime.Now;
-        }
-
-        private static void HydrateCacheWithServerData()
-        {
-            // Get weightings for PMCs from server and store in dict
-            var result = RequestHandler.GetJson($"/singleplayer/settings/bot/getBotBehaviours/");
-            botTypeCache = JsonConvert.DeserializeObject<Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>>>(result);
-            Logger.LogWarning($"Cached bot.json/pmcType PMC brain weights in client");
-        }
-
-        private static string WeightedRandom(string[] botTypes, int[] weights)
-        {
-            var cumulativeWeights = new int[botTypes.Length];
-
-            for (int i = 0; i < weights.Length; i++)
-            {
-                cumulativeWeights[i] = weights[i] + (i == 0 ? 0 : cumulativeWeights[i - 1]);
-            }
-
-            var maxCumulativeWeight = cumulativeWeights[cumulativeWeights.Length - 1];
-            var randomNumber = maxCumulativeWeight * random.NextDouble();
-
-            for (var itemIndex = 0; itemIndex < botTypes.Length; itemIndex++)
-            {
-                if (cumulativeWeights[itemIndex] >= randomNumber)
-                {
-                    return botTypes[itemIndex];
-                }
-            }
-
-            Logger.LogError("failed to get random bot weighting, returned assault");
-
-            return "assault";
         }
     }
 }

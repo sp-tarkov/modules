@@ -1,5 +1,4 @@
-﻿using Aki.Common.Http;
-using Aki.Custom.Airdrops.Models;
+﻿using Aki.Custom.Airdrops.Models;
 using Aki.Custom.Airdrops.Utils;
 using Comfort.Common;
 using EFT;
@@ -12,25 +11,33 @@ namespace Aki.Custom.Airdrops
         private AirdropPlane airdropPlane;
         private AirdropBox airdropBox;
         private ItemFactoryUtil factory;
-
         public bool isFlareDrop;
         private AirdropParametersModel airdropParameters;
 
-        public async void Start()
+        public async void Awake()
         {
-            var gameWorld = Singleton<GameWorld>.Instance;
-
-            if (gameWorld == null)
+            try
             {
-                Destroy(this);
+                var gameWorld = Singleton<GameWorld>.Instance;
+
+                if (gameWorld == null)
+                {
+                    Destroy(this);
+                }
+
+                airdropParameters = AirdropUtil.InitAirdropParams(gameWorld, isFlareDrop);
+
+                if (!airdropParameters.AirdropAvailable)
+                {
+                    Destroy(this);
+                    return;
+                }
             }
-
-            airdropParameters = AirdropUtil.InitAirdropParams(gameWorld, isFlareDrop);
-
-            if (!airdropParameters.AirdropAvailable)
+            catch
             {
+                Debug.LogError("[AKI-AIRDROPS]: Unable to get config from server, airdrop won't occur");
                 Destroy(this);
-                return;
+                throw;
             }
 
             try
@@ -55,34 +62,47 @@ namespace Aki.Custom.Airdrops
 
         public void FixedUpdate()
         {
-            airdropParameters.Timer += 0.02f;
+            if (airdropParameters == null || airdropPlane == null || airdropBox == null) return;
 
-            if (airdropParameters.Timer >= airdropParameters.TimeToStart && !airdropParameters.PlaneSpawned)
+            try
             {
-                StartPlane();
-            }
+                airdropParameters.Timer += 0.02f;
 
-            if (!airdropParameters.PlaneSpawned)
-            {
-                return;
-            }
+                if (airdropParameters.Timer >= airdropParameters.TimeToStart && !airdropParameters.PlaneSpawned)
+                {
+                    StartPlane();
+                }
 
-            if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
-            {
-                StartBox();
-                BuildLootContainer(airdropParameters.Config);
-            }
+                if (!airdropParameters.PlaneSpawned)
+                {
+                    return;
+                }
 
-            if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
-            {
-                airdropParameters.DistanceTraveled += Time.deltaTime * airdropParameters.Config.PlaneSpeed;
-                var distanceToDrop = airdropParameters.DistanceToDrop - airdropParameters.DistanceTraveled;
-                airdropPlane.ManualUpdate(distanceToDrop);
+                if (airdropParameters.DistanceTraveled >= airdropParameters.DistanceToDrop && !airdropParameters.BoxSpawned)
+                {
+                    StartBox();
+                    BuildLootContainer(airdropParameters.Config);
+                }
+
+                if (airdropParameters.DistanceTraveled < airdropParameters.DistanceToTravel)
+                {
+                    airdropParameters.DistanceTraveled += Time.deltaTime * airdropParameters.Config.PlaneSpeed;
+                    var distanceToDrop = airdropParameters.DistanceToDrop - airdropParameters.DistanceTraveled;
+                    airdropPlane.ManualUpdate(distanceToDrop);
+                }
+                else
+                {
+                    Destroy(airdropPlane.gameObject);
+                    Destroy(this);
+                }
             }
-            else
+            catch
             {
+                Debug.LogError("[AKI-AIRDROPS]: An error occurred during the airdrop FixedUpdate process");
+                Destroy(airdropBox.gameObject);
                 Destroy(airdropPlane.gameObject);
                 Destroy(this);
+                throw;
             }
         }
 

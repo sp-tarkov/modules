@@ -31,6 +31,7 @@ namespace Aki.Custom
                 new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
+                new LocationLootCacheBustingPatch().Enable();
                 //new AddSelfAsEnemyPatch().Enable();
                 new CheckAndAddEnemyPatch().Enable();
                 new BotSelfEnemyPatch().Enable(); // needed
@@ -42,9 +43,13 @@ namespace Aki.Custom
                 new ExitWhileLootingPatch().Enable();
                 new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
+                new SettingsLocationPatch().Enable();
+                //new RankPanelPatch().Enable();
+                new RagfairFeePatch().Enable();
             }
             catch (Exception ex)
             {
+                Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
                 Logger.LogError($"{GetType().Name}: {ex}");
                 throw;
             }

@@ -1,7 +1,7 @@
-using Aki.Common.Http;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
-using System.Linq;
+using EFT;
+using System;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
@@ -19,7 +19,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(BotSpawnerClass);
+            var desiredType = typeof(BotSpawner);
             var desiredMethod = desiredType.GetMethod("CheckOnMax", PatchConstants.PublicFlags);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -29,13 +29,20 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static void PatchPreFix(ref int ___int_3)
+        private static bool PatchPreFix(int wantSpawn, ref int toDelay, ref int toSpawn, ref int ____maxBots, int ____allBotsCount, int ____inSpawnProcess)
         {
-            // Spawn process
-            if (___int_3 < 0)
+
+            // Set bots to delay if alive bots + spawning bots count > maxbots
+            // ____inSpawnProcess can be negative, don't go below 0 when calculating
+            if ((____allBotsCount + Math.Max(____inSpawnProcess, 0)) > ____maxBots)
             {
-                ___int_3 = 0;
+                toDelay += wantSpawn;
+                toSpawn = 0;
+
+                return false; // Skip original
             }
+
+            return true; // Do original
         }
     }
 }

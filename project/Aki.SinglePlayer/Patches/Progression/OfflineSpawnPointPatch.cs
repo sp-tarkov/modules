@@ -45,7 +45,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             ESpawnCategory category,
             EPlayerSide side,
             string groupId,
-            IAIDetails person,
+            IPlayer person,
             string infiltration)
         {
             var spawnPointsField = (ISpawnPoints)__instance.GetType().GetFields(PatchConstants.PrivateFlags).SingleOrDefault(f => f.FieldType == typeof(ISpawnPoints))?.GetValue(__instance);
@@ -69,8 +69,9 @@ namespace Aki.SinglePlayer.Patches.Progression
                     ? GetFallBackSpawnPoint(unfilteredFilteredSpawnPoints, category, side, infiltration)
                     : mapSpawnPoints.RandomElement();
 
-            Logger.LogInfo($"Desired spawnpoint: [{category}] [{side}] [{infiltration}]");
-            Logger.LogInfo($"PatchPrefix SelectSpawnPoint: [{__result.Id}] [{__result.Name}] [{__result.Categories}] [{__result.Sides}] [{__result.Infiltration}]");
+            Logger.LogInfo($"Desired spawnpoint: [category:{category}] [side:{side}] [infil:{infiltration}] [{mapSpawnPoints.Count} total spawn points]");
+            Logger.LogInfo($"Selected SpawnPoint: [id:{__result.Id}] [name:{__result.Name}] [category:{__result.Categories}] [side:{__result.Sides}] [infil:{__result.Infiltration}]");
+
             return false;
         }
 

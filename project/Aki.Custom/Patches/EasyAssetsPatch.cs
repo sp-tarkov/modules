@@ -30,6 +30,8 @@ namespace Aki.Custom.Patches
 
             _manifestField = type.GetField(nameof(EasyAssets.Manifest));
             _bundlesField = type.GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", PatchConstants.PrivateFlags);
+
+            // DependencyGraph<IEasyBundle>
             _systemProperty = type.GetProperty("System");
         }
 
@@ -82,7 +84,15 @@ namespace Aki.Custom.Patches
 
             for (var i = 0; i < bundleNames.Length; i++)
             {
-                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[] { bundleNames[i], path, manifest, bundleLock, bundleCheck });
+                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[]
+                    {
+                        bundleNames[i],
+                        path,
+                        manifest,
+                        bundleLock,
+                        bundleCheck
+                    });
+
                 await JobScheduler.Yield(EJobPriority.Immediate);
             }
 
