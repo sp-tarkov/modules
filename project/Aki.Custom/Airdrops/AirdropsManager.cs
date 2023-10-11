@@ -14,7 +14,7 @@ namespace Aki.Custom.Airdrops
         public bool isFlareDrop;
         private AirdropParametersModel airdropParameters;
 
-        public async void Awake()
+        public async void Start()
         {
             try
             {
