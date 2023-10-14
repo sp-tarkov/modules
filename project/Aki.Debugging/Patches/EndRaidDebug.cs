@@ -33,9 +33,7 @@ namespace Aki.Debugging.Patches
 
             if (____rankPanel == null)
             {
-                ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
                 Logger.Log(LogLevel.Error, "[AKI] _rankPanel was null, skipping method_0");
-
                 return false; // skip original
             }
 
