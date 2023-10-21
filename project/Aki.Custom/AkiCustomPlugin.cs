@@ -3,6 +3,7 @@ using Aki.Common;
 using Aki.Custom.Airdrops.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
+using Aki.SinglePlayer.Patches.ScavMode;
 using BepInEx;
 
 namespace Aki.Custom
@@ -46,6 +47,7 @@ namespace Aki.Custom
                 new SettingsLocationPatch().Enable();
                 //new RankPanelPatch().Enable();
                 new RagfairFeePatch().Enable();
+                new ScavQuestPatch().Enable();
             }
             catch (Exception ex)
             {
