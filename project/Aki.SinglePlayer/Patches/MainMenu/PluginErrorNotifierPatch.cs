@@ -1,3 +1,4 @@
+using Aki.Common.Utils;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using BepInEx.Bootstrap;
@@ -13,18 +14,17 @@ namespace Aki.SinglePlayer.Patches.MainMenu
 {
     /***
      * On the first show of the main menu, check if any BepInEx plugins have failed to load, and inform
-     * the user. This is done via a toast in the bottom right, with a more detailed console message
+     * the user. This is done via a toast in the bottom right, with a more detailed console message, as
+     * well as having the errors forwarded to the server console
      **/
     internal class PluginErrorNotifierPatch : ModulePatch
     {
         private static MethodInfo _displayMessageNotificationMethod;
-        private static MethodInfo _directLogMethod;
         private static bool _messageShown = false;
 
         protected override MethodBase GetTargetMethod()
         {
             _displayMessageNotificationMethod = AccessTools.Method(typeof(NotificationManagerClass), "DisplayMessageNotification");
-            _directLogMethod = AccessTools.Method(typeof(ConsoleScreen), "method_5");
 
             var desiredType = typeof(MenuScreen);
             var desiredMethod = desiredType.GetMethod("Show", PatchConstants.PrivateFlags);
@@ -59,14 +59,15 @@ namespace Aki.SinglePlayer.Patches.MainMenu
             // Show an error in the BepInEx console/log file
             Logger.LogError(errorMessage);
 
+            // Show errors in the server console
+            ServerLog.Error("Aki.Singleplayer", errorMessage);
+
             // Show an error in the in-game console, we have to write this in reverse order because the
             // in-game console shows newer messages at the top
             foreach (string line in errorMessage.Split('\n').Reverse())
             {
                 if (line.Length > 0)
                 {
-                    // Note: We directly call the internal Log method to work around a bug in 'LogError' that passes an empty string
-                    //       as the StackTrace parameter, which results in extra newlines being added to the console logs
                     ConsoleScreen.LogError(line);
                 }
             }
