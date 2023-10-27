@@ -6,7 +6,11 @@ namespace Aki.Common.Utils
 {
     public static class ServerLog
     {
-        public static void Custom(string source, string message, ServerLogTextColor color = null, ServerLogBackgroundColor backgroundColor = null)
+        public static void Custom(
+            string source,
+            string message,
+            EServerLogTextColor color = EServerLogTextColor.White,
+            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default)
         {
             Log(source, message, EServerLogLevel.Custom, color, backgroundColor);
         }
@@ -31,14 +35,21 @@ namespace Aki.Common.Utils
             Log(source, message, EServerLogLevel.Info);
         }
 
-        public static void Log(string source, string message, EServerLogLevel level = EServerLogLevel.Info, ServerLogTextColor color = null, ServerLogBackgroundColor backgroundColor= null)
+        public static void Log(
+            string source,
+            string message,
+            EServerLogLevel level = EServerLogLevel.Info,
+            EServerLogTextColor color = EServerLogTextColor.White,
+            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default)
         {
-            ServerLogRequest request = new ServerLogRequest();
-            request.Source = source;
-            request.Message = message;
-            request.Level = level;
-            request.Color = color;
-            request.BackgroundColor = backgroundColor;
+            ServerLogRequest request = new ServerLogRequest
+            {
+                Source = source,
+                Message = message,
+                Level = level,
+                Color = color,
+                BackgroundColor = backgroundColor
+            };
 
             RequestHandler.PostJson("/singleplayer/log", Json.Serialize(request));
         }
