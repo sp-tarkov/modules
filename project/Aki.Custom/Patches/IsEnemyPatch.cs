@@ -41,6 +41,11 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
+            if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent)
+            {
+                return true; // Do original code
+            }
+
             var isEnemy = false; // default not an enemy
             if (requester == null)
             {
