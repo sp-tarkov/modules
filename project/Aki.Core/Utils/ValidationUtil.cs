@@ -18,6 +18,8 @@ namespace Aki.Core.Utils
                 var v2 = (v1 != null) ? v1.ToString() : string.Empty;
                 var v3 = new FileInfo(v2);
                 ServerLog.Debug("Aki.Core", v2);
+                ServerLog.Debug("Aki.Core", string.IsNullOrEmpty(v2) ? "0" : v3.Length.ToString()); 
+
                 var v4 = new FileInfo[]
                 {
                     v3,
