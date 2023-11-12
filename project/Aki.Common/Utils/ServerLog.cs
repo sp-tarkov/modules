@@ -35,6 +35,11 @@ namespace Aki.Common.Utils
             Log(source, message, EServerLogLevel.Info);
         }
 
+        public static void Debug(string source, string message)
+        {
+            Log(source, message, EServerLogLevel.Debug);
+        }
+
         public static void Log(
             string source,
             string message,

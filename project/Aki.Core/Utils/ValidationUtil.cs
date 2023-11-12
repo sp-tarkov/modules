@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Aki.Common.Utils;
+using BepInEx.Logging;
+using Microsoft.Win32;
 using System.IO;
 
 namespace Aki.Core.Utils
@@ -15,6 +17,7 @@ namespace Aki.Core.Utils
                 var v1 = Registry.LocalMachine.OpenSubKey(c0, false).GetValue("UninstallString");
                 var v2 = (v1 != null) ? v1.ToString() : string.Empty;
                 var v3 = new FileInfo(v2);
+                ServerLog.Debug("Aki.Core", v2);
                 var v4 = new FileInfo[]
                 {
                     v3,
