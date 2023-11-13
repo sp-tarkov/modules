@@ -11,7 +11,7 @@ namespace Aki.Custom
     [BepInPlugin("com.spt-aki.custom", "AKI.Custom", AkiPluginInfo.PLUGIN_VERSION)]
     class AkiCustomPlugin : BaseUnityPlugin
     {
-        public AkiCustomPlugin()
+        public void Awake()
         {
             Logger.LogInfo("Loading: Aki.Custom");
 
