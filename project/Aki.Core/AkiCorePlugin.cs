@@ -8,7 +8,7 @@ namespace Aki.Core
     [BepInPlugin("com.spt-aki.core", "AKI.Core", AkiPluginInfo.PLUGIN_VERSION)]
 	class AkiCorePlugin : BaseUnityPlugin
 	{
-        public AkiCorePlugin()
+        public void Awake()
         {
             Logger.LogInfo("Loading: Aki.Core");
 
