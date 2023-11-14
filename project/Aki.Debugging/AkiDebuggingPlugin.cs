@@ -8,7 +8,7 @@ namespace Aki.Debugging
     [BepInPlugin("com.spt-aki.debugging", "AKI.Debugging", AkiPluginInfo.PLUGIN_VERSION)]
     public class AkiDebuggingPlugin : BaseUnityPlugin
     {
-        public AkiDebuggingPlugin()
+        public void Awake()
         {
             Logger.LogInfo("Loading: Aki.Debugging");
 
