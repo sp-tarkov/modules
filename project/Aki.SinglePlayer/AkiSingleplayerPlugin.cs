@@ -13,7 +13,7 @@ namespace Aki.SinglePlayer
     [BepInPlugin("com.spt-aki.singleplayer", "AKI.Singleplayer", AkiPluginInfo.PLUGIN_VERSION)]
     class AkiSingleplayerPlugin : BaseUnityPlugin
     {
-        public AkiSingleplayerPlugin()
+        public void Awake()
         {
             Logger.LogInfo("Loading: Aki.SinglePlayer");
 
@@ -54,6 +54,7 @@ namespace Aki.SinglePlayer
                 new SpawnProcessNegativeValuePatch().Enable();
                 new InsuredItemManagerStartPatch().Enable();
                 new MapReadyButtonPatch().Enable();
+                new LabsKeycardRemovalPatch().Enable();
             }
             catch (Exception ex)
             {
