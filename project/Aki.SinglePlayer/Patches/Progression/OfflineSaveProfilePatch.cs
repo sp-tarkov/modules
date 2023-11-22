@@ -7,13 +7,16 @@ using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
+    /// <summary>
+    /// After a raid, the client doesnt update the server on what occurred during the raid. To persist loot/quest changes etc we 
+    /// make the client send the active profile to a spt-specific endpoint `/raid/profile/save` where we can update the players profile json
+    /// </summary>
     public class OfflineSaveProfilePatch : ModulePatch
     {
         private static readonly JsonConverter[] _defaultJsonConverters;
@@ -61,10 +64,10 @@ namespace Aki.SinglePlayer.Patches.Progression
 
             SaveProfileRequest request = new SaveProfileRequest
             {
-                Exit = result.Value0.ToString().ToLowerInvariant(),
-                Profile = profile,
-                Health = Utils.Healing.HealthListener.Instance.CurrentHealth,
-                Insurance = Utils.Insurance.InsuredItemManager.Instance.GetTrackedItems(),
+                Exit = result.Value0.ToString().ToLowerInvariant(), // Exit player used to leave raid
+                Profile = profile, // players scav or pmc profile, depending on type of raid they did
+                Health = Utils.Healing.HealthListener.Instance.CurrentHealth, // Speicifc limb/effect damage data the player has at end of raid
+                Insurance = Utils.Insurance.InsuredItemManager.Instance.GetTrackedItems(), // A copy of items insured by player with durability values as of raid end (if item is returned, send it back with correct durability values)
 				IsPlayerScav = ____raidSettings.IsScav
 			};
 
