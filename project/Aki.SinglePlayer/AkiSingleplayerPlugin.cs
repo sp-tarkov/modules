@@ -55,6 +55,7 @@ namespace Aki.SinglePlayer
                 new InsuredItemManagerStartPatch().Enable();
                 new MapReadyButtonPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
+                new ScavLateStartPatch().Enable();
             }
             catch (Exception ex)
             {
