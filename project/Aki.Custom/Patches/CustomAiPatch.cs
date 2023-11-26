@@ -32,13 +32,14 @@ namespace Aki.Custom.Patches
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
+                string currentMapName = GetCurrentMap();
                 if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0))
                 {
-                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType();
+                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(___botOwner_0, currentMapName);
 
                     return true; // Do original
                 }
-                string currentMapName = GetCurrentMap();
+                
                 if (AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0))
                 {
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);

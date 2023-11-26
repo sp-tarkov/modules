@@ -13,7 +13,6 @@ namespace Aki.Custom.CustomAI
         private static AIBrains aiBrainsCache = null;
         private static DateTime aiBrainCacheDate = new DateTime();
         private static readonly Random random = new Random();
-        private static readonly List<WildSpawnType> playerScavTypes = new List<WildSpawnType>() { WildSpawnType.bossKilla, WildSpawnType.pmcBot, WildSpawnType.bossGluhar };
         private readonly ManualLogSource logger;
 
         public AIBrainSpawnWeightAdjustment(ManualLogSource logger)
@@ -21,9 +20,33 @@ namespace Aki.Custom.CustomAI
             this.logger = logger;
         }
 
-        public WildSpawnType GetRandomisedPlayerScavType()
+        public WildSpawnType GetRandomisedPlayerScavType(BotOwner botOwner, string currentMapName)
         {
-            return playerScavTypes.Random();
+            // Get map brain weights from server and cache
+            if (aiBrainsCache == null || CacheIsStale())
+            {
+                ResetCacheDate();
+                HydrateCacheWithServerData();
+
+                if (!aiBrainsCache.playerScav.TryGetValue(currentMapName.ToLower(), out _))
+                {
+                    throw new Exception($"Bots were refreshed from the server but the assault cache still doesnt contain data");
+                }
+            }
+
+            // Choose random weighted brain
+            var randomType = WeightedRandom(aiBrainsCache.playerScav[currentMapName.ToLower()].Keys.ToArray(), aiBrainsCache.playerScav[currentMapName.ToLower()].Values.ToArray());
+            if (Enum.TryParse(randomType, out WildSpawnType newAiType))
+            {
+                logger.LogWarning($"Updated player scav bot to use: {newAiType} brain");
+                return newAiType;
+            }
+            else
+            {
+                logger.LogWarning($"Updated player scav bot {botOwner.Profile.Info.Nickname}: {botOwner.Profile.Info.Settings.Role} to use: {newAiType} brain");
+
+                return newAiType;
+            }
         }
 
         public WildSpawnType GetAssaultScavWildSpawnType(BotOwner botOwner, string currentMapName)
@@ -97,6 +120,7 @@ namespace Aki.Custom.CustomAI
             aiBrainCacheDate = DateTime.Now;
             aiBrainsCache?.pmc?.Clear();
             aiBrainsCache?.assault?.Clear();
+            aiBrainsCache?.playerScav?.Clear();
         }
 
         private static bool CacheIsStale()
@@ -110,6 +134,7 @@ namespace Aki.Custom.CustomAI
         {
             public Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> pmc { get; set; }
             public Dictionary<string, Dictionary<string, int>> assault { get; set; }
+            public Dictionary<string, Dictionary<string, int>> playerScav { get; set; }
         }
 
         /// <summary>
