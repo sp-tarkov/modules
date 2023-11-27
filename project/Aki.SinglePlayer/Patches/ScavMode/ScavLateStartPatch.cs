@@ -64,23 +64,24 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             // Set new raid time
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
-            // Reset survival time
+            // Handle survival time changes
             AdjustSurviveTimeForExtraction(serverResult.OriginalSurvivalTimeSeconds);
             if (serverResult.NewSurviveTimeSeconds.HasValue)
             {
                 AdjustSurviveTimeForExtraction(serverResult.NewSurviveTimeSeconds.Value);
             }
+
+            // Handle exit changes
             ResetMapExits(____raidSettings.SelectedLocation, originalLocationSettings[currentMapId]);
             if (serverResult.ExitChanges != null && serverResult.ExitChanges.Count > 0)
             {
-                AdjustExtracts(____raidSettings.SelectedLocation, serverResult.ExitChanges);
+                AdjustMapExits(____raidSettings.SelectedLocation, serverResult.ExitChanges);
             }
 
-            ConsoleScreen.LogError($"Finished");
             return true; // Do original method
         }
 
-        private static void AdjustExtracts(LocationSettingsClass.Location location, List<ExitChanges> exitChangesToApply)
+        private static void AdjustMapExits(LocationSettingsClass.Location location, List<ExitChanges> exitChangesToApply)
         {
             // Loop over each exit change from server
             foreach (var exitChange in exitChangesToApply)
@@ -147,7 +148,6 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         private static void AdjustSurviveTimeForExtraction(int newSurvivalTimeSeconds)
         {
             var matchEndConfig = Singleton<BackendConfigSettingsClass>.Instance.Experience.MatchEnd;
-            ConsoleScreen.LogError($"Changed survive time to {newSurvivalTimeSeconds}");
             matchEndConfig.SurvivedTimeRequirement = newSurvivalTimeSeconds;
         }
     }
