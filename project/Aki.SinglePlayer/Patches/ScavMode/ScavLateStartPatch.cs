@@ -62,6 +62,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             var serverResult = Json.Deserialize<RaidTimeResponse>(json);
 
             // Set new raid time
+            Utils.ScavMode.ScavRaidChangesUtil.SetRaidTimeReduction(____raidSettings.SelectedLocation.EscapeTimeLimit - serverResult.RaidTimeMinutes);
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
             // Handle survival time changes
