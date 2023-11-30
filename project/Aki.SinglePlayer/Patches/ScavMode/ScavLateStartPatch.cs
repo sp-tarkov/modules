@@ -66,10 +66,13 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
             // Handle survival time changes
-            AdjustSurviveTimeForExtraction(serverResult.OriginalSurvivalTimeSeconds);
             if (serverResult.NewSurviveTimeSeconds.HasValue)
             {
                 AdjustSurviveTimeForExtraction(serverResult.NewSurviveTimeSeconds.Value);
+            }
+            else
+            {
+                AdjustSurviveTimeForExtraction(serverResult.OriginalSurvivalTimeSeconds);
             }
 
             // Handle exit changes
