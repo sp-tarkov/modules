@@ -30,9 +30,29 @@ namespace Aki.SinglePlayer.Utils.InRaid
         public static string LocationId { get; private set; } = string.Empty;
 
         /// <summary>
+        /// The original escape time for the current (or most recent) raid, in minutes
+        /// </summary>
+        public static int OriginalEscapeTimeMinutes { get; private set; } = int.MaxValue;
+
+        /// <summary>
+        /// The original escape time for the current (or most recent) raid, in seconds
+        /// </summary>
+        public static int OriginalEscapeTimeSeconds => OriginalEscapeTimeMinutes * 60;
+
+        /// <summary>
+        /// The updated escape time for the current (or most recent) raid, in minutes
+        /// </summary>
+        public static int NewEscapeTimeMinutes { get; private set; } = int.MaxValue;
+
+        /// <summary>
+        /// The updated escape time for the current (or most recent) raid, in seconds
+        /// </summary>
+        public static int NewEscapeTimeSeconds => NewEscapeTimeMinutes * 60;
+
+        /// <summary>
         /// The reduction in the escape time for the current (or most recent) raid, in minutes
         /// </summary>
-        public static int RaidTimeReductionMinutes { get; private set; } = 0;
+        public static int RaidTimeReductionMinutes => OriginalEscapeTimeMinutes - NewEscapeTimeMinutes;
 
         /// <summary>
         /// The reduction in the escape time for the current (or most recent) raid, in seconds
@@ -58,7 +78,8 @@ namespace Aki.SinglePlayer.Utils.InRaid
 
             LocationId = raidSettings.SelectedLocation.Id;
 
-            RaidTimeReductionMinutes = raidSettings.SelectedLocation.EscapeTimeLimit - raidChanges.RaidTimeMinutes;
+            OriginalEscapeTimeMinutes = raidSettings.SelectedLocation.EscapeTimeLimit;
+            NewEscapeTimeMinutes = raidChanges.RaidTimeMinutes;
 
             SurvivalTimeReductionSeconds = 0;
             if (raidChanges.NewSurviveTimeSeconds.HasValue)
