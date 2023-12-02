@@ -61,6 +61,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             var json = RequestHandler.PostJson("/singleplayer/settings/getRaidTime", Json.Serialize(request));
             var serverResult = Json.Deserialize<RaidTimeResponse>(json);
 
+            // Capture the changes that will be made to the raid so they can be easily accessed by modders
+            Utils.InRaid.RaidChangesUtil.UpdateRaidChanges(____raidSettings, serverResult);
+
             // Set new raid time
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
@@ -80,6 +83,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             {
                 AdjustMapExits(____raidSettings.SelectedLocation, serverResult.ExitChanges);
             }
+
+            // Confirm that all raid changes are complete
+            Utils.InRaid.RaidChangesUtil.ConfirmRaidChanges();
 
             return true; // Do original method
         }
