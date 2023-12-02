@@ -65,7 +65,6 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             Utils.InRaid.RaidChangesUtil.UpdateRaidChanges(____raidSettings, serverResult);
 
             // Set new raid time
-            Utils.ScavMode.ScavRaidChangesUtil.SetRaidTimeReduction(____raidSettings.SelectedLocation.EscapeTimeLimit - serverResult.RaidTimeMinutes);
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
             // Handle survival time changes
