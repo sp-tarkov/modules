@@ -4,7 +4,6 @@ using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using Comfort.Common;
 using EFT;
-using EFT.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,21 +98,18 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 var exitToChange = location.exits.First(x => x.Name == exitChange.Name);
                 if (exitToChange == null)
                 {
-                    ConsoleScreen.LogError($"Exit with Id: {exitChange.Name} not found, skipping");
+                    Logger.LogDebug($"Exit with Id: {exitChange.Name} not found, skipping");
 
                     continue;
                 }
 
                 if (exitChange.Chance.HasValue)
                 {
-                    ConsoleScreen.LogError($"Changed exit ${exitChange.Name} chance from {exitToChange.Chance} to {exitChange.Chance.Value}");
                     exitToChange.Chance = exitChange.Chance.Value;
                 }
 
                 if (exitChange.MinTime.HasValue)
                 {
-                    ConsoleScreen.LogError($"Changed exit ${exitChange.Name} MinTime from {exitToChange.MinTime} to {exitChange.MinTime.Value}");
-                    ConsoleScreen.LogError($"Changed exit ${exitChange.Name} MaxTime from {exitToChange.MaxTime} to {exitChange.MaxTime.Value}");
                     exitToChange.MinTime = exitChange.MinTime.Value;
                     exitToChange.MaxTime = exitChange.MaxTime.Value;
                 }
@@ -129,7 +125,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 var clientLocationExit = clientLocation.exits.FirstOrDefault(x => x.Name == cachedExit.Name);
                 if (clientLocationExit == null)
                 {
-                    ConsoleScreen.LogError($"Unable to find exit with name: {cachedExit.Name}, skipping");
+                    Logger.LogDebug($"Unable to find exit with name: {cachedExit.Name}, skipping");
 
                     continue;
                 }
@@ -137,18 +133,15 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 // Reset values to those from cache
                 if (clientLocationExit.Chance != cachedExit.Chance)
                 {
-                    ConsoleScreen.LogError($"Reset exit ${cachedExit.Name} Chance from {cachedExit.Chance} to {clientLocationExit.Chance}");
                     clientLocationExit.Chance = cachedExit.Chance;
                 }
                 if (clientLocationExit.MinTime != cachedExit.MinTime)
                 {
-                    ConsoleScreen.LogError($"Reset exit ${cachedExit.Name} MinTime from {cachedExit.MinTime} to {clientLocationExit.MinTime}");
                     clientLocationExit.MinTime = cachedExit.MinTime;
                 }
 
                 if (clientLocationExit.MaxTime != cachedExit.MaxTime)
                 {
-                    ConsoleScreen.LogError($"Reset exit ${cachedExit.Name} MaxTime from {cachedExit.MaxTime} to {clientLocationExit.MaxTime}");
                     clientLocationExit.MaxTime = cachedExit.MaxTime;
                 }
             }
