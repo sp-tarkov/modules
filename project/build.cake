@@ -68,7 +68,7 @@ Task("CopyBuildData")
 		CreateDirectory(bepInExPatchersFolder);
         CopyFile(licenseFile, string.Format("{0}/LICENSE-Modules.txt", buildDir));
     })
-    .DoesForEach(GetFiles("./Aki.*/bin/Release/net472/*.dll"), (dllPath) => //copy modules 
+    .DoesForEach(GetFiles("./Aki.*/bin/Release/net471/*.dll"), (dllPath) => //copy modules 
     {
 		if(dllPath.GetFilename().ToString().StartsWith("aki_"))
         {
