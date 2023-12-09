@@ -18,9 +18,9 @@ namespace Aki.Common.Utils
         /// <summary>
         /// Check if the file is ZLib compressed
         /// </summary>
-        /// <param name="Data">Data</param>
+        /// <param name="data">Data</param>
         /// <returns>If the file is Zlib compressed</returns>
-        public static bool IsCompressed(byte[] Data)
+        public static bool IsCompressed(byte[] data)
         {
             if (data == null || data.Length < 3)
             {
@@ -34,7 +34,7 @@ namespace Aki.Common.Utils
             }
 
             // data[1]: Flags (FLG) Header; compression level.
-            switch (Data[1])
+            switch (data[1])
             {
                 case 0x01:  // [0x78 0x01] level 0-2: fastest
                 case 0x5E:  // [0x78 0x5E] level 3-4: low
