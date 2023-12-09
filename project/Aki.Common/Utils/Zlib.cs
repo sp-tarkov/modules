@@ -56,30 +56,33 @@ namespace Aki.Common.Utils
 			return false;
 		}
 
+		private static byte[] Run(byte[] data, ZlibCompression level)
+		{
+		    // ZOutputStream.Close() flushes itself.
+            // ZOutputStream.Flush() flushes the target stream.
+            // It's fucking stupid, but whatever.
+            // -- Waffle.Lord, 2022-12-01
+
+			using (var ms = new MemoryStream())
+            {
+				using (var zs = (level > ZlibCompression.Store)
+					? new ZOutputStream(ms, (int)level)
+					: new ZOutputStream(ms))
+				{
+					zs.Write(data, 0, data.Length);
+				}
+				// <-- zs flushes everything here
+
+				return ms.ToArray();
+			}
+		}
+
 		/// <summary>
 		/// Deflate data.
 		/// </summary>
 		public static byte[] Compress(byte[] data, ZlibCompression level)
 		{
-			byte[] buffer = new byte[data.Length + 24];
-
-			ZStream zs = new ZStream()
-			{
-				avail_in = data.Length,
-				next_in = data,
-				next_in_index = 0,
-				avail_out = buffer.Length,
-				next_out = buffer,
-				next_out_index = 0
-			};
-
-			zs.deflateInit((int)level);
-			zs.deflate(zlibConst.Z_FINISH);
-
-			data = new byte[zs.next_out_index];
-			Array.Copy(zs.next_out, 0, data, 0, zs.next_out_index);
-
-			return data;
+			return Run(data, level);
 		}
 
         /// <summary>
@@ -87,41 +90,7 @@ namespace Aki.Common.Utils
         /// </summary>
         public static byte[] Decompress(byte[] data)
 		{
-			byte[] buffer = new byte[4096];
-
-			ZStream zs = new ZStream()
-			{
-				avail_in = data.Length,
-				next_in = data,
-				next_in_index = 0,
-				avail_out = buffer.Length,
-				next_out = buffer,
-				next_out_index = 0
-			};
-
-			zs.inflateInit();
-
-			using (MemoryStream ms = new MemoryStream())
-			{
-				do
-				{
-					zs.avail_out = buffer.Length;
-					zs.next_out = buffer;
-					zs.next_out_index = 0;
-
-					int result = zs.inflate(0);
-
-					if (result != 0 && result != 1)
-					{
-						break;
-					}
-
-					ms.Write(zs.next_out, 0, zs.next_out_index);
-				}
-				while (zs.avail_in > 0 || zs.avail_out == 0);
-
-				return ms.ToArray();
-			}
+			return Run(data, ZlibCompression.Store);
 		}
 	}
 }
