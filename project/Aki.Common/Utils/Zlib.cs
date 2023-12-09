@@ -49,39 +49,39 @@ namespace Aki.Common.Utils
 
 		private static byte[] Run(byte[] data, ZlibCompression level)
 		{
-		    // ZOutputStream.Close() flushes itself.
+            // ZOutputStream.Close() flushes itself.
             // ZOutputStream.Flush() flushes the target stream.
             // It's fucking stupid, but whatever.
             // -- Waffle.Lord, 2022-12-01
 
-			using (var ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-				using (var zs = (level > ZlibCompression.Store)
-					? new ZOutputStream(ms, (int)level)
-					: new ZOutputStream(ms))
-				{
-					zs.Write(data, 0, data.Length);
-				}
-				// <-- zs flushes everything here
+                using (var zs = (level > ZlibCompression.Store)
+                    ? new ZOutputStream(ms, (int)level)
+                    : new ZOutputStream(ms))
+                {
+                    zs.Write(data, 0, data.Length);
+                }
+                // <-- zs flushes everything here
 
-				return ms.ToArray();
-			}
+                return ms.ToArray();
+            }
 		}
 
-		/// <summary>
-		/// Deflate data.
-		/// </summary>
-		public static byte[] Compress(byte[] data, ZlibCompression level)
-		{
-			return Run(data, level);
-		}
+        /// <summary>
+        /// Deflate data.
+        /// </summary>
+        public static byte[] Compress(byte[] data, ZlibCompression level)
+        {
+            return Run(data, level);
+        }
 
         /// <summary>
         /// Inflate data.
         /// </summary>
         public static byte[] Decompress(byte[] data)
-		{
-			return Run(data, ZlibCompression.Store);
-		}
+        {
+            return Run(data, ZlibCompression.Store);
+        }
 	}
 }
