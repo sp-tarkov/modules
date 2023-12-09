@@ -4,26 +4,26 @@ using ComponentAce.Compression.Libs.zlib;
 
 namespace Aki.Common.Utils
 {
-	public enum ZlibCompression
-	{
-		Store = 0,
-		Fastest = 1,
-		Fast = 3,
-		Normal = 5,
-		Ultra = 7,
-		Maximum = 9
-	}
+    public enum ZlibCompression
+    {
+        Store = 0,
+        Fastest = 1,
+        Fast = 3,
+        Normal = 5,
+        Ultra = 7,
+        Maximum = 9
+    }
 
-	public static class Zlib
-	{
-		/// <summary>
-		/// Check if the file is ZLib compressed
-		/// </summary>
-		/// <param name="Data">Data</param>
-		/// <returns>If the file is Zlib compressed</returns>
-		public static bool IsCompressed(byte[] Data)
-		{
-			if (data == null || data.Length < 3)
+    public static class Zlib
+    {
+        /// <summary>
+        /// Check if the file is ZLib compressed
+        /// </summary>
+        /// <param name="Data">Data</param>
+        /// <returns>If the file is Zlib compressed</returns>
+        public static bool IsCompressed(byte[] Data)
+        {
+            if (data == null || data.Length < 3)
             {
                 return false;
             }
@@ -34,21 +34,21 @@ namespace Aki.Common.Utils
                 return false;
             }
 
-			// data[1]: Flags (FLG) Header; compression level.
-			switch (Data[1])
-			{
-				case 0x01:  // [0x78 0x01] level 0-2: fastest
-				case 0x5E:  // [0x78 0x5E] level 3-4: low
-				case 0x9C:  // [0x78 0x9C] level 5-6: normal
-				case 0xDA:  // [0x78 0xDA] level 7-9: max
-					return true;
-			}
+            // data[1]: Flags (FLG) Header; compression level.
+            switch (Data[1])
+            {
+                case 0x01:  // [0x78 0x01] level 0-2: fastest
+                case 0x5E:  // [0x78 0x5E] level 3-4: low
+                case 0x9C:  // [0x78 0x9C] level 5-6: normal
+                case 0xDA:  // [0x78 0xDA] level 7-9: max
+                    return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		private static byte[] Run(byte[] data, ZlibCompression level)
-		{
+        private static byte[] Run(byte[] data, ZlibCompression level)
+        {
             // ZOutputStream.Close() flushes itself.
             // ZOutputStream.Flush() flushes the target stream.
             // It's fucking stupid, but whatever.
@@ -66,7 +66,7 @@ namespace Aki.Common.Utils
 
                 return ms.ToArray();
             }
-		}
+        }
 
         /// <summary>
         /// Deflate data.
@@ -83,5 +83,5 @@ namespace Aki.Common.Utils
         {
             return Run(data, ZlibCompression.Store);
         }
-	}
+    }
 }
