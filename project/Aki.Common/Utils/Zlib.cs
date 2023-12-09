@@ -35,15 +35,18 @@ namespace Aki.Common.Utils
 		/// <returns>If the file is Zlib compressed</returns>
 		public static bool IsCompressed(byte[] Data)
 		{
-			// We need the first two bytes;
-			// First byte:  Info (CM/CINFO) Header, should always be 0x78
-			// Second byte: Flags (FLG) Header, should define our compression level.
+			if (data == null || data.Length < 3)
+            {
+                return false;
+            }
 
-			if (Data == null || Data.Length < 3 || Data[0] != 0x78)
-			{
-				return false;
-			}
+            // data[0]: Info (CM/CINFO) Header; must be 0x78
+            if (data[0] != 0x78)
+            {
+                return false;
+            }
 
+			// data[1]: Flags (FLG) Header; compression level.
 			switch (Data[1])
 			{
 				case 0x01:  // fastest
