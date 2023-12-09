@@ -16,18 +16,6 @@ namespace Aki.Common.Utils
 
 	public static class Zlib
 	{
-		// Level | CM/CI FLG
-		// ----- | ---------
-		// 1     | 78 01
-		// 2     | 78 5E
-		// 3     | 78 5E
-		// 4     | 78 5E
-		// 5     | 78 5E
-		// 6     | 78 9C
-		// 7     | 78 DA
-		// 8     | 78 DA
-		// 9     | 78 DA
-
 		/// <summary>
 		/// Check if the file is ZLib compressed
 		/// </summary>
@@ -49,10 +37,10 @@ namespace Aki.Common.Utils
 			// data[1]: Flags (FLG) Header; compression level.
 			switch (Data[1])
 			{
-				case 0x01:  // fastest
-				case 0x5E:  // low
-				case 0x9C:  // normal
-				case 0xDA:  // max
+				case 0x01:  // [0x78 0x01] level 0-2: fastest
+				case 0x5E:  // [0x78 0x5E] level 3-4: low
+				case 0x9C:  // [0x78 0x9C] level 5-6: normal
+				case 0xDA:  // [0x78 0xDA] level 7-9: max
 					return true;
 			}
 
