@@ -15,8 +15,9 @@ namespace Aki.Core.Patches
         {
             try
             {
-                _ = GClass239.DEBUG_LOGIC; // UPDATE BELOW LINE TOO
-                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class239");
+                // NOTE: This doesn't actually check the below, GClass vs Class
+                _ = GClass259.DEBUG_LOGIC; // UPDATE BELOW LINE TOO
+                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class259");
 
                 if (type == null)
                 {
