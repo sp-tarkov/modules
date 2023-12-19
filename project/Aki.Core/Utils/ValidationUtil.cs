@@ -18,7 +18,6 @@ namespace Aki.Core.Utils
                 var v2 = (v1 != null) ? v1.ToString() : string.Empty;
                 var v3 = new DirectoryInfo(v2);
                 
-                
                 var v4 = new FileSystemInfo[]
                 {
                     v3,
@@ -31,6 +30,7 @@ namespace Aki.Core.Utils
 
                 ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe")).Length.ToString());
                 ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "Uninstall.exe")).Length.ToString());
+                ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "Register.bat")).Length.ToString());
 
                 v0 = v4.Length - 1;
 
