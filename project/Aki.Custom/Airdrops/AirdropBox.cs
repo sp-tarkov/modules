@@ -6,6 +6,7 @@ using EFT.Airdrop;
 using EFT.Interactive;
 using EFT.SynchronizableObjects;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Aki.Custom.Airdrops
 {
@@ -145,6 +146,15 @@ namespace Aki.Custom.Airdrops
                 Falloff = (int)surfaceSet.LandingSoundBank.Rolloff,
                 Volume = surfaceSet.LandingSoundBank.BaseVolume
             });
+
+            AddNavMeshObstacle();
+        }
+
+        private void AddNavMeshObstacle()
+        {
+            var navMeshObstacle = this.GetOrAddComponent<NavMeshObstacle>();
+            navMeshObstacle.size = boxSync.CollisionCollider.bounds.size;
+            navMeshObstacle.carving = true;
         }
 
         private bool RaycastBoxDistance(LayerMask layerMask, out RaycastHit hitInfo)
