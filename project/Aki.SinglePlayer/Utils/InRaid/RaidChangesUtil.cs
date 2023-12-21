@@ -60,9 +60,24 @@ namespace Aki.SinglePlayer.Utils.InRaid
         public static int RaidTimeReductionSeconds => RaidTimeReductionMinutes * 60;
 
         /// <summary>
+        /// The fraction of raid time that will be remaining when you spawn into the map
+        /// </summary>
+        public static float RaidTimeRemainingFraction => (float)NewEscapeTimeMinutes / OriginalEscapeTimeMinutes;
+
+        /// <summary>
+        /// The original minimum time (in seconds) you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid
+        /// </summary>
+        public static int OriginalSurvivalTimeSeconds { get; private set; } = int.MaxValue;
+
+        /// <summary>
+        /// The updated minimum time (in seconds) you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid
+        /// </summary>
+        public static int NewSurvivalTimeSeconds { get; private set; } = int.MaxValue;
+
+        /// <summary>
         /// The reduction in the minimum time you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid 
         /// </summary>
-        public static int SurvivalTimeReductionSeconds { get; private set; } = 0;
+        public static int SurvivalTimeReductionSeconds => OriginalSurvivalTimeSeconds - NewSurvivalTimeSeconds;
 
         /// <summary>
         /// Update the changes that will be made for the raid. This should be called just before applying changes. 
@@ -81,11 +96,8 @@ namespace Aki.SinglePlayer.Utils.InRaid
             OriginalEscapeTimeMinutes = raidSettings.SelectedLocation.EscapeTimeLimit;
             NewEscapeTimeMinutes = raidChanges.RaidTimeMinutes;
 
-            SurvivalTimeReductionSeconds = 0;
-            if (raidChanges.NewSurviveTimeSeconds.HasValue)
-            {
-                SurvivalTimeReductionSeconds += raidChanges.OriginalSurvivalTimeSeconds - raidChanges.NewSurviveTimeSeconds.Value;
-            }
+            OriginalSurvivalTimeSeconds = raidChanges.OriginalSurvivalTimeSeconds;
+            NewSurvivalTimeSeconds = raidChanges.NewSurviveTimeSeconds ?? OriginalSurvivalTimeSeconds;
         }
 
         /// <summary>
