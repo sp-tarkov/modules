@@ -10,6 +10,14 @@ namespace Aki.SinglePlayer.Utils.InRaid
     public static class RaidTimeUtil
     {
         /// <summary>
+        /// Determines if a raid has loaded by checking if a GameTimer instance has been created for one
+        /// </summary>
+        public static bool HasRaidLoaded()
+        {
+            return Singleton<AbstractGame>.Instance?.GameTimer != null;
+        }
+
+        /// <summary>
         /// Determines if a raid is in-progress by checking if the GameTimer has started
         /// </summary>
         public static bool HasRaidStarted()
@@ -19,17 +27,22 @@ namespace Aki.SinglePlayer.Utils.InRaid
 
         /// <summary>
         /// <para>Calculates the seconds remaining in the current raid.</para>
-        /// <para>Please ensure <see cref="HasRaidStarted"/> is <c>true</c>, or this will throw an exception.</para>
+        /// <para>Please ensure <see cref="HasRaidLoaded"/> is <c>true</c>, or this will throw an exception.</para>
         /// </summary>
         /// <returns>Seconds remaining in the raid</returns>
         /// <exception cref="InvalidOperationException">Thrown if there is no raid in progress</exception>
         public static float GetRemainingRaidSeconds()
         {
-            if (!HasRaidStarted())
+            if (!HasRaidLoaded())
             {
                 throw new InvalidOperationException("The raid-time remaining can only be calculated when a raid is in-progress");
             }
-            
+
+            if (!HasRaidStarted())
+            {
+                return RaidChangesUtil.NewEscapeTimeSeconds;
+            }
+
             float remainingTimeSeconds = Singleton<AbstractGame>.Instance.GameTimer.EscapeTimeSeconds();
 
             // Until the raid starts, remainingTimeSeconds is TimeSpan.MaxValue, so it needs to be reduced to the actual starting raid time
@@ -39,7 +52,7 @@ namespace Aki.SinglePlayer.Utils.InRaid
         /// <summary>
         /// <para>Calculates the fraction of raid-time remaining relative to the original escape time for the map. 
         /// 1.0 = the raid just started, and 0.0 = the raid is over (and you're MIA).</para>
-        /// <para>Please ensure <see cref="HasRaidStarted"/> is <c>true</c>, or this will throw an exception.</para>
+        /// <para>Please ensure <see cref="HasRaidLoaded"/> is <c>true</c>, or this will throw an exception.</para>
         /// </summary>
         /// <returns>The fraction of raid-time remaining (0.0 - 1.0) relative to the original escape time for the map</returns>
         /// <exception cref="InvalidOperationException">Thrown if there is no raid in progress</exception>
