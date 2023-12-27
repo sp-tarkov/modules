@@ -2,7 +2,7 @@
 using HarmonyLib;
 using System;
 using System.Reflection;
-using TraderInfo = EFT.Profile.GClass1675;
+using EFT;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -10,7 +10,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(TraderInfo);
+            var desiredType = typeof(Profile.TraderInfo);
             var desiredMethod = desiredType.GetMethod("UpdateLevel", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -20,7 +20,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        protected static void PatchPrefix(TraderInfo __instance)
+        protected static void PatchPrefix(Profile.TraderInfo __instance)
         {
             if (__instance.Settings == null)
             {
@@ -35,8 +35,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
                 throw new IndexOutOfRangeException($"Loyalty level {loyaltyLevel} not found.");
             }
 
-            // Backing field of the "CurrentLoyalty" property
-            Traverse.Create(__instance).Field("traderLoyaltyLevel_0").SetValue(loyaltyLevelSettings.Value);
+            Traverse.Create(__instance).Property("CurrentLoyalty").SetValue(loyaltyLevelSettings.Value);
         }
     }
 }

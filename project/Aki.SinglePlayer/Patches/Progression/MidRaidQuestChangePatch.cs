@@ -26,7 +26,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             {
                 var player = gameWorld.MainPlayer;
 
-                var questController = Traverse.Create(player).Field<QuestControllerClass>("_questController").Value;
+                var questController = Traverse.Create(player).Field<GClass3200>("_questController").Value;
                 if (questController != null)
                 {
                     foreach (var quest in questController.Quests.ToList())

@@ -43,13 +43,13 @@ namespace Aki.Custom.CustomAI
             MakeEquipmentNotFiR(___botOwner_0);
 
             // Get inventory items that hold other items (backpack/rig/pockets)
-            List<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.GetContainerSlots();
+            IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
             foreach (var container in containerGear)
             {
                 foreach (var item in container.ContainedItem.GetAllItems())
                 {
                     // Skip items that match container (array has itself as an item)
-                    if (item.Id == container.Items.FirstOrDefault().Id)
+                    if (item.Id == container.Items.FirstOrDefault()?.Id)
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its same as container {container.FullId}");
                         continue;
@@ -82,8 +82,8 @@ namespace Aki.Custom.CustomAI
             }
 
             // Set dogtag as FiR
-            var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots(new EquipmentSlot[] { EquipmentSlot.Dogtag });
-            dogtag.FirstOrDefault().SpawnedInSession = true;
+            var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots(new EquipmentSlot[] { EquipmentSlot.Dogtag }).FirstOrDefault();
+            if (dogtag != null) dogtag.SpawnedInSession = true;
         }
 
 

@@ -29,7 +29,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
-            _ = GClass3004.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+            _ = GClass3163.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             var menuControllerType = typeof(MainMenuController);
 
@@ -118,9 +118,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass3004).ToLowerInvariant()}_0").GetValue<GClass3004>();
+            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass3163).ToLowerInvariant()}_0").GetValue<GClass3163>();
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass2993(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3152(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 

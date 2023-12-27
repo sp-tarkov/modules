@@ -17,7 +17,7 @@ namespace Aki.Debugging.Patches
 
         [PatchPrefix]
         private static bool PatchPreFix(ref LocalizedText ____nickName, ref TMP_Text ____standing,
-            ref RankPanel ____rankPanel, ref Profile.GClass1675 ___gclass1675_0)
+            ref RankPanel ____rankPanel, ref Profile.TraderInfo ___traderInfo_0)
         {
             if (____nickName.LocalizationKey == null)
             {
@@ -37,16 +37,16 @@ namespace Aki.Debugging.Patches
                 return false; // skip original
             }
 
-            if (___gclass1675_0?.LoyaltyLevel == null)
+            if (___traderInfo_0?.LoyaltyLevel == null)
             {
                 ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
-                Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.LoyaltyLevel was null");
+                Logger.Log(LogLevel.Error, "[AKI] ___traderInfo_0 or ___traderInfo_0.LoyaltyLevel was null");
             }
 
-            if (___gclass1675_0?.MaxLoyaltyLevel == null)
+            if (___traderInfo_0?.MaxLoyaltyLevel == null)
             {
                 ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
-                Logger.Log(LogLevel.Error, "[AKI] _gclass1618_0 or _gclass1618_0.MaxLoyaltyLevel was null");
+                Logger.Log(LogLevel.Error, "[AKI] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null");
             }
 
             return true;
