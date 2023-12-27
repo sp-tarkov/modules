@@ -15,9 +15,7 @@ namespace Aki.Core.Patches
         {
             try
             {
-                // NOTE: This doesn't actually check the below, GClass vs Class
-                _ = GClass259.DEBUG_LOGIC; // UPDATE BELOW LINE TOO
-                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class259");
+                var type = PatchConstants.EftTypes.SingleOrDefault(t => t.GetField("TransportPrefixes") != null);
 
                 if (type == null)
                 {
