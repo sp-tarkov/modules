@@ -1,5 +1,4 @@
 ﻿using Aki.Common.Utils;
-using BepInEx.Logging;
 using Microsoft.Win32;
 using System.IO;
 
@@ -17,7 +16,7 @@ namespace Aki.Core.Utils
                 var v1 = Registry.LocalMachine.OpenSubKey(c0, false).GetValue("InstallLocation");
                 var v2 = (v1 != null) ? v1.ToString() : string.Empty;
                 var v3 = new DirectoryInfo(v2);
-                
+
                 var v4 = new FileSystemInfo[]
                 {
                     v3,
@@ -28,9 +27,9 @@ namespace Aki.Core.Utils
                     new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))
                 };
 
-                ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe")).Length.ToString());
-                ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "Uninstall.exe")).Length.ToString());
-                ServerLog.Debug("Aki.Core", new FileInfo(Path.Combine(v2, "Register.bat")).Length.ToString());
+                ServerLog.Debug("Aki.Core", Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0");
+                ServerLog.Debug("Aki.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
+                ServerLog.Debug("Aki.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
 
                 v0 = v4.Length - 1;
 
@@ -48,6 +47,12 @@ namespace Aki.Core.Utils
             }
 
             return v0 == 0;
+        }
+
+        private static FileInfo Gfs(string p, string f)
+        {
+            var a = Path.Combine(p, f);
+            return File.Exists(a) ? new FileInfo(a) : null;
         }
     }
 }
