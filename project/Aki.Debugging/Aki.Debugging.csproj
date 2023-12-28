@@ -20,6 +20,7 @@
     <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
     <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
     <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False" />
+    <Reference Include="Comfort.Common" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
   </ItemGroup>
 
   <ItemGroup>

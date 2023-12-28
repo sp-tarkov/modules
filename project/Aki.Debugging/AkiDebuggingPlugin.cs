@@ -16,6 +16,7 @@ namespace Aki.Debugging
             {
                 // new CoordinatesPatch().Enable();
                 new EndRaidDebug().Enable();
+				new StaticLootDumper().Enable();
             }
             catch (Exception ex)
             {
