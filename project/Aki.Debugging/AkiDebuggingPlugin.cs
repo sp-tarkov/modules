@@ -14,9 +14,9 @@ namespace Aki.Debugging
 
             try
             {
-                // new CoordinatesPatch().Enable();
                 new EndRaidDebug().Enable();
-				new StaticLootDumper().Enable();
+                // new CoordinatesPatch().Enable();
+				// new StaticLootDumper().Enable();
             }
             catch (Exception ex)
             {
