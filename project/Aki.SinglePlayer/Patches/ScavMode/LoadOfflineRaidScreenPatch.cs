@@ -29,7 +29,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
-            _ = GClass3163.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+            _ = GClass3164.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             var menuControllerType = typeof(MainMenuController);
 
@@ -118,14 +118,14 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass3163).ToLowerInvariant()}_0").GetValue<GClass3163>();
+            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass3164).ToLowerInvariant()}_0").GetValue<GClass3164>();
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3152(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3153(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_70");
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_72");
             gclass.ShowScreen(EScreenState.Queued);
         }
 
