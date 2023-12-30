@@ -9,10 +9,11 @@ namespace Aki.Common.Http
     public static class RequestHandler
     {
         private static string _host;
-        private static string _session;
         private static Request _request;
         private static Dictionary<string, string> _headers;
         private static ManualLogSource _logger;
+
+        public static string SessionId { get; private set; }
 
         static RequestHandler()
         {
@@ -36,11 +37,11 @@ namespace Aki.Common.Http
 
                 if (arg.Contains("-token="))
                 {
-                    _session = arg.Replace("-token=", string.Empty);
+                    SessionId = arg.Replace("-token=", string.Empty);
                     _headers = new Dictionary<string, string>()
                     {
-                        { "Cookie", $"PHPSESSID={_session}" },
-                        { "SessionId", _session }
+                        { "Cookie", $"PHPSESSID={SessionId}" },
+                        { "SessionId", SessionId }
                     };
                 }
             }
@@ -70,7 +71,7 @@ namespace Aki.Common.Http
         {
             string url = (hasHost) ? path : _host + path;
 
-            _logger.LogInfo($"Request GET data: {_session}:{url}");
+            _logger.LogInfo($"Request GET data: {SessionId}:{url}");
             byte[] result = _request.Send(url, "GET", null, headers: _headers);
 
             ValidateData(result);
@@ -81,7 +82,7 @@ namespace Aki.Common.Http
         {
             string url = (hasHost) ? path : _host + path;
 
-            _logger.LogInfo($"Request GET json: {_session}:{url}");
+            _logger.LogInfo($"Request GET json: {SessionId}:{url}");
             byte[] data = _request.Send(url, "GET", headers: _headers);
             string result = Encoding.UTF8.GetString(data);
 
@@ -93,7 +94,7 @@ namespace Aki.Common.Http
         {
             string url = (hasHost) ? path : _host + path;
 
-            _logger.LogInfo($"Request POST json: {_session}:{url}");
+            _logger.LogInfo($"Request POST json: {SessionId}:{url}");
             byte[] data = _request.Send(url, "POST", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
             string result = Encoding.UTF8.GetString(data);
 
@@ -104,7 +105,7 @@ namespace Aki.Common.Http
         public static void PutJson(string path, string json, bool hasHost = false)
         {
             string url = (hasHost) ? path : _host + path;
-            _logger.LogInfo($"Request PUT json: {_session}:{url}");
+            _logger.LogInfo($"Request PUT json: {SessionId}:{url}");
             _request.Send(url, "PUT", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
         }
     }

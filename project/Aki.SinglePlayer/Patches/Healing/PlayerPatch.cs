@@ -1,3 +1,4 @@
+using System;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
@@ -24,7 +25,7 @@ namespace Aki.SinglePlayer.Patches.Healing
         {
             await __result;
 
-            if (profile?.Id.StartsWith("pmc") == true)
+            if (profile?.Id.Equals(Common.Http.RequestHandler.SessionId, StringComparison.InvariantCultureIgnoreCase) ?? false)
             {
                 Logger.LogDebug($"Hooking up health listener to profile: {profile.Id}");
                 var listener = Utils.Healing.HealthListener.Instance;
