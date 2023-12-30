@@ -14,7 +14,7 @@ namespace Aki.Debugging.Patches
 		}
 
 		[PatchPostfix]
-		public void PostFixPatch()
+		public static void PostFixPatch()
 		{
 			try
 			{
