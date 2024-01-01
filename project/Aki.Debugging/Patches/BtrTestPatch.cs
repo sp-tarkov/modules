@@ -13,29 +13,69 @@ namespace Aki.Debugging.Patches
 			return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
 		}
 
-		[PatchPostfix]
-		public static void PostFixPatch()
+        [PatchPrefix]
+        public static void PatchPrefix()
 		{
 			try
 			{
-				var gameworld = Singleton<GameWorld>.Instance;
-				var botGame = Singleton<IBotGame>.Instance;
-
-				gameworld.BtrController = new GClass2911();
-				botGame.BotsController.BotSpawner.SpawnBotBTR();
-
-				var btrTransform = gameworld.BtrController?.BtrVehicle?.gameObject?.transform;
-
-				if (btrTransform != null)
+                var gameWorld = Singleton<GameWorld>.Instance;
+				if (gameWorld.MainPlayer.Location.ToLower() != "tarkovstreets")
 				{
-					ConsoleScreen.Log($"[AKI-BTR] Btr Location {btrTransform}");
+					// only run patch on streets
+					return;
+				}
+
+                if (gameWorld.BtrController == null)
+				{
+                    ConsoleScreen.LogWarning($"[AKI-BTR] pre GClass2911 instance is null: {Singleton<GClass2911>.Instance == null}");
+                    gameWorld.BtrController = Singleton<GClass2911>.Instance;
+
+                    ConsoleScreen.LogWarning($"[AKI-BTR] pre BtrController instance is null: {gameWorld.BtrController == null}");
+                    ConsoleScreen.LogWarning($"[AKI-BTR] pre BtrController.BotShooterBtr instance is null: {gameWorld.BtrController?.BotShooterBtr == null}");
+                }
+            }
+			catch (System.Exception)
+			{
+                ConsoleScreen.LogError("[AKI-BTR] Prepatch Exception thrown, check logs");
+                throw;
+            }
+		}
+
+        [PatchPostfix]
+		public static void PatchPostfix()
+		{
+			try
+			{
+				var gameWorld = Singleton<GameWorld>.Instance;
+                if (gameWorld.MainPlayer.Location.ToLower() != "tarkovstreets")
+                {
+                    // only run patch on streets
+                    return;
+                }
+
+                var botGame = Singleton<IBotGame>.Instance;
+
+                ConsoleScreen.LogWarning("[AKI-BTR] Post patch, spawning btr");
+
+                ConsoleScreen.LogWarning($"[AKI-BTR] botspawner is enabled: {botGame.BotsController.IsEnable}");
+                botGame.BotsController.BotSpawner.SpawnBotBTR();
+
+                ConsoleScreen.LogWarning($"[AKI-BTR] btr vehicle is null: {gameWorld.BtrController?.BtrVehicle == null}");
+                ConsoleScreen.LogWarning($"[AKI-BTR] btr vehicle gameobject is null: {gameWorld.BtrController?.BtrVehicle?.gameObject == null}");
+                ConsoleScreen.LogWarning($"[AKI-BTR] BtrController.BotShooterBtr instance is null: {gameWorld.BtrController?.BotShooterBtr == null}");
+
+                var btrTransform = gameWorld.BtrController?.BtrVehicle?.gameObject?.transform;
+
+                if (btrTransform != null)
+				{
+					ConsoleScreen.LogWarning($"[AKI-BTR] Btr Location {btrTransform}");
 				} else {
-					ConsoleScreen.Log($"[AKI-BTR] wasnt able to get BTR location");
+					ConsoleScreen.LogWarning($"[AKI-BTR] wasnt able to get BTR location");
 				}
 			}
 			catch (System.Exception)
 			{
-				ConsoleScreen.Log("[AKI-BTR] Exception thrown, check logs");
+				ConsoleScreen.LogError("[AKI-BTR] Exception thrown, check logs");
 				throw;
 			}
 		}
