@@ -24,12 +24,12 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ## Requirements
 
 - Escape From Tarkov 27050
-- BepInEx 5.4.22
+- BepInEx 5.4.22 x64 (https://github.com/BepInEx/BepInEx)
 - Visual Studio Code
 - .NET 6 SDK
 
 ## Setup
-
+Copy-paste contents of BepinEx zip into SPT root directory
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into Modules' `Project/Shared/` folder
 
 ## Build (vscode)
