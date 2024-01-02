@@ -10,7 +10,7 @@ namespace Aki.Debugging.Patches
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
+            return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
 		}
 
         [PatchPostfix]
@@ -26,6 +26,7 @@ namespace Aki.Debugging.Patches
                 }
 
                 var botGame = Singleton<IBotGame>.Instance;
+                gameWorld.LocationId = gameWorld.MainPlayer.Location;
 
                 if (gameWorld.BtrController == null)
                 {
