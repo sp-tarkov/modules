@@ -51,7 +51,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             var spawnPointsField = (ISpawnPoints)__instance.GetType().GetFields(PatchConstants.PrivateFlags).SingleOrDefault(f => f.FieldType == typeof(ISpawnPoints))?.GetValue(__instance);
             if (spawnPointsField == null)
             {
-                throw new Exception($"OfflineSpawnPointPatch: Failed to locate field of {nameof(ISpawnPoints)} on class instance ({__instance.GetType().Name})");
+                throw new Exception($"OfflineSpawnPointPatch: Failed to locate field: {nameof(ISpawnPoints)} on class instance: {__instance.GetType().Name}");
             }
 
             var mapSpawnPoints = spawnPointsField.ToList();
@@ -72,7 +72,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             Logger.LogInfo($"Desired spawnpoint: [category:{category}] [side:{side}] [infil:{infiltration}] [{mapSpawnPoints.Count} total spawn points]");
             Logger.LogInfo($"Selected SpawnPoint: [id:{__result.Id}] [name:{__result.Name}] [category:{__result.Categories}] [side:{__result.Sides}] [infil:{__result.Infiltration}]");
 
-            return false;
+            return false; // skip original method
         }
 
         private static List<ISpawnPoint> FilterByPlayerSide(List<ISpawnPoint> mapSpawnPoints, ESpawnCategory category, EPlayerSide side)

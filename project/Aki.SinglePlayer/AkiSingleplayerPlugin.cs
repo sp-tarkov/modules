@@ -20,7 +20,7 @@ namespace Aki.SinglePlayer
             try
             {
                 new OfflineSaveProfilePatch().Enable();
-                new OfflineSpawnPointPatch().Enable();
+                //new OfflineSpawnPointPatch().Enable(); // Spawns are properly randomised and patch is likely no longer needed
                 new ExperienceGainPatch().Enable();
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
