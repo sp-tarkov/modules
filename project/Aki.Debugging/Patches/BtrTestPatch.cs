@@ -26,7 +26,6 @@ namespace Aki.Debugging.Patches
                 }
 
                 var botGame = Singleton<IBotGame>.Instance;
-                gameWorld.LocationId = gameWorld.MainPlayer.Location;
 
                 if (gameWorld.BtrController == null)
                 {
