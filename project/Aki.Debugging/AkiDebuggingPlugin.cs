@@ -1,5 +1,6 @@
 ﻿using System;
 using Aki.Common;
+using Aki.Debugging.BTR.Patches;
 using Aki.Debugging.Patches;
 using BepInEx;
 
@@ -16,8 +17,10 @@ namespace Aki.Debugging
             {
                 new EndRaidDebug().Enable();
                 // new CoordinatesPatch().Enable();
-				// new StaticLootDumper().Enable();
-				new BtrTestPatch().Enable();
+                // new StaticLootDumper().Enable();
+                new BTRBotAttachPatch().Enable();
+                new BTRBotInitPatch().Enable();
+				new BTRPatch().Enable();
             }
             catch (Exception ex)
             {
