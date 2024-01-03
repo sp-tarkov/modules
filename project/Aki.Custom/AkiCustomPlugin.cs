@@ -45,6 +45,7 @@ namespace Aki.Custom
                 new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
+                new SetLocationIdOnRaidStartPatch().Enable();
                 //new RankPanelPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
