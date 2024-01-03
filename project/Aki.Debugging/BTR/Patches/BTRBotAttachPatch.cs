@@ -42,32 +42,30 @@ namespace Aki.Debugging.BTR.Patches
             {
                 return false;
             }
-            foreach (var playerKeyValue in gameWorld.allAlivePlayersByID)
+
+            var btrBot = gameWorld.BtrController.BotShooterBtr?.GetPlayer;
+            if (btrBot == null)
             {
-                try
-                {
-                    if (playerKeyValue.Value.Id == btrBotId)
-                    {
-                        var player = playerKeyValue.Value;
-                        var botRootTransform = btrTurretView.BotRoot;
-
-                        player.Transform.position = botRootTransform.position;
-
-                        var aiFirearmController = player.gameObject.GetComponent<Player.FirearmController>();
-                        var currentWeaponPrefab = (WeaponPrefab)AccessTools.Field(aiFirearmController.GetType(), "weaponPrefab_0").GetValue(aiFirearmController);
-                        currentWeaponPrefab.transform.position = botRootTransform.position;
-
-                        player.PlayerBones.Weapon_Root_Anim.SetPositionAndRotation(botRootTransform.position, botRootTransform.rotation);
-                        return false;
-                    }
-                }
-                catch
-                {
-                    ConsoleScreen.LogError("[AKI-BTR] Could not finish BtrBot initialization. Check logs.");
-                    throw;
-                }
+                return false;
             }
-            return false;
+            try
+            {
+                var botRootTransform = btrTurretView.BotRoot;
+
+                btrBot.Transform.position = botRootTransform.position;
+
+                var aiFirearmController = btrBot.gameObject.GetComponent<Player.FirearmController>();
+                var currentWeaponPrefab = (WeaponPrefab)AccessTools.Field(aiFirearmController.GetType(), "weaponPrefab_0").GetValue(aiFirearmController);
+                currentWeaponPrefab.transform.position = botRootTransform.position;
+
+                btrBot.PlayerBones.Weapon_Root_Anim.SetPositionAndRotation(botRootTransform.position, botRootTransform.rotation);
+                return false;
+            }
+            catch
+            {
+                ConsoleScreen.LogError("[AKI-BTR] Could not finish BtrBot initialization. Check logs.");
+                throw;
+            }
         }
     }
 }
