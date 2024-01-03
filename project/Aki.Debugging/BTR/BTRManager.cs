@@ -44,9 +44,9 @@ namespace Aki.Debugging.BTR
                 serverSideBtr = btrController.BtrVehicle;
                 serverSideBtr.moveSpeed = 20f;
                 var btrMapConfig = btrController.MapPathsConfiguration;
+                serverSideBtr.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
                 serverSideBtr.Initialization(btrMapConfig);
                 AccessTools.Method(btrControllerType, "method_14").Invoke(btrController, null); // creates and assigns the BTR a fake stash
-                serverSideBtr.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
 
                 clientSideBtr = btrController.BtrView;
 
