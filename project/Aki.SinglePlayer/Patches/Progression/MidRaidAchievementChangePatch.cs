@@ -4,7 +4,11 @@ using AchievementsController = GClass3207;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
-	public class MidRaidAchievementChangePatch : ModulePatch
+    /// <summary>
+    /// BSG have disabled notifications for local raids, set updateAchievements in the achievement controller to always be true
+	/// This enables the achievement notifications and the client to save completed achievement data into profile.Achievements
+    /// </summary>
+    public class MidRaidAchievementChangePatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
 		{
@@ -15,7 +19,8 @@ namespace Aki.SinglePlayer.Patches.Progression
 		private static bool PatchPrefix(ref bool updateAchievements)
 		{
 			updateAchievements = true;
-			return true;
+
+			return true; // Do original method
 		}
 	}
 }
