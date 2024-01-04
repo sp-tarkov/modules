@@ -21,7 +21,7 @@ namespace Aki.Core.Utils
                 {
                     v3,
                     new FileInfo(Path.Combine(v2, @"BattlEye\BEClient_x64.dll")),
-                    new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.dll")),
+                    new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.exe")),
                     new FileInfo(Path.Combine(v2, "ConsistencyInfo")),
                     new FileInfo(Path.Combine(v2, "Uninstall.exe")),
                     new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))
