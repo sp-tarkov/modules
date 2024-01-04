@@ -16,6 +16,7 @@ namespace Aki.Custom.Patches
     public class SetLocationIdOnRaidStartPatch : ModulePatch
     {
         private static PropertyInfo _locationProperty;
+
         protected override MethodBase GetTargetMethod()
         {
             Type localGameBaseType = PatchConstants.LocalGameType.BaseType;
@@ -24,23 +25,29 @@ namespace Aki.Custom.Patches
             _locationProperty = localGameBaseType.GetProperties(PatchConstants.PrivateFlags).Single(x => x.PropertyType == typeof(Location));
 
             // Find the TimeAndWeatherSettings handling method
-            return localGameBaseType.GetMethods(PatchConstants.PrivateFlags).SingleOrDefault(m => IsTargetMethod(m));
+            return localGameBaseType.GetMethods(PatchConstants.PrivateFlags).SingleOrDefault(IsTargetMethod);
         }
 
         private static bool IsTargetMethod(MethodInfo mi)
         {
             // Find method_3(TimeAndWeatherSettings timeAndWeather)
             var parameters = mi.GetParameters();
-            return (parameters.Length == 1
-                && parameters[0].ParameterType == typeof(TimeAndWeatherSettings));
+            return (parameters.Length == 1 && parameters[0].ParameterType == typeof(TimeAndWeatherSettings));
         }
 
         [PatchPostfix]
         private static void PatchPostfix(AbstractGame __instance)
         {
-                var gameWorld = Singleton<GameWorld>.Instance;
-                Location location = _locationProperty.GetValue(__instance) as Location;
-                gameWorld.LocationId = location.Id;
+            var gameWorld = Singleton<GameWorld>.Instance;
+
+            // EFT.HideoutGame is an internal class, so we can't do static type checking :(
+            if (__instance.GetType().Name.Contains("HideoutGame"))
+            {
+                return;
+            }
+
+            Location location = _locationProperty.GetValue(__instance) as Location;
+            gameWorld.LocationId = location.Id;
         }
     }
 }
