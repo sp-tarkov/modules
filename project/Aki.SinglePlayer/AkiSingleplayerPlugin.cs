@@ -56,6 +56,7 @@ namespace Aki.SinglePlayer
                 new MapReadyButtonPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new ScavLateStartPatch().Enable();
+				new MidRaidAchievementChangePatch().Enable();
             }
             catch (Exception ex)
             {

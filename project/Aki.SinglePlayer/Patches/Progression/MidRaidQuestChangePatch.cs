@@ -21,21 +21,23 @@ namespace Aki.SinglePlayer.Patches.Progression
         private static void PatchPostfix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-
             if (gameWorld != null)
             {
-                var player = gameWorld.MainPlayer;
+                Logger.LogDebug($"[MidRaidQuestChangePatch] gameWorld instance was null");
 
-                var questController = Traverse.Create(player).Field<GClass3201>("_questController").Value;
-                if (questController != null)
+                return;
+            }
+                
+            var player = gameWorld.MainPlayer;
+
+            var questController = Traverse.Create(player).Field<GClass3201>("_questController").Value;
+            if (questController != null)
+            {
+                foreach (var quest in questController.Quests.ToList())
                 {
-                    foreach (var quest in questController.Quests.ToList())
-                    {
-                        quest.CheckForStatusChange(true, true);
-                    }
+                    quest.CheckForStatusChange(true, true);
                 }
             }
-            
         }
     }
 }

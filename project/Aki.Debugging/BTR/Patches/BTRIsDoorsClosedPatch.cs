@@ -1,6 +1,7 @@
 ﻿using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
+using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
 
