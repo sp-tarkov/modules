@@ -36,7 +36,7 @@ namespace Aki.Debugging.BTR.Patches
             if (!btrTurretViewTupleField.Item2)
             {
                 var btrTurretViewMethod = AccessTools.Method(btrTurretView.GetType(), "method_1");
-                btrTurretViewMethod.Invoke(btrTurretView, new object[]{btrBotId});
+                btrTurretViewMethod.Invoke(btrTurretView, new object[] { btrBotId });
             }
             if (!btrTurretViewTupleField.Item2)
             {
@@ -59,11 +59,12 @@ namespace Aki.Debugging.BTR.Patches
                 currentWeaponPrefab.transform.position = botRootTransform.position;
 
                 btrBot.PlayerBones.Weapon_Root_Anim.SetPositionAndRotation(botRootTransform.position, botRootTransform.rotation);
+
                 return false;
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR] Could not finish BtrBot initialization. Check logs.");
+                ConsoleScreen.LogError("[AKI-BTR]: Could not finish BtrBot initialization. Check logs.");
                 throw;
             }
         }

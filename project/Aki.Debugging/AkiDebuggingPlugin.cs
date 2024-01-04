@@ -18,8 +18,11 @@ namespace Aki.Debugging
                 new EndRaidDebug().Enable();
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
+                new BTRPathLoadPatch().Enable();
+                new BTRInteractionPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRBotInitPatch().Enable();
+                new BTRIsDoorsClosedPath().Enable();
 				new BTRPatch().Enable();
             }
             catch (Exception ex)

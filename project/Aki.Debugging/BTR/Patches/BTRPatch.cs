@@ -6,7 +6,9 @@ using EFT.UI;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    // Adds a BTRManager component to the GameWorld game object when raid starts.
+    /// <summary>
+    /// Adds a BTRManager component to the GameWorld game object when raid starts.
+    /// </summary>
     public class BTRPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
@@ -36,7 +38,7 @@ namespace Aki.Debugging.BTR.Patches
             }
             catch (System.Exception)
             {
-                ConsoleScreen.LogError("[AKI-BTR] Exception thrown, check logs.");
+                ConsoleScreen.LogError("[AKI-BTR]: Exception thrown, check logs.");
                 throw;
             }
         }
