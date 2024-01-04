@@ -22,6 +22,7 @@ namespace Aki.Debugging
                 new BTRInteractionPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRBotInitPatch().Enable();
+                new BTRIsDoorsClosedPath().Enable();
 				new BTRPatch().Enable();
             }
             catch (Exception ex)

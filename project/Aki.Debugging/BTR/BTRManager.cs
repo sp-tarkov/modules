@@ -5,6 +5,7 @@ using HarmonyLib;
 using UnityEngine;
 using BTRController = GClass2911;
 using BTRDataPacket = GStruct378;
+using PlayerInteractPacket = GStruct167;
 
 namespace Aki.Debugging.BTR
 {
@@ -94,7 +95,7 @@ namespace Aki.Debugging.BTR
         }
 
         // Please tell me there's a better way than this xd
-        public void OnPlayerInteractDoor(GStruct167 interactPacket)
+        public void OnPlayerInteractDoor(PlayerInteractPacket interactPacket)
         {
             var playerGoIn = interactPacket.InteractionType == EInteractionType.GoIn;
             var playerGoOut = interactPacket.InteractionType == EInteractionType.GoOut;
