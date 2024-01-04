@@ -43,7 +43,9 @@ namespace Aki.Custom.Patches
 
             Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
             Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
-            Traverse.Create(__result).Field("Major").SetValue(_versionLabel);
+            var major = Traverse.Create(__result).Field("Major");
+            var existingValue = major.GetValue();
+            major.SetValue($"{existingValue} {_versionLabel}" );
         }
     }
 }
