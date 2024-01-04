@@ -15,7 +15,6 @@ namespace Aki.Debugging.BTR.Patches
     // Context:
     // ClientGameWorld in LiveEFT will register the server-side BTR Bot as type ObservedPlayerView and is stored in GameWorld's allObservedPlayersByID dictionary.
     // In SPT, GameWorld.allObservedPlayersByID is empty which results in the game never finishing the initialization of the BTR Bot which includes disabling its gun, voice and mesh renderers.
-    // Perhaps some research should be done into getting the dictionary populated as ObservedPlayerView seems to be utilised by several aspects of the BTR's functionality.
     // For now, we do dirty patches to work around the lack of ObservedPlayerView, using Player instead.
     public class BTRBotAttachPatch : ModulePatch
     {
@@ -36,7 +35,7 @@ namespace Aki.Debugging.BTR.Patches
             if (!btrTurretViewTupleField.Item2)
             {
                 var btrTurretViewMethod = AccessTools.Method(btrTurretView.GetType(), "method_1");
-                btrTurretViewMethod.Invoke(btrTurretView, new object[]{btrBotId});
+                btrTurretViewMethod.Invoke(btrTurretView, new object[] { btrBotId });
             }
             if (!btrTurretViewTupleField.Item2)
             {
@@ -59,6 +58,7 @@ namespace Aki.Debugging.BTR.Patches
                 currentWeaponPrefab.transform.position = botRootTransform.position;
 
                 btrBot.PlayerBones.Weapon_Root_Anim.SetPositionAndRotation(botRootTransform.position, botRootTransform.rotation);
+
                 return false;
             }
             catch

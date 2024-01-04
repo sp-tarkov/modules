@@ -10,17 +10,19 @@ namespace Aki.Debugging.BTR
 {
     public class BTRManager : MonoBehaviour
     {
+        private GameWorld gameWorld;
         private BTRController btrController;
         private BTRVehicle serverSideBtr;
         private BTRView clientSideBtr;
         private BTRDataPacket btrDataPacket = default;
-
+        private EPlayerBtrState previousPlayerBtrState;
+        private BTRSide previousInteractedBtrSide;
 
         private void Start()
         {
             try
             {
-                var gameWorld = Singleton<GameWorld>.Instance;
+                gameWorld = Singleton<GameWorld>.Instance;
 
                 if (gameWorld == null)
                 {
@@ -55,6 +57,9 @@ namespace Aki.Debugging.BTR
                 clientSideBtr.transform.rotation = btrDataPacket.rotation;
 
                 DisableServerSideRenderers();
+
+                previousPlayerBtrState = gameWorld.MainPlayer.BtrState;
+                gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
             }
             catch
             {
@@ -67,6 +72,80 @@ namespace Aki.Debugging.BTR
         private void Update()
         {
             btrController.SyncBTRVehicleFromServer(UpdateDataPacket());
+        }
+
+        public void HandleBtrDoorState(EPlayerBtrState playerBtrState)
+        {
+            if (previousPlayerBtrState == EPlayerBtrState.Approach && playerBtrState == EPlayerBtrState.GoIn 
+                || previousPlayerBtrState == EPlayerBtrState.Inside && playerBtrState == EPlayerBtrState.GoOut)
+            {
+                // Open Door
+                UpdateBTRSideDoorState(1);
+            }
+            else if (previousPlayerBtrState == EPlayerBtrState.GoIn && playerBtrState == EPlayerBtrState.Inside 
+                || previousPlayerBtrState == EPlayerBtrState.GoOut && playerBtrState == EPlayerBtrState.Outside)
+            {
+                // Close Door
+                UpdateBTRSideDoorState(0);
+            }
+
+            previousPlayerBtrState = playerBtrState;
+        }
+
+        // Please tell me there's a better way than this xd
+        public void OnPlayerInteractDoor(GStruct167 interactPacket)
+        {
+            var playerGoIn = interactPacket.InteractionType == EInteractionType.GoIn;
+            var playerGoOut = interactPacket.InteractionType == EInteractionType.GoOut;
+
+            if (interactPacket.SideId == 0)
+            {
+                if (interactPacket.SlotId == 0)
+                {
+                    if (playerGoIn) serverSideBtr.LeftSlot0State = 1;
+                    else if (playerGoOut) serverSideBtr.LeftSlot0State = 0;
+                }
+                else if (interactPacket.SlotId == 1)
+                {
+                    if (playerGoIn) serverSideBtr.LeftSlot1State = 1;
+                    else if (playerGoOut) serverSideBtr.LeftSlot1State = 0;
+                }
+            }
+            else if (interactPacket.SideId == 1)
+            {
+                if (interactPacket.SlotId == 0)
+                {
+                    if (playerGoIn) serverSideBtr.RightSlot0State = 1;
+                    else if (playerGoOut) serverSideBtr.RightSlot0State = 0;
+                }
+                else if (interactPacket.SlotId == 1)
+                {
+                    if (playerGoIn) serverSideBtr.RightSlot1State = 1;
+                    else if (playerGoOut) serverSideBtr.RightSlot1State = 0;
+                }
+            }
+        }
+
+        private void UpdateBTRSideDoorState(byte state)
+        {
+            var player = gameWorld.MainPlayer;
+            var btrSides = (BTRSide[])AccessTools.Field(typeof(BTRView), "_btrSides").GetValue(btrController.BtrView);
+
+            for (int i = 0; i < btrSides.Length; i++)
+            {
+                if (player.BtrInteractionSide != null && btrSides[i] == player.BtrInteractionSide 
+                    || previousInteractedBtrSide != null && btrSides[i] == previousInteractedBtrSide)
+                {
+                    if (i == 0) serverSideBtr.LeftSideState = state;
+                    else if (i == 1) serverSideBtr.RightSideState = state;
+
+                    if ((previousInteractedBtrSide != player.BtrInteractionSide && player.BtrInteractionSide != null) 
+                        || previousInteractedBtrSide == null)
+                    {
+                        previousInteractedBtrSide = player.BtrInteractionSide;
+                    }
+                }
+            }
         }
 
         private BTRDataPacket UpdateDataPacket()
@@ -121,6 +200,11 @@ namespace Aki.Debugging.BTR
                 }
 
                 btrController.Dispose();
+            }
+
+            if (gameWorld != null)
+            {
+                gameWorld.MainPlayer.OnBtrStateChanged -= HandleBtrDoorState;
             }
             Destroy(this);
         }

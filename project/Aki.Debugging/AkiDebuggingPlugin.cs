@@ -18,6 +18,8 @@ namespace Aki.Debugging
                 new EndRaidDebug().Enable();
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
+                //new BTRBotRegisterPatch().Enable();
+                new BTRInteractionPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRBotInitPatch().Enable();
 				new BTRPatch().Enable();
