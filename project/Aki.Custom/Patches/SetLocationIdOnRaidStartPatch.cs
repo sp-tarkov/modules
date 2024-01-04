@@ -25,7 +25,12 @@ namespace Aki.Custom.Patches
             _locationProperty = localGameBaseType.GetProperties(PatchConstants.PrivateFlags).Single(x => x.PropertyType == typeof(Location));
 
             // Find the TimeAndWeatherSettings handling method
-            return localGameBaseType.GetMethods(PatchConstants.PrivateFlags).SingleOrDefault(IsTargetMethod);
+            var desiredMethod = localGameBaseType.GetMethods(PatchConstants.PrivateFlags).SingleOrDefault(m => IsTargetMethod(m));
+
+            Logger.LogDebug($"{GetType().Name} Type: {localGameBaseType?.Name}");
+            Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
+
+            return desiredMethod;
         }
 
         private static bool IsTargetMethod(MethodInfo mi)
@@ -48,6 +53,8 @@ namespace Aki.Custom.Patches
 
             Location location = _locationProperty.GetValue(__instance) as Location;
             gameWorld.LocationId = location.Id;
+
+            Logger.LogDebug($"[SetLocationId] Set locationId to: {location.Id}");
         }
     }
 }
