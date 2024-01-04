@@ -18,6 +18,7 @@ namespace Aki.Debugging.BTR
         private EPlayerBtrState previousPlayerBtrState;
         private BTRSide previousInteractedBtrSide;
 
+
         private void Start()
         {
             try

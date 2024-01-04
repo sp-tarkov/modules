@@ -28,6 +28,12 @@ namespace Aki.Debugging.BTR.Patches
                     return;
                 }
 
+                if (gameWorld.LocationId.IsNullOrEmpty())
+                {
+                    // GameWorld's LocationId needs to be set otherwise BTR doesn't get spawned in automatically
+                    gameWorld.LocationId = gameWorld.MainPlayer.Location;
+                }
+
                 gameWorld.gameObject.AddComponent<BTRManager>();
             }
             catch (System.Exception)
