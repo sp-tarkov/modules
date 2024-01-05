@@ -16,7 +16,7 @@ namespace Aki.Debugging.BTR.Patches
         {
             _statusProperty = AccessTools.Property(typeof(AbstractGame), "Status");
 
-            return AccessTools.Method(typeof(GClass2911), "method_1");
+            return AccessTools.Method(typeof(BTRControllerClass), "method_1");
         }
 
         [PatchPrefix]

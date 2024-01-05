@@ -40,7 +40,7 @@ namespace Aki.Core.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref GStruct21 legacyParams)
+        private static bool PatchPrefix(ref LegacyParamsStruct legacyParams)
         {
             //Console.WriteLine($"Original url {legacyParams.Url}");
             legacyParams.Url = legacyParams.Url

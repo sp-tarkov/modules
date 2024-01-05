@@ -1,14 +1,9 @@
-﻿using Aki.Reflection.Utils;
-using Comfort.Common;
+﻿using Comfort.Common;
 using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
-using System;
 using System.Linq;
 using UnityEngine;
-using BTRController = GClass2911;
-using BTRDataPacket = GStruct378;
-using PlayerInteractPacket = GStruct167;
 
 namespace Aki.Debugging.BTR
 {
@@ -18,7 +13,7 @@ namespace Aki.Debugging.BTR
         private BotsController botsController;
 
         private BotBTRService btrBotService;
-        private BTRController btrController;
+        private BTRControllerClass btrController;
         private BTRVehicle btrServerSide;
         private BTRView btrClientSide;
         private BTRDataPacket btrDataPacket = default;
@@ -42,12 +37,12 @@ namespace Aki.Debugging.BTR
 
                 if (gameWorld.BtrController == null)
                 {
-                    if (!Singleton<BTRController>.Instantiated)
+                    if (!Singleton<BTRControllerClass>.Instantiated)
                     {
-                        Singleton<BTRController>.Create(new BTRController());
+                        Singleton<BTRControllerClass>.Create(new BTRControllerClass());
                     }
 
-                    gameWorld.BtrController = btrController = Singleton<BTRController>.Instance;
+                    gameWorld.BtrController = btrController = Singleton<BTRControllerClass>.Instance;
                 }
 
                 botsController = Singleton<IBotGame>.Instance.BotsController;

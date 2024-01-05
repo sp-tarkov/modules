@@ -1,6 +1,5 @@
 using System.Reflection;
 using Aki.Reflection.Patching;
-using AchievementsController = GClass3207;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
@@ -12,7 +11,7 @@ namespace Aki.SinglePlayer.Patches.Progression
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return typeof(AchievementsController).GetConstructors()[0];
+			return typeof(AchievementControllerClass).GetConstructors()[0];
 		}
 
 		[PatchPrefix]
