@@ -19,11 +19,13 @@ namespace Aki.Debugging
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
                 new BTRPathLoadPatch().Enable();
+                new BTRActivateTraderDialogPatch().Enable();
                 new BTRInteractionPatch().Enable();
+                new BTRExtractPassengersPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRBotInitPatch().Enable();
                 new BTRIsDoorsClosedPath().Enable();
-				new BTRPatch().Enable();
+                new BTRPatch().Enable();
             }
             catch (Exception ex)
             {
