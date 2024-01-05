@@ -20,6 +20,7 @@ namespace Aki.Debugging.BTR.Patches
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             var player = (Player)__instance;
+            var btrManager = gameWorld.GetComponent<BTRManager>();
 
             try
             {
@@ -33,10 +34,8 @@ namespace Aki.Debugging.BTR.Patches
                     {
                         throw new NullReferenceException("BtrView not found");
                     }
-
-                    var btrManager = gameWorld.GetComponent<BTRManager>();
+                    
                     btrManager.OnPlayerInteractDoor(interactionBtrPacket);
-
                     btrView.Interaction(player, interactionBtrPacket);
                 }
             }

@@ -1,7 +1,10 @@
-﻿using Comfort.Common;
+﻿using Aki.Reflection.Utils;
+using Comfort.Common;
 using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
+using System;
+using System.Linq;
 using UnityEngine;
 using BTRController = GClass2911;
 using BTRDataPacket = GStruct378;
@@ -12,12 +15,18 @@ namespace Aki.Debugging.BTR
     public class BTRManager : MonoBehaviour
     {
         private GameWorld gameWorld;
+        private BotsController botsController;
+
+        private BotBTRService btrBotService;
         private BTRController btrController;
-        private BTRVehicle serverSideBtr;
-        private BTRView clientSideBtr;
+        private BTRVehicle btrServerSide;
+        private BTRView btrClientSide;
         private BTRDataPacket btrDataPacket = default;
+        private bool btrBotShooterInitialized = false;
+
         private EPlayerBtrState previousPlayerBtrState;
-        private BTRSide previousInteractedBtrSide;
+        private BTRSide lastInteractedBtrSide;
+        public BTRSide LastInteractedBtrSide => lastInteractedBtrSide;
 
 
         private void Start()
@@ -41,27 +50,10 @@ namespace Aki.Debugging.BTR
                     gameWorld.BtrController = btrController = Singleton<BTRController>.Instance;
                 }
 
-                var btrControllerType = btrController.GetType();
-                AccessTools.Method(btrControllerType, "method_3").Invoke(btrController, null); // spawns server-side BTR game object
-                Singleton<IBotGame>.Instance.BotsController.BotSpawner.SpawnBotBTR(); // spawns the scav bot which controls the BTR's turret
+                botsController = Singleton<IBotGame>.Instance.BotsController;
+                btrBotService = botsController.BotTradersServices.BTRServices;
 
-                serverSideBtr = btrController.BtrVehicle;
-                serverSideBtr.moveSpeed = 20f;
-                var btrMapConfig = btrController.MapPathsConfiguration;
-                serverSideBtr.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
-                serverSideBtr.Initialization(btrMapConfig);
-                AccessTools.Method(btrControllerType, "method_14").Invoke(btrController, null); // creates and assigns the BTR a fake stash
-
-                clientSideBtr = btrController.BtrView;
-
-                UpdateDataPacket();
-                clientSideBtr.transform.position = btrDataPacket.position;
-                clientSideBtr.transform.rotation = btrDataPacket.rotation;
-
-                DisableServerSideRenderers();
-
-                previousPlayerBtrState = gameWorld.MainPlayer.BtrState;
-                gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
+                InitBTR();
             }
             catch
             {
@@ -74,6 +66,15 @@ namespace Aki.Debugging.BTR
         private void Update()
         {
             btrController.SyncBTRVehicleFromServer(UpdateDataPacket());
+
+            // BotShooterBtr doesn't get assigned to BtrController immediately so we nullcheck this in Update
+            if (btrController.BotShooterBtr != null && !btrBotShooterInitialized)
+            {
+                btrBotService.Reset(); // Player will be added to Neutrals list and removed from Enemies list
+                btrBotShooterInitialized = true;
+            }
+
+            AimAtEnemy();
         }
 
         public void HandleBtrDoorState(EPlayerBtrState playerBtrState)
@@ -104,28 +105,56 @@ namespace Aki.Debugging.BTR
             {
                 if (interactPacket.SlotId == 0)
                 {
-                    if (playerGoIn) serverSideBtr.LeftSlot0State = 1;
-                    else if (playerGoOut) serverSideBtr.LeftSlot0State = 0;
+                    if (playerGoIn) btrServerSide.LeftSlot0State = 1;
+                    else if (playerGoOut) btrServerSide.LeftSlot0State = 0;
                 }
                 else if (interactPacket.SlotId == 1)
                 {
-                    if (playerGoIn) serverSideBtr.LeftSlot1State = 1;
-                    else if (playerGoOut) serverSideBtr.LeftSlot1State = 0;
+                    if (playerGoIn) btrServerSide.LeftSlot1State = 1;
+                    else if (playerGoOut) btrServerSide.LeftSlot1State = 0;
                 }
             }
             else if (interactPacket.SideId == 1)
             {
                 if (interactPacket.SlotId == 0)
                 {
-                    if (playerGoIn) serverSideBtr.RightSlot0State = 1;
-                    else if (playerGoOut) serverSideBtr.RightSlot0State = 0;
+                    if (playerGoIn) btrServerSide.RightSlot0State = 1;
+                    else if (playerGoOut) btrServerSide.RightSlot0State = 0;
                 }
                 else if (interactPacket.SlotId == 1)
                 {
-                    if (playerGoIn) serverSideBtr.RightSlot1State = 1;
-                    else if (playerGoOut) serverSideBtr.RightSlot1State = 0;
+                    if (playerGoIn) btrServerSide.RightSlot1State = 1;
+                    else if (playerGoOut) btrServerSide.RightSlot1State = 0;
                 }
             }
+        }
+
+        private void InitBTR()
+        {
+            var btrControllerType = btrController.GetType();
+            AccessTools.Method(btrControllerType, "method_3").Invoke(btrController, null); // spawns server-side BTR game object
+            botsController.BotSpawner.SpawnBotBTR(); // spawns the scav bot which controls the BTR's turret
+
+            btrServerSide = btrController.BtrVehicle;
+            btrServerSide.moveSpeed = 20f;
+            var btrMapConfig = btrController.MapPathsConfiguration;
+            btrServerSide.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
+            btrServerSide.Initialization(btrMapConfig);
+            AccessTools.Method(btrControllerType, "method_14").Invoke(btrController, null); // creates and assigns the BTR a fake stash
+
+            DisableServerSideRenderers();
+
+            //previousPlayerBtrState = gameWorld.MainPlayer.BtrState;
+            gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
+
+            Type localGameBaseType = PatchConstants.LocalGameType.BaseType;
+
+            btrServerSide.MoveEnable();
+
+            UpdateDataPacket();
+            btrClientSide = btrController.BtrView;
+            btrClientSide.transform.position = btrDataPacket.position;
+            btrClientSide.transform.rotation = btrDataPacket.rotation;
         }
 
         private void UpdateBTRSideDoorState(byte state)
@@ -136,15 +165,14 @@ namespace Aki.Debugging.BTR
             for (int i = 0; i < btrSides.Length; i++)
             {
                 if (player.BtrInteractionSide != null && btrSides[i] == player.BtrInteractionSide 
-                    || previousInteractedBtrSide != null && btrSides[i] == previousInteractedBtrSide)
+                    || lastInteractedBtrSide != null && btrSides[i] == lastInteractedBtrSide)
                 {
-                    if (i == 0) serverSideBtr.LeftSideState = state;
-                    else if (i == 1) serverSideBtr.RightSideState = state;
+                    if (i == 0) btrServerSide.LeftSideState = state;
+                    else if (i == 1) btrServerSide.RightSideState = state;
 
-                    if ((previousInteractedBtrSide != player.BtrInteractionSide && player.BtrInteractionSide != null) 
-                        || previousInteractedBtrSide == null)
+                    if (lastInteractedBtrSide != player.BtrInteractionSide)
                     {
-                        previousInteractedBtrSide = player.BtrInteractionSide;
+                        lastInteractedBtrSide = player.BtrInteractionSide;
                     }
                 }
             }
@@ -152,25 +180,25 @@ namespace Aki.Debugging.BTR
 
         private BTRDataPacket UpdateDataPacket()
         {
-            btrDataPacket.position = serverSideBtr.transform.position;
-            btrDataPacket.rotation = serverSideBtr.transform.rotation;
-            if (serverSideBtr.BTRTurret?.gunsBlockRoot != null)
+            btrDataPacket.position = btrServerSide.transform.position;
+            btrDataPacket.rotation = btrServerSide.transform.rotation;
+            if (btrServerSide.BTRTurret?.gunsBlockRoot != null)
             {
-                btrDataPacket.turretRotation = serverSideBtr.BTRTurret.transform.rotation;
-                btrDataPacket.gunsBlockRotation = serverSideBtr.BTRTurret.gunsBlockRoot.rotation;
+                btrDataPacket.turretRotation = btrServerSide.BTRTurret.transform.rotation;
+                btrDataPacket.gunsBlockRotation = btrServerSide.BTRTurret.gunsBlockRoot.rotation;
             }
-            btrDataPacket.State = (byte)serverSideBtr.BtrState;
-            btrDataPacket.RouteState = (byte)serverSideBtr.VehicleRouteState;
-            btrDataPacket.LeftSideState = serverSideBtr.LeftSideState;
-            btrDataPacket.LeftSlot0State = serverSideBtr.LeftSlot0State;
-            btrDataPacket.LeftSlot1State = serverSideBtr.LeftSlot1State;
-            btrDataPacket.RightSideState = serverSideBtr.RightSideState;
-            btrDataPacket.RightSlot0State = serverSideBtr.RightSlot0State;
-            btrDataPacket.RightSlot1State = serverSideBtr.RightSlot1State;
-            btrDataPacket.currentSpeed = serverSideBtr.currentSpeed;
-            btrDataPacket.timeToEndPause = serverSideBtr.timeToEndPause;
-            btrDataPacket.moveDirection = (byte)serverSideBtr.VehicleMoveDirection;
-            btrDataPacket.MoveSpeed = serverSideBtr.moveSpeed;
+            btrDataPacket.State = (byte)btrServerSide.BtrState;
+            btrDataPacket.RouteState = (byte)btrServerSide.VehicleRouteState;
+            btrDataPacket.LeftSideState = btrServerSide.LeftSideState;
+            btrDataPacket.LeftSlot0State = btrServerSide.LeftSlot0State;
+            btrDataPacket.LeftSlot1State = btrServerSide.LeftSlot1State;
+            btrDataPacket.RightSideState = btrServerSide.RightSideState;
+            btrDataPacket.RightSlot0State = btrServerSide.RightSlot0State;
+            btrDataPacket.RightSlot1State = btrServerSide.RightSlot1State;
+            btrDataPacket.currentSpeed = btrServerSide.currentSpeed;
+            btrDataPacket.timeToEndPause = btrServerSide.timeToEndPause;
+            btrDataPacket.moveDirection = (byte)btrServerSide.VehicleMoveDirection;
+            btrDataPacket.MoveSpeed = btrServerSide.moveSpeed;
             if (btrController.BotShooterBtr != null)
             {
                 btrDataPacket.BtrBotId = btrController.BotShooterBtr.Id;
@@ -181,10 +209,29 @@ namespace Aki.Debugging.BTR
 
         private void DisableServerSideRenderers()
         {
-            var meshRenderers = serverSideBtr.transform.GetComponentsInChildren<MeshRenderer>();
+            var meshRenderers = btrServerSide.transform.GetComponentsInChildren<MeshRenderer>();
             foreach (var renderer in meshRenderers)
             {
                 renderer.enabled = false;
+            }
+        }
+
+        private void AimAtEnemy()
+        {
+            if (btrController.BotShooterBtr == null)
+            {
+                return;
+            }
+
+            var btrTurret = btrServerSide.BTRTurret;
+            var enemies = btrController.BotShooterBtr.BotsGroup.Enemies;
+            if (enemies.Any())
+            {
+                btrTurret.EnableAimingObject(enemies.First().Key.Transform.Original);
+            }
+            else
+            {
+                btrTurret.DisableAiming();
             }
         }
 
@@ -192,19 +239,19 @@ namespace Aki.Debugging.BTR
         {
             if (btrController != null)
             {
-                if (serverSideBtr != null)
+                if (btrServerSide != null)
                 {
-                    Destroy(serverSideBtr.gameObject);
+                    Destroy(btrServerSide.gameObject);
                 }
-                if (clientSideBtr != null)
+                if (btrClientSide != null)
                 {
-                    Destroy(clientSideBtr.gameObject);
+                    Destroy(btrClientSide.gameObject);
                 }
 
                 btrController.Dispose();
             }
 
-            if (gameWorld != null)
+            if (gameWorld?.MainPlayer != null)
             {
                 gameWorld.MainPlayer.OnBtrStateChanged -= HandleBtrDoorState;
             }
