@@ -146,8 +146,6 @@ namespace Aki.Debugging.BTR
 
             gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
 
-            Type localGameBaseType = PatchConstants.LocalGameType.BaseType;
-
             btrServerSide.MoveEnable();
 
             UpdateDataPacket();
