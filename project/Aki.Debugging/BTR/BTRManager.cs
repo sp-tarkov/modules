@@ -144,7 +144,6 @@ namespace Aki.Debugging.BTR
 
             DisableServerSideRenderers();
 
-            //previousPlayerBtrState = gameWorld.MainPlayer.BtrState;
             gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
 
             Type localGameBaseType = PatchConstants.LocalGameType.BaseType;
