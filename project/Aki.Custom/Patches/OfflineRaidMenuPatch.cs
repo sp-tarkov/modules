@@ -1,3 +1,4 @@
+using System.Linq;
 using Aki.Common.Http;
 using Aki.Common.Utils;
 using Aki.Reflection.Patching;
@@ -14,13 +15,8 @@ namespace Aki.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(MatchmakerOfflineRaidScreen);
-            var desiredMethod = desiredType.GetMethod(nameof(MatchmakerOfflineRaidScreen.Show));
-
-            Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
+                .Single(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
         }
 
         [PatchPrefix]

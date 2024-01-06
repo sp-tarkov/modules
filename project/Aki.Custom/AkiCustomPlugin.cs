@@ -3,7 +3,6 @@ using Aki.Common;
 using Aki.Custom.Airdrops.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
-using Aki.SinglePlayer.Patches.ScavMode;
 using BepInEx;
 
 namespace Aki.Custom

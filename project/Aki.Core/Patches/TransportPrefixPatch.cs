@@ -42,11 +42,10 @@ namespace Aki.Core.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref LegacyParamsStruct legacyParams)
         {
-            //Console.WriteLine($"Original url {legacyParams.Url}");
             legacyParams.Url = legacyParams.Url
                 .Replace("https://", "")
                 .Replace("http://", "");
-            //Console.WriteLine($"Edited url {legacyParams.Url}");
+
             return true; // do original method after
         }
 

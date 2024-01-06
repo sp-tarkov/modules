@@ -1,5 +1,4 @@
 ﻿using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using Diz.Jobs;
 using Diz.Resources;
 using JetBrains.Annotations;
@@ -29,7 +28,7 @@ namespace Aki.Custom.Patches
             var type = typeof(EasyAssets);
 
             _manifestField = type.GetField(nameof(EasyAssets.Manifest));
-            _bundlesField = type.GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", PatchConstants.PrivateFlags);
+            _bundlesField = type.GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             // DependencyGraph<IEasyBundle>
             _systemProperty = type.GetProperty("System");
@@ -45,7 +44,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EasyAssets).GetMethods(PatchConstants.PrivateFlags).Single(IsTargetMethod);
+            return typeof(EasyAssets).GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly).Single(IsTargetMethod);
         }
 
         private static bool IsTargetMethod(MethodInfo mi)

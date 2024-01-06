@@ -1,6 +1,7 @@
 ﻿using Aki.Reflection.Patching;
 using EFT;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
@@ -9,11 +10,9 @@ namespace Aki.Custom.Patches
     /// </summary>
     internal class BotSelfEnemyPatch : ModulePatch
     {
-        private static readonly string methodName = "PreActivate";
-
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotOwner).GetMethod(methodName);
+            return AccessTools.Method(typeof(BotOwner), nameof(BotOwner.PreActivate));
         }
 
         [PatchPrefix]

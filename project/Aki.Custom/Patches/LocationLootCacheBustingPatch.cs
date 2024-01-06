@@ -1,6 +1,5 @@
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
-using System;
 using System.Linq;
 using System.Reflection;
 
@@ -14,7 +13,7 @@ namespace Aki.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = PatchConstants.EftTypes.Single(x => x.Name == "LocalGame").BaseType; // BaseLocalGame
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).Single(x => IsTargetMethod(x)); // method_6
+            var desiredMethod = desiredType.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly).Single(IsTargetMethod); // method_6
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

@@ -5,6 +5,7 @@ using Comfort.Common;
 using System.Reflection;
 using Aki.PrePatch;
 using Aki.Custom.CustomAI;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
@@ -15,7 +16,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(StandartBotBrain).GetMethod("Activate", BindingFlags.Public | BindingFlags.Instance);
+            return AccessTools.Method(typeof(StandartBotBrain), nameof(StandartBotBrain.Activate));
         }
 
         /// <summary>

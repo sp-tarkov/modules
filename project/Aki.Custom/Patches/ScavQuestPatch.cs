@@ -1,10 +1,11 @@
-﻿using Aki.Reflection.Patching;
+﻿using System.Linq;
+using System.Reflection;
+using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT.UI.Matchmaker;
-using System.Linq;
-using System.Reflection;
+using HarmonyLib;
 
-namespace Aki.SinglePlayer.Patches.ScavMode
+namespace Aki.Custom.Patches
 {
     /// <summary>
     /// Copy over scav-only quests from PMC profile to scav profile on pre-raid screen
@@ -14,13 +15,8 @@ namespace Aki.SinglePlayer.Patches.ScavMode
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(MatchmakerOfflineRaidScreen);
-            var desiredMethod = desiredType.GetMethod(nameof(MatchmakerOfflineRaidScreen.Show));
-
-            Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
+                .Single(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
         }
 
         [PatchPostfix]

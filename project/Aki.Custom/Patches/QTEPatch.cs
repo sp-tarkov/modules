@@ -2,8 +2,6 @@
 using Aki.Reflection.Patching;
 using System.Reflection;
 using EFT;
-using Aki.Reflection.Utils;
-using System.Linq;
 
 namespace Aki.Custom.Patches
 {

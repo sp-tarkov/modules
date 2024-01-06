@@ -1,8 +1,9 @@
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT.UI;
 using System.IO;
 using System.Reflection;
+using EFT;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Aki.Custom.Patches
@@ -11,15 +12,10 @@ namespace Aki.Custom.Patches
 	{
 		private static PreloaderUI _preloader;
 
-		static SessionIdPatch()
-		{
-			_preloader = null;
-        }
-
         protected override MethodBase GetTargetMethod()
         {
-			return PatchConstants.LocalGameType.BaseType.GetMethod("method_5", PatchConstants.PrivateFlags);
-		}
+            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.method_5));
+        }
 
 		[PatchPostfix]
 		private static void PatchPostfix()
