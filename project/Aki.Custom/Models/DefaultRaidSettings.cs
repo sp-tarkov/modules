@@ -10,8 +10,10 @@ namespace Aki.Custom.Models
         public bool ScavWars;
         public bool TaggedAndCursed;
         public bool EnablePve;
+        public bool RandomWeather;
+        public bool RandomTime;
 
-        public DefaultRaidSettings(EBotAmount aiAmount, EBotDifficulty aiDifficulty, bool bossEnabled, bool scavWars, bool taggedAndCursed, bool enablePve)
+        public DefaultRaidSettings(EBotAmount aiAmount, EBotDifficulty aiDifficulty, bool bossEnabled, bool scavWars, bool taggedAndCursed, bool enablePve, bool randomWeather, bool randomTime)
         {
             AiAmount = aiAmount;
             AiDifficulty = aiDifficulty;
@@ -19,6 +21,8 @@ namespace Aki.Custom.Models
             ScavWars = scavWars;
             TaggedAndCursed = taggedAndCursed;
             EnablePve = enablePve;
+            RandomWeather = randomWeather;
+            RandomTime = randomTime;
         }
     }
 }

@@ -26,7 +26,14 @@ namespace Aki.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPreFix(UpdatableToggle ____enableBosses, UpdatableToggle ____scavWars, UpdatableToggle ____taggedAndCursed, DropDownBox ____aiDifficultyDropdown, DropDownBox ____aiAmountDropdown)
+        private static bool PatchPreFix(
+            UpdatableToggle ____enableBosses,
+            UpdatableToggle ____scavWars,
+            UpdatableToggle ____taggedAndCursed,
+            DropDownBox ____aiDifficultyDropdown,
+            DropDownBox ____aiAmountDropdown,
+            UpdatableToggle ____randomWeatherToggle,
+            UpdatableToggle ____randomTimeToggle)
         {
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
             var settings = Json.Deserialize<DefaultRaidSettings>(json);
@@ -35,7 +42,10 @@ namespace Aki.Custom.Patches
             ____scavWars.UpdateValue(false);
             ____taggedAndCursed.UpdateValue(settings.TaggedAndCursed);
             ____aiDifficultyDropdown.UpdateValue((int)settings.AiDifficulty);
-            ____aiAmountDropdown.UpdateValue((int)(settings.AiAmount));
+            ____aiAmountDropdown.UpdateValue((int)settings.AiAmount);
+
+            ____randomWeatherToggle.UpdateValue(settings.RandomWeather);
+            ____randomTimeToggle.UpdateValue(settings.RandomTime);
 
             return false;
         }
