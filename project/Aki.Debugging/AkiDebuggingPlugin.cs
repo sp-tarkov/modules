@@ -26,6 +26,11 @@ namespace Aki.Debugging
                 new BTRBotInitPatch().Enable();
                 new BTRIsDoorsClosedPath().Enable();
                 new BTRPatch().Enable();
+                new BTRTransferItemsPatch().Enable();
+
+                // Debug command patches, can be disabled later
+                new BTRDebugCommandPatch().Enable();
+                new BTRDebugDataPatch().Enable();
             }
             catch (Exception ex)
             {
