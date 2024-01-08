@@ -1,8 +1,12 @@
-﻿using Comfort.Common;
+﻿using Aki.Debugging.BTR.Utils;
+using Comfort.Common;
 using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Aki.Debugging.BTR
@@ -23,6 +27,48 @@ namespace Aki.Debugging.BTR
         private BTRSide lastInteractedBtrSide;
         public BTRSide LastInteractedBtrSide => lastInteractedBtrSide;
 
+        private MethodInfo _updateTaxiPriceMethod;
+
+        private Dictionary<ETraderServiceType, Dictionary<string, bool>> ServicePurchasedDict { get; set; }
+
+        BTRManager()
+        {
+            Type btrControllerType = typeof(BTRControllerClass);
+            _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
+            ServicePurchasedDict = new Dictionary<ETraderServiceType, Dictionary<string, bool>>();
+        }
+
+        // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
+        private bool IsUpdateTaxiPriceMethod(MethodInfo method)
+        {
+            return (method.GetParameters().Length == 2 && method.GetParameters()[0].ParameterType == typeof(PathDestination));
+        }
+
+        public bool IsServicePurchased(ETraderServiceType serviceType, string traderId)
+        {
+            if (ServicePurchasedDict.TryGetValue(serviceType, out var traderDict))
+            {
+                if (traderDict.TryGetValue(traderId, out var result))
+                {
+                    return result;
+                }
+            }
+
+            return false;
+        }
+
+        public void SetServicePurchased(ETraderServiceType serviceType, string traderId)
+        {
+            if (ServicePurchasedDict.TryGetValue(serviceType, out var traderDict))
+            {
+                traderDict[traderId] = true;
+            }
+            else
+            {
+                ServicePurchasedDict[serviceType] = new Dictionary<string, bool>();
+                ServicePurchasedDict[serviceType][traderId] = true;
+            }
+        }
 
         private void Start()
         {
@@ -142,11 +188,24 @@ namespace Aki.Debugging.BTR
             gameWorld.MainPlayer.OnBtrStateChanged += HandleBtrDoorState;
 
             btrServerSide.MoveEnable();
+            btrServerSide.IncomingToDestinationEvent += ToDestinationEvent;
 
             UpdateDataPacket();
             btrClientSide = btrController.BtrView;
             btrClientSide.transform.position = btrDataPacket.position;
             btrClientSide.transform.rotation = btrDataPacket.rotation;
+
+            // Pull services data for the BTR from the server
+            BTRUtil.PopulateTraderServicesData(BTRUtil.BTRTraderId);
+        }
+
+        /**
+         * BTR has arrived at a destination, re-calculate taxi prices
+         */
+        private void ToDestinationEvent(PathDestination destinationPoint, bool isFirst, bool isFinal, bool isLastRoutePoint)
+        {
+            // Update the prices for the taxi service
+            _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
         }
 
         private void UpdateBTRSideDoorState(byte state)
