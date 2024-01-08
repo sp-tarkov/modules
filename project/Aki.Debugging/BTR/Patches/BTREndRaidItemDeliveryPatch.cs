@@ -37,6 +37,12 @@ namespace Aki.Debugging.BTR.Patches
                 return;
             }
 
+            // Match doesn't have a BTR
+            if (gameWorld.BtrController == null)
+            {
+                return;
+            }
+
             if (!gameWorld.BtrController.HasNonEmptyTransferContainer(player.Profile.Id))
             {
                 Logger.LogDebug("[AKI-BTR] End Raid - No items in transfer container");
