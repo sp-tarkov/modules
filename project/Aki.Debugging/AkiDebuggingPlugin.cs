@@ -27,6 +27,7 @@ namespace Aki.Debugging
                 new BTRIsDoorsClosedPath().Enable();
                 new BTRPatch().Enable();
                 new BTRTransferItemsPatch().Enable();
+                new BTREndRaidItemDeliveryPatch().Enable();
 
                 // Debug command patches, can be disabled later
                 new BTRDebugCommandPatch().Enable();

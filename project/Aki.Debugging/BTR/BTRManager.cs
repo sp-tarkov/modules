@@ -204,8 +204,6 @@ namespace Aki.Debugging.BTR
          */
         private void ToDestinationEvent(PathDestination destinationPoint, bool isFirst, bool isFinal, bool isLastRoutePoint)
         {
-            Debug.LogError($"[AKI-BTR] BTR arrived at destination {destinationPoint.id} isFirst: {isFirst} isFinal: {isFinal} isLastRoutePoint: {isLastRoutePoint}");
-
             // Update the prices for the taxi service
             _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
         }

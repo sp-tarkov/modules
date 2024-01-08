@@ -1,13 +1,14 @@
 ﻿using Aki.Debugging.BTR.Utils;
 using Aki.Reflection.Patching;
 using EFT;
+using EFT.Console.Core;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    // Enable the `debug_show_dialog_screen` command
+    // Enable the `debug_show_dialog_screen` command, and custom `btr_deliver_items` command
     internal class BTRDebugCommandPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
@@ -19,6 +20,13 @@ namespace Aki.Debugging.BTR.Patches
         internal static void PatchPostfix()
         {
             ConsoleScreen.Processor.RegisterCommandGroup<GClass1952>();
+            ConsoleScreen.Processor.RegisterCommand("btr_deliver_items", new System.Action(BtrDeliverItemsCommand));
+        }
+
+        // Custom command to force item extraction sending
+        public static void BtrDeliverItemsCommand()
+        {
+            BTREndRaidItemDeliveryPatch.PatchPrefix();
         }
     }
 
