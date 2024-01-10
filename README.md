@@ -49,5 +49,5 @@ Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this proje
 3. Extract contents of the BepInEx zip into the root SPT directory
 4. Build Modules, Server and Launcher
 5. Copy the contents of each project's `Build` folder into the root SPT directory
-6. (Optional, but recommended) Download the BepInEx5 version of ConfigurationManager ([ConfigurationManager Releases - GitHub](https://github.com/BepInEx/BepInEx.ConfigurationManager/releases)) and extract the contents of the zip into the root SPT directory
+6. (Optional, but recommended) Download the BepInEx5 version of ConfigurationManager ([ConfigurationManager Releases - GitHub](https://github.com/BepInEx/BepInEx.ConfigurationManager/releases)) and extract the contents of the zip into the root SPT directory. The default keybind for opening the menu will be `F1`
 7. (Optional) Edit the BepInEx config (`\BepInEx\config\BepInEx.cfg`) and append `Debug` to the `LogLevels` setting. Example: `LogLevels = Fatal, Error, Warning, Message, Info, Debug`
