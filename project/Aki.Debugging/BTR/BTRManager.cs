@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Aki.Debugging.BTR
 {
@@ -33,7 +32,6 @@ namespace Aki.Debugging.BTR
         
         private BTRTurretServer btrTurretServer;
         private Transform btrTurretDefaultTargetTransform;
-        private Coroutine _lostTargetTimerCoroutine;
         private Coroutine _shootingTargetCoroutine;
         private bool isShooting = false;
         private BulletClass btrMachineGunAmmo;
@@ -388,7 +386,6 @@ namespace Aki.Debugging.BTR
             }
 
             StaticManager.KillCoroutine(ref _shootingTargetCoroutine);
-            StaticManager.KillCoroutine(ref _lostTargetTimerCoroutine);
             Destroy(this);
         }
     }
