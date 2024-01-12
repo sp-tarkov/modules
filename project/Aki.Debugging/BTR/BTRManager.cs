@@ -350,12 +350,11 @@ namespace Aki.Debugging.BTR
             isShooting = true;
 
             Transform machineGunMuzzle = btrTurretServer.machineGunLaunchPoint;
-            BotOwner btrBot = btrController.BotShooterBtr;
-            Player btrBotPlayer = btrBot.GetPlayer;
+            Player btrBotPlayer = btrBotShooter.GetPlayer;
 
             gameWorld.SharedBallisticsCalculator.Shoot(btrMachineGunAmmo, machineGunMuzzle.position, machineGunMuzzle.forward, btrBotPlayer.ProfileId, btrMachineGunWeapon, 1f, 0);
 
-            Player.FirearmController firearmController = btrBot.GetComponent<Player.FirearmController>();
+            Player.FirearmController firearmController = btrBotShooter.GetComponent<Player.FirearmController>();
             WeaponPrefab weaponPrefab = (WeaponPrefab)AccessTools.Field(firearmController.GetType(), "weaponPrefab_0").GetValue(firearmController);
             WeaponSoundPlayer weaponSoundPlayer = weaponPrefab.GetComponent<WeaponSoundPlayer>();
             AccessTools.Method(firearmController.GetType(), "method_54").Invoke(firearmController, new object[] { weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, machineGunMuzzle.forward, false });
