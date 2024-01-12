@@ -24,6 +24,9 @@ namespace Aki.Debugging
                 new BTRExtractPassengersPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRBotInitPatch().Enable();
+                new BTRReceiveDamageInfoPatch().Enable();
+                new BTRTurretCanShootPatch().Enable();
+                new BTRTurretDefaultAimingPositionPatch().Enable();
                 new BTRIsDoorsClosedPath().Enable();
                 new BTRPatch().Enable();
                 new BTRTransferItemsPatch().Enable();
