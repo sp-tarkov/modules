@@ -63,7 +63,8 @@ namespace Aki.Custom.Patches
             // platform manifest
             var path = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
             var filepath = path + platformName;
-            var manifest = (File.Exists(filepath)) ? await GetManifestBundle(filepath) : await GetManifestJson(filepath);
+            var jsonPath = filepath + ".json";
+            var manifest = (File.Exists(jsonPath)) ? await GetManifestJson(filepath) : await GetManifestBundle(filepath);
 
             // load bundles
             var bundleNames = manifest.GetAllAssetBundles().Union(BundleManager.Bundles.Keys).ToArray();
