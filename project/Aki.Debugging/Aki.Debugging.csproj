@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
+    <Reference Include="bsg.console.core">
+      <HintPath>..\Shared\Managed\bsg.console.core.dll</HintPath>
+    </Reference>
     <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
     <Reference Include="Unity.TextMeshPro" HintPath="..\Shared\Managed\Unity.TextMeshPro.dll" Private="False" />
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />

@@ -45,6 +45,8 @@ namespace Aki.Custom.Patches
             raidSettings.WavesSettings.IsBosses = settings.BossEnabled;
             raidSettings.BotSettings.IsScavWars = false;
             raidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
+            raidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
+            raidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
         }
 
         [PatchPostfix]

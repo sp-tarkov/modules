@@ -21,7 +21,7 @@ namespace Aki.SinglePlayer.Patches.Progression
         private static void PatchPostfix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            if (gameWorld != null)
+            if (gameWorld == null)
             {
                 Logger.LogDebug($"[MidRaidQuestChangePatch] gameWorld instance was null");
 
@@ -29,7 +29,6 @@ namespace Aki.SinglePlayer.Patches.Progression
             }
                 
             var player = gameWorld.MainPlayer;
-
             var questController = Traverse.Create(player).Field<AbstractQuestControllerClass>("_questController").Value;
             if (questController != null)
             {
