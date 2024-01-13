@@ -22,11 +22,11 @@ namespace Aki.Custom.Patches
             Type localGameBaseType = PatchConstants.LocalGameType.BaseType;
 
             // At this point, gameWorld.MainPlayer isn't set, so we need to use the LocalGame's `Location_0` property
-            _locationProperty = localGameBaseType.GetProperties(PatchConstants.PrivateFlags)
-                .Single(x => x.PropertyType == typeof(Location));
+            _locationProperty = localGameBaseType.GetProperties(PatchConstants.PublicDeclaredFlags)
+                .SingleCustom(x => x.PropertyType == typeof(Location));
 
             // Find the TimeAndWeatherSettings handling method
-            var desiredMethod = localGameBaseType.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly).SingleOrDefault(IsTargetMethod);
+            var desiredMethod = localGameBaseType.GetMethods(PatchConstants.PublicDeclaredFlags).SingleOrDefault(IsTargetMethod);
 
             Logger.LogDebug($"{GetType().Name} Type: {localGameBaseType?.Name}");
             Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
@@ -53,6 +53,13 @@ namespace Aki.Custom.Patches
             }
 
             Location location = _locationProperty.GetValue(__instance) as Location;
+
+            if (location == null)
+            {
+                Logger.LogError($"[SetLocationId] Failed to get location data");
+                return;
+            }
+
             gameWorld.LocationId = location.Id;
 
             Logger.LogDebug($"[SetLocationId] Set locationId to: {location.Id}");

@@ -2,12 +2,16 @@
 using Aki.Reflection.Patching;
 using System.Reflection;
 using EFT;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
     public class QTEPatch : ModulePatch
     {
-        protected override MethodBase GetTargetMethod() => typeof(HideoutPlayerOwner).GetMethod(nameof(HideoutPlayerOwner.StopWorkout));
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(HideoutPlayerOwner), nameof(HideoutPlayerOwner.StopWorkout));
+        }
 
         [PatchPostfix]
         private static void PatchPostfix(HideoutPlayerOwner __instance)

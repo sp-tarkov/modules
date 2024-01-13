@@ -14,24 +14,17 @@ using System.Threading.Tasks;
 using Aki.Custom.Models;
 using Aki.Custom.Utils;
 using DependencyGraph = DependencyGraph<IEasyBundle>;
+using Aki.Reflection.Utils;
 
 namespace Aki.Custom.Patches
 {
     public class EasyAssetsPatch : ModulePatch
     {
-        private static readonly FieldInfo _manifestField;
         private static readonly FieldInfo _bundlesField;
-        private static readonly PropertyInfo _systemProperty;
 
         static EasyAssetsPatch()
         {
-            var type = typeof(EasyAssets);
-
-            _manifestField = type.GetField(nameof(EasyAssets.Manifest));
-            _bundlesField = type.GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
-            // DependencyGraph<IEasyBundle>
-            _systemProperty = type.GetProperty("System");
+            _bundlesField = typeof(EasyAssets).GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", PatchConstants.PrivateFlags);
         }
 
         public EasyAssetsPatch()
@@ -44,7 +37,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EasyAssets).GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly).Single(IsTargetMethod);
+            return typeof(EasyAssets).GetMethods(PatchConstants.PublicDeclaredFlags).SingleCustom(IsTargetMethod);
         }
 
         private static bool IsTargetMethod(MethodInfo mi)
@@ -95,9 +88,9 @@ namespace Aki.Custom.Patches
                 await JobScheduler.Yield(EJobPriority.Immediate);
             }
 
-            _manifestField.SetValue(instance, manifest);
+            instance.Manifest = manifest;
             _bundlesField.SetValue(instance, bundles);
-            _systemProperty.SetValue(instance, new DependencyGraph(bundles, defaultKey, shouldExclude));
+            instance.System = new DependencyGraph(bundles, defaultKey, shouldExclude);
         }
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(string filepath)

@@ -18,9 +18,9 @@ namespace Aki.SinglePlayer.Patches.Progression
 
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = PatchConstants.EftTypes.First(IsTargetType);
+            var desiredType = typeof(SpawnSystemClass);
             var desiredMethod = desiredType
-                .GetMethods(PatchConstants.PrivateFlags)
+                .GetMethods(PatchConstants.PublicDeclaredFlags)
                 .First(m => m.Name.Contains("SelectSpawnPoint"));
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -34,7 +34,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             // GClass1812 as of 17349
             // GClass1886 as of 18876
             // Remapped to SpawnSystemClass
-            return (type.GetMethods(PatchConstants.PrivateFlags).Any(x => x.Name.IndexOf("CheckFarthestFromOtherPlayers", StringComparison.OrdinalIgnoreCase) != -1)
+            return (type.GetMethods(PatchConstants.PublicDeclaredFlags).Any(x => x.Name.IndexOf("CheckFarthestFromOtherPlayers", StringComparison.OrdinalIgnoreCase) != -1)
                 && type.IsClass);
         }
 
@@ -48,7 +48,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             IPlayer person,
             string infiltration)
         {
-            var spawnPointsField = (ISpawnPoints)__instance.GetType().GetFields(PatchConstants.PrivateFlags).SingleOrDefault(f => f.FieldType == typeof(ISpawnPoints))?.GetValue(__instance);
+            var spawnPointsField = (ISpawnPoints)__instance.GetType().GetFields(PatchConstants.PublicDeclaredFlags).SingleOrDefault(f => f.FieldType == typeof(ISpawnPoints))?.GetValue(__instance);
             if (spawnPointsField == null)
             {
                 throw new Exception($"OfflineSpawnPointPatch: Failed to locate field: {nameof(ISpawnPoints)} on class instance: {__instance.GetType().Name}");

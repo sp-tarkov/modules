@@ -16,7 +16,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GrenadeEmission).GetMethod(nameof(GrenadeEmission.StartEmission));
+            return AccessTools.Method(typeof(GrenadeEmission), nameof(GrenadeEmission.StartEmission));
         }
 
         [PatchTranspiler]

@@ -1,7 +1,7 @@
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT.HealthSystem;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Healing
 {
@@ -15,13 +15,7 @@ namespace Aki.SinglePlayer.Patches.Healing
 
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(MainMenuController);
-            var desiredMethod = desiredType.GetMethod("method_1", PatchConstants.PrivateFlags);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_1));
         }
 
         [PatchPostfix]

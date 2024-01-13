@@ -35,7 +35,7 @@ namespace Aki.Core.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return PatchConstants.EftTypes.Single(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
+            return PatchConstants.EftTypes.SingleCustom(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
                 .GetMethod("CreateFromLegacyParams", BindingFlags.Static | BindingFlags.Public);
         }
 

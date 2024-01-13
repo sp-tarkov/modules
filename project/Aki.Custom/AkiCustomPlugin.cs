@@ -28,7 +28,7 @@ namespace Aki.Custom
                 // Fixed in live, no need for patch
                 //new RaidSettingsWindowPatch().Enable();
                 new OfflineRaidSettingsMenuPatch().Enable();
-                new SessionIdPatch().Enable();
+                // new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();

@@ -1,9 +1,9 @@
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using Aki.Common.Http;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -17,13 +17,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
 
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(BotsPresets);
-            var desiredMethod = desiredType.GetMethod("method_1", PatchConstants.PrivateFlags);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(BotsPresets), nameof(BotsPresets.method_1));
         }
 
         [PatchPostfix]

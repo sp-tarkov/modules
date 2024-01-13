@@ -16,7 +16,7 @@ namespace Aki.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
-                .Single(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
+                .SingleCustom(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
         }
 
         [PatchPostfix]

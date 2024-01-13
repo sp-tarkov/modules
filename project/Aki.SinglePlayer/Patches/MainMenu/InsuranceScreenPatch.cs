@@ -1,6 +1,7 @@
 using Aki.Reflection.Patching;
 using EFT;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.MainMenu
 {
@@ -17,7 +18,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
         protected override MethodBase GetTargetMethod()
         {
             //[CompilerGenerated]
-            //private void method_67()
+            //private void method_XX()
             //{
             //    if (this.raidSettings_0.SelectedLocation.Id == "laboratory")
             //    {
@@ -31,13 +32,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
             //    this.method_41();
             //}
 
-            var desiredType = typeof(MainMenuController);
-            var desiredMethod = desiredType.GetMethod("method_71", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
         }
 
         [PatchPrefix]

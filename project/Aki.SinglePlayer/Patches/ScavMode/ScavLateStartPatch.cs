@@ -25,8 +25,8 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = PatchConstants.EftTypes.Single(x => x.Name == "TarkovApplication");
-            var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PrivateFlags), IsTargetMethod);
+            var desiredType = typeof(TarkovApplication);
+            var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PublicDeclaredFlags), IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -95,11 +95,10 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             foreach (var exitChange in exitChangesToApply)
             {
                 // Find the client exit we want to make changes to
-                var exitToChange = location.exits.First(x => x.Name == exitChange.Name);
+                var exitToChange = location.exits.FirstOrDefault(x => x.Name == exitChange.Name);
                 if (exitToChange == null)
                 {
                     Logger.LogDebug($"Exit with Id: {exitChange.Name} not found, skipping");
-
                     continue;
                 }
 
@@ -111,6 +110,10 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 if (exitChange.MinTime.HasValue)
                 {
                     exitToChange.MinTime = exitChange.MinTime.Value;
+                }
+
+                if (exitChange.MaxTime.HasValue)
+                {
                     exitToChange.MaxTime = exitChange.MaxTime.Value;
                 }
             }
@@ -131,19 +134,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 }
 
                 // Reset values to those from cache
-                if (clientLocationExit.Chance != cachedExit.Chance)
-                {
-                    clientLocationExit.Chance = cachedExit.Chance;
-                }
-                if (clientLocationExit.MinTime != cachedExit.MinTime)
-                {
-                    clientLocationExit.MinTime = cachedExit.MinTime;
-                }
-
-                if (clientLocationExit.MaxTime != cachedExit.MaxTime)
-                {
-                    clientLocationExit.MaxTime = cachedExit.MaxTime;
-                }
+                clientLocationExit.Chance = cachedExit.Chance;
+                clientLocationExit.MinTime = cachedExit.MinTime;
+                clientLocationExit.MaxTime = cachedExit.MaxTime;
             }
         }
 

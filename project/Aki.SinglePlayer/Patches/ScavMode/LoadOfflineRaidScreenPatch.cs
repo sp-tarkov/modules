@@ -31,12 +31,10 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(WavesSettings.IsBosses);
             _ = GClass3164.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
-            var menuControllerType = typeof(MainMenuController);
-
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = menuControllerType.GetMethod("method_42", PatchConstants.PrivateFlags);
+            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_42));
 
-            _isLocalField = menuControllerType.GetField("bool_0", PatchConstants.PrivateFlags);
+            _isLocalField = AccessTools.Field(typeof(MainMenuController), "bool_0");
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
 
             if (_menuControllerField == null)
@@ -48,7 +46,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return typeof(MainMenuController).GetMethod("method_68", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_68));
         }
 
         [PatchTranspiler]
@@ -125,7 +123,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, "method_72");
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_72));
             gclass.ShowScreen(EScreenState.Queued);
         }
 

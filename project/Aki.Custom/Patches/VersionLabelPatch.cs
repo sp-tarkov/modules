@@ -5,7 +5,6 @@ using Aki.Reflection.Utils;
 using Aki.Custom.Models;
 using EFT.UI;
 using HarmonyLib;
-using System.Linq;
 using System.Reflection;
 using Comfort.Common;
 
@@ -18,7 +17,7 @@ namespace Aki.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             return PatchConstants.EftTypes
-                .Single(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
+                .SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
                 .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
         }
 

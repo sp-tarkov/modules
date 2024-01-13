@@ -1,4 +1,3 @@
-using System.Linq;
 using Aki.Common.Http;
 using Aki.Common.Utils;
 using Aki.Reflection.Patching;
@@ -8,6 +7,7 @@ using EFT.UI.Matchmaker;
 using System.Reflection;
 using EFT;
 using HarmonyLib;
+using Aki.Reflection.Utils;
 
 namespace Aki.Custom.Patches
 {
@@ -16,7 +16,7 @@ namespace Aki.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
-                .Single(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
+                .SingleCustom(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
         }
 
         [PatchPrefix]

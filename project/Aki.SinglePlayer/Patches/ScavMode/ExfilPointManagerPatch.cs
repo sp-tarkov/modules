@@ -2,6 +2,7 @@ using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.ScavMode
 {
@@ -12,13 +13,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(GameWorld);
-            var desiredMethod = desiredType.GetMethod("OnGameStarted", BindingFlags.Public | BindingFlags.Instance);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
         }
 
         [PatchPostfix]
@@ -26,21 +21,19 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         {
             var gameWorld = Singleton<GameWorld>.Instance;
 
-            // checks nothing is null otherwise woopsies happen.
+            // checks nothing is null otherwise bad things happen
             if (gameWorld == null || gameWorld.RegisteredPlayers == null || gameWorld.ExfiltrationController == null)
             {
-                Logger.LogError("Unable to Find Gameworld or RegisterPlayers... Unable to Disable Extracts for Scav raid");
+                Logger.LogError("Could not find GameWorld or RegisterPlayers... Unable to disable extracts for Scav raid");
             }
 
             Player player = gameWorld.MainPlayer;
 
-            var exfilController = gameWorld.ExfiltrationController;
-
-            // Only disable PMC extracts if current player is a scav.
+            // Only disable PMC extracts if current player is a scav
             if (player.Fraction == ETagStatus.Scav && player.Location != "hideout")
             {
-                // these are PMC extracts only, scav extracts are under a different field called ScavExfiltrationPoints.
-                foreach (var exfil in exfilController.ExfiltrationPoints)
+                // these are PMC extracts only, scav extracts are under a different field called ScavExfiltrationPoints
+                foreach (var exfil in gameWorld.ExfiltrationController.ExfiltrationPoints)
                 {
                     exfil.Disable();
                 }

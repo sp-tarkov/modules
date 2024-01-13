@@ -3,26 +3,21 @@ using EFT;
 using EFT.InventoryLogic;
 using System;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Quests
 {
     public class DogtagPatch : ModulePatch
     {
-        private static BindingFlags _flags;
-        private static PropertyInfo _getEquipmentProperty;
-
         static DogtagPatch()
         {
             _ = nameof(EquipmentClass.GetSlot);
             _ = nameof(DamageInfo.Weapon);
-
-            _flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            _getEquipmentProperty = typeof(Player).GetProperty("Equipment", _flags);
         }
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(Player).GetMethod("OnBeenKilledByAggressor", _flags);
+            return AccessTools.Method(typeof(Player), nameof(Player.OnBeenKilledByAggressor));
         }
 
         /// <summary>
@@ -65,7 +60,7 @@ namespace Aki.SinglePlayer.Patches.Quests
 
         private static Item GetDogTagItemFromPlayerWhoDied(Player __instance)
         {
-            var equipment = (EquipmentClass)_getEquipmentProperty.GetValue(__instance);
+            var equipment = __instance.Equipment;
             if (equipment == null)
             {
                 Logger.LogError("DogtagPatch error > Player has no equipment");

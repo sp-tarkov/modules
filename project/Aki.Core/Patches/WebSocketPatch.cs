@@ -1,7 +1,6 @@
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Aki.Core.Patches
@@ -10,10 +9,10 @@ namespace Aki.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var targetInterface = PatchConstants.EftTypes.Single(x => x == typeof(IConnectionHandler) && x.IsInterface);
-            var typeThatMatches = PatchConstants.EftTypes.Single(x => targetInterface.IsAssignableFrom(x) && x.IsAbstract && !x.IsInterface);
+            var targetInterface = PatchConstants.EftTypes.SingleCustom(x => x == typeof(IConnectionHandler) && x.IsInterface);
+            var typeThatMatches = PatchConstants.EftTypes.SingleCustom(x => targetInterface.IsAssignableFrom(x) && x.IsAbstract && !x.IsInterface);
             
-            return typeThatMatches.GetMethods(BindingFlags.Public | BindingFlags.Instance).Single(x => x.ReturnType == typeof(Uri));
+            return typeThatMatches.GetMethods(BindingFlags.Public | BindingFlags.Instance).SingleCustom(x => x.ReturnType == typeof(Uri));
         }
 
         // This is a pass through postfix and behaves a little differently than usual
