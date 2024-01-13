@@ -1,10 +1,8 @@
 using Aki.Common.Utils;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using BepInEx.Bootstrap;
 using EFT.Communications;
 using EFT.UI;
-using HarmonyLib;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -19,16 +17,12 @@ namespace Aki.SinglePlayer.Patches.MainMenu
      **/
     internal class PluginErrorNotifierPatch : ModulePatch
     {
-        private static MethodInfo _displayMessageNotificationMethod;
         private static bool _messageShown = false;
 
         protected override MethodBase GetTargetMethod()
         {
-            _displayMessageNotificationMethod = AccessTools.Method(typeof(NotificationManagerClass), "DisplayMessageNotification");
-
-            var desiredType = typeof(MenuScreen);
-            var desiredMethod = desiredType.GetMethod("Show", PatchConstants.PrivateFlags);
-            return desiredMethod;
+            // We don't really care which "Show" method is returned - either will do
+            return typeof(MenuScreen).GetMethods().First(m => m.Name == nameof(MenuScreen.Show));
         }
 
         [PatchPostfix]
@@ -45,7 +39,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
             // Show a toast in the bottom right of the screen indicating how many plugins failed to load
             var consoleHeaderMessage = $"{failedPluginCount} plugin{(failedPluginCount > 1 ? "s" : "")} failed to load due to errors";
             var toastMessage = $"{consoleHeaderMessage}. Please check the console for details.";
-            _displayMessageNotificationMethod.Invoke(null, new object[] { toastMessage, ENotificationDurationType.Infinite, ENotificationIconType.Alert, Color.red });
+            NotificationManagerClass.DisplayMessageNotification(toastMessage, ENotificationDurationType.Infinite, ENotificationIconType.Alert, Color.red);
 
             // Build the error message we'll put in the BepInEx and in-game consoles
             var stringBuilder = new StringBuilder();

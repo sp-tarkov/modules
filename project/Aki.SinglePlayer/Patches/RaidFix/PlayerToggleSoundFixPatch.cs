@@ -2,6 +2,7 @@ using System.Reflection;
 using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
@@ -13,7 +14,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(Player).GetMethod("PlayToggleSound", BindingFlags.Instance | BindingFlags.NonPublic);
+            return AccessTools.Method(typeof(Player), nameof(Player.PlayToggleSound));
         }
 
         [PatchPrefix]

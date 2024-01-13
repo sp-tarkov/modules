@@ -3,7 +3,6 @@ using Aki.Common;
 using Aki.Custom.Airdrops.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
-using Aki.SinglePlayer.Patches.ScavMode;
 using BepInEx;
 
 namespace Aki.Custom
@@ -29,7 +28,7 @@ namespace Aki.Custom
                 // Fixed in live, no need for patch
                 //new RaidSettingsWindowPatch().Enable();
                 new OfflineRaidSettingsMenuPatch().Enable();
-                new SessionIdPatch().Enable();
+                // new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();

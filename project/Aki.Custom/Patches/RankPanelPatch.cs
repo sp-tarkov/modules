@@ -1,9 +1,9 @@
 ﻿using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using Comfort.Common;
 using EFT;
 using EFT.UI;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
@@ -11,13 +11,7 @@ namespace Aki.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(RankPanel);
-            var desiredMethod = desiredType.GetMethod("Show", PatchConstants.PublicFlags);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(RankPanel), nameof(RankPanel.Show));
         }
 
         [PatchPrefix]

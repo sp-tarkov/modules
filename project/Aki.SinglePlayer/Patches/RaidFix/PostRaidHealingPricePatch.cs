@@ -10,13 +10,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(Profile.TraderInfo);
-            var desiredMethod = desiredType.GetMethod("UpdateLevel", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(Profile.TraderInfo), nameof(Profile.TraderInfo.UpdateLevel));
         }
 
         [PatchPrefix]
@@ -36,7 +30,8 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             }
 
             // Backing field of the "CurrentLoyalty" property
-            Traverse.Create(__instance).Field("<CurrentLoyalty>k__BackingField").SetValue(loyaltyLevelSettings.Value);
+            // Traverse.Create(__instance).Field("<CurrentLoyalty>k__BackingField").SetValue(loyaltyLevelSettings.Value);
+            __instance.CurrentLoyalty = loyaltyLevelSettings.Value;
         }
     }
 }

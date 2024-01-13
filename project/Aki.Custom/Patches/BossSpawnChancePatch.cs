@@ -16,11 +16,11 @@ namespace Aki.Custom.Patches
         {
             var desiredType = PatchConstants.LocalGameType;
             var desiredMethod = desiredType
-                .GetMethods(BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                .SingleOrDefault(m => IsTargetMethod(m));
+                .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                .SingleOrDefault(IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod.Name}");
+            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name ?? "NOT FOUND"}");
 
             return desiredMethod;
         }

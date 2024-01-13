@@ -17,12 +17,12 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         {
             // Struct225 - 20575
             var desiredType = typeof(TarkovApplication)
-                .GetNestedTypes(PatchConstants.PrivateFlags)
-                .Single(x => x.GetField("timeAndWeather") != null
+                .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
+                .SingleCustom(x => x.GetField("timeAndWeather") != null
                               && x.GetField("timeHasComeScreenController") != null
                               && x.Name.Contains("Struct"));
 
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags)
+            var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags)
                 .FirstOrDefault(x => x.Name == "MoveNext");
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -72,7 +72,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 new Code(OpCodes.Callvirt, PatchConstants.BackendSessionInterfaceType, "get_Profile"),
                 new Code(OpCodes.Br, brLabel),
                 new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.SessionInterfaceType, "get_ProfileOfPet"),
-                new CodeWithLabel(OpCodes.Stfld, brLabel, typeof(TarkovApplication).GetNestedTypes(BindingFlags.NonPublic).Single(IsTargetNestedType), "profile")
+                new CodeWithLabel(OpCodes.Stfld, brLabel, typeof(TarkovApplication).GetNestedTypes(BindingFlags.Public).SingleCustom(IsTargetNestedType), "profile")
             });
 
             codes.RemoveRange(searchIndex, 4);
@@ -83,7 +83,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
         private static bool IsTargetNestedType(System.Type nestedType)
         {
-            return nestedType.GetMethods(PatchConstants.PrivateFlags)
+            return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags)
                 .Count(x => x.GetParameters().Length == 1 && x.GetParameters()[0].ParameterType == typeof(IResult)) > 0 && nestedType.GetField("savageProfile") != null;
         }
     }

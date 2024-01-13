@@ -15,13 +15,13 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = typeof(TarkovApplication)
-                .GetNestedTypes(PatchConstants.PrivateFlags)
-                .Single(x => x.GetField("timeAndWeather") != null
-                              && x.GetField("tarkovApplication_0") != null
-                              && x.GetField("timeHasComeScreenController") == null
-                              && x.Name.Contains("Struct"));
+                .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
+                .SingleCustom(x => x.GetField("timeAndWeather") != null
+                                   && x.GetField("tarkovApplication_0") != null
+                                   && x.GetField("timeHasComeScreenController") == null
+                                   && x.Name.Contains("Struct"));
 
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags)
+            var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags)
                 .FirstOrDefault(x => x.Name == "MoveNext");
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");

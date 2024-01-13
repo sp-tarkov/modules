@@ -11,8 +11,8 @@ namespace Aki.SinglePlayer.Patches.Quests
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = PatchConstants.EftTypes.Single(IsTargetType);
-            var desiredMethod = desiredType.GetMethod("method_1", PatchConstants.PrivateFlags);
+            var desiredType = PatchConstants.EftTypes.SingleCustom(IsTargetType);
+            var desiredMethod = desiredType.GetMethod("method_1", PatchConstants.PublicDeclaredFlags);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -22,7 +22,7 @@ namespace Aki.SinglePlayer.Patches.Quests
 
         private static bool IsTargetType(Type type)
         {
-            if (!typeof(IGetProfileData).IsAssignableFrom(type) || type.GetMethod("method_1", PatchConstants.PrivateFlags) == null)
+            if (!typeof(IGetProfileData).IsAssignableFrom(type) || type.GetMethod("method_1", PatchConstants.PublicDeclaredFlags) == null)
             {
                 return false;
             }
@@ -32,7 +32,7 @@ namespace Aki.SinglePlayer.Patches.Quests
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, object __instance, WildSpawnType ___wildSpawnType_0, BotDifficulty ___botDifficulty_0, Profile x)
+        private static bool PatchPrefix(ref bool __result, WildSpawnType ___wildSpawnType_0, BotDifficulty ___botDifficulty_0, Profile x)
         {
             if (x == null)
             {

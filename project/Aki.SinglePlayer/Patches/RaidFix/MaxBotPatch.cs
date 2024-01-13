@@ -1,7 +1,6 @@
 using Aki.Common.Http;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
-using System.Linq;
 using System.Reflection;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
@@ -15,7 +14,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
             const string methodName = "SetSettings";
-            var desiredType = PatchConstants.EftTypes.Single(x => x.GetMethod(methodName, flags) != null && IsTargetMethod(x.GetMethod(methodName, flags)));
+            var desiredType = PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null && IsTargetMethod(x.GetMethod(methodName, flags)));
             var desiredMethod = desiredType.GetMethod(methodName, flags);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");

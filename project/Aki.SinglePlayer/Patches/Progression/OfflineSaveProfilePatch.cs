@@ -14,7 +14,7 @@ using System.Reflection;
 namespace Aki.SinglePlayer.Patches.Progression
 {
     /// <summary>
-    /// After a raid, the client doesnt update the server on what occurred during the raid. To persist loot/quest changes etc we 
+    /// After a raid, the client doesn't update the server on what occurred during the raid. To persist loot/quest changes etc we 
     /// make the client send the active profile to a spt-specific endpoint `/raid/profile/save` where we can update the players profile json
     /// </summary>
     public class OfflineSaveProfilePatch : ModulePatch
@@ -35,8 +35,8 @@ namespace Aki.SinglePlayer.Patches.Progression
         {
             // method_45 - as of 16432
             // method_43 - as of 18876
-            var desiredType = PatchConstants.EftTypes.Single(x => x.Name == "TarkovApplication");
-            var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PrivateFlags), IsTargetMethod);
+            var desiredType = typeof(TarkovApplication);
+            var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PublicDeclaredFlags), IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -66,7 +66,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             {
                 Exit = result.Value0.ToString().ToLowerInvariant(), // Exit player used to leave raid
                 Profile = profile, // players scav or pmc profile, depending on type of raid they did
-                Health = Utils.Healing.HealthListener.Instance.CurrentHealth, // Speicifc limb/effect damage data the player has at end of raid
+                Health = Utils.Healing.HealthListener.Instance.CurrentHealth, // Specific limb/effect damage data the player has at end of raid
                 Insurance = Utils.Insurance.InsuredItemManager.Instance.GetTrackedItems(), // A copy of items insured by player with durability values as of raid end (if item is returned, send it back with correct durability values)
 				IsPlayerScav = ____raidSettings.IsScav
 			};

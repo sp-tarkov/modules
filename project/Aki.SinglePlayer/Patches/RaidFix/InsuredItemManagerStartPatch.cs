@@ -3,6 +3,7 @@ using EFT;
 using System.Reflection;
 using Aki.SinglePlayer.Utils.Insurance;
 using Comfort.Common;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -10,7 +11,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
+            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
         }
 
         [PatchPostfix]

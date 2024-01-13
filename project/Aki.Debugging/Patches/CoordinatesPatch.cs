@@ -1,51 +1,47 @@
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
 using TMPro;
 using UnityEngine;
 using System;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Debugging.Patches
 {
     public class CoordinatesPatch : ModulePatch
     {
         private static TextMeshProUGUI _alphaLabel;
-        private static PropertyInfo _playerProperty;
 
         protected override MethodBase GetTargetMethod()
         {
-            var localGameBaseType = PatchConstants.LocalGameType.BaseType;
-            _playerProperty = localGameBaseType.GetProperty("PlayerOwner", BindingFlags.Public | BindingFlags.Instance);
-            return localGameBaseType.GetMethod("Update", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.Update));
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(object __instance)
+        private static void PatchPrefix(BaseLocalGame<GamePlayerOwner> __instance)
         {
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
+
+            if (_alphaLabel == null)
             {
-                if (_alphaLabel == null)
-                {
-                    _alphaLabel = GameObject.Find("AlphaLabel").GetComponent<TextMeshProUGUI>();
-                    _alphaLabel.color = Color.green;
-                    _alphaLabel.fontSize = 22;
-                    _alphaLabel.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/ARIAL SDF");
-                }
-
-                var playerOwner = (GamePlayerOwner)_playerProperty.GetValue(__instance);
-                var aiming = LookingRaycast(playerOwner.Player);
-
-                if (_alphaLabel != null)
-                {
-                    _alphaLabel.text = $"Looking at: [{aiming.x}, {aiming.y}, {aiming.z}]";
-                    Logger.LogInfo(_alphaLabel.text);
-                }
-
-                var position = playerOwner.transform.position;
-                var rotation = playerOwner.transform.rotation.eulerAngles;
-                Logger.LogInfo($"Character position: [{position.x},{position.y},{position.z}] | Rotation: [{rotation.x},{rotation.y},{rotation.z}]");
+                _alphaLabel = GameObject.Find("AlphaLabel").GetComponent<TextMeshProUGUI>();
+                _alphaLabel.color = Color.green;
+                _alphaLabel.fontSize = 22;
+                _alphaLabel.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/ARIAL SDF");
             }
+
+            var playerOwner = __instance.PlayerOwner;
+            var aiming = LookingRaycast(playerOwner.Player);
+
+            if (_alphaLabel != null)
+            {
+                _alphaLabel.text = $"Looking at: [{aiming.x}, {aiming.y}, {aiming.z}]";
+                Logger.LogInfo(_alphaLabel.text);
+            }
+
+            var position = playerOwner.transform.position;
+            var rotation = playerOwner.transform.rotation.eulerAngles;
+            Logger.LogInfo($"Character position: [{position.x},{position.y},{position.z}] | Rotation: [{rotation.x},{rotation.y},{rotation.z}]");
         }
 
         public static Vector3 LookingRaycast(Player player)

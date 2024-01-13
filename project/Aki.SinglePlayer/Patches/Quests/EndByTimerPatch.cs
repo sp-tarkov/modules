@@ -1,9 +1,8 @@
 using Aki.Common.Http;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Quests
 {
@@ -15,15 +14,10 @@ namespace Aki.SinglePlayer.Patches.Quests
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = PatchConstants.LocalGameType.BaseType;
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).SingleOrDefault(IsStopRaidMethod);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.Stop));
         }
 
+        // Unused, but left here in case patch breaks and finding the intended method is difficult
         private static bool IsStopRaidMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
@@ -39,13 +33,13 @@ namespace Aki.SinglePlayer.Patches.Quests
         }
 
         [PatchPrefix]
-        private static bool PrefixPatch(object __instance, ref ExitStatus exitStatus, ref string exitName)
+        private static bool PrefixPatch(ref ExitStatus exitStatus, ref string exitName)
         {
             var isParsed = bool.TryParse(RequestHandler.GetJson("/singleplayer/settings/raid/endstate"), out bool MIAOnRaidEnd);
             if (isParsed)
             {
                 // No extract name and successful, its a MIA
-                if (MIAOnRaidEnd == true && string.IsNullOrEmpty(exitName?.Trim()) && exitStatus == ExitStatus.Survived)
+                if (MIAOnRaidEnd && string.IsNullOrEmpty(exitName?.Trim()) && exitStatus == ExitStatus.Survived)
                 {
                     exitStatus = ExitStatus.MissingInAction;
                     exitName = null;
