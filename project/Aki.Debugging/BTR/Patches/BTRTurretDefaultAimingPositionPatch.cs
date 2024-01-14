@@ -10,7 +10,7 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BTRTurretServer), "Start");
+            return AccessTools.Method(typeof(BTRTurretServer), nameof(BTRTurretServer.Start));
         }
 
         [PatchPrefix]

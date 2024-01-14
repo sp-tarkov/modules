@@ -12,7 +12,7 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(VehicleBase), "ExtractPassengers");
+            return AccessTools.Method(typeof(VehicleBase), nameof(VehicleBase.ExtractPassengers));
         }
 
         [PatchPrefix]

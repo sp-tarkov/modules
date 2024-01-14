@@ -7,6 +7,7 @@ using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -22,8 +23,8 @@ namespace Aki.Debugging.BTR.Patches
                 .First(t => t.GetField("Converters", BindingFlags.Static | BindingFlags.Public) != null);
             _defaultJsonConverters = Traverse.Create(converterClass).Field<JsonConverter[]>("Converters").Value;
 
-            return PatchConstants.EftTypes.Single(x => x.Name == "LocalGame").BaseType // BaseLocalGame
-                .GetMethod("Stop", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Instance);
+            Type baseLocalGameType = PatchConstants.LocalGameType.BaseType;
+            return AccessTools.Method(baseLocalGameType, nameof(LocalGame.Stop));
         }
 
         [PatchPrefix]
