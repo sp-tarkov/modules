@@ -10,7 +10,7 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(VehicleBase), "IsDoorsClosed");
+            return AccessTools.Method(typeof(VehicleBase), nameof(VehicleBase.IsDoorsClosed));
         }
 
         [PatchPrefix]

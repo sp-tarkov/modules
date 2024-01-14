@@ -2,6 +2,7 @@
 using Comfort.Common;
 using EFT;
 using EFT.Vehicle;
+using HarmonyLib;
 using System;
 using System.Reflection;
 
@@ -11,8 +12,15 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            return typeof(Player).GetMethod("BtrInteraction", bindingFlags);
+            return AccessTools.FirstMethod(typeof(Player), IsTargetMethod);
+        }
+
+        /**
+         * Find the "BtrInteraction" method that takes parameters
+         */
+        private bool IsTargetMethod(MethodBase method)
+        {
+            return method.Name == nameof(Player.BtrInteraction) && method.GetParameters().Length > 0;
         }
 
         [PatchPostfix]

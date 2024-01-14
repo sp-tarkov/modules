@@ -3,6 +3,7 @@ using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using EFT.UI;
+using HarmonyLib;
 
 namespace Aki.Debugging.BTR.Patches
 {
@@ -13,7 +14,7 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
+            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
         }
 
         [PatchPostfix]
