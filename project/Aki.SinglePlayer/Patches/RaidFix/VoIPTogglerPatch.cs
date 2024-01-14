@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -9,7 +9,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(ForceMuteVoIPToggler).GetMethod("Awake", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(ForceMuteVoIPToggler), nameof(ForceMuteVoIPToggler.Awake));
         }
 
         [PatchPrefix]

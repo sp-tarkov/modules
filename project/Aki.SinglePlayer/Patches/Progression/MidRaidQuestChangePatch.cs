@@ -8,13 +8,13 @@ using System.Reflection;
 namespace Aki.SinglePlayer.Patches.Progression
 {
     /// <summary>
-    /// After picking up a quest item, trigger CheckForStatusChange() from the questController to fully update a quest subtasks to show (e.g. `survive and extract item from raid` task)
+    /// After picking up a quest item, trigger CheckForStatusChange() from the questController to fully update a quest sub-tasks to show (e.g. `survive and extract item from raid` task)
     /// </summary>
     public class MidRaidQuestChangePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(Profile).GetMethod("AddToCarriedQuestItems", BindingFlags.Public | BindingFlags.Instance);
+            return AccessTools.Method(typeof(Profile), nameof(Profile.AddToCarriedQuestItems));
         }
 
         [PatchPostfix]
@@ -23,7 +23,7 @@ namespace Aki.SinglePlayer.Patches.Progression
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
-                Logger.LogDebug($"[MidRaidQuestChangePatch] gameWorld instance was null");
+                Logger.LogDebug("[MidRaidQuestChangePatch] gameWorld instance was null");
 
                 return;
             }

@@ -1,9 +1,9 @@
 ﻿using Aki.Common.Http;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT.InventoryLogic;
 using EFT.UI.Ragfair;
 using System.Reflection;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Aki.Custom.Patches
@@ -23,7 +23,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(AddOfferWindow).GetMethod("method_1", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_1));
         }
 
         /// <summary>
@@ -42,8 +42,7 @@ namespace Aki.Custom.Patches
                 tpl = ___item_0.TemplateId,
                 count = ___gclass3067_0.OfferItemCount,
                 fee = Mathf.CeilToInt((float)GClass2084.CalculateTaxPrice(___item_0, ___gclass3067_0.OfferItemCount, ___double_0, ___bool_0))
-            }
-                .ToJson());
+            }.ToJson());
         }
     }
 }

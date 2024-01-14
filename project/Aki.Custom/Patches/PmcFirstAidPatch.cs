@@ -23,7 +23,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return _targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+            return _targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public);
         }
 
         /// <summary>

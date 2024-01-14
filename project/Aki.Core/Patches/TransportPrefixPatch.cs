@@ -35,18 +35,17 @@ namespace Aki.Core.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return PatchConstants.EftTypes.Single(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
+            return PatchConstants.EftTypes.SingleCustom(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
                 .GetMethod("CreateFromLegacyParams", BindingFlags.Static | BindingFlags.Public);
         }
 
         [PatchPrefix]
         private static bool PatchPrefix(ref LegacyParamsStruct legacyParams)
         {
-            //Console.WriteLine($"Original url {legacyParams.Url}");
             legacyParams.Url = legacyParams.Url
                 .Replace("https://", "")
                 .Replace("http://", "");
-            //Console.WriteLine($"Edited url {legacyParams.Url}");
+
             return true; // do original method after
         }
 

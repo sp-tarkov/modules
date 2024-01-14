@@ -1,9 +1,9 @@
 ﻿using Aki.Reflection.Patching;
 using System.Reflection;
-using Aki.Reflection.Utils;
 using BepInEx.Logging;
 using EFT;
 using EFT.UI;
+using HarmonyLib;
 using TMPro;
 
 namespace Aki.Debugging.Patches
@@ -12,7 +12,7 @@ namespace Aki.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(TraderCard).GetMethod("method_0", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(TraderCard), nameof(TraderCard.method_0));
         }
 
         [PatchPrefix]

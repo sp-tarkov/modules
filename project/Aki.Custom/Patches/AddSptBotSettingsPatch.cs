@@ -3,6 +3,7 @@ using System.Reflection;
 using Aki.PrePatch;
 using Aki.Reflection.Patching;
 using EFT;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
@@ -10,7 +11,7 @@ namespace Aki.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotSettingsRepoClass).GetMethod("Init");
+            return AccessTools.Method(typeof(BotSettingsRepoClass), nameof(BotSettingsRepoClass.Init));
         }
 
         [PatchPrefix]

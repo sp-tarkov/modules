@@ -33,7 +33,7 @@ namespace Aki.SinglePlayer.Utils.Insurance
         public List<AkiInsuredItemClass> GetTrackedItems()
         {
             var itemsToSend = new List<AkiInsuredItemClass>();
-            if (_items == null || _items.Count() == 0)
+            if (_items == null || !_items.Any())
             {
                 return itemsToSend;
             }

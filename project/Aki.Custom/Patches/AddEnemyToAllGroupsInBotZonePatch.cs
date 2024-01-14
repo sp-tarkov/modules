@@ -1,38 +1,15 @@
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
-using System;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
     public class AddEnemyToAllGroupsInBotZonePatch : ModulePatch
     {
-        private static Type _targetType;
-        private const string methodName = "AddEnemyToAllGroupsInBotZone";
-
-        public AddEnemyToAllGroupsInBotZonePatch()
-        {
-            _targetType = PatchConstants.EftTypes.Single(IsTargetType);
-        }
-
-        private bool IsTargetType(Type type)
-        {
-            if (type.Name == nameof(BotsController) && type.GetMethod(methodName) != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected override MethodBase GetTargetMethod()
         {
-            Logger.LogDebug($"{this.GetType().Name} Type: {_targetType.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {methodName}");
-
-            return _targetType.GetMethod(methodName);
+            return AccessTools.Method(typeof(BotsController), nameof(BotsController.AddEnemyToAllGroupsInBotZone));
         }
 
         /// <summary>

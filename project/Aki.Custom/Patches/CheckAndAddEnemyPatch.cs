@@ -1,38 +1,15 @@
 ﻿using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
-using System;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
     public class CheckAndAddEnemyPatch : ModulePatch
     {
-        private static Type _targetType;
-        private readonly string _targetMethodName = "CheckAndAddEnemy";
-
-        /// <summary>
-        /// BotGroupClass.CheckAndAddEnemy()
-        /// </summary>
-        public CheckAndAddEnemyPatch()
-        {
-            _targetType = PatchConstants.EftTypes.Single(IsTargetType);
-        }
-
-        private bool IsTargetType(Type type)
-        {
-            if (type.GetMethod("AddEnemy") != null && type.GetMethod("AddEnemyGroupIfAllowed") != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected override MethodBase GetTargetMethod()
         {
-            return _targetType.GetMethod(_targetMethodName);
+            return AccessTools.Method(typeof(BotsGroup), nameof(BotsGroup.CheckAndAddEnemy));
         }
 
         /// <summary>

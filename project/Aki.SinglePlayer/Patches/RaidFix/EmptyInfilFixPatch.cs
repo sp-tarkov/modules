@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Aki.Reflection.Patching;
@@ -7,9 +6,7 @@ using Aki.Reflection.Utils;
 using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
-using EFT.UI;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -23,8 +20,8 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         {
             var desiredType = PatchConstants.LocalGameType.BaseType;
             var desiredMethod = desiredType
-                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.CreateInstance)
-                .Single(IsTargetMethod);
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.CreateInstance)
+                .SingleCustom(IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

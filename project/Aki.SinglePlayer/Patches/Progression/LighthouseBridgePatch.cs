@@ -3,6 +3,7 @@ using Aki.SinglePlayer.Models.Progression;
 using Comfort.Common;
 using EFT;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
@@ -10,7 +11,7 @@ namespace Aki.SinglePlayer.Patches.Progression
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
+            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
         }
 
         [PatchPostfix]

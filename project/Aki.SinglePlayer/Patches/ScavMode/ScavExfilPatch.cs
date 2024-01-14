@@ -3,6 +3,7 @@ using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.ScavMode
 {
@@ -10,7 +11,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(ExfiltrationControllerClass).GetMethod("EligiblePoints", new []{ typeof(Profile) });
+            return AccessTools.Method(typeof(ExfiltrationControllerClass), nameof(ExfiltrationControllerClass.EligiblePoints), new[] { typeof(Profile) });
         }
 
         [PatchPrefix]
@@ -29,7 +30,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             }
             
             // Running this prepares all the data for getting scav exfil points
-            __instance.ScavExfiltrationClaim(Singleton<GameWorld>.Instance.MainPlayer.Position, profile.Id, profile.FenceInfo.AvailableExitsCount);
+            __instance.ScavExfiltrationClaim(((IPlayer)Singleton<GameWorld>.Instance.MainPlayer).Position, profile.Id, profile.FenceInfo.AvailableExitsCount);
             
             // Get the required mask value and retrieve a list of exfil points, setting it as the result
             var mask = __instance.GetScavExfiltrationMask(profile.Id);

@@ -17,10 +17,8 @@ namespace Aki.SinglePlayer.Patches.Healing
         {
             // Class1049.smethod_0 as of 18969
             //internal static Class1049 smethod_0(GInterface29 backend, string profileId, Profile savageProfile, LocationSettingsClass.GClass1097 location, ExitStatus exitStatus, TimeSpan exitTime, ERaidMode raidMode)
-            var desiredType = PatchConstants.EftTypes.Single(x => x.Name == "PostRaidHealthScreenClass");
-            var desiredMethod = desiredType.GetMethods(BindingFlags.Static | BindingFlags.NonPublic).Single(IsTargetMethod);
+            var desiredMethod = typeof(PostRaidHealthScreenClass).GetMethods(BindingFlags.Static | BindingFlags.Public).SingleCustom(IsTargetMethod);
 
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
 
             return desiredMethod;
@@ -40,10 +38,9 @@ namespace Aki.SinglePlayer.Patches.Healing
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(TarkovApplication __instance, ref ERaidMode raidMode)
+        private static bool PatchPrefix(ref ERaidMode raidMode)
         {
             raidMode = ERaidMode.Online;
-
             return true; // Perform original method
         }
     }
