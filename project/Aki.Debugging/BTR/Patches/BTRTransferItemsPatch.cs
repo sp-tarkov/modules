@@ -14,11 +14,11 @@ namespace Aki.Debugging.BTR.Patches
         protected override MethodBase GetTargetMethod()
         {
 
-            return AccessTools.Method(typeof(TransferItemsInRaidScreen), "Close");
+            return AccessTools.Method(typeof(TransferItemsInRaidScreen), nameof(TransferItemsInRaidScreen.Close));
         }
 
         [PatchPostfix]
-        public static async void PatchPostfix(bool ___bool_1)
+        public static void PatchPostfix(bool ___bool_1)
         {
             // Didn't extract items
             if (!___bool_1)
@@ -35,9 +35,6 @@ namespace Aki.Debugging.BTR.Patches
                 return;
             }
 
-            // NOTE: This is just here so I remember how to get the items the player transfered
-            gameWorld.BtrController.GetOrAddTransferContainer(player.Profile.Id);
-            
             // Update the trader services information now that we've used this service
             btrManager.SetServicePurchased(ETraderServiceType.BtrItemsDelivery, BTRUtil.BTRTraderId);
             BTRUtil.UpdateTraderServices(BTRUtil.BTRTraderId);

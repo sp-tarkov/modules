@@ -14,7 +14,7 @@ namespace Aki.Debugging.BTR.Patches
         private static GameStatus originalStatus;
         protected override MethodBase GetTargetMethod()
         {
-            _statusProperty = AccessTools.Property(typeof(AbstractGame), "Status");
+            _statusProperty = AccessTools.Property(typeof(AbstractGame), nameof(AbstractGame.Status));
 
             return AccessTools.Method(typeof(BTRControllerClass), "method_1");
         }

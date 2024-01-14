@@ -23,7 +23,7 @@ namespace Aki.Debugging.BTR.Patches
             _playerInventoryControllerField = AccessTools.Field(typeof(Player), "_inventoryController");
             _playerQuestControllerField = AccessTools.Field(typeof(Player), "_questController");
 
-            var targetType = typeof(GetActionsClass).GetNestedTypes(PatchConstants.PrivateFlags).Single(IsTargetType);
+            var targetType = AccessTools.FirstInner(typeof(GetActionsClass), IsTargetType);
             return AccessTools.Method(targetType, "method_2");
         }
 
