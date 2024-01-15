@@ -1,4 +1,5 @@
 ﻿using Aki.Debugging.BTR.Utils;
+using Aki.SinglePlayer.Utils.TraderServices;
 using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
@@ -220,7 +221,7 @@ namespace Aki.Debugging.BTR
             btrMachineGunWeapon = BTRUtil.CreateItem(BTRUtil.BTRMachineGunWeaponTplId);
 
             // Pull services data for the BTR from the server
-            BTRUtil.PopulateTraderServicesData(BTRUtil.BTRTraderId);
+            TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
         }
 
         /**

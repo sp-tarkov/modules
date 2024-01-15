@@ -6,6 +6,7 @@ using Aki.SinglePlayer.Patches.Progression;
 using Aki.SinglePlayer.Patches.Quests;
 using Aki.SinglePlayer.Patches.RaidFix;
 using Aki.SinglePlayer.Patches.ScavMode;
+using Aki.SinglePlayer.Patches.TraderServices;
 using BepInEx;
 
 namespace Aki.SinglePlayer
@@ -57,6 +58,8 @@ namespace Aki.SinglePlayer
                 new LabsKeycardRemovalPatch().Enable();
                 new ScavLateStartPatch().Enable();
 				new MidRaidAchievementChangePatch().Enable();
+                new GetTraderServicesPatch().Enable();
+                new PurchaseTraderServicePatch().Enable();
             }
             catch (Exception ex)
             {

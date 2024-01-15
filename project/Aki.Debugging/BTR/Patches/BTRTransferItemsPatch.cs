@@ -1,11 +1,11 @@
 ﻿using Aki.Debugging.BTR.Utils;
 using Aki.Reflection.Patching;
+using Aki.SinglePlayer.Utils.TraderServices;
 using Comfort.Common;
 using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Aki.Debugging.BTR.Patches
 {
@@ -26,18 +26,8 @@ namespace Aki.Debugging.BTR.Patches
                 return;
             }
 
-            GameWorld gameWorld = Singleton<GameWorld>.Instance;
-            var player = gameWorld?.MainPlayer;
-            var btrManager = gameWorld?.GetComponent<BTRManager>();
-            if (gameWorld == null || player == null || btrManager == null)
-            {
-                Logger.LogError("[AKI-BTR] BTRTransferItemsPatch - Error fetching game objects");
-                return;
-            }
-
             // Update the trader services information now that we've used this service
-            btrManager.SetServicePurchased(ETraderServiceType.BtrItemsDelivery, BTRUtil.BTRTraderId);
-            BTRUtil.UpdateTraderServices(BTRUtil.BTRTraderId);
+            TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
         }
     }
 }
