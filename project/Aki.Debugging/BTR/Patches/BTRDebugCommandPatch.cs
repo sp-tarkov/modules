@@ -1,5 +1,6 @@
 ﻿using Aki.Debugging.BTR.Utils;
 using Aki.Reflection.Patching;
+using Aki.SinglePlayer.Utils.TraderServices;
 using EFT;
 using EFT.Console.Core;
 using EFT.UI;
@@ -42,7 +43,7 @@ namespace Aki.Debugging.BTR.Patches
         internal static void PatchPrefix(Profile.ETraderServiceSource traderServiceSourceType, ref bool useDebugData)
         {
             useDebugData = false;
-            BTRUtil.PopulateTraderServicesData(Profile.TraderInfo.TraderServiceToId[traderServiceSourceType]);
+            TraderServicesManager.Instance.GetTraderServicesDataFromServer(Profile.TraderInfo.TraderServiceToId[traderServiceSourceType]);
         }
     }
 }

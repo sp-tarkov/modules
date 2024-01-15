@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Aki.Debugging.BTR.Models
+namespace Aki.SinglePlayer.Utils.TraderServices
 {
     public class TraderServiceModel
     {
