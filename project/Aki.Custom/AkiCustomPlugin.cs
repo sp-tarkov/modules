@@ -48,6 +48,7 @@ namespace Aki.Custom
                 //new RankPanelPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
+                new FixBrokenSpawnOnSandboxPatch().Enable();
             }
             catch (Exception ex)
             {
