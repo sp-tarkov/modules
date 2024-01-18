@@ -86,7 +86,7 @@ namespace Aki.Custom.Airdrops.Utils
         {
             var serverConfig = GetConfigFromServer();
             var allAirdropPoints = LocationScene.GetAll<AirdropPoint>().ToList();
-            var playerPosition = gameWorld.MainPlayer.Position;
+            var playerPosition = ((IPlayer)gameWorld.MainPlayer).Position;
             var flareAirdropPoints = new List<AirdropPoint>();
             var dropChance = ChanceToSpawn(gameWorld, serverConfig, isFlare);
             var flareSpawnRadiusDistance = 100f;
