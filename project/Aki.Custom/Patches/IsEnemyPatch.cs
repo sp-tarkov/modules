@@ -22,7 +22,7 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
-            if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent || __instance.InitialBotType == WildSpawnType.shooterBTR)
+            if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent || __instance.InitialBotType == WildSpawnType.shooterBTR || __instance.InitialBotType == WildSpawnType.gifter)
             {
                 return true; // Do original code
             }

@@ -35,6 +35,8 @@ namespace Aki.Debugging
                 // Debug command patches, can be disabled later
                 new BTRDebugCommandPatch().Enable();
                 new BTRDebugDataPatch().Enable();
+
+                new PMCBotSpawnLocationPatch().Enable();
             }
             catch (Exception ex)
             {
