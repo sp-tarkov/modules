@@ -195,6 +195,7 @@ namespace Aki.Debugging.BTR
 
             // Initial BTR configuration
             btrServerSide = btrController.BtrVehicle;
+            btrServerSide.transform.Find("KillBox").gameObject.AddComponent<BTRRoadKillTrigger>();
             btrServerSide.moveSpeed = 20f;
             var btrMapConfig = btrController.MapPathsConfiguration;
             btrServerSide.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
