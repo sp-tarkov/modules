@@ -3,6 +3,8 @@ using Comfort.Common;
 using EFT;
 using System.Reflection;
 using HarmonyLib;
+using EFT.Interactive;
+using System.Linq;
 
 namespace Aki.SinglePlayer.Patches.ScavMode
 {
@@ -32,10 +34,23 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             // Only disable PMC extracts if current player is a scav
             if (player.Fraction == ETagStatus.Scav && player.Location != "hideout")
             {
-                // these are PMC extracts only, scav extracts are under a different field called ScavExfiltrationPoints
                 foreach (var exfil in gameWorld.ExfiltrationController.ExfiltrationPoints)
                 {
-                    exfil.Disable();
+                    if (exfil is ScavExfiltrationPoint scavExfil)
+                    {
+                        // We are checking if player exists in list so we dont disable the wrong extract
+                        if(!scavExfil.EligibleIds.Contains(player.ProfileId))
+                        {
+                            exfil.Disable();
+                        }
+                    }
+                    else
+                    {
+                        // Disabling extracts that aren't scav extracts
+                        exfil.Disable();
+                        // _authorityToChangeStatusExternally Changing this to false stop buttons from re-enabling extracts (d-2 extract, zb-013)
+                        exfil.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(x => x.Name == "_authorityToChangeStatusExternally").SetValue(exfil, false);
+                    }
                 }
             }
         }
