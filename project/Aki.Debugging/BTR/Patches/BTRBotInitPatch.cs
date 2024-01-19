@@ -25,10 +25,9 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(object __instance, int btrBotId, ref bool __result)
+        public static void PatchPostfix(BTRTurretView __instance, int btrBotId, ref bool __result)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            var btrTurretView = (BTRTurretView)__instance;
 
             foreach (var playerKeyValue in gameWorld.allAlivePlayersByID)
             {
@@ -49,10 +48,7 @@ namespace Aki.Debugging.BTR.Patches
                             foreach (var text in currentWeaponPrefab.RemoveChildrenOf)
                             {
                                 var transform = currentWeaponPrefab.transform.FindTransform(text);
-                                if (transform != null)
-                                {
-                                    transform.gameObject.SetActive(false);
-                                }
+                                transform?.gameObject.SetActive(false);
                             }
                         }
                         foreach (var renderer in currentWeaponPrefab.GetComponentsInChildren<Renderer>())
@@ -68,8 +64,8 @@ namespace Aki.Debugging.BTR.Patches
                         }
 
                         var tuple = new ValueTuple<ObservedPlayerView, bool>(new ObservedPlayerView(), true);
-                        var btrTurretViewTupleField = AccessTools.Field(btrTurretView.GetType(), "valueTuple_0");
-                        btrTurretViewTupleField.SetValue(btrTurretView, tuple);
+                        var btrTurretViewTupleField = AccessTools.Field(__instance.GetType(), "valueTuple_0");
+                        btrTurretViewTupleField.SetValue(__instance, tuple);
 
                         __result = true;
                         return;

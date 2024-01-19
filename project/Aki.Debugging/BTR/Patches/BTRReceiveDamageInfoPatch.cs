@@ -4,30 +4,31 @@ using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
+using BotEventHandler = GClass595;
 
 namespace Aki.Debugging.BTR.Patches
 {
     /// <summary>
     /// Patches an empty method in <see cref="BTRView"/> to handle updating the BTR bot's Neutrals and Enemies lists in response to taking damage.
     /// </summary>
-    public class BTRReceiveDamageInfoPatch : ModulePatch
+    internal class BTRReceiveDamageInfoPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BTRView), "method_1");
+            return AccessTools.Method(typeof(BTRView), nameof(BTRView.method_1));
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(DamageInfo damageInfo)
+        private static void PatchPrefix(DamageInfo damageInfo)
         {
-            var globalEvents = Singleton<GClass595>.Instance;
-            if (globalEvents == null)
+            var botEventHandler = Singleton<BotEventHandler>.Instance;
+            if (botEventHandler == null)
             {
                 return;
             }
 
             var shotBy = (Player)damageInfo.Player.iPlayer;
-            globalEvents.InterruptTraderServiceBtrSupportByBetrayer(shotBy);
+            botEventHandler.InterruptTraderServiceBtrSupportByBetrayer(shotBy);
         }
     }
 }
