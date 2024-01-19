@@ -3,6 +3,7 @@ using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Aki.SinglePlayer.Utils.TraderServices
 {
     public class TraderServicesManager
     {
+        public event Action<ETraderServiceType> OnTraderServicePurchased; // Subscribe to this event to trigger trader service logic
+
         private static TraderServicesManager _instance;
 
         public static TraderServicesManager Instance
@@ -146,6 +149,7 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                 _servicePurchased[serviceType] = new Dictionary<string, bool>();
                 _servicePurchased[serviceType][traderId] = true;
             }
+            OnTraderServicePurchased.Invoke(serviceType);
         }
 
         public bool IsServicePurchased(ETraderServiceType serviceType, string traderId)
