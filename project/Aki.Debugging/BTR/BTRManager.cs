@@ -112,57 +112,33 @@ namespace Aki.Debugging.BTR
         // Please tell me there's a better way than this xd
         public void OnPlayerInteractDoor(PlayerInteractPacket interactPacket)
         {
-            var playerGoIn = interactPacket.InteractionType == EInteractionType.GoIn;
-            var playerGoOut = interactPacket.InteractionType == EInteractionType.GoOut;
+            btrServerSide.LeftSlot0State = 0;
+            btrServerSide.LeftSlot1State = 0;
+            btrServerSide.RightSlot0State = 0;
+            btrServerSide.RightSlot1State = 0;
 
-            if (interactPacket.SideId == 0)
+            bool playerGoIn = interactPacket.InteractionType == EInteractionType.GoIn;
+
+            if (interactPacket.SideId == 0 && playerGoIn)
             {
                 if (interactPacket.SlotId == 0)
                 {
-                    if (playerGoIn)
-                    {
-                        btrServerSide.LeftSlot0State = 1;
-                    }
-                    else if (playerGoOut)
-                    {
-                        btrServerSide.LeftSlot0State = 0;
-                    }
+                    btrServerSide.LeftSlot0State = 1;
                 }
                 else if (interactPacket.SlotId == 1)
                 {
-                    if (playerGoIn)
-                    {
-                        btrServerSide.LeftSlot1State = 1;
-                    }
-                    else if (playerGoOut)
-                    {
-                        btrServerSide.LeftSlot1State = 0;
-                    }
+                    btrServerSide.LeftSlot1State = 1;
                 }
             }
-            else if (interactPacket.SideId == 1)
+            else if (interactPacket.SideId == 1 && playerGoIn)
             {
                 if (interactPacket.SlotId == 0)
                 {
-                    if (playerGoIn)
-                    {
-                        btrServerSide.RightSlot0State = 1;
-                    }
-                    else if (playerGoOut)
-                    {
-                        btrServerSide.RightSlot0State = 0;
-                    }
+                    btrServerSide.RightSlot0State = 1;
                 }
                 else if (interactPacket.SlotId == 1)
                 {
-                    if (playerGoIn)
-                    {
-                        btrServerSide.RightSlot1State = 1;
-                    }
-                    else if (playerGoOut)
-                    {
-                        btrServerSide.RightSlot1State = 0;
-                    }
+                    btrServerSide.RightSlot1State = 1;
                 }
             }
         }

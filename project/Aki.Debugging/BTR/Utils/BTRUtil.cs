@@ -19,8 +19,6 @@ namespace Aki.Debugging.BTR.Utils
         public static readonly string BTRMachineGunWeaponTplId = "657857faeff4c850222dff1b"; // BTR PKTM machine gun
         public static readonly string BTRMachineGunAmmoTplId = "5e023d34e8a400319a28ed44"; // 7.62x54mmR BT
 
-        private static FieldInfo _traderAvailableServicesField = AccessTools.Field(typeof(Profile.TraderInfo), "_availableServices");
-
         static BTRUtil()
         {
             // Sanity checks for compile time failure in the event the GClass changes
