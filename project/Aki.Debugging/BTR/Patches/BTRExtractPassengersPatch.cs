@@ -3,12 +3,11 @@ using Comfort.Common;
 using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
-using System;
 using System.Reflection;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRExtractPassengersPatch : ModulePatch
+    internal class BTRExtractPassengersPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -16,39 +15,32 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPrefix]
-        public static void PatchPrefix()
+        private static void PatchPrefix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             var player = gameWorld.MainPlayer;
             var btrManager = gameWorld.GetComponent<BTRManager>();
 
-            try
+            var btrSide = btrManager.LastInteractedBtrSide;
+            if (btrSide == null)
             {
-                var btrSide = btrManager.LastInteractedBtrSide;
-                if (btrSide == null)
-                {
-                    return;
-                }
-
-                if (btrSide.TryGetCachedPlace(out byte b))
-                {
-                    var interactionBtrPacket = btrSide.GetInteractWithBtrPacket(b, EInteractionType.GoOut);
-                    if (interactionBtrPacket.HasInteraction)
-                    {
-                        BTRView btrView = gameWorld.BtrController.BtrView;
-                        if (btrView == null)
-                        {
-                            throw new NullReferenceException("BtrView not found");
-                        }
-
-                        btrManager.OnPlayerInteractDoor(interactionBtrPacket);
-                        btrView.Interaction(player, interactionBtrPacket);
-                    }
-                }
+                return;
             }
-            catch (Exception ex19)
+
+            if (btrSide.TryGetCachedPlace(out byte b))
             {
-                UnityEngine.Debug.LogException(ex19);
+                var interactionBtrPacket = btrSide.GetInteractWithBtrPacket(b, EInteractionType.GoOut);
+                if (interactionBtrPacket.HasInteraction)
+                {
+                    BTRView btrView = gameWorld.BtrController.BtrView;
+                    if (btrView == null)
+                    {
+                        return;
+                    }
+
+                    btrManager.OnPlayerInteractDoor(interactionBtrPacket);
+                    btrView.Interaction(player, interactionBtrPacket);
+                }
             }
         }
     }

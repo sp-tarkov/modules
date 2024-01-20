@@ -1,11 +1,9 @@
 ﻿using Aki.Common.Http;
 using Comfort.Common;
 using EFT;
-using HarmonyLib;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
 using TraderServiceClass = GClass1789;
@@ -14,7 +12,10 @@ namespace Aki.SinglePlayer.Utils.TraderServices
 {
     public class TraderServicesManager
     {
-        public event Action<ETraderServiceType> OnTraderServicePurchased; // Subscribe to this event to trigger trader service logic
+        /// <summary>
+        /// Subscribe to this event to trigger trader service logic.
+        /// </summary>
+        public event Action<ETraderServiceType> OnTraderServicePurchased; 
 
         private static TraderServicesManager _instance;
 

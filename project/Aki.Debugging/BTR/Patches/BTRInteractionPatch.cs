@@ -1,14 +1,15 @@
 ﻿using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
+using EFT.GlobalEvents;
 using EFT.Vehicle;
 using HarmonyLib;
-using System;
 using System.Reflection;
+using GlobalEventHandler = GClass2909;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRInteractionPatch : ModulePatch
+    internal class BTRInteractionPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -24,32 +25,33 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(object __instance, BTRSide btr, byte placeId, EInteractionType interaction)
+        private static void PatchPostfix(Player __instance, BTRSide btr, byte placeId, EInteractionType interaction)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            var player = (Player)__instance;
             var btrManager = gameWorld.GetComponent<BTRManager>();
 
-            try
-            {
-                var interactionBtrPacket = btr.GetInteractWithBtrPacket(placeId, interaction);
-                player.UpdateInteractionCast();
+            var interactionBtrPacket = btr.GetInteractWithBtrPacket(placeId, interaction);
+            __instance.UpdateInteractionCast();
 
-                if (interactionBtrPacket.HasInteraction)
-                {
-                    BTRView btrView = gameWorld.BtrController.BtrView;
-                    if (btrView == null)
-                    {
-                        throw new NullReferenceException("BtrView not found");
-                    }
-                    
-                    btrManager.OnPlayerInteractDoor(interactionBtrPacket);
-                    btrView.Interaction(player, interactionBtrPacket);
-                }
-            }
-            catch (Exception ex19)
+            // Prevent player from entering BTR when blacklisted
+            var btrBot = gameWorld.BtrController.BotShooterBtr;
+            if (btrBot.BotsGroup.Enemies.ContainsKey(__instance))
             {
-                UnityEngine.Debug.LogException(ex19);
+                // Notify player they are blacklisted from entering BTR
+                GlobalEventHandler.CreateEvent<BtrNotificationInteractionMessageEvent>().Invoke(__instance.Id, EBtrInteractionStatus.Blacklisted);
+                return;
+            }
+
+            if (interactionBtrPacket.HasInteraction)
+            {
+                BTRView btrView = gameWorld.BtrController.BtrView;
+                if (btrView == null)
+                {
+                    return;
+                }
+
+                btrManager.OnPlayerInteractDoor(interactionBtrPacket);
+                btrView.Interaction(__instance, interactionBtrPacket);
             }
         }
     }

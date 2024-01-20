@@ -92,24 +92,28 @@ namespace Aki.Debugging.BTR
         {
             btrController.SyncBTRVehicleFromServer(UpdateDataPacket());
 
-            // BotShooterBtr doesn't get assigned to BtrController immediately so we nullcheck this in Update
-            if (btrController.BotShooterBtr != null && !btrBotShooterInitialized)
+            if (btrController.BotShooterBtr == null) return;
+
+            // BotShooterBtr doesn't get assigned to BtrController immediately so we check this in Update
+            if (!btrBotShooterInitialized)
             {
                 btrBotShooter = btrController.BotShooterBtr;
                 btrBotService.Reset(); // Player will be added to Neutrals list and removed from Enemies list
-                TraderServicesManager.Instance.OnTraderServicePurchased += TraderServicePurchased;
+                TraderServicesManager.Instance.OnTraderServicePurchased += BTRTraderServicePurchased;
                 btrBotShooterInitialized = true;
             }
-
-            if (btrController.BotShooterBtr == null) return;
 
             if (HasTarget() && IsAimingAtTarget() && !isShooting)
             {
                 _shootingTargetCoroutine = StaticManager.BeginCoroutine(ShootTarget());
             }
+
+            if (_coverFireTimerCoroutine != null && ShouldCancelCoverFireSupport())
+            {
+                CancelCoverFireSupport();
+            }
         }
 
-        // Please tell me there's a better way than this xd
         public void OnPlayerInteractDoor(PlayerInteractPacket interactPacket)
         {
             btrServerSide.LeftSlot0State = 0;
@@ -193,14 +197,36 @@ namespace Aki.Debugging.BTR
             _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
         }
 
-        private void TraderServicePurchased(ETraderServiceType serviceType)
+        private bool IsBtrService(ETraderServiceType serviceType)
         {
+            if (serviceType == ETraderServiceType.BtrItemsDelivery 
+                || serviceType == ETraderServiceType.PlayerTaxi 
+                || serviceType == ETraderServiceType.BtrBotCover)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void BTRTraderServicePurchased(ETraderServiceType serviceType)
+        {
+            if (!IsBtrService(serviceType))
+            {
+                return;
+            }
+
+            List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
+            List<int> playersToNotify = passengers.Select(x => x.Id).ToList();
+            btrController.method_6(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
+
             switch (serviceType)
             {
                 case ETraderServiceType.BtrBotCover:
-                    List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
                     botEventHandler.ApplyTraderServiceBtrSupport(passengers);
                     StartCoverFireTimer(90f);
+                    break;
+                case ETraderServiceType.PlayerTaxi:
                     break;
             }
         }
@@ -208,6 +234,23 @@ namespace Aki.Debugging.BTR
         private void StartCoverFireTimer(float time)
         {
             _coverFireTimerCoroutine = StaticManager.BeginCoroutine(CoverFireTimer(time));
+        }
+
+        private bool ShouldCancelCoverFireSupport()
+        {
+            var friendlyPlayersByBtrSupport = (List<Player>)AccessTools.Field(btrBotService.GetType(), "_friendlyPlayersByBtrSupport").GetValue(btrBotService);
+            if (!friendlyPlayersByBtrSupport.Any())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void CancelCoverFireSupport()
+        {
+            StaticManager.KillCoroutine(ref _coverFireTimerCoroutine);
+            botEventHandler.StopTraderServiceBtrSupport();
         }
 
         private IEnumerator CoverFireTimer(float time)
@@ -331,7 +374,6 @@ namespace Aki.Debugging.BTR
                     Vector3 currentTargetPosition = currentTargetTransform.position;
                     if (btrTurretServer.CheckPositionInAimingZone(currentTargetPosition))
                     {
-                        // If turret machine gun aim is close enough to target and has line of sight
                         if (btrTurretServer.targetTransform == currentTargetTransform && btrBotShooter.BotBtrData.CanShoot())
                         {
                             return true;
@@ -389,6 +431,11 @@ namespace Aki.Debugging.BTR
             isShooting = false;
         }
 
+        private void OnDestroy()
+        {
+            DestroyGameObjects();
+        }
+
         private void DestroyGameObjects()
         {
             if (btrController != null)
@@ -412,7 +459,7 @@ namespace Aki.Debugging.BTR
 
             if (TraderServicesManager.Instance != null)
             {
-                TraderServicesManager.Instance.OnTraderServicePurchased -= TraderServicePurchased;
+                TraderServicesManager.Instance.OnTraderServicePurchased -= BTRTraderServicePurchased;
             }
 
             StaticManager.KillCoroutine(ref _shootingTargetCoroutine);

@@ -1,15 +1,13 @@
 ﻿using Aki.Debugging.BTR.Utils;
 using Aki.Reflection.Patching;
 using Aki.SinglePlayer.Utils.TraderServices;
-using Comfort.Common;
-using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRTransferItemsPatch : ModulePatch
+    internal class BTRTransferItemsPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -18,7 +16,7 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(bool ___bool_1)
+        private static void PatchPostfix(bool ___bool_1)
         {
             // Didn't extract items
             if (!___bool_1)
