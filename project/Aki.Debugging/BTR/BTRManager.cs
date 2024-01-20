@@ -2,7 +2,6 @@
 using Aki.SinglePlayer.Utils.TraderServices;
 using Comfort.Common;
 using EFT;
-using EFT.GlobalEvents;
 using EFT.InventoryLogic;
 using EFT.Vehicle;
 using HarmonyLib;
@@ -19,9 +18,6 @@ namespace Aki.Debugging.BTR
 {
     public class BTRManager : MonoBehaviour
     {
-        public readonly BtrServicePurchaseEvent btrServicePurchaseEvent = new BtrServicePurchaseEvent();
-        public readonly BtrNotificationInteractionMessageEvent btrNotificationInteractionEvent = new BtrNotificationInteractionMessageEvent();
-
         private GameWorld gameWorld;
         private BotEventHandler botEventHandler;
 
@@ -111,6 +107,11 @@ namespace Aki.Debugging.BTR
             {
                 _shootingTargetCoroutine = StaticManager.BeginCoroutine(ShootTarget());
             }
+
+            if (_coverFireTimerCoroutine != null && ShouldCancelCoverFireSupport())
+            {
+                CancelCoverFireSupport();
+            }
         }
 
         public void OnPlayerInteractDoor(PlayerInteractPacket interactPacket)
@@ -196,21 +197,32 @@ namespace Aki.Debugging.BTR
             _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
         }
 
+        private bool IsBtrService(ETraderServiceType serviceType)
+        {
+            if (serviceType == ETraderServiceType.BtrItemsDelivery 
+                || serviceType == ETraderServiceType.PlayerTaxi 
+                || serviceType == ETraderServiceType.BtrBotCover)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void BTRTraderServicePurchased(ETraderServiceType serviceType)
         {
-            if ((int)serviceType < 3 || (int)serviceType > 5)
+            if (!IsBtrService(serviceType))
             {
                 return;
             }
 
             List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
-            int[] playersToNotify = passengers.Select(x => x.Id).ToArray();
-            btrServicePurchaseEvent.Invoke(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
+            List<int> playersToNotify = passengers.Select(x => x.Id).ToList();
+            btrController.method_6(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
 
             switch (serviceType)
             {
                 case ETraderServiceType.BtrBotCover:
-                    
                     botEventHandler.ApplyTraderServiceBtrSupport(passengers);
                     StartCoverFireTimer(90f);
                     break;
@@ -222,6 +234,23 @@ namespace Aki.Debugging.BTR
         private void StartCoverFireTimer(float time)
         {
             _coverFireTimerCoroutine = StaticManager.BeginCoroutine(CoverFireTimer(time));
+        }
+
+        private bool ShouldCancelCoverFireSupport()
+        {
+            var friendlyPlayersByBtrSupport = (List<Player>)AccessTools.Field(btrBotService.GetType(), "_friendlyPlayersByBtrSupport").GetValue(btrBotService);
+            if (!friendlyPlayersByBtrSupport.Any())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void CancelCoverFireSupport()
+        {
+            StaticManager.KillCoroutine(ref _coverFireTimerCoroutine);
+            botEventHandler.StopTraderServiceBtrSupport();
         }
 
         private IEnumerator CoverFireTimer(float time)
@@ -400,6 +429,11 @@ namespace Aki.Debugging.BTR
             yield return new WaitForSecondsRealtime(waitTime);
             
             isShooting = false;
+        }
+
+        private void OnDestroy()
+        {
+            DestroyGameObjects();
         }
 
         private void DestroyGameObjects()

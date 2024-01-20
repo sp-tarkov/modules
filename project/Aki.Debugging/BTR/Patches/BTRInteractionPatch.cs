@@ -1,9 +1,11 @@
 ﻿using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
+using EFT.GlobalEvents;
 using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
+using GlobalEventHandler = GClass2909;
 
 namespace Aki.Debugging.BTR.Patches
 {
@@ -36,7 +38,7 @@ namespace Aki.Debugging.BTR.Patches
             if (btrBot.BotsGroup.Enemies.ContainsKey(__instance))
             {
                 // Notify player they are blacklisted from entering BTR
-                btrManager.btrNotificationInteractionEvent.Invoke(__instance.Id, EBtrInteractionStatus.Blacklisted);
+                GlobalEventHandler.CreateEvent<BtrNotificationInteractionMessageEvent>().Invoke(__instance.Id, EBtrInteractionStatus.Blacklisted);
                 return;
             }
 
