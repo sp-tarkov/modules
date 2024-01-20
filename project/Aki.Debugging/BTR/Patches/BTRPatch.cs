@@ -14,11 +14,13 @@ namespace Aki.Debugging.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
+            // Note: This may seem like a weird place to hook, but `SetTime` requires that the BtrController 
+            //       exist and be setup, so we'll use this as the entry point
+            return AccessTools.Method(typeof(ExtractionTimersPanel), nameof(ExtractionTimersPanel.SetTime));
         }
 
-        [PatchPostfix]
-        private static void PatchPostfix()
+        [PatchPrefix]
+        private static void PatchPrefix()
         {
             try
             {
@@ -35,7 +37,8 @@ namespace Aki.Debugging.BTR.Patches
                     gameWorld.LocationId = gameWorld.MainPlayer.Location;
                 }
 
-                gameWorld.gameObject.AddComponent<BTRManager>();
+                var btrManager = gameWorld.gameObject.AddComponent<BTRManager>();
+                btrManager.Init();
             }
             catch (System.Exception)
             {
