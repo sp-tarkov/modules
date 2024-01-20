@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRTurretDefaultAimingPositionPatch : ModulePatch
+    internal class BTRTurretDefaultAimingPositionPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -14,7 +14,7 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(BTRTurretServer __instance)
+        private static bool PatchPrefix(BTRTurretServer __instance)
         {
             __instance.defaultAimingPosition = Vector3.zero;
 

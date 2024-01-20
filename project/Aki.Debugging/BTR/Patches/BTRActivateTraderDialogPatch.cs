@@ -1,19 +1,16 @@
-﻿using Aki.Debugging.BTR.Utils;
-using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
+﻿using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using EFT.UI.Screens;
 using EFT.Vehicle;
 using HarmonyLib;
 using System;
-using System.Linq;
 using System.Reflection;
 using static EFT.UI.TraderDialogScreen;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRActivateTraderDialogPatch : ModulePatch
+    internal class BTRActivateTraderDialogPatch : ModulePatch
     {
         private static FieldInfo _playerInventoryControllerField;
         private static FieldInfo _playerQuestControllerField;
@@ -40,7 +37,7 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix()
+        private static bool PatchPrefix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             var player = gameWorld.MainPlayer;

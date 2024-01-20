@@ -2,6 +2,7 @@
 using Aki.SinglePlayer.Utils.TraderServices;
 using Comfort.Common;
 using EFT;
+using EFT.GlobalEvents;
 using EFT.InventoryLogic;
 using EFT.Vehicle;
 using HarmonyLib;
@@ -18,6 +19,9 @@ namespace Aki.Debugging.BTR
 {
     public class BTRManager : MonoBehaviour
     {
+        public readonly BtrServicePurchaseEvent btrServicePurchaseEvent = new BtrServicePurchaseEvent();
+        public readonly BtrNotificationInteractionMessageEvent btrNotificationInteractionEvent = new BtrNotificationInteractionMessageEvent();
+
         private GameWorld gameWorld;
         private BotEventHandler botEventHandler;
 
@@ -92,16 +96,16 @@ namespace Aki.Debugging.BTR
         {
             btrController.SyncBTRVehicleFromServer(UpdateDataPacket());
 
-            // BotShooterBtr doesn't get assigned to BtrController immediately so we nullcheck this in Update
-            if (btrController.BotShooterBtr != null && !btrBotShooterInitialized)
+            if (btrController.BotShooterBtr == null) return;
+
+            // BotShooterBtr doesn't get assigned to BtrController immediately so we check this in Update
+            if (!btrBotShooterInitialized)
             {
                 btrBotShooter = btrController.BotShooterBtr;
                 btrBotService.Reset(); // Player will be added to Neutrals list and removed from Enemies list
-                TraderServicesManager.Instance.OnTraderServicePurchased += TraderServicePurchased;
+                TraderServicesManager.Instance.OnTraderServicePurchased += BTRTraderServicePurchased;
                 btrBotShooterInitialized = true;
             }
-
-            if (btrController.BotShooterBtr == null) return;
 
             if (HasTarget() && IsAimingAtTarget() && !isShooting)
             {
@@ -109,7 +113,6 @@ namespace Aki.Debugging.BTR
             }
         }
 
-        // Please tell me there's a better way than this xd
         public void OnPlayerInteractDoor(PlayerInteractPacket interactPacket)
         {
             btrServerSide.LeftSlot0State = 0;
@@ -193,14 +196,25 @@ namespace Aki.Debugging.BTR
             _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
         }
 
-        private void TraderServicePurchased(ETraderServiceType serviceType)
+        private void BTRTraderServicePurchased(ETraderServiceType serviceType)
         {
+            if ((int)serviceType < 3 || (int)serviceType > 5)
+            {
+                return;
+            }
+
+            List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
+            int[] playersToNotify = passengers.Select(x => x.Id).ToArray();
+            btrServicePurchaseEvent.Invoke(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
+
             switch (serviceType)
             {
                 case ETraderServiceType.BtrBotCover:
-                    List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
+                    
                     botEventHandler.ApplyTraderServiceBtrSupport(passengers);
                     StartCoverFireTimer(90f);
+                    break;
+                case ETraderServiceType.PlayerTaxi:
                     break;
             }
         }
@@ -331,7 +345,6 @@ namespace Aki.Debugging.BTR
                     Vector3 currentTargetPosition = currentTargetTransform.position;
                     if (btrTurretServer.CheckPositionInAimingZone(currentTargetPosition))
                     {
-                        // If turret machine gun aim is close enough to target and has line of sight
                         if (btrTurretServer.targetTransform == currentTargetTransform && btrBotShooter.BotBtrData.CanShoot())
                         {
                             return true;
@@ -412,7 +425,7 @@ namespace Aki.Debugging.BTR
 
             if (TraderServicesManager.Instance != null)
             {
-                TraderServicesManager.Instance.OnTraderServicePurchased -= TraderServicePurchased;
+                TraderServicesManager.Instance.OnTraderServicePurchased -= BTRTraderServicePurchased;
             }
 
             StaticManager.KillCoroutine(ref _shootingTargetCoroutine);

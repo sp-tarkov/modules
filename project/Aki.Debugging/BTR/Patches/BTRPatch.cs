@@ -10,7 +10,7 @@ namespace Aki.Debugging.BTR.Patches
     /// <summary>
     /// Adds a BTRManager component to the GameWorld game object when raid starts.
     /// </summary>
-    public class BTRPatch : ModulePatch
+    internal class BTRPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -18,7 +18,7 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPostfix]
-        public static void PatchPostfix()
+        private static void PatchPostfix()
         {
             try
             {

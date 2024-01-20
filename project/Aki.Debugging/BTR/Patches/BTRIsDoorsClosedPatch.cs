@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Aki.Debugging.BTR.Patches
 {
-    public class BTRIsDoorsClosedPath : ModulePatch
+    internal class BTRIsDoorsClosedPath : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -14,7 +14,7 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ref bool __result)
+        private static bool PatchPrefix(ref bool __result)
         {
             var serverSideBTR = Singleton<GameWorld>.Instance?.BtrController.BtrVehicle;
             if (serverSideBTR == null)

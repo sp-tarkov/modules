@@ -8,7 +8,7 @@ namespace Aki.Debugging.BTR.Patches
 {
     // The BTRManager MapPathsConfiguration loading depends on the game state being set to Starting
     // so set it to Starting while the method is running, then reset it afterwards
-    public class BTRPathLoadPatch : ModulePatch
+    internal class BTRPathLoadPatch : ModulePatch
     {
         private static PropertyInfo _statusProperty;
         private static GameStatus originalStatus;
@@ -20,14 +20,14 @@ namespace Aki.Debugging.BTR.Patches
         }
 
         [PatchPrefix]
-        public static void PatchPrefix()
+        private static void PatchPrefix()
         {
             originalStatus = Singleton<AbstractGame>.Instance.Status;
             _statusProperty.SetValue(Singleton<AbstractGame>.Instance, GameStatus.Starting);
         }
 
         [PatchPostfix]
-        public static void PatchPostfix()
+        private static void PatchPostfix()
         {
             _statusProperty.SetValue(Singleton<AbstractGame>.Instance, originalStatus);
         }
