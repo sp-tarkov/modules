@@ -28,6 +28,7 @@ namespace Aki.Debugging.BTR
         private BotOwner btrBotShooter;
         private BTRDataPacket btrDataPacket = default;
         private bool btrBotShooterInitialized = false;
+        private float coverFireTime = 90f;
 
         private EPlayerBtrState previousPlayerBtrState;
         private BTRSide lastInteractedBtrSide;
@@ -149,6 +150,9 @@ namespace Aki.Debugging.BTR
 
         private void InitBTR()
         {
+            // Fetch config from the server
+            var serverConfig = BTRUtil.GetConfigFromServer();
+
             // Initial setup
             botEventHandler = Singleton<BotEventHandler>.Instance;
             var botsController = Singleton<IBotGame>.Instance.BotsController;
@@ -159,7 +163,14 @@ namespace Aki.Debugging.BTR
             // Initial BTR configuration
             btrServerSide = btrController.BtrVehicle;
             btrServerSide.transform.Find("KillBox").gameObject.AddComponent<BTRRoadKillTrigger>();
-            btrServerSide.moveSpeed = 20f;
+
+            // Update values from server side config
+            btrServerSide.moveSpeed = serverConfig.MoveSpeed;
+            btrServerSide.pauseDurationRange.x = serverConfig.PointWaitTime.Min;
+            btrServerSide.pauseDurationRange.y = serverConfig.PointWaitTime.Max;
+            btrServerSide.readyToDeparture = serverConfig.TaxiWaitTime;
+            coverFireTime = serverConfig.CoverFireTime;
+
             var btrMapConfig = btrController.MapPathsConfiguration;
             btrServerSide.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
             btrServerSide.Initialization(btrMapConfig);
@@ -230,7 +241,7 @@ namespace Aki.Debugging.BTR
             {
                 case ETraderServiceType.BtrBotCover:
                     botEventHandler.ApplyTraderServiceBtrSupport(passengers);
-                    StartCoverFireTimer(90f);
+                    StartCoverFireTimer(coverFireTime);
                     break;
                 case ETraderServiceType.PlayerTaxi:
                     btrController.BtrVehicle.IsPaid = true;

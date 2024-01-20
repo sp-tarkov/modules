@@ -1,6 +1,9 @@
-﻿using Comfort.Common;
+﻿using Aki.Common.Http;
+using Aki.Debugging.BTR.Models;
+using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
+using Newtonsoft.Json;
 using System;
 
 namespace Aki.Debugging.BTR.Utils
@@ -18,6 +21,12 @@ namespace Aki.Debugging.BTR.Utils
         {
             var id = Guid.NewGuid().ToString("N").Substring(0, 24);
             return Singleton<ItemFactory>.Instance.CreateItem(id, tplId, null);
+        }
+
+        public static BtrConfigModel GetConfigFromServer()
+        {
+            string json = RequestHandler.GetJson("/singleplayer/btr/config");
+            return JsonConvert.DeserializeObject<BtrConfigModel>(json);
         }
     }
 }
