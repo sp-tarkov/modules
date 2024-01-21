@@ -49,14 +49,8 @@ namespace Aki.Debugging.BTR
             Type btrControllerType = typeof(BTRControllerClass);
             _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
         }
-
-        // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
-        private bool IsUpdateTaxiPriceMethod(MethodInfo method)
-        {
-            return (method.GetParameters().Length == 2 && method.GetParameters()[0].ParameterType == typeof(PathDestination));
-        }
-
-        private void Start()
+        
+        public void Init()
         {
             try
             {
@@ -86,6 +80,12 @@ namespace Aki.Debugging.BTR
                 DestroyGameObjects();
                 throw;
             }
+        }
+
+        // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
+        private bool IsUpdateTaxiPriceMethod(MethodInfo method)
+        {
+            return (method.GetParameters().Length == 2 && method.GetParameters()[0].ParameterType == typeof(PathDestination));
         }
 
         private void Update()
@@ -189,12 +189,18 @@ namespace Aki.Debugging.BTR
         }
 
         /**
-         * BTR has arrived at a destination, re-calculate taxi prices
+         * BTR has arrived at a destination, re-calculate taxi prices and remove purchased taxi service
          */
         private void ToDestinationEvent(PathDestination destinationPoint, bool isFirst, bool isFinal, bool isLastRoutePoint)
         {
+            // Remove purchased taxi service
+            TraderServicesManager.Instance.RemovePurchasedService(ETraderServiceType.PlayerTaxi, BTRUtil.BTRTraderId);
+
             // Update the prices for the taxi service
             _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
+
+            // Update the UI
+            TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
         }
 
         private bool IsBtrService(ETraderServiceType serviceType)
@@ -209,7 +215,7 @@ namespace Aki.Debugging.BTR
             return false;
         }
 
-        private void BTRTraderServicePurchased(ETraderServiceType serviceType)
+        private void BTRTraderServicePurchased(ETraderServiceType serviceType, string subserviceId)
         {
             if (!IsBtrService(serviceType))
             {
@@ -227,6 +233,8 @@ namespace Aki.Debugging.BTR
                     StartCoverFireTimer(90f);
                     break;
                 case ETraderServiceType.PlayerTaxi:
+                    btrController.BtrVehicle.IsPaid = true;
+                    btrController.BtrVehicle.MoveToDestination(subserviceId);
                     break;
             }
         }

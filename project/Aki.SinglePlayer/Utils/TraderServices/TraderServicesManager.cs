@@ -15,7 +15,7 @@ namespace Aki.SinglePlayer.Utils.TraderServices
         /// <summary>
         /// Subscribe to this event to trigger trader service logic.
         /// </summary>
-        public event Action<ETraderServiceType> OnTraderServicePurchased; 
+        public event Action<ETraderServiceType, string> OnTraderServicePurchased; 
 
         private static TraderServicesManager _instance;
 
@@ -136,10 +136,10 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                 return;
             }
 
-            SetServicePurchased(serviceType, serviceData.TraderId);
+            SetServicePurchased(serviceType, subServiceId, serviceData.TraderId);
         }
 
-        public void SetServicePurchased(ETraderServiceType serviceType, string traderId)
+        public void SetServicePurchased(ETraderServiceType serviceType, string subserviceId, string traderId)
         {
             if (_servicePurchased.TryGetValue(serviceType, out var traderDict))
             {
@@ -150,7 +150,15 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                 _servicePurchased[serviceType] = new Dictionary<string, bool>();
                 _servicePurchased[serviceType][traderId] = true;
             }
-            OnTraderServicePurchased.Invoke(serviceType);
+            OnTraderServicePurchased.Invoke(serviceType, subserviceId);
+        }
+
+        public void RemovePurchasedService(ETraderServiceType serviceType, string traderId)
+        {
+            if (_servicePurchased.TryGetValue(serviceType, out var traderDict))
+            {
+                traderDict[traderId] = false;
+            }
         }
 
         public bool IsServicePurchased(ETraderServiceType serviceType, string traderId)
