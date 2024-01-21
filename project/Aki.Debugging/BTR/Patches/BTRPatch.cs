@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using Comfort.Common;
@@ -24,17 +25,14 @@ namespace Aki.Debugging.BTR.Patches
         {
             try
             {
+                var btrSettings = Singleton<BackendConfigSettingsClass>.Instance.BTRSettings;
                 var gameWorld = Singleton<GameWorld>.Instance;
-                if (gameWorld.MainPlayer.Location.ToLower() != "tarkovstreets")
-                {
-                    // only run patch on streets
-                    return;
-                }
 
-                if (gameWorld.LocationId.IsNullOrEmpty())
+                // Only run on maps that have the BTR enabled
+                string location = gameWorld.MainPlayer.Location;
+                if (!btrSettings.LocationsWithBTR.Contains(location))
                 {
-                    // GameWorld's LocationId needs to be set otherwise BTR doesn't get spawned in automatically
-                    gameWorld.LocationId = gameWorld.MainPlayer.Location;
+                    return;
                 }
 
                 var btrManager = gameWorld.gameObject.AddComponent<BTRManager>();
