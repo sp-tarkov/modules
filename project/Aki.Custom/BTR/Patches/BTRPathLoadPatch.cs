@@ -4,11 +4,11 @@ using EFT;
 using HarmonyLib;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
     // The BTRManager MapPathsConfiguration loading depends on the game state being set to Starting
     // so set it to Starting while the method is running, then reset it afterwards
-    internal class BTRPathLoadPatch : ModulePatch
+    public class BTRPathLoadPatch : ModulePatch
     {
         private static PropertyInfo _statusProperty;
         private static GameStatus originalStatus;

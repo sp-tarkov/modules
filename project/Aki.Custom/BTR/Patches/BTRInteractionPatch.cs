@@ -7,9 +7,9 @@ using HarmonyLib;
 using System.Reflection;
 using GlobalEventHandler = GClass2909;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRInteractionPatch : ModulePatch
+    public class BTRInteractionPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

@@ -6,7 +6,7 @@ using EFT.InventoryLogic;
 using Newtonsoft.Json;
 using System;
 
-namespace Aki.Debugging.BTR.Utils
+namespace Aki.Custom.BTR.Utils
 {
     public static class BTRUtil
     {

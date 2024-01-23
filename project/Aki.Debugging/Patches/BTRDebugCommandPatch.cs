@@ -1,13 +1,12 @@
-﻿using Aki.Debugging.BTR.Utils;
+﻿using Aki.Custom.BTR.Patches;
 using Aki.Reflection.Patching;
 using Aki.SinglePlayer.Utils.TraderServices;
 using EFT;
-using EFT.Console.Core;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Debugging.Patches
 {
     // Enable the `debug_show_dialog_screen` command, and custom `btr_deliver_items` command
     internal class BTRDebugCommandPatch : ModulePatch

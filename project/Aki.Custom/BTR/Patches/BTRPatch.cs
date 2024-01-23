@@ -6,12 +6,12 @@ using EFT;
 using EFT.UI;
 using HarmonyLib;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
     /// <summary>
     /// Adds a BTRManager component to the GameWorld game object when raid starts.
     /// </summary>
-    internal class BTRPatch : ModulePatch
+    public class BTRPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

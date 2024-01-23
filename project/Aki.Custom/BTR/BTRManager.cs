@@ -1,4 +1,4 @@
-﻿using Aki.Debugging.BTR.Utils;
+﻿using Aki.Custom.BTR.Utils;
 using Aki.SinglePlayer.Utils.TraderServices;
 using Comfort.Common;
 using EFT;
@@ -14,7 +14,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using BotEventHandler = GClass595;
 
-namespace Aki.Debugging.BTR
+namespace Aki.Custom.BTR
 {
     public class BTRManager : MonoBehaviour
     {

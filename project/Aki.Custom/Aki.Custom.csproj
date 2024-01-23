@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Aki.PrePatch\Aki.PrePatch.csproj" />
     <ProjectReference Include="..\Aki.Common\Aki.Common.csproj" />
     <ProjectReference Include="..\Aki.Reflection\Aki.Reflection.csproj" />
+    <ProjectReference Include="..\Aki.SinglePlayer\Aki.SinglePlayer.csproj" />
   </ItemGroup>
 
 </Project>

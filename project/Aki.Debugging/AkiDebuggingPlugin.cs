@@ -1,6 +1,5 @@
 ﻿using System;
 using Aki.Common;
-using Aki.Debugging.BTR.Patches;
 using Aki.Debugging.Patches;
 using BepInEx;
 
@@ -18,23 +17,10 @@ namespace Aki.Debugging
                 new EndRaidDebug().Enable();
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
-                new BTRPathLoadPatch().Enable();
-                new BTRActivateTraderDialogPatch().Enable();
-                new BTRInteractionPatch().Enable();
-                new BTRExtractPassengersPatch().Enable();
-                new BTRBotAttachPatch().Enable();
-                new BTRBotInitPatch().Enable();
-                new BTRReceiveDamageInfoPatch().Enable();
-                new BTRTurretCanShootPatch().Enable();
-                new BTRTurretDefaultAimingPositionPatch().Enable();
-                new BTRIsDoorsClosedPath().Enable();
-                new BTRPatch().Enable();
-                new BTRTransferItemsPatch().Enable();
-                new BTREndRaidItemDeliveryPatch().Enable();
 
-                // Debug command patches, can be disabled later
-                new BTRDebugCommandPatch().Enable();
-                new BTRDebugDataPatch().Enable();
+                // BTR debug command patches, can be disabled later
+                //new BTRDebugCommandPatch().Enable();
+                //new BTRDebugDataPatch().Enable();
 
                 //new PMCBotSpawnLocationPatch().Enable();
             }

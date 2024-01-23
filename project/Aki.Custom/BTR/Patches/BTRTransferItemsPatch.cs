@@ -1,13 +1,13 @@
-﻿using Aki.Debugging.BTR.Utils;
+﻿using Aki.Custom.BTR.Utils;
 using Aki.Reflection.Patching;
 using Aki.SinglePlayer.Utils.TraderServices;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRTransferItemsPatch : ModulePatch
+    public class BTRTransferItemsPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
