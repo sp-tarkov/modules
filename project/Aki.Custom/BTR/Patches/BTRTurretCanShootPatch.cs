@@ -4,9 +4,9 @@ using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRTurretCanShootPatch : ModulePatch
+    public class BTRTurretCanShootPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

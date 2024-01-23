@@ -4,9 +4,9 @@ using EFT;
 using HarmonyLib;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRIsDoorsClosedPath : ModulePatch
+    public class BTRIsDoorsClosedPath : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

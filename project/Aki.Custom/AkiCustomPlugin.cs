@@ -1,6 +1,7 @@
 ﻿using System;
 using Aki.Common;
 using Aki.Custom.Airdrops.Patches;
+using Aki.Custom.BTR.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
 using BepInEx;
@@ -49,6 +50,19 @@ namespace Aki.Custom
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
                 new FixBrokenSpawnOnSandboxPatch().Enable();
+                new BTRPathLoadPatch().Enable();
+                new BTRActivateTraderDialogPatch().Enable();
+                new BTRInteractionPatch().Enable();
+                new BTRExtractPassengersPatch().Enable();
+                new BTRBotAttachPatch().Enable();
+                new BTRBotInitPatch().Enable();
+                new BTRReceiveDamageInfoPatch().Enable();
+                new BTRTurretCanShootPatch().Enable();
+                new BTRTurretDefaultAimingPositionPatch().Enable();
+                new BTRIsDoorsClosedPath().Enable();
+                new BTRPatch().Enable();
+                new BTRTransferItemsPatch().Enable();
+                new BTREndRaidItemDeliveryPatch().Enable();
             }
             catch (Exception ex)
             {

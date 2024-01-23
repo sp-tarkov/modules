@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
     // Fixes the BTR Bot initialization in method_1() of BTRTurretView
     //
@@ -18,7 +18,7 @@ namespace Aki.Debugging.BTR.Patches
     // ClientGameWorld in LiveEFT will register the server-side BTR Bot as type ObservedPlayerView and is stored in GameWorld's allObservedPlayersByID dictionary.
     // In SPT, allObservedPlayersByID is empty which results in the game never finishing the initialization of the BTR Bot which includes disabling its gun, voice and mesh renderers.
     // For now, we do dirty patches to work around the lack of ObservedPlayerView, using Player instead.
-    internal class BTRBotInitPatch : ModulePatch
+    public class BTRBotInitPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

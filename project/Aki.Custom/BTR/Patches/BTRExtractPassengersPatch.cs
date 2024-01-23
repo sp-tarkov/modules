@@ -5,9 +5,9 @@ using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRExtractPassengersPatch : ModulePatch
+    public class BTRExtractPassengersPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

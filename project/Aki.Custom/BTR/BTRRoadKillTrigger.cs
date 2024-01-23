@@ -2,7 +2,7 @@
 using EFT.Interactive;
 using UnityEngine;
 
-namespace Aki.Debugging.BTR
+namespace Aki.Custom.BTR
 {
     public class BTRRoadKillTrigger : DamageTrigger
     {

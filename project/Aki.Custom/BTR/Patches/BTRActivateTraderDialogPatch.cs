@@ -8,9 +8,9 @@ using System;
 using System.Reflection;
 using static EFT.UI.TraderDialogScreen;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRActivateTraderDialogPatch : ModulePatch
+    public class BTRActivateTraderDialogPatch : ModulePatch
     {
         private static FieldInfo _playerInventoryControllerField;
         private static FieldInfo _playerQuestControllerField;
