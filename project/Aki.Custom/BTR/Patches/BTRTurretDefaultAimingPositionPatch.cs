@@ -4,9 +4,9 @@ using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTRTurretDefaultAimingPositionPatch : ModulePatch
+    public class BTRTurretDefaultAimingPositionPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

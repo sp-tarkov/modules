@@ -6,12 +6,12 @@ using HarmonyLib;
 using System.Reflection;
 using BotEventHandler = GClass595;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
     /// <summary>
     /// Patches an empty method in <see cref="BTRView"/> to handle updating the BTR bot's Neutrals and Enemies lists in response to taking damage.
     /// </summary>
-    internal class BTRReceiveDamageInfoPatch : ModulePatch
+    public class BTRReceiveDamageInfoPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

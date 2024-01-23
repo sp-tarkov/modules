@@ -1,6 +1,5 @@
 ﻿using Aki.Common.Http;
-using Aki.Common.Utils;
-using Aki.Debugging.BTR.Utils;
+using Aki.Custom.BTR.Utils;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using Comfort.Common;
@@ -11,9 +10,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Aki.Debugging.BTR.Patches
+namespace Aki.Custom.BTR.Patches
 {
-    internal class BTREndRaidItemDeliveryPatch : ModulePatch
+    public class BTREndRaidItemDeliveryPatch : ModulePatch
     {
         private static JsonConverter[] _defaultJsonConverters;
 
