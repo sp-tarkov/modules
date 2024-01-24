@@ -5,6 +5,7 @@ using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
+using DialogControlClass = GClass1954;
 
 namespace Aki.Debugging.Patches
 {
@@ -19,7 +20,7 @@ namespace Aki.Debugging.Patches
         [PatchPostfix]
         internal static void PatchPostfix()
         {
-            ConsoleScreen.Processor.RegisterCommandGroup<GClass1952>();
+            ConsoleScreen.Processor.RegisterCommandGroup<DialogControlClass>();
             ConsoleScreen.Processor.RegisterCommand("btr_deliver_items", new System.Action(BtrDeliverItemsCommand));
         }
 
@@ -35,7 +36,7 @@ namespace Aki.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass1952), nameof(GClass1952.ShowDialogScreen));
+            return AccessTools.Method(typeof(DialogControlClass), nameof(DialogControlClass.ShowDialogScreen));
         }
 
         [PatchPrefix]

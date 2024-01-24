@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using OfflineRaidAction = System.Action;
+using SettingsClass = GClass3166;
 
 // DON'T FORGET TO UPDATE REFERENCES IN CONSTRUCTOR
 // AND IN THE LoadOfflineRaidScreenForScavs METHOD AS WELL
@@ -29,7 +30,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
-            _ = GClass3164.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+            _ = SettingsClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
             _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_42));
@@ -116,9 +117,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(GClass3164).ToLowerInvariant()}_0").GetValue<GClass3164>();
+            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(SettingsClass).ToLowerInvariant()}_0").GetValue<SettingsClass>();
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3153(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3155(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
