@@ -5,7 +5,7 @@ using EFT.GlobalEvents;
 using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
-using GlobalEventHandler = GClass2909;
+using GlobalEventHandler = GClass2911;
 
 namespace Aki.Custom.BTR.Patches
 {

@@ -6,9 +6,12 @@ using System.Reflection;
 
 namespace Aki.Custom.Patches
 {
+    /// <summary>
+    /// Redirect the settings data to save into the SPT folder, not app data
+    /// </summary>
     public class SettingsLocationPatch : ModulePatch
     {
-        private static string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptSettings");
+        private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptSettings");
 
         protected override MethodBase GetTargetMethod()
         {

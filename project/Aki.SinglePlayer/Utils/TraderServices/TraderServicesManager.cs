@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static BackendConfigSettingsClass;
-using TraderServiceClass = GClass1789;
+using TraderServiceClass = GClass1791;
 
 namespace Aki.SinglePlayer.Utils.TraderServices
 {

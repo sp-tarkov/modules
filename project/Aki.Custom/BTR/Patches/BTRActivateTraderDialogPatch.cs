@@ -7,6 +7,7 @@ using HarmonyLib;
 using System;
 using System.Reflection;
 using static EFT.UI.TraderDialogScreen;
+using BTRDialog = EFT.UI.TraderDialogScreen.GClass3132;
 
 namespace Aki.Custom.BTR.Patches
 {
@@ -45,7 +46,7 @@ namespace Aki.Custom.BTR.Patches
             InventoryControllerClass inventoryController = _playerInventoryControllerField.GetValue(player) as InventoryControllerClass;
             AbstractQuestControllerClass questController = _playerQuestControllerField.GetValue(player) as AbstractQuestControllerClass;
 
-            GClass3130 btrDialog = new GClass3130(player.Profile, Profile.TraderInfo.TraderServiceToId[Profile.ETraderServiceSource.Btr], questController, inventoryController, null);
+            BTRDialog btrDialog = new BTRDialog(player.Profile, Profile.TraderInfo.TraderServiceToId[Profile.ETraderServiceSource.Btr], questController, inventoryController, null);
             btrDialog.OnClose += player.UpdateInteractionCast;
             btrDialog.ShowScreen(EScreenState.Queued);
 
