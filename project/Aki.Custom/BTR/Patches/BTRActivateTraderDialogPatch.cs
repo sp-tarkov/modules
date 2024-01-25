@@ -6,7 +6,6 @@ using EFT.Vehicle;
 using HarmonyLib;
 using System;
 using System.Reflection;
-using static EFT.UI.TraderDialogScreen;
 using BTRDialog = EFT.UI.TraderDialogScreen.GClass3132;
 
 namespace Aki.Custom.BTR.Patches

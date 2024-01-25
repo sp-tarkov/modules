@@ -16,9 +16,17 @@ namespace Aki.Custom.BTR.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref bool __result)
         {
-            var serverSideBTR = Singleton<GameWorld>.Instance?.BtrController.BtrVehicle;
+            var gameWorld = Singleton<GameWorld>.Instance;
+            if (gameWorld == null)
+            {
+                Logger.LogError("[AKI-BTR] BTRIsDoorsClosedPatch - GameWorld is null");
+                return true;
+            }
+
+            var serverSideBTR = gameWorld.BtrController.BtrVehicle;
             if (serverSideBTR == null)
             {
+                Logger.LogError("[AKI-BTR] BTRIsDoorsClosedPatch - serverSideBTR is null");
                 return true;
             }
 

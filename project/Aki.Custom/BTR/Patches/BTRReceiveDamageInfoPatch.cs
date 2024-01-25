@@ -24,6 +24,7 @@ namespace Aki.Custom.BTR.Patches
             var botEventHandler = Singleton<BotEventHandler>.Instance;
             if (botEventHandler == null)
             {
+                Logger.LogError($"[AKI-BTR] BTRReceiveDamageInfoPatch - BotEventHandler is null");
                 return;
             }
 

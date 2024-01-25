@@ -22,7 +22,7 @@ namespace Aki.Custom.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BTRTurretView), "method_1");
+            return AccessTools.Method(typeof(BTRTurretView), nameof(BTRTurretView.method_1));
         }
 
         [PatchPostfix]
@@ -31,6 +31,7 @@ namespace Aki.Custom.BTR.Patches
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
+                Logger.LogError("[AKI-BTR] BTRBotInitPatch - GameWorld is null");
                 return;
             }
 
@@ -55,7 +56,7 @@ namespace Aki.Custom.BTR.Patches
                         foreach (var text in currentWeaponPrefab.RemoveChildrenOf)
                         {
                             var transform = currentWeaponPrefab.transform.FindTransform(text);
-                            transform?.gameObject.SetActive(false);
+                            transform.gameObject.SetActive(false);
                         }
                     }
                     foreach (var renderer in currentWeaponPrefab.GetComponentsInChildren<Renderer>())

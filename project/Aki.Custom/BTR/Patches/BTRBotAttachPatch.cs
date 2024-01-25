@@ -27,27 +27,36 @@ namespace Aki.Custom.BTR.Patches
         private static bool PatchPrefix(BTRTurretView __instance, int btrBotId)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-
-            var __instanceTupleField = (ValueTuple<ObservedPlayerView, bool>)AccessTools.Field(__instance.GetType(), "valueTuple_0")
-                .GetValue(__instance);
-
-            if (!__instanceTupleField.Item2)
+            if (gameWorld == null)
             {
-                var __instanceMethod = AccessTools.Method(__instance.GetType(), "method_1");
-                __instanceMethod.Invoke(__instance, new object[] { btrBotId });
-            }
-            if (!__instanceTupleField.Item2)
-            {
+                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - GameWorld is null");
                 return false;
             }
 
-            var btrBot = gameWorld.BtrController.BotShooterBtr?.GetPlayer;
-            if (btrBot == null)
+            var btrTurretViewTupleField = (ValueTuple<ObservedPlayerView, bool>)AccessTools.Field(__instance.GetType(), "valueTuple_0").GetValue(__instance);
+            if (!btrTurretViewTupleField.Item2)
             {
+                __instance.method_1(btrBotId);
                 return false;
             }
+
+            var btrController = gameWorld.BtrController;
+            if (btrController == null)
+            {
+                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrController is null");
+                return false;
+            }
+
+            var btrBotShooter = btrController.BotShooterBtr;
+            if (btrBotShooter == null)
+            {
+                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrBotShooter is null");
+                return false;
+            }
+            
             try
             {
+                var btrBot = btrBotShooter.GetPlayer;
                 var botRootTransform = __instance.BotRoot;
 
                 btrBot.Transform.position = botRootTransform.position;

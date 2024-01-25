@@ -24,6 +24,7 @@ namespace Aki.Custom.BTR.Patches
             var btrSide = btrManager.LastInteractedBtrSide;
             if (btrSide == null)
             {
+                Logger.LogError($"[AKI-BTR] BTRExtractPassengersPatch - btrSide is null");
                 return;
             }
 
@@ -35,11 +36,12 @@ namespace Aki.Custom.BTR.Patches
                     BTRView btrView = gameWorld.BtrController.BtrView;
                     if (btrView == null)
                     {
+                        Logger.LogError($"[AKI-BTR] BTRExtractPassengersPatch - btrView is null");
                         return;
                     }
 
-                    btrManager.OnPlayerInteractDoor(interactionBtrPacket);
                     btrView.Interaction(player, interactionBtrPacket);
+                    btrManager.OnPlayerInteractDoor(interactionBtrPacket);
                 }
             }
         }
