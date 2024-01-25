@@ -30,10 +30,15 @@ namespace Aki.Custom.BTR.Patches
         public static void PatchPrefix()
         {
             GameWorld gameWorld = Singleton<GameWorld>.Instance;
-            var player = gameWorld?.MainPlayer;
-            if (gameWorld == null || player == null)
+            if (gameWorld == null)
             {
-                Logger.LogError("[AKI-BTR] End Raid - GameWorld or Player is null");
+                Logger.LogError("[AKI-BTR] BTREndRaidItemDeliveryPatch - GameWorld is null");
+                return;
+            }
+            var player = gameWorld.MainPlayer;
+            if (player == null)
+            {
+                Logger.LogError("[AKI-BTR] BTREndRaidItemDeliveryPatch - Player is null");
                 return;
             }
 
@@ -45,7 +50,7 @@ namespace Aki.Custom.BTR.Patches
 
             if (!gameWorld.BtrController.HasNonEmptyTransferContainer(player.Profile.Id))
             {
-                Logger.LogDebug("[AKI-BTR] End Raid - No items in transfer container");
+                Logger.LogDebug("[AKI-BTR] BTREndRaidItemDeliveryPatch - No items in transfer container");
                 return;
             }
 

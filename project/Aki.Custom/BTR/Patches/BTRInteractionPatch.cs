@@ -47,11 +47,12 @@ namespace Aki.Custom.BTR.Patches
                 BTRView btrView = gameWorld.BtrController.BtrView;
                 if (btrView == null)
                 {
+                    Logger.LogError("[AKI-BTR] BTRInteractionPatch - btrView is null");
                     return;
                 }
 
-                btrManager.OnPlayerInteractDoor(interactionBtrPacket);
                 btrView.Interaction(__instance, interactionBtrPacket);
+                btrManager.OnPlayerInteractDoor(interactionBtrPacket);
             }
         }
     }

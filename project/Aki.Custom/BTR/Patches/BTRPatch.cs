@@ -40,7 +40,7 @@ namespace Aki.Custom.BTR.Patches
             }
             catch (System.Exception)
             {
-                ConsoleScreen.LogError("[AKI-BTR]: Exception thrown, check logs.");
+                ConsoleScreen.LogError("[AKI-BTR] Exception thrown, check logs.");
                 throw;
             }
         }
