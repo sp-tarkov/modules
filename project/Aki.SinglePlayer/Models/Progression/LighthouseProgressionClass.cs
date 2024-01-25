@@ -11,7 +11,6 @@ namespace Aki.SinglePlayer.Models.Progression
         private GameWorld _gameWorld;
         private Player _player;
         private float _timer;
-        private bool _playerFlaggedAsEnemyToBosses;
         private List<MineDirectionalColliders> _bridgeMines;
         private RecodableItemClass _transmitter;
         private readonly List<IPlayer> _zryachiyAndFollowers = new List<IPlayer>();
@@ -73,7 +72,7 @@ namespace Aki.SinglePlayer.Models.Progression
             // Player not an enemy to Zryachiy
             // Lk door not accessible
             // Player has no transmitter on thier person
-            if (_gameWorld == null || _playerFlaggedAsEnemyToBosses || _isDoorDisabled || _transmitter == null)
+            if (_gameWorld == null || _isDoorDisabled || _transmitter == null)
             {
                 return;
             }
