@@ -68,21 +68,18 @@ namespace Aki.Custom.BTR
                     return;
                 }
 
-                if (gameWorld.BtrController == null)
+                if (gameWorld.BtrController == null && !Singleton<BTRControllerClass>.Instantiated)
                 {
-                    if (!Singleton<BTRControllerClass>.Instantiated)
-                    {
-                        Singleton<BTRControllerClass>.Create(new BTRControllerClass());
-                    }
-
-                    gameWorld.BtrController = btrController = Singleton<BTRControllerClass>.Instance;
+                    Singleton<BTRControllerClass>.Create(new BTRControllerClass());
                 }
+
+                gameWorld.BtrController = btrController = Singleton<BTRControllerClass>.Instance;
 
                 InitBtr();
             }
             catch
             {
-                Debug.LogError("[AKI-BTR]: Unable to spawn BTR");
+                ConsoleScreen.LogError("[AKI-BTR] Unable to spawn BTR. Check logs.");
                 DestroyGameObjects();
                 throw;
             }
@@ -326,7 +323,7 @@ namespace Aki.Custom.BTR
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR] lastInteractedBtrSide is null when it shouldn't be.");
+                ConsoleScreen.LogError("[AKI-BTR] lastInteractedBtrSide is null when it shouldn't be. Check logs.");
                 throw;
             }
         }
@@ -392,7 +389,6 @@ namespace Aki.Custom.BTR
                 Transform targetTransform = currentTarget.Person.Transform.Original;
                 if (btrTurretServer.CheckPositionInAimingZone(targetPos) && btrTurretServer.targetTransform != targetTransform)
                 {
-                    ConsoleScreen.LogWarning("[AKI-BTR] BTR can see target; now aiming at target position.");
                     btrTurretServer.EnableAimingObject(targetTransform);
                 }
             }
@@ -403,13 +399,11 @@ namespace Aki.Custom.BTR
                     && Time.time - currentTarget.PersonalLastSeenTime < 3f 
                     && btrTurretServer.targetPosition != targetLastPos)
                 {
-                    ConsoleScreen.LogWarning("[AKI-BTR] BTR can't see target; now aiming at target last seen position.");
                     btrTurretServer.EnableAimingPosition(targetLastPos);
 
                 }
                 else if (Time.time - currentTarget.PersonalLastSeenTime >= 3f && !isTurretInDefaultRotation)
                 {
-                    ConsoleScreen.LogWarning("[AKI-BTR] BTR has not seen target for 3 seconds; now resetting turret rotation.");
                     btrTurretServer.DisableAiming();
                 }
             }

@@ -71,7 +71,7 @@ namespace Aki.Custom.BTR.Patches
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR]: Could not finish BtrBot initialization. Check logs.");
+                ConsoleScreen.LogError("[AKI-BTR] Could not finish BtrBot initialization. Check logs.");
                 throw;
             }
         }
