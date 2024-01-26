@@ -40,6 +40,12 @@ namespace Aki.SinglePlayer.Utils.TraderServices
             _servicePurchased = new Dictionary<ETraderServiceType, Dictionary<string, bool>>();
         }
 
+        public void Clear()
+        {
+            _servicePurchased.Clear();
+            _cachedTraders.Clear();
+        }
+
         public void GetTraderServicesDataFromServer(string traderId)
         {
             Dictionary<ETraderServiceType, ServiceData> servicesData = Singleton<BackendConfigSettingsClass>.Instance.ServicesData;
