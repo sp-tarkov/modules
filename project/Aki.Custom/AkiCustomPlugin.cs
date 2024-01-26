@@ -63,6 +63,7 @@ namespace Aki.Custom
                 new BTRPatch().Enable();
                 new BTRTransferItemsPatch().Enable();
                 new BTREndRaidItemDeliveryPatch().Enable();
+                new BTRBaseLocalGameStopPatch().Enable();
             }
             catch (Exception ex)
             {

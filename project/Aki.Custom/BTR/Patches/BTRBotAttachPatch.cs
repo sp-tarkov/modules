@@ -29,7 +29,6 @@ namespace Aki.Custom.BTR.Patches
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
-                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - GameWorld is null");
                 return false;
             }
 
