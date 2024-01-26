@@ -42,12 +42,14 @@ namespace Aki.Custom.BTR.Patches
             var btrController = gameWorld.BtrController;
             if (btrController == null)
             {
+                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrController is null");
                 return false;
             }
 
             var btrBotShooter = btrController.BotShooterBtr;
             if (btrBotShooter == null)
             {
+                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrBotShooter is null");
                 return false;
             }
             
