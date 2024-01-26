@@ -35,8 +35,7 @@ namespace Aki.Custom.BTR.Patches
                     return;
                 }
 
-                var btrManager = gameWorld.gameObject.AddComponent<BTRManager>();
-                btrManager.Init();
+                gameWorld.gameObject.AddComponent<BTRManager>();
             }
             catch (System.Exception)
             {

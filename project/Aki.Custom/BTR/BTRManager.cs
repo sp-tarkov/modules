@@ -57,7 +57,7 @@ namespace Aki.Custom.BTR
             _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
         }
         
-        public void Init()
+        private void Awake()
         {
             try
             {
@@ -68,19 +68,19 @@ namespace Aki.Custom.BTR
                     return;
                 }
 
-                if (gameWorld.BtrController == null && !Singleton<BTRControllerClass>.Instantiated)
+                if (gameWorld.BtrController == null)
                 {
-                    Singleton<BTRControllerClass>.Create(new BTRControllerClass());
+                    gameWorld.BtrController = new BTRControllerClass();
                 }
 
-                gameWorld.BtrController = btrController = Singleton<BTRControllerClass>.Instance;
+                btrController = gameWorld.BtrController;
 
                 InitBtr();
             }
             catch
             {
                 ConsoleScreen.LogError("[AKI-BTR] Unable to spawn BTR. Check logs.");
-                DestroyGameObjects();
+                Destroy(this);
                 throw;
             }
         }
@@ -462,23 +462,17 @@ namespace Aki.Custom.BTR
 
         private void OnDestroy()
         {
-            DestroyGameObjects();
-        }
-
-        private void DestroyGameObjects()
-        {
-            if (btrController != null)
+            if (gameWorld == null)
             {
-                if (btrServerSide != null)
-                {
-                    Destroy(btrServerSide.gameObject);
-                }
-                if (btrClientSide != null)
-                {
-                    Destroy(btrClientSide.gameObject);
-                }
+                return;
+            }
 
-                btrController.Dispose();
+            StaticManager.KillCoroutine(ref _shootingTargetCoroutine);
+            StaticManager.KillCoroutine(ref _coverFireTimerCoroutine);
+
+            if (TraderServicesManager.Instance != null)
+            {
+                TraderServicesManager.Instance.OnTraderServicePurchased -= BtrTraderServicePurchased;
             }
 
             if (gameWorld.MainPlayer != null)
@@ -486,14 +480,17 @@ namespace Aki.Custom.BTR
                 gameWorld.MainPlayer.OnBtrStateChanged -= HandleBtrDoorState;
             }
 
-            if (TraderServicesManager.Instance != null)
+            if (btrClientSide != null)
             {
-                TraderServicesManager.Instance.OnTraderServicePurchased -= BtrTraderServicePurchased;
+                Debug.LogWarning("[AKI-BTR] BTRManager - Destroying btrClientSide");
+                Destroy(btrClientSide.gameObject);
             }
 
-            StaticManager.KillCoroutine(ref _shootingTargetCoroutine);
-            StaticManager.KillCoroutine(ref _coverFireTimerCoroutine);
-            Destroy(this);
+            if (btrServerSide != null)
+            {
+                Debug.LogWarning("[AKI-BTR] BTRManager - Destroying btrServerSide");
+                Destroy(btrServerSide.gameObject);
+            }
         }
     }
 }

@@ -29,7 +29,6 @@ namespace Aki.Custom.BTR.Patches
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
-                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - GameWorld is null");
                 return false;
             }
 
@@ -43,14 +42,12 @@ namespace Aki.Custom.BTR.Patches
             var btrController = gameWorld.BtrController;
             if (btrController == null)
             {
-                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrController is null");
                 return false;
             }
 
             var btrBotShooter = btrController.BotShooterBtr;
             if (btrBotShooter == null)
             {
-                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrBotShooter is null");
                 return false;
             }
             

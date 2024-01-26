@@ -61,6 +61,7 @@ namespace Aki.Custom
                 new BTRTurretDefaultAimingPositionPatch().Enable();
                 new BTRIsDoorsClosedPath().Enable();
                 new BTRPatch().Enable();
+                new BTRBaseLocalGameStopPatch().Enable();
                 new BTRTransferItemsPatch().Enable();
                 new BTREndRaidItemDeliveryPatch().Enable();
             }
