@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace Aki.Custom.BTR.Patches
 {
-    public class BTRBaseLocalGameStopPatch : ModulePatch
+    public class BTRDestroyAtRaidEndPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -26,7 +26,7 @@ namespace Aki.Custom.BTR.Patches
             var btrManager = gameWorld.GetComponent<BTRManager>();
             if (btrManager != null)
             {
-                Logger.LogWarning("[AKI-BTR] BTRBaseLocalGameStopPatch - Raid Ended: Destroying BTRManager");
+                Logger.LogWarning("[AKI-BTR] BTRDestroyAtRaidEndPatch - Raid Ended: Destroying BTRManager");
                 Object.Destroy(btrManager);
             }
         }
