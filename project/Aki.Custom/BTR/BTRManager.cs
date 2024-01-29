@@ -364,6 +364,8 @@ namespace Aki.Custom.BTR
             {
                 renderer.enabled = false;
             }
+
+            btrServerSide.turnCheckerObject.GetComponent<Renderer>().enabled = false; // Disables the red debug sphere
         }
 
         private void UpdateTarget()
