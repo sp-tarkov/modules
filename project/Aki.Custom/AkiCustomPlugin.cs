@@ -64,8 +64,7 @@ namespace Aki.Custom
                 new BTRTransferItemsPatch().Enable();
                 new BTREndRaidItemDeliveryPatch().Enable();
                 new BTRDestroyAtRaidEndPatch().Enable();
-                new BTRAppFrameratePatches.VehicleBaseInitFpsPatch().Enable();
-                new BTRAppFrameratePatches.VehicleBaseResetFpsPatch().Enable();
+                new BTRVehicleMovementSpeedPatch().Enable();
             }
             catch (Exception ex)
             {

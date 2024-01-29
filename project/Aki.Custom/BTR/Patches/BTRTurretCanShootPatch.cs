@@ -14,11 +14,9 @@ namespace Aki.Custom.BTR.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BTRTurretServer __instance)
+        private static bool PatchPrefix(BTRTurretServer __instance, Transform ___defaultTargetTransform)
         {
-            Transform defaultTargetTransform = (Transform)AccessTools.Field(__instance.GetType(), "defaultTargetTransform").GetValue(__instance);
-
-            bool flag = __instance.targetTransform != null && __instance.targetTransform != defaultTargetTransform;
+            bool flag = __instance.targetTransform != null && __instance.targetTransform != ___defaultTargetTransform;
             bool flag2 = __instance.method_2();
             bool flag3 = __instance.targetPosition != __instance.defaultAimingPosition;
 
