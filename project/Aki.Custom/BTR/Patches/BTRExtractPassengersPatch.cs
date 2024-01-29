@@ -24,7 +24,6 @@ namespace Aki.Custom.BTR.Patches
             var btrSide = btrManager.LastInteractedBtrSide;
             if (btrSide == null)
             {
-                Logger.LogError($"[AKI-BTR] BTRExtractPassengersPatch - btrSide is null");
                 return;
             }
 
