@@ -26,7 +26,7 @@ namespace Aki.Custom.BTR.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BTRTurretView __instance, int btrBotId, ref bool __result)
+        private static bool PatchPrefix(ref ValueTuple<ObservedPlayerView, bool> ___valueTuple_0, int btrBotId, ref bool __result)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
@@ -75,9 +75,7 @@ namespace Aki.Custom.BTR.Patches
                     }
                 }
 
-                var tuple = new ValueTuple<ObservedPlayerView, bool>(new ObservedPlayerView(), true);
-                var btrTurretViewTupleField = AccessTools.Field(__instance.GetType(), "valueTuple_0");
-                btrTurretViewTupleField.SetValue(__instance, tuple);
+                ___valueTuple_0 = new ValueTuple<ObservedPlayerView, bool>(new ObservedPlayerView(), true);
 
                 __result = true;
                 return false;
