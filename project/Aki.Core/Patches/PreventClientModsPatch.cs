@@ -1,5 +1,9 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Aki.Reflection.Patching;
+using BepInEx.Bootstrap;
 using EFT;
 using HarmonyLib;
 
@@ -18,7 +22,33 @@ namespace Aki.Core.Patches
         [PatchPrefix]
         private static void Prefix()
         {
-            AkiCorePlugin.CheckForNonWhitelistedPlugins();
+            CheckForNonWhitelistedPlugins();
+        }
+
+        private static void CheckForNonWhitelistedPlugins()
+        {
+            var whitelistedPlugins = new HashSet<string>
+            {
+                "com.spt-aki.core",
+                "com.spt-aki.custom",
+                "com.spt-aki.debugging",
+                "com.spt-aki.singleplayer",
+                "com.bepis.bepinex.configurationmanager",
+                "com.terkoiz.freecam",
+                "com.sinai.unityexplorer",
+                "com.cwx.debuggingtool-dxyz",
+                "com.cwx.debuggingtool",
+                "xyz.drakia.botdebug",
+                "com.kobrakon.camunsnap",
+                "RuntimeUnityEditor"
+            };
+
+            var disallowedPlugins = Chainloader.PluginInfos.Values.Select(pi => pi.Metadata.GUID).Except(whitelistedPlugins).ToArray();
+            if (disallowedPlugins.Any())
+            {
+                AkiCorePlugin._logger.LogError($"One or more non-whitelisted plugins were detected. Mods are not allowed in BleedingEdge builds of SPT. Illegal plugins:\n{string.Join("\n", disallowedPlugins)}");
+                throw new Exception("Non-debug client mods have been detected. Mods are not allowed in BleedingEdge builds of SPT - please remove them before playing!");
+            }
         }
     }
 }
