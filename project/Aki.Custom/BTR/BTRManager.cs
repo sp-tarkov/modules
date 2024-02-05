@@ -51,7 +51,9 @@ namespace Aki.Custom.BTR
 
         private MethodInfo _updateTaxiPriceMethod;
 
-        BTRManager()
+		private float originalDamageCoeff;
+
+		BTRManager()
         {
             Type btrControllerType = typeof(BTRControllerClass);
             _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
@@ -107,7 +109,7 @@ namespace Aki.Custom.BTR
             }
             else if (interactPacket.SideId == 1 && playerGoIn)
             {
-                if (interactPacket.SlotId == 0)
+				if (interactPacket.SlotId == 0)
                 {
                     btrServerSide.RightSlot0State = 1;
                 }
@@ -116,7 +118,21 @@ namespace Aki.Custom.BTR
                     btrServerSide.RightSlot1State = 1;
                 }
             }
-        }
+
+			// If the player is going into the BTR, store their damage coefficient
+			// and set it to 0, so they don't die while inside the BTR
+			if (interactPacket.InteractionType == EInteractionType.GoIn)
+			{
+				originalDamageCoeff = gameWorld.MainPlayer.ActiveHealthController.DamageCoeff;
+				gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(0f);
+
+			}
+			// Otherwise restore the damage coefficient
+			else if (interactPacket.InteractionType == EInteractionType.GoOut)
+			{
+				gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(originalDamageCoeff);
+			}
+		}
 
         // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
         private bool IsUpdateTaxiPriceMethod(MethodInfo method)
