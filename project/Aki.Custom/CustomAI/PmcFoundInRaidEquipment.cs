@@ -16,7 +16,9 @@ namespace Aki.Custom.CustomAI
         private static readonly string throwableItemId = "543be6564bdc2df4348b4568";
         private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
-        private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId };
+        private static readonly string armorPlate = "644120aa86ffbe10ee032b6f";
+        private static readonly string builtInInserts = "65649eb40bf0ed77b8044453";
+        private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId, armorPlate, builtInInserts };
         
         private static readonly string pistolId = "5447b5cf4bdc2d65278b4567"; 
         private static readonly string smgId = "5447b5e04bdc2d62278b4567";
@@ -42,20 +44,34 @@ namespace Aki.Custom.CustomAI
             // Must run before the container loot code, otherwise backpack loot is not FiR
             MakeEquipmentNotFiR(___botOwner_0);
 
-            // Get inventory items that hold other items (backpack/rig/pockets)
+            // Get inventory items that hold other items (backpack/rig/pockets/armor)
             IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
+            var nonFiRRootItems = new List<Item>();
             foreach (var container in containerGear)
             {
+                var firstItem = container.Items.FirstOrDefault();
                 foreach (var item in container.ContainedItem.GetAllItems())
                 {
                     // Skip items that match container (array has itself as an item)
-                    if (item.Id == container.Items.FirstOrDefault()?.Id)
+                    if (item.Id == firstItem?.Id)
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its same as container {container.FullId}");
                         continue;
                     }
 
-                    // Dont add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
+                    // Don't add FiR to any item inside armor vest, e.g. plates/soft inserts
+                    if (container.Name == "ArmorVest")
+                    {
+                        continue;
+                    }
+
+                    // Don't add FiR to any item inside head gear, e.g. soft inserts/nvg/lights
+                    if (container.Name == "Headwear")
+                    {
+                        continue;
+                    }
+
+                    // Don't add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
                     if (container.Name == "TacticalVest" && nonFiRItems.Any(item.Template._parent.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
@@ -65,14 +81,23 @@ namespace Aki.Custom.CustomAI
                     // Don't add FiR to weapons in backpack (server sometimes adds pre-made weapons to backpack to simulate PMCs looting bodies)
                     if (container.Name == "Backpack" && weaponTypeIds.Any(item.Template._parent.Contains))
                     {
+                        // Add weapon root to list for later use
+                        nonFiRRootItems.Add(item);
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
                     }
 
-                    // Don't add FiR to grenades/mags/ammo in pockets
-                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId, medicalItemId }.Any(item.Template._parent.Contains))
+                    // Don't add FiR to grenades/mags/ammo/meds in pockets
+                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem }.Any(item.Template._parent.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
+                        continue;
+                    }
+
+                    // Check for mods of weapons in backpacks
+                    var isChildOfEquippedNonFiRItem = nonFiRRootItems.Any(nonFiRRootItem => item.IsChildOf(nonFiRRootItem));
+                    if (isChildOfEquippedNonFiRItem)
+                    {
                         continue;
                     }
 
