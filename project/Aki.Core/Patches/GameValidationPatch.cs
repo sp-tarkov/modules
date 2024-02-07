@@ -28,7 +28,7 @@ namespace Aki.Core.Patches
                 _logger = BepInEx.Logging.Logger.CreateLogSource(PluginName);
             
             _hasRun = true;
-            ServerLog.Error(PluginName, ErrorMessage);
+            ServerLog.Warn($"Warning: {PluginName}", ErrorMessage);
             _logger?.LogWarning(ErrorMessage);
         }
     }
