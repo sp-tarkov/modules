@@ -14,7 +14,6 @@ namespace Aki.Core.Patches
         private const string PluginName = "Aki.Core";
         private const string ErrorMessage = "Escape From Tarkov isn't installed on your computer. " +
                                              "Please buy a copy of the game and support the developers!";
-        private static bool _repeat = false;
         private static BepInEx.Logging.ManualLogSource _logger = null;
         
         protected override MethodBase GetTargetMethod()
@@ -37,17 +36,7 @@ namespace Aki.Core.Patches
                 NotificationManagerClass.DisplayMessageNotification(ErrorMessage, ENotificationDurationType.Infinite, 
                     ENotificationIconType.Alert, Color.red);
                 
-                CommonUI.Instance.MenuScreen.enabled = false;
-                CommonUI.Instance.MenuScreen.Close();
-                
-                if (!_repeat)
-                {
-                    _repeat = true;
-                }
-                else
-                {
-                    System.Environment.Exit(-1);
-                }
+                GClass3107.Instance.CloseAllScreensForced();
             }
             else
             {
