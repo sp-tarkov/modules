@@ -17,7 +17,7 @@ namespace Aki.Core.Patches
 		private static bool PatchPrefix(ref bool __result)
 		{
 			__result = true;
-			return true; // Skip original
+			return false; // Skip original
 		}
 	}
 }
