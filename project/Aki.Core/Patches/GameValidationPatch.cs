@@ -5,6 +5,7 @@ using Aki.Core.Utils;
 using Aki.Reflection.Patching;
 using EFT.Communications;
 using EFT.UI;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Aki.Core.Patches
@@ -12,37 +13,27 @@ namespace Aki.Core.Patches
     public class GameValidationPatch : ModulePatch
     {
         private const string PluginName = "Aki.Core";
-        private const string ErrorMessage = "Escape From Tarkov isn't installed on your computer. " +
-                                             "Please buy a copy of the game and support the developers!";
+        private const string ErrorMessage = "Validation failed";
         private static BepInEx.Logging.ManualLogSource _logger = null;
+        private static bool _hasRun = false;
         
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(MenuScreen).GetMethods().First(m => m.Name == nameof(MenuScreen.Show));
+            return AccessTools.Method(typeof(BattleeyePatchClass), nameof(BattleeyePatchClass.RunValidation));
         }
         
         [PatchPostfix]
         private static void PatchPostfix()
         {
-            _logger = BepInEx.Logging.Logger.CreateLogSource("SslCertificationPatch.PatchPrefix()");
-            _logger?.LogInfo("Verifying game installation...");
+            if (ValidationUtil.Validate() || _hasRun)
+                return;
             
-            if (!ValidationUtil.Validate())
-            {
-                ConsoleScreen.LogError(ErrorMessage);
-                ServerLog.Error(PluginName, ErrorMessage);
-                _logger?.LogFatal(ErrorMessage);
-                
-                NotificationManagerClass.DisplayMessageNotification(ErrorMessage, ENotificationDurationType.Infinite, 
-                    ENotificationIconType.Alert, Color.red);
-                
-                GClass3107.Instance.CloseAllScreensForced();
-            }
-            else
-            {
-                _logger?.LogInfo("Verified game installation.");
-                ConsoleScreen.Log("Successfully verified game installation.");
-            }
+            if (_logger == null)
+                _logger = BepInEx.Logging.Logger.CreateLogSource(PluginName);
+            
+            _hasRun = true;
+            ServerLog.Error(PluginName, ErrorMessage);
+            _logger?.LogWarning(ErrorMessage);
         }
     }
 }
