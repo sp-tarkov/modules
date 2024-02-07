@@ -16,8 +16,8 @@ namespace Aki.Core.Patches
 		[PatchPrefix]
 		private static bool PatchPrefix(ref bool __result)
 		{
-			__result = ValidationUtil.Validate();
-			return false; // Skip original
+			__result = true;
+			return true; // Skip original
 		}
 	}
 }
