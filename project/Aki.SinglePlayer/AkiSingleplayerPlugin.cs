@@ -60,6 +60,8 @@ namespace Aki.SinglePlayer
 				new MidRaidAchievementChangePatch().Enable();
                 new GetTraderServicesPatch().Enable();
                 new PurchaseTraderServicePatch().Enable();
+                new ScavSellAllPriceStorePatch().Enable();
+                new ScavSellAllRequestPatch().Enable();
             }
             catch (Exception ex)
             {
