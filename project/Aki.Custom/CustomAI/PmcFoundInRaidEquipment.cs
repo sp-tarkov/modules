@@ -32,7 +32,7 @@ namespace Aki.Custom.CustomAI
         private static readonly string knifeId = "5447e1d04bdc2dff2f8b4567";
 
         private static readonly List<string> weaponTypeIds = new List<string>() { pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId, grenadeLauncherId, knifeId };
-        private static readonly List<string> nonFiRPocketLoot = new List<string>{ throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId};
+        private static readonly List<string> nonFiRPocketLoot = new List<string>{ throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId };
         private readonly ManualLogSource logger;
 
         public PmcFoundInRaidEquipment(ManualLogSource logger)
