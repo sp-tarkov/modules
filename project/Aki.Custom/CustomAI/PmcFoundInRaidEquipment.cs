@@ -88,7 +88,7 @@ namespace Aki.Custom.CustomAI
                     }
 
                     // Don't add FiR to grenades/mags/ammo/meds in pockets
-                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem }.Any(item.Template._parent.Contains))
+                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId }.Any(item.Template._parent.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
