@@ -32,6 +32,7 @@ namespace Aki.Custom.CustomAI
         private static readonly string knifeId = "5447e1d04bdc2dff2f8b4567";
 
         private static readonly List<string> weaponTypeIds = new List<string>() { pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId, grenadeLauncherId, knifeId };
+        private static readonly List<string> nonFiRPocketLoot = new List<string>{ throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId};
         private readonly ManualLogSource logger;
 
         public PmcFoundInRaidEquipment(ManualLogSource logger)
@@ -88,7 +89,7 @@ namespace Aki.Custom.CustomAI
                     }
 
                     // Don't add FiR to grenades/mags/ammo/meds in pockets
-                    if (container.Name == "Pockets" && new List<string> { throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId }.Any(item.Template._parent.Contains))
+                    if (container.Name == "Pockets" && nonFiRPocketLoot.Exists(item.Template._parent.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
@@ -108,7 +109,10 @@ namespace Aki.Custom.CustomAI
 
             // Set dogtag as FiR
             var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots(new EquipmentSlot[] { EquipmentSlot.Dogtag }).FirstOrDefault();
-            if (dogtag != null) dogtag.SpawnedInSession = true;
+            if (dogtag != null)
+            {
+                dogtag.SpawnedInSession = true;
+            }
         }
 
 
