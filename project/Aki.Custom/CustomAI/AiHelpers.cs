@@ -22,9 +22,9 @@ namespace Aki.Custom.CustomAI
             return (int)botRoleToCheck == AkiBotsPrePatcher.sptBearValue || (int)botRoleToCheck == AkiBotsPrePatcher.sptUsecValue;
         }
 
-        public static bool BotIsPlayerScav(WildSpawnType role, BotOwner ___botOwner_0)
+        public static bool BotIsPlayerScav(WildSpawnType role, string nickname)
         {
-            if (___botOwner_0.Profile.Info.Nickname.Contains("(") && role == WildSpawnType.assault)
+            if (role == WildSpawnType.assault && nickname.Contains("("))
             {
                 // Check bot is pscav by looking for the opening parentheses of their nickname e.g. scavname (pmc name)
                 return true;

@@ -29,12 +29,13 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
+            var player = Singleton<GameWorld>.Instance.MainPlayer;
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
                 string currentMapName = GetCurrentMap();
-                if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0))
+                if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
                 {
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(___botOwner_0, currentMapName);
 
@@ -101,7 +102,7 @@ namespace Aki.Custom.Patches
                 // Set spt bot bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
-            else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0))
+            else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
             {
                 // Set pscav back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;

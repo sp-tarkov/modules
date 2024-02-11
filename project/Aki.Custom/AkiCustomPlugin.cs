@@ -41,6 +41,7 @@ namespace Aki.Custom
                 new AirdropFlarePatch().Enable();
                 new AddSptBotSettingsPatch().Enable();
                 new CustomAiPatch().Enable();
+                new AddTraitorScavsPatch().Enable();
                 new ExitWhileLootingPatch().Enable();
                 new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
