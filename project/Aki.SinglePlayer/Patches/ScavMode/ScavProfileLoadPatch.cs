@@ -37,7 +37,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             var codes = new List<CodeInstruction>(instructions);
 
             // Search for code where backend.Session.getProfile() is called.
-            var searchCode = new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(PatchConstants.BackendSessionInterfaceType, "get_Profile"));
+            var searchCode = new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(PatchConstants.BackendProfileInterfaceType, "get_Profile"));
             var searchIndex = -1;
 
             for (var i = 0; i < codes.Count; i++)
@@ -69,9 +69,9 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
                 new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),
                 new Code(OpCodes.Brfalse, brFalseLabel),
-                new Code(OpCodes.Callvirt, PatchConstants.BackendSessionInterfaceType, "get_Profile"),
+                new Code(OpCodes.Callvirt, PatchConstants.BackendProfileInterfaceType, "get_Profile"),
                 new Code(OpCodes.Br, brLabel),
-                new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.SessionInterfaceType, "get_ProfileOfPet"),
+                new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.BackendProfileInterfaceType, "get_ProfileOfPet"),
                 new CodeWithLabel(OpCodes.Stfld, brLabel, typeof(TarkovApplication).GetNestedTypes(BindingFlags.Public).SingleCustom(IsTargetNestedType), "profile")
             });
 
