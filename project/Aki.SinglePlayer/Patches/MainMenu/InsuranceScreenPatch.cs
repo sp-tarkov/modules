@@ -32,7 +32,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
             //    this.method_41();
             //}
 
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_72));
         }
 
         [PatchPrefix]
