@@ -78,15 +78,17 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                     // Only populate trader services that don't exist yet
                     if (!servicesData.ContainsKey(traderServiceModel.ServiceType))
                     {
-                        TraderServiceClass traderService = new TraderServiceClass();
-                        traderService.TraderId = traderId;
-                        traderService.ServiceType = serviceType;
-                        traderService.UniqueItems = traderServiceModel.ItemsToReceive;
-                        traderService.ItemsToPay = traderServiceModel.ItemsToPay;
+                        TraderServiceClass traderService = new TraderServiceClass
+                        {
+                            TraderId = traderId,
+                            ServiceType = serviceType,
+                            UniqueItems = traderServiceModel.ItemsToReceive ?? new MongoID[0],
+                            ItemsToPay = traderServiceModel.ItemsToPay ?? new Dictionary<MongoID, int>(),
 
-                        // SubServices seem to be populated dynamically in the client (For BTR taxi atleast), so we can just ignore it
-                        // NOTE: For future reference, this is a dict of `point id` to `price` for the BTR taxi
-                        traderService.SubServices = new Dictionary<string, int>();
+                            // SubServices seem to be populated dynamically in the client (For BTR taxi atleast), so we can just ignore it
+                            // NOTE: For future reference, this is a dict of `point id` to `price` for the BTR taxi
+                            SubServices = new Dictionary<string, int>()
+                        };
 
                         // Convert our format to the backend settings format and store it
                         serviceData = new ServiceData(traderService);

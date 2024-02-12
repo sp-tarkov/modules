@@ -63,6 +63,7 @@ namespace Aki.SinglePlayer
                 new ScavSellAllPriceStorePatch().Enable();
                 new ScavSellAllRequestPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
+                new LightKeeperServicesPatch().Enable();
             }
             catch (Exception ex)
             {
