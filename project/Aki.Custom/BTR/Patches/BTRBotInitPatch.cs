@@ -22,7 +22,7 @@ namespace Aki.Custom.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BTRTurretView), nameof(BTRTurretView.method_1));
+            return AccessTools.Method(typeof(BTRTurretView), nameof(BTRTurretView.method_3));
         }
 
         [PatchPrefix]
