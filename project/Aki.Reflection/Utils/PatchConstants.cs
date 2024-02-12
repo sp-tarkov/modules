@@ -19,6 +19,7 @@ namespace Aki.Reflection.Utils
         public static Type ExfilPointManagerType { get; private set; }
         public static Type SessionInterfaceType { get; private set; }
         public static Type BackendSessionInterfaceType { get; private set; }
+        public static Type BackendProfileInterfaceType { get; private set; }
 
         private static ISession _backEndSession;
         public static ISession BackEndSession
@@ -47,6 +48,7 @@ namespace Aki.Reflection.Utils
             ExfilPointManagerType = EftTypes.SingleCustom(x => x.GetMethod("InitAllExfiltrationPoints") != null);
             SessionInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Select(y => y.Name).Contains("GetPhpSessionId") && x.IsInterface);
             BackendSessionInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Select(y => y.Name).Contains("ChangeProfileStatus") && x.IsInterface);
+            BackendProfileInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Length == 2 && x.GetMethods().Select(y => y.Name).Contains("get_Profile") && x.IsInterface);
         }
 
         /// <summary>
