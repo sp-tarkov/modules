@@ -4,7 +4,7 @@ using EFT;
 using EFT.Vehicle;
 using HarmonyLib;
 using System.Reflection;
-using BotEventHandler = GClass595;
+using BotEventHandler = GClass598;
 
 namespace Aki.Custom.BTR.Patches
 {

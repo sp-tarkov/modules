@@ -35,7 +35,7 @@ namespace Aki.Custom.BTR.Patches
             var btrTurretViewTupleField = (ValueTuple<ObservedPlayerView, bool>)AccessTools.Field(__instance.GetType(), "valueTuple_0").GetValue(__instance);
             if (!btrTurretViewTupleField.Item2)
             {
-                __instance.method_1(btrBotId);
+                __instance.method_3(btrBotId);
                 return false;
             }
 
