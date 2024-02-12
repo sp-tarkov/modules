@@ -81,21 +81,12 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                         TraderServiceClass traderService = new TraderServiceClass();
                         traderService.TraderId = traderId;
                         traderService.ServiceType = serviceType;
-                        traderService.ItemsToPay = new Dictionary<MongoID, int>();
-                        if (traderServiceModel.ItemsToPay != null)
-                        {
-                            foreach (var item in traderServiceModel.ItemsToPay)
-                            {
-                                traderService.ItemsToPay[item.Key] = item.Value;
-                            }
-                        }
+                        traderService.UniqueItems = traderServiceModel.ItemsToReceive;
+                        traderService.ItemsToPay = traderServiceModel.ItemsToPay;
 
                         // SubServices seem to be populated dynamically in the client (For BTR taxi atleast), so we can just ignore it
                         // NOTE: For future reference, this is a dict of `point id` to `price` for the BTR taxi
                         traderService.SubServices = new Dictionary<string, int>();
-
-                        // TODO: What is this used for? Maybe lightkeeper?
-                        traderService.UniqueItems = new MongoID[] { };
 
                         // Convert our format to the backend settings format and store it
                         serviceData = new ServiceData(traderService);
@@ -156,7 +147,11 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                 _servicePurchased[serviceType] = new Dictionary<string, bool>();
                 _servicePurchased[serviceType][traderId] = true;
             }
-            OnTraderServicePurchased.Invoke(serviceType, subserviceId);
+
+            if (OnTraderServicePurchased != null)
+            {
+                OnTraderServicePurchased.Invoke(serviceType, subserviceId);
+            }
         }
 
         public void RemovePurchasedService(ETraderServiceType serviceType, string traderId)

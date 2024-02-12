@@ -10,9 +10,12 @@ namespace Aki.SinglePlayer.Utils.TraderServices
         public ETraderServiceType ServiceType { get; set; }
 
         [JsonProperty("itemsToPay")]
-        public Dictionary<string, int> ItemsToPay { get; set; }
+        public Dictionary<MongoID, int> ItemsToPay { get; set; }
 
         [JsonProperty("subServices")]
         public Dictionary<string, int> SubServices { get; set; }
+
+        [JsonProperty("itemsToReceive")]
+        public MongoID[] ItemsToReceive { get; set; }
     }
 }
