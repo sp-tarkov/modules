@@ -123,7 +123,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_72));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_73));
             gclass.ShowScreen(EScreenState.Queued);
         }
 
