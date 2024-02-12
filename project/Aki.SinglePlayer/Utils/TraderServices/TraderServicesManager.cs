@@ -78,24 +78,17 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                     // Only populate trader services that don't exist yet
                     if (!servicesData.ContainsKey(traderServiceModel.ServiceType))
                     {
-                        TraderServiceClass traderService = new TraderServiceClass();
-                        traderService.TraderId = traderId;
-                        traderService.ServiceType = serviceType;
-                        traderService.ItemsToPay = new Dictionary<MongoID, int>();
-                        if (traderServiceModel.ItemsToPay != null)
+                        TraderServiceClass traderService = new TraderServiceClass
                         {
-                            foreach (var item in traderServiceModel.ItemsToPay)
-                            {
-                                traderService.ItemsToPay[item.Key] = item.Value;
-                            }
-                        }
+                            TraderId = traderId,
+                            ServiceType = serviceType,
+                            UniqueItems = traderServiceModel.ItemsToReceive ?? new MongoID[0],
+                            ItemsToPay = traderServiceModel.ItemsToPay ?? new Dictionary<MongoID, int>(),
 
-                        // SubServices seem to be populated dynamically in the client (For BTR taxi atleast), so we can just ignore it
-                        // NOTE: For future reference, this is a dict of `point id` to `price` for the BTR taxi
-                        traderService.SubServices = new Dictionary<string, int>();
-
-                        // TODO: What is this used for? Maybe lightkeeper?
-                        traderService.UniqueItems = new MongoID[] { };
+                            // SubServices seem to be populated dynamically in the client (For BTR taxi atleast), so we can just ignore it
+                            // NOTE: For future reference, this is a dict of `point id` to `price` for the BTR taxi
+                            SubServices = new Dictionary<string, int>()
+                        };
 
                         // Convert our format to the backend settings format and store it
                         serviceData = new ServiceData(traderService);
@@ -156,7 +149,11 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                 _servicePurchased[serviceType] = new Dictionary<string, bool>();
                 _servicePurchased[serviceType][traderId] = true;
             }
-            OnTraderServicePurchased.Invoke(serviceType, subserviceId);
+
+            if (OnTraderServicePurchased != null)
+            {
+                OnTraderServicePurchased.Invoke(serviceType, subserviceId);
+            }
         }
 
         public void RemovePurchasedService(ETraderServiceType serviceType, string traderId)

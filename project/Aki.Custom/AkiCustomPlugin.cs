@@ -67,7 +67,9 @@ namespace Aki.Custom
                 new BTRDestroyAtRaidEndPatch().Enable();
                 new BTRVehicleMovementSpeedPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
-			}
+                new ResetTraderServicesPatch().Enable();
+
+            }
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");

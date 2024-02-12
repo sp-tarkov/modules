@@ -491,7 +491,6 @@ namespace Aki.Custom.BTR
             if (TraderServicesManager.Instance != null)
             {
                 TraderServicesManager.Instance.OnTraderServicePurchased -= BtrTraderServicePurchased;
-                TraderServicesManager.Instance.Clear();
             }
 
             if (gameWorld.MainPlayer != null)
