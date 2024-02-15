@@ -1,20 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net471</TargetFramework>
+	<TargetFramework>net471</TargetFramework>
     <AssemblyName>aki-debugging</AssemblyName>
+	<Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2022</Copyright>
+    <Copyright>Copyright @ Aki 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
-    <Reference Include="bsg.console.core">
-      <HintPath>..\Shared\Managed\bsg.console.core.dll</HintPath>
-    </Reference>
+    <Reference Include="bsg.console.core" HintPath="..\Shared\Managed\bsg.console.core.dll" Private="False" />
     <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
     <Reference Include="Unity.TextMeshPro" HintPath="..\Shared\Managed\Unity.TextMeshPro.dll" Private="False" />
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />

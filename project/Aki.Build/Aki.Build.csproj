@@ -2,11 +2,12 @@
 
   <PropertyGroup>
 	  <TargetFramework>net471</TargetFramework>
+	  <Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>SPT Aki</Company>
-    <Copyright>Copyright @ SPT Aki 2023</Copyright>
+    <Copyright>Copyright @ SPT Aki 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +20,13 @@
     <ProjectReference Include="..\Aki.Common\Aki.Common.csproj" />
     <ProjectReference Include="..\Aki.Core\Aki.Core.csproj" />
     <ProjectReference Include="..\Aki.Reflection\Aki.Reflection.csproj" />
-    <ProjectReference Include="..\Aki.SinglePlayer\Aki.SinglePlayer.csproj" />
+    <ProjectReference Include="..\Aki.PrePatch\Aki.PrePatch.csproj" />
+    <ProjectReference Include="..\Aki.Debugging\Aki.Debugging.csproj" />
+    <ProjectReference Include="..\Aki.Custom\Aki.Custom.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet cake &quot;../build.cake&quot; --vsbuilt=true" />
+    <Exec Command="../build.bat" WorkingDirectory="$(ProjectDir)" />
   </Target>
 
 </Project>
