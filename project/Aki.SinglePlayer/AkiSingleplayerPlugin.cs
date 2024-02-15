@@ -64,6 +64,7 @@ namespace Aki.SinglePlayer
                 new ScavSellAllRequestPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
                 new LightKeeperServicesPatch().Enable();
+                new ScavEncyclopediaPatch().Enable();
             }
             catch (Exception ex)
             {
