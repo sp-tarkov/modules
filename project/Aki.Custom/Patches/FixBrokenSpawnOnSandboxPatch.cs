@@ -1,7 +1,9 @@
-﻿using Aki.Reflection.Patching;
+﻿using Aki.Common.Http;
+using Aki.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using HarmonyLib;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -28,12 +30,18 @@ namespace Aki.Custom.Patches
                 return;
             }
 
-            var playerLocation = gameWorld.MainPlayer.Location;
+			var playerLocation = gameWorld.MainPlayer.Location;
 
             if (playerLocation == "Sandbox")
             {
-                Object.FindObjectsOfType<BotZone>().ToList().First(x => x.name == "ZoneSandbox").MaxPersonsOnPatrol = 10;
+                Object.FindObjectsOfType<BotZone>().ToList().First(x => x.name == "ZoneSandbox").MaxPersonsOnPatrol = GetMaxPatrolValueFromServer();
             }
         }
-    }
+
+		public static int GetMaxPatrolValueFromServer()
+		{
+			string json = RequestHandler.GetJson("/singleplayer/sandbox/maxpatrol");
+			return JsonConvert.DeserializeObject<int>(json);
+		}
+	}
 }
