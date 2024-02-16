@@ -4,11 +4,12 @@
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>aki_PrePatch</AssemblyName>
+	<Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2022</Copyright>
+    <Copyright>Copyright @ Aki 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
