@@ -450,7 +450,7 @@ namespace Aki.Custom.BTR
             isShooting = true;
 
             yield return new WaitForSecondsRealtime(machineGunAimDelay);
-            if (!currentTarget.IsVisible || !btrBotShooter.BotBtrData.CanShoot())
+            if (currentTarget?.Person == null || currentTarget?.IsVisible == false || !btrBotShooter.BotBtrData.CanShoot())
             {
                 isShooting = false;
                 yield break;
@@ -462,9 +462,14 @@ namespace Aki.Custom.BTR
             int burstMin = Mathf.FloorToInt(machineGunBurstCount.x);
             int burstMax = Mathf.FloorToInt(machineGunBurstCount.y);
             int burstCount = Random.Range(burstMin, burstMax + 1);
+            Vector3 targetHeadPos = currentTarget.Person.PlayerBones.Head.position;
             while (burstCount > 0)
             {
-                Vector3 targetHeadPos = currentTarget.Person.PlayerBones.Head.position;
+                // Only update shooting position if the target isn't null
+                if (currentTarget?.Person != null)
+                {
+                    targetHeadPos = currentTarget.Person.PlayerBones.Head.position;
+                }
                 Vector3 aimDirection = Vector3.Normalize(targetHeadPos - machineGunMuzzle.position);
                 ballisticCalculator.Shoot(btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, btrBotShooter.ProfileId, btrMachineGunWeapon, 1f, 0);
                 firearmController.method_54(weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false);
