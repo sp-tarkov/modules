@@ -22,7 +22,8 @@
     <ProjectReference Include="..\Aki.Reflection\Aki.Reflection.csproj" />
     <ProjectReference Include="..\Aki.PrePatch\Aki.PrePatch.csproj" />
     <ProjectReference Include="..\Aki.Debugging\Aki.Debugging.csproj" />
-    <ProjectReference Include="..\Aki.Custom\Aki.Custom.csproj" />
+	<ProjectReference Include="..\Aki.SinglePlayer\Aki.SinglePlayer.csproj" />
+	<ProjectReference Include="..\Aki.Custom\Aki.Custom.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
