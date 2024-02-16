@@ -20,7 +20,7 @@ namespace Aki.SinglePlayer.Patches.Progression
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
+        private static void PatchPrefix(ref AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
         {
             __state = ____questController;
             ____questController = null;
