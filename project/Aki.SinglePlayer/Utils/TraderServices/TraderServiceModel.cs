@@ -17,5 +17,20 @@ namespace Aki.SinglePlayer.Utils.TraderServices
 
         [JsonProperty("itemsToReceive")]
         public MongoID[] ItemsToReceive { get; set; }
+
+        [JsonProperty("requirements")]
+        public TraderServiceRequirementsModel Requirements { get; set; }
+    }
+
+    public class TraderServiceRequirementsModel
+    {
+        [JsonProperty("completedQuests")]
+        public string[] CompletedQuests { get; set; }
+
+        [JsonProperty("standings")]
+        public Dictionary<string, float> Standings { get; set; }
+
+        [JsonProperty("side")]
+        public ESideType Side { get; set; }
     }
 }

@@ -1,12 +1,18 @@
 ﻿using Aki.Common.Http;
 using Comfort.Common;
 using EFT;
+using EFT.Quests;
+using HarmonyLib;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
 using TraderServiceClass = GClass1794;
+using QuestDictClass = GClass2133<string>;
+using StandingListClass = GClass2135<float>;
 
 namespace Aki.SinglePlayer.Utils.TraderServices
 {
@@ -34,10 +40,12 @@ namespace Aki.SinglePlayer.Utils.TraderServices
 
         private Dictionary<ETraderServiceType, Dictionary<string, bool>> _servicePurchased { get; set; }
         private HashSet<string> _cachedTraders = new HashSet<string>();
+        private FieldInfo _playerQuestControllerField;
 
         public TraderServicesManager()
         {
             _servicePurchased = new Dictionary<ETraderServiceType, Dictionary<string, bool>>();
+            _playerQuestControllerField = AccessTools.Field(typeof(Player), "_questController");
         }
 
         public void Clear()
@@ -90,8 +98,28 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                             SubServices = new Dictionary<string, int>()
                         };
 
-                        // Convert our format to the backend settings format and store it
+                        // Convert our format to the backend settings format
                         serviceData = new ServiceData(traderService);
+
+                        // Populate requirements if provided
+                        if (traderServiceModel.Requirements != null)
+                        {
+                            if (traderServiceModel.Requirements.Standings != null)
+                            {
+                                serviceData.TraderServiceRequirements.Standings = new StandingListClass();
+                                serviceData.TraderServiceRequirements.Standings.AddRange(traderServiceModel.Requirements.Standings);
+
+                                // BSG has a bug in their code, we _need_ to initialize this if Standings isn't null
+                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictClass();
+                            }
+                            
+                            if (traderServiceModel.Requirements.CompletedQuests != null)
+                            {
+                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictClass();
+                                serviceData.TraderServiceRequirements.CompletedQuests.Concat(traderServiceModel.Requirements.CompletedQuests);
+                            }
+                        }
+
                         servicesData[serviceData.ServiceType] = serviceData;
                     }
                 }
@@ -108,14 +136,45 @@ namespace Aki.SinglePlayer.Utils.TraderServices
                     continue;
                 }
 
-                // TODO: We should probably actually calculate this?
-                var CanAfford = true;
+                var IsServiceAvailable = this.IsServiceAvailable(player, servicesDataPair.Value.TraderServiceRequirements);
 
                 // Check whether we've purchased this service yet
                 var traderService = servicesDataPair.Key;
                 var WasPurchasedInThisRaid = IsServicePurchased(traderService, traderId);
-                traderInfo.SetServiceAvailability(traderService, CanAfford, WasPurchasedInThisRaid);
+                traderInfo.SetServiceAvailability(traderService, IsServiceAvailable, WasPurchasedInThisRaid);
             }
+        }
+
+        private bool IsServiceAvailable(Player player, ServiceRequirements requirements)
+        {
+            // Handle standing requirements
+            if (requirements.Standings != null)
+            {
+                foreach (var entry in requirements.Standings)
+                {
+                    if (!player.Profile.TradersInfo.ContainsKey(entry.Key) ||
+                        player.Profile.TradersInfo[entry.Key].Standing < entry.Value)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // Handle quest requirements
+            if (requirements.CompletedQuests != null)
+            {
+                AbstractQuestControllerClass questController = _playerQuestControllerField.GetValue(player) as AbstractQuestControllerClass;
+                foreach (string questId in requirements.CompletedQuests)
+                {
+                    var conditional = questController.Quests.GetConditional(questId);
+                    if (conditional == null || conditional.QuestStatus != EQuestStatus.Success)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         public void AfterPurchaseTraderService(ETraderServiceType serviceType, AbstractQuestControllerClass questController, string subServiceId = null)
