@@ -71,8 +71,10 @@ namespace Aki.Custom
                 new BTRVehicleMovementSpeedPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
+				new CultistAmuletRemovalPatch().Enable();
 
-            }
+
+			}
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
