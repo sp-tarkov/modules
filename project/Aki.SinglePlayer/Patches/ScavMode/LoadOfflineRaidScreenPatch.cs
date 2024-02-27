@@ -116,7 +116,11 @@ namespace Aki.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
-            var matchmakerPlayersController = Traverse.Create(menuController).Field($"{nameof(MatchmakerPlayerControllerClass).ToLowerInvariant()}_0").GetValue<MatchmakerPlayerControllerClass>();
+
+            var matchmakerPlayersController = menuController.GetType()
+                .GetFields(AccessTools.all)
+                .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
+                ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
 
             var gclass = new MatchmakerOfflineRaidScreen.GClass3160(profile?.Info, ref raidSettings, matchmakerPlayersController);
 
