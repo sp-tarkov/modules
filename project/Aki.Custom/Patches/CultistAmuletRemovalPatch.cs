@@ -17,7 +17,7 @@ namespace Aki.Custom.Patches
 		//Update GClass ref and Possibly name GClass
 		protected override MethodBase GetTargetMethod()
 		{
-			return AccessTools.Method(typeof(GClass456), nameof(GClass456.method_4));
+			return AccessTools.Method(typeof(CultistEventsClass), nameof(CultistEventsClass.method_4));
 		}
 
 		[PatchPostfix]

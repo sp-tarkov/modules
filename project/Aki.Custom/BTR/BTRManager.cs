@@ -13,7 +13,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using BotEventHandler = GClass598;
 
 namespace Aki.Custom.BTR
 {
