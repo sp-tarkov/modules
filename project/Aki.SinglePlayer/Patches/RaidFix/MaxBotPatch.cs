@@ -8,7 +8,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     /// <summary>
     /// Alter the max bot cap with value stored in server, if value is -1, use existing value
     /// </summary>
-    class MaxBotPatch : ModulePatch
+    public class MaxBotPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

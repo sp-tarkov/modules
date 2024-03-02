@@ -8,7 +8,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
     /// <summary>
     /// Force ERaidMode to online to make interface show insurance page
     /// </summary>
-    class InsuranceScreenPatch : ModulePatch
+    public class InsuranceScreenPatch : ModulePatch
     {
         static InsuranceScreenPatch()
         {

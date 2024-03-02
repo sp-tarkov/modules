@@ -16,7 +16,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     /// int_3 = spawn process? - current guess is open spawn positions - bsg doesnt seem to handle negative vaues well
     /// int_4 = max bots
     /// </summary>
-    class SpawnProcessNegativeValuePatch : ModulePatch
+    public class SpawnProcessNegativeValuePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
