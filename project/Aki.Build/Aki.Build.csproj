@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net471</TargetFramework>
-	  <Configuration>Release</Configuration>
+    <TargetFramework>net471</TargetFramework>
+    <Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -22,12 +22,12 @@
     <ProjectReference Include="..\Aki.Reflection\Aki.Reflection.csproj" />
     <ProjectReference Include="..\Aki.PrePatch\Aki.PrePatch.csproj" />
     <ProjectReference Include="..\Aki.Debugging\Aki.Debugging.csproj" />
-	<ProjectReference Include="..\Aki.SinglePlayer\Aki.SinglePlayer.csproj" />
-	<ProjectReference Include="..\Aki.Custom\Aki.Custom.csproj" />
+    <ProjectReference Include="..\Aki.SinglePlayer\Aki.SinglePlayer.csproj" />
+    <ProjectReference Include="..\Aki.Custom\Aki.Custom.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="../build.bat" WorkingDirectory="$(ProjectDir)" />
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass ../build.ps1" WorkingDirectory="$(ProjectDir)" />
   </Target>
 
 </Project>
