@@ -17,6 +17,8 @@ namespace Aki.Debugging
                 new EndRaidDebug().Enable();
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
+                new DebugLogoPatch().Enable();
+                new DebugLogoPatch2().Enable();
 
                 // BTR debug command patches, can be disabled later
                 //new BTRDebugCommandPatch().Enable();
