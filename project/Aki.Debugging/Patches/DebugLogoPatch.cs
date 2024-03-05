@@ -37,7 +37,7 @@ namespace Aki.Debugging.Patches
             var json = RequestHandler.GetJson("/singleplayer/settings/version");
             var result = Json.Deserialize<VersionResponse>(json).Version;
 
-            ____label.text = $"SPT BLEEDINGEDGE \n ${result} \n {___profile_0.Nickname} \n {GClass1296.Now.ToString("HH:mm:ss")}";
+            ____label.text = $"SPT BLEEDINGEDGE \n {result} \n {___profile_0.Nickname} \n {GClass1296.Now.ToString("HH:mm:ss")}";
         }
     }
 }
