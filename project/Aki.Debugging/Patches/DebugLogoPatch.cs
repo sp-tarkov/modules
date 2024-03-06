@@ -1,7 +1,4 @@
-﻿using Aki.Common.Http;
-using Aki.Common.Utils;
-using Aki.Custom.Models;
-using Aki.Reflection.Patching;
+﻿using Aki.Reflection.Patching;
 using EFT;
 using EFT.UI;
 using HarmonyLib;
