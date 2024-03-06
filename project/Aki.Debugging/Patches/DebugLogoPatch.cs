@@ -37,13 +37,7 @@ namespace Aki.Debugging.Patches
         [PatchPostfix]
         private static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
         {
-            if (sptVersion is null)
-            {
-                var json = RequestHandler.GetJson("/singleplayer/settings/version");
-                sptVersion = Json.Deserialize<VersionResponse>(json).Version;
-            }
-
-            ____label.text = $"{sptVersion}";
+            ____label.text = $"{AkiDebuggingPlugin.sptVersion}";
         }
     }
 
