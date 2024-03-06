@@ -19,6 +19,7 @@ namespace Aki.Debugging
                 // new StaticLootDumper().Enable();
                 new DebugLogoPatch().Enable();
                 new DebugLogoPatch2().Enable();
+                new DebugLogoPatch3().Enable();
 
                 // BTR debug command patches, can be disabled later
                 //new BTRDebugCommandPatch().Enable();
