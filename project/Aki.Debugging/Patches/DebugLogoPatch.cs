@@ -34,7 +34,7 @@ namespace Aki.Debugging.Patches
         [PatchPostfix]
         private static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
         {
-            ____label.text = $"{AkiDebuggingPlugin.sptVersion}";
+            ____label.text = $"{AkiDebuggingPlugin.commitHash}";
         }
     }
 

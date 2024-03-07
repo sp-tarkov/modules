@@ -18,6 +18,8 @@ namespace Aki.Debugging
     public class AkiDebuggingPlugin : BaseUnityPlugin
     {
         public static string sptVersion;
+        public static string commitHash;
+
         private ReleaseResponse release;
 
         private bool _isBetaDisclaimerOpen = false;
@@ -52,6 +54,9 @@ namespace Aki.Debugging
             var versionJson = RequestHandler.GetJson("/singleplayer/settings/version");
             sptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
 
+            var splitVersion = sptVersion.Split(' ');
+            commitHash = splitVersion[4] ?? "";
+                   
             var releaseJson = RequestHandler.GetJson("/singleplayer/release");
             release = Json.Deserialize<ReleaseResponse>(releaseJson);
 
@@ -132,7 +137,7 @@ namespace Aki.Debugging
         // Should we show the release notes, only show on first run or if build has changed
         private bool ShouldShowReleaseNotes()
         {
-            return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0  && !_isBetaDisclaimerOpen ? true : false;
+            return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0  && !_isBetaDisclaimerOpen && release.releaseSummary != string.Empty ? true : false;
         }
     }
 }
