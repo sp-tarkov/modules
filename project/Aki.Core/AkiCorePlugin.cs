@@ -27,7 +27,6 @@ namespace Aki.Core
                 new UnityWebRequestPatch().Enable();
                 new WebSocketPatch().Enable();
                 new TransportPrefixPatch().Enable();
-                new PreventClientModsPatch().Enable();
             }
             catch (Exception ex)
             {

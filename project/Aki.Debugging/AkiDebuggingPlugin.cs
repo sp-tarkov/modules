@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Aki.Common;
 using Aki.Common.Http;
 using Aki.Common.Utils;
+using Aki.Core.Patches;
 using Aki.Custom.Models;
 using Aki.Debugging.Patches;
 using BepInEx;
@@ -63,6 +64,7 @@ namespace Aki.Debugging
                 new DebugLogoPatch().Enable();
                 new DebugLogoPatch2().Enable();
                 new DebugLogoPatch3().Enable();
+                new PreventClientModsPatch().Enable();
             }
 
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
