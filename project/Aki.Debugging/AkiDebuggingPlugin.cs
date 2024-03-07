@@ -16,6 +16,7 @@ namespace Aki.Debugging
     {
 
         public static string sptVersion;
+        public static string commitHash;
 
         // Disable this in release builds.
         private bool _isBleeding = true;
@@ -69,6 +70,8 @@ namespace Aki.Debugging
         {
             var json = RequestHandler.GetJson("/singleplayer/settings/version");
             sptVersion = Json.Deserialize<VersionResponse>(json).Version;
+            var splitVersion = sptVersion.Split(' ');
+            commitHash = splitVersion[4] ?? "";
 
             _hasVersionChangedSinceLastRun = SetVersionPref();
         }
