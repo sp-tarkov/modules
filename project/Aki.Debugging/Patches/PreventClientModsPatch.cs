@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using BepInEx.Bootstrap;
+using BepInEx.Logging;
 using EFT;
 using HarmonyLib;
 
@@ -22,10 +23,10 @@ namespace Aki.Core.Patches
         [PatchPrefix]
         private static void Prefix()
         {
-            CheckForNonWhitelistedPlugins();
+            CheckForNonWhitelistedPlugins(Logger);
         }
 
-        private static void CheckForNonWhitelistedPlugins()
+        private static void CheckForNonWhitelistedPlugins(ManualLogSource logger)
         {
             var whitelistedPlugins = new HashSet<string>
             {
@@ -46,7 +47,7 @@ namespace Aki.Core.Patches
             var disallowedPlugins = Chainloader.PluginInfos.Values.Select(pi => pi.Metadata.GUID).Except(whitelistedPlugins).ToArray();
             if (disallowedPlugins.Any())
             {
-                AkiCorePlugin._logger.LogError($"One or more non-whitelisted plugins were detected. Mods are not allowed in BleedingEdge builds of SPT. Illegal plugins:\n{string.Join("\n", disallowedPlugins)}");
+                logger.LogError($"One or more non-whitelisted plugins were detected. Mods are not allowed in BleedingEdge builds of SPT. Illegal plugins:\n{string.Join("\n", disallowedPlugins)}");
                 throw new Exception("Non-debug client mods have been detected. Mods are not allowed in BleedingEdge builds of SPT - please remove them before playing!");
             }
         }
