@@ -42,6 +42,7 @@ namespace Aki.SinglePlayer
                 new SpawnPmcPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
                 new EndByTimerPatch().Enable();
+                new InRaidQuestAvailablePatch().Enable();
                 new PostRaidHealScreenPatch().Enable();
                 new VoIPTogglerPatch().Enable();
                 new MidRaidQuestChangePatch().Enable();
