@@ -24,6 +24,9 @@ namespace Aki.Debugging
 
         private bool _isBetaDisclaimerOpen = false;
 
+        private string _fallBackDisclaimer = "By pressing OK you agree that no support is offered and that this is for bug testing only. NOT actual gameplay. Mods are disabled. New profiles may be required frequently. "
+        +"Report all bugs in the reports channel in discord, or on the issues page on the website. If you don't press OK by the time specified, the game will close.";
+
         public void Awake()
         {
             Logger.LogInfo("Loading: Aki.Debugging");
@@ -72,6 +75,14 @@ namespace Aki.Debugging
                 new PreventClientModsPatch().Enable();
             }
 
+            // Only english disclaimer and summary are supported
+            // use fallback disclaimer and empty summary if null
+            // hackfix until the beta disclaimer is translated into every language,
+            // The release notes will never be translated into every language
+            // This prevents an NRE on the error screen causing a massive memory leak.
+            release.betaDisclaimer = release.betaDisclaimer ?? _fallBackDisclaimer;
+            release.releaseSummary = release.releaseSummary ?? "";
+
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
             {
                 Logger.LogInfo("User accepted the beta disclaimer");
@@ -108,7 +119,6 @@ namespace Aki.Debugging
         }
 
         // Stores the current build in the registry to check later
-        // Return true if changed, false if not
         private void SetVersionPref()
         {
             if (GetVersionPref() == string.Empty || GetVersionPref() != sptVersion)
@@ -135,6 +145,7 @@ namespace Aki.Debugging
         }
 
         // Should we show the release notes, only show on first run or if build has changed
+        // Release notes will never be shown when its an empty string, so this feature only works for EN locale.
         private bool ShouldShowReleaseNotes()
         {
             return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0  && !_isBetaDisclaimerOpen && release.releaseSummary != string.Empty ? true : false;
