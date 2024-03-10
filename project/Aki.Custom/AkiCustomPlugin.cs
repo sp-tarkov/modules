@@ -58,7 +58,6 @@ namespace Aki.Custom
                 new BTRActivateTraderDialogPatch().Enable();
                 new BTRInteractionPatch().Enable();
                 new BTRExtractPassengersPatch().Enable();
-                new BTRBotInitPatch().Enable();
                 new BTRBotAttachPatch().Enable();
                 new BTRReceiveDamageInfoPatch().Enable();
                 new BTRTurretCanShootPatch().Enable();
