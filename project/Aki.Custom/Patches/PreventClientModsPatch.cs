@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Aki.Reflection.Patching;
+using Aki.SinglePlayer.Utils.MainMenu;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using EFT;
@@ -28,27 +29,10 @@ namespace Aki.SinglePlayer.Patches.MainMenu
 
         private static void CheckForNonWhitelistedPlugins(ManualLogSource logger)
         {
-            var whitelistedPlugins = new HashSet<string>
+            if (MenuNotificationManager.disallowedPlugins.Any())
             {
-                "com.spt-aki.core",
-                "com.spt-aki.custom",
-                "com.spt-aki.debugging",
-                "com.spt-aki.singleplayer",
-                "com.bepis.bepinex.configurationmanager",
-                "com.terkoiz.freecam",
-                "com.sinai.unityexplorer",
-                "com.cwx.debuggingtool-dxyz",
-                "com.cwx.debuggingtool",
-                "xyz.drakia.botdebug",
-                "com.kobrakon.camunsnap",
-                "RuntimeUnityEditor"
-            };
-
-            var disallowedPlugins = Chainloader.PluginInfos.Values.Select(pi => pi.Metadata.GUID).Except(whitelistedPlugins).ToArray();
-            if (disallowedPlugins.Any())
-            {
-                logger.LogError($"One or more non-whitelisted plugins were detected. Mods are not allowed in BleedingEdge builds of SPT. Illegal plugins:\n{string.Join("\n", disallowedPlugins)}");
-                throw new Exception("Non-debug client mods have been detected. Mods are not allowed in BleedingEdge builds of SPT - please remove them before playing!");
+                logger.LogError($"{MenuNotificationManager.release.illegalPluginsLoadedText}\n{string.Join("\n", MenuNotificationManager.disallowedPlugins)}");
+                throw new Exception(MenuNotificationManager.release.illegalPluginsExceptionText);
             }
         }
     }
