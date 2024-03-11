@@ -4,6 +4,8 @@ using Aki.Custom.Airdrops.Patches;
 using Aki.Custom.BTR.Patches;
 using Aki.Custom.Patches;
 using Aki.Custom.Utils;
+using Aki.Reflection.Utils;
+using Aki.SinglePlayer.Utils.MainMenu;
 using BepInEx;
 
 namespace Aki.Custom
@@ -72,8 +74,8 @@ namespace Aki.Custom
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 
-
-			}
+                HookObject.AddOrGetComponent<MenuNotificationManager>();
+            }
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
