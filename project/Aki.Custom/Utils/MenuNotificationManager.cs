@@ -41,6 +41,11 @@ namespace Aki.SinglePlayer.Utils.MainMenu
                 new BetaLogoPatch().Enable();
                 new BetaLogoPatch2().Enable();
                 new BetaLogoPatch3().Enable();
+            }
+
+            // Prevent client mods if the server is built with mods disabled
+            if (!release.isModdable)
+            {
                 new PreventClientModsPatch().Enable();
             }
 
