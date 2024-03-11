@@ -61,13 +61,14 @@ namespace Aki.SinglePlayer.Utils.MainMenu
 
                 foreach (var plugin in Chainloader.PluginInfos)
                 {
-                    ServerLog.Info("Aki.Custom:", $"{plugin.Key} is loaded in the client");
+                    ServerLog.Info("Aki.Custom", $"{plugin.Key} is loaded in the client");
                 }             
             }
 
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
             {
                 Logger.LogInfo("User accepted the beta disclaimer");
+                ServerLog.Info("Aki.Custom", "User accepted the beta disclaimer");
             }
         }
         public void Update()
