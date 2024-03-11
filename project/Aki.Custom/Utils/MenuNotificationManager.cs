@@ -2,6 +2,7 @@
 using Aki.Common.Utils;
 using Aki.Custom.Models;
 using Aki.SinglePlayer.Patches.MainMenu;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT.UI;
@@ -15,6 +16,7 @@ namespace Aki.SinglePlayer.Utils.MainMenu
     {
         public static string sptVersion;
         public static string commitHash;
+        public static bool isModded;
         private ReleaseResponse release;
 
         private bool _isBetaDisclaimerOpen = false;
@@ -49,6 +51,15 @@ namespace Aki.SinglePlayer.Utils.MainMenu
                 new PreventClientModsPatch().Enable();
             }
 
+            // Check if any server or client mods are loaded
+            // check > 5 because there are 5 SPT related plugins
+            isModded = release.isModded || Chainloader.PluginInfos.Count > 5 ? true : false;
+
+            if (isModded && release.isBeta)
+            {
+                commitHash += "\n Mods loaded";
+            }
+
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
             {
                 Logger.LogInfo("User accepted the beta disclaimer");
@@ -61,12 +72,24 @@ namespace Aki.SinglePlayer.Utils.MainMenu
                 return;
             }
 
+            ShowBetaMessage();
+            ShowReleaseNotes();
+        }
+
+        // Show the beta message
+        // if mods are enabled show that mods are loaded in the message.
+        private void ShowBetaMessage()
+        {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage())
             {
                 Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimer, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay, new Action(OnMessageAccepted), new Action(OnTimeOut));
                 _isBetaDisclaimerOpen = true;
             }
+        }
 
+        // Show the release notes.
+        private void ShowReleaseNotes()
+        {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes())
             {
                 Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.releaseSummary, ErrorScreen.EButtonType.OkButton, 36000, null, null);
