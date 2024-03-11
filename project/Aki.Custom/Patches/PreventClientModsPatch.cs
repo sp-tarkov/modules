@@ -8,7 +8,7 @@ using BepInEx.Logging;
 using EFT;
 using HarmonyLib;
 
-namespace Aki.Core.Patches
+namespace Aki.SinglePlayer.Patches.MainMenu
 {
     /// <summary>
     /// Prevents loading of non-whitelisted client mods to minimize the amount of false issue reports being made during the public BE phase
