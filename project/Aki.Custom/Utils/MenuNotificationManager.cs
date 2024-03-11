@@ -58,6 +58,11 @@ namespace Aki.SinglePlayer.Utils.MainMenu
             if (isModded && release.isBeta)
             {
                 commitHash += "\n Mods loaded";
+
+                foreach (var plugin in Chainloader.PluginInfos)
+                {
+                    ServerLog.Info("Aki.Custom:", $"{plugin.Key} is loaded in the client");
+                }             
             }
 
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
