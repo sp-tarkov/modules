@@ -26,22 +26,22 @@ namespace Aki.Custom.Patches
             return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_1));
         }
 
-        /// <summary>
-        /// Calculate tax to charge player and send to server before the offer is sent
-        /// </summary>
-        /// <param name="___item_0">Item sold</param>
-        /// <param name="___gclass3067_0">OfferItemCount</param>
-        /// <param name="___double_0">RequirementsPrice</param>
-        /// <param name="___bool_0">SellInOnePiece</param>
-        [PatchPrefix]
-        private static void PatchPrefix(ref Item ___item_0, ref GClass3069 ___gclass3074_0, ref double ___double_0, ref bool ___bool_0)
+		/// <summary>
+		/// Calculate tax to charge player and send to server before the offer is sent
+		/// </summary>
+		/// <param name="___item_0">Item sold</param>
+		/// <param name="___gclass3069_0">OfferItemCount</param>
+		/// <param name="___double_0">RequirementsPrice</param>
+		/// <param name="___bool_0">SellInOnePiece</param>
+		[PatchPrefix]
+        private static void PatchPrefix(ref Item ___item_0, ref GClass3069 ___gclass3069_0, ref double ___double_0, ref bool ___bool_0)
         {
             RequestHandler.PutJson("/client/ragfair/offerfees", new
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___gclass3074_0.OfferItemCount,
-                fee = Mathf.CeilToInt((float)GClass2089.CalculateTaxPrice(___item_0, ___gclass3074_0.OfferItemCount, ___double_0, ___bool_0))
+                count = ___gclass3069_0.OfferItemCount,
+                fee = Mathf.CeilToInt((float)GClass2089.CalculateTaxPrice(___item_0, ___gclass3069_0.OfferItemCount, ___double_0, ___bool_0))
             }.ToJson());
         }
     }
