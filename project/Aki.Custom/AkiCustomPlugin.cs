@@ -80,6 +80,8 @@ namespace Aki.Custom
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
                 Logger.LogError($"{GetType().Name}: {ex}");
+                MessageBoxHelper.Show($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED, CHECK LOG FOR MORE DETAILS", "ERROR", MessageBoxHelper.MessageBoxType.OK);
+
                 throw;
             }
 
