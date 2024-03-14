@@ -31,7 +31,7 @@ namespace Aki.Custom.Patches
             var player = Singleton<GameWorld>.Instance.MainPlayer;
             if (profileId == player?.Profile.Id)
             {
-                GClass3112.Instance.CloseAllScreensForced();
+                GClass3107.Instance.CloseAllScreensForced();
             }
 
             return true;

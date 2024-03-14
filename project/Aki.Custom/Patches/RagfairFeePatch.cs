@@ -17,8 +17,8 @@ namespace Aki.Custom.Patches
         public RagfairFeePatch()
         {
             // Remember to update prefix parameter if below lines are broken
-            _ = nameof(GClass3074.IsAllSelectedItemSame);
-            _ = nameof(GClass3074.AutoSelectSimilar);
+            _ = nameof(GClass3069.IsAllSelectedItemSame);
+            _ = nameof(GClass3069.AutoSelectSimilar);
         }
 
         protected override MethodBase GetTargetMethod()
@@ -34,7 +34,7 @@ namespace Aki.Custom.Patches
         /// <param name="___double_0">RequirementsPrice</param>
         /// <param name="___bool_0">SellInOnePiece</param>
         [PatchPrefix]
-        private static void PatchPrefix(ref Item ___item_0, ref GClass3074 ___gclass3074_0, ref double ___double_0, ref bool ___bool_0)
+        private static void PatchPrefix(ref Item ___item_0, ref GClass3069 ___gclass3074_0, ref double ___double_0, ref bool ___bool_0)
         {
             RequestHandler.PutJson("/client/ragfair/offerfees", new
             {
