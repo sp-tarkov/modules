@@ -1,5 +1,7 @@
 ﻿using System;
 using Aki.Common;
+using Aki.Common.Http;
+using Aki.Common.Utils;
 using Aki.Debugging.Patches;
 using BepInEx;
 
@@ -8,6 +10,8 @@ namespace Aki.Debugging
     [BepInPlugin("com.spt-aki.debugging", "AKI.Debugging", AkiPluginInfo.PLUGIN_VERSION)]
     public class AkiDebuggingPlugin : BaseUnityPlugin
     {
+        public static LoggingLevelResponse logLevel;
+
         public void Awake()
         {
             Logger.LogInfo("Loading: Aki.Debugging");
@@ -15,6 +19,7 @@ namespace Aki.Debugging
             try
             {
                 new EndRaidDebug().Enable();
+                new LoggerClassLogPatch().Enable();
                 // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
 
@@ -31,6 +36,12 @@ namespace Aki.Debugging
             }
 
             Logger.LogInfo("Completed: Aki.Debugging");
+        }
+
+        public void Start()
+        {
+            var loggingJson = RequestHandler.GetJson("/singleplayer/enableBSGlogging");
+            logLevel = Json.Deserialize<LoggingLevelResponse>(loggingJson);
         }
     }
 }
