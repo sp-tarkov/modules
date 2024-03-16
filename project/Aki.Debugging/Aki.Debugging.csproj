@@ -24,6 +24,7 @@
     <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False" />
     <Reference Include="Comfort.Common" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
     <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
+    <Reference Include="Nlog" HintPath="..\Shared\Managed\NLog.dll" Private="False" />
   </ItemGroup>
 
   <ItemGroup>
