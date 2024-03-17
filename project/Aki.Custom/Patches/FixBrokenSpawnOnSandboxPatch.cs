@@ -6,7 +6,6 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace Aki.Custom.Patches
 {   
@@ -34,9 +33,9 @@ namespace Aki.Custom.Patches
 
             if (playerLocation == "Sandbox")
             {
-                Object.FindObjectsOfType<BotZone>().ToList().First(x => x.name == "ZoneSandbox").MaxPersonsOnPatrol = GetMaxPatrolValueFromServer();
+				LocationScene.GetAll<BotZone>().ToList().First(x => x.name == "ZoneSandbox").MaxPersonsOnPatrol = GetMaxPatrolValueFromServer();
             }
-        }
+		}
 
 		public static int GetMaxPatrolValueFromServer()
 		{
