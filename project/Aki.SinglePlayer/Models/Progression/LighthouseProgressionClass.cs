@@ -1,7 +1,5 @@
 ﻿using Comfort.Common;
 using EFT;
-using EFT.UI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,6 +31,7 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
+
             // Get transmitter from players inventory
             _transmitter = GetTransmitterFromInventory();
 
@@ -44,13 +43,15 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
-            GameObject.Find("Attack").SetActive(false);
+			var places = Singleton<IBotGame>.Instance.BotsController.CoversData.AIPlaceInfoHolder.Places;
 
-            // Zone was added in a newer version and the gameObject actually has a \
-            GameObject.Find("CloseZone\\").SetActive(false);
+			places.First(x => x.name == "Attack").gameObject.SetActive(false);
 
-            // Give access to Lightkeepers door
-            _gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
+			// Zone was added in a newer version and the gameObject actually has a \
+			places.First(y => y.name == "CloseZone\\").gameObject.SetActive(false);
+
+			// Give access to Lightkeepers door
+			_gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
 
 			_bridgeMines = _gameWorld.MineManager.Mines;
 
