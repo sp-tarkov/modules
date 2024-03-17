@@ -1,5 +1,7 @@
 ﻿using Comfort.Common;
 using EFT;
+using EFT.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +13,7 @@ namespace Aki.SinglePlayer.Models.Progression
         private GameWorld _gameWorld;
         private Player _player;
         private float _timer;
-        private List<MineDirectionalColliders> _bridgeMines;
+        private List<MineDirectional> _bridgeMines;
         private RecodableItemClass _transmitter;
         private readonly List<IPlayer> _zryachiyAndFollowers = new List<IPlayer>();
         private bool _aggressor;
@@ -50,11 +52,10 @@ namespace Aki.SinglePlayer.Models.Progression
             // Give access to Lightkeepers door
             _gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
 
-            // Expensive, run after gameworld / lighthouse checks above
-            _bridgeMines = FindObjectsOfType<MineDirectionalColliders>().ToList();
+			_bridgeMines = _gameWorld.MineManager.Mines;
 
-            // Set mines to be non-active
-            SetBridgeMinesStatus(false);
+			// Set mines to be non-active
+			SetBridgeMinesStatus(false);
         }
 
         public void Update()
@@ -121,12 +122,13 @@ namespace Aki.SinglePlayer.Models.Progression
         /// <param name="active">What state mines should be</param>
         private void SetBridgeMinesStatus(bool active)
         {
-            // Find mines with opposite state of what we want
-            foreach (var mine in _bridgeMines.Where(mine => mine.gameObject.activeSelf == !active))
+			
+			// Find mines with opposite state of what we want
+			foreach (var mine in _bridgeMines.Where(mine => mine.gameObject.activeSelf == !active && mine.transform.parent.gameObject.name == "Directional_mines_LHZONE"))
             {
-                mine.gameObject.SetActive(active);
+				mine.gameObject.SetActive(active);
             }
-        }
+		}
 
         /// <summary>
         /// Put Zryachiy and followers into a list and sub to their death event
