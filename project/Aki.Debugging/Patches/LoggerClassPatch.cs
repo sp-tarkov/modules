@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Aki.Common.Utils;
@@ -26,10 +27,26 @@ namespace Aki.Debugging.Patches
             // Ordinal works from low to high 0 - trace, 1 - debug, 3 - info ...
             if (bsgLevel >= sptLevel)
             {
-                // We want to remove any character thats not a single digit inside of {}
-                // This prevents string builder exceptions.
-                nlogFormat = Regex.Replace(nlogFormat, @"\{[^{}]*[^\d{}][^{}]*\}", "");
-                nlogFormat = string.Format(nlogFormat, args);
+                // First replace all { and } with {{ and }}
+                nlogFormat = nlogFormat.Replace("{", "{{");
+                nlogFormat = nlogFormat.Replace("}", "}}");
+
+                // Then find any instance of "{{\d}}" and unescape its brackets
+                nlogFormat = Regex.Replace(nlogFormat, @"{{(\d+)}}", "{$1}");
+
+                try
+                {
+                    nlogFormat = string.Format(nlogFormat, args);
+                }
+                catch (Exception)
+                {
+                    Logger.LogError($"Error formatting string: {nlogFormat}");
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        Logger.LogError($"  args[{i}] = {args[i]}");
+                    }
+                    return;
+                }
 
                 Logger.LogDebug($"output Nlog: {logLevel} : {nlogFormat}");
                 
