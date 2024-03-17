@@ -26,7 +26,9 @@ namespace Aki.Custom.Patches
 				|| __instance.InitialBotType == WildSpawnType.shooterBTR
 				|| __instance.InitialBotType == WildSpawnType.gifter
 				|| __instance.InitialBotType == WildSpawnType.sectantWarrior
-				|| __instance.InitialBotType == WildSpawnType.sectantPriest)
+				|| __instance.InitialBotType == WildSpawnType.sectantPriest
+				|| __instance.InitialBotType == WildSpawnType.sectactPriestEvent
+				|| __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent)
             {
                 return true; // Do original code
             }

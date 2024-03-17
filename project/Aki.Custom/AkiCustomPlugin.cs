@@ -74,6 +74,7 @@ namespace Aki.Custom
 				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
+				new HalloweenExtractPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
