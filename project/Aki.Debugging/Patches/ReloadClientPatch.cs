@@ -22,7 +22,8 @@ namespace Aki.Debugging.Patches
 		}
 
 		[ConsoleCommand("reload", "", null, "Reloads currently loaded profile.\nOnly use while in Main Menu" +
-			"\nRunning command while in hideout will cause graphical glitches and NRE to do with Nightvision. Pretty sure wont cause anything bad")]
+			"\nRunning command while in hideout will cause graphical glitches and NRE to do with Nightvision. Pretty sure wont cause anything bad" +
+			"\nMay Cause Unexpected Behaviors inraid")]
 		public static void Reload()
 		{
 
