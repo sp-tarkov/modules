@@ -22,6 +22,7 @@ namespace Aki.SinglePlayer.Patches.Healing
         [PatchPrefix]
         private static void PatchPrefix(object healthObserver)
         {
+            // Accesstools will throw warnings if player doesnt have any Effects while using Treatment at end of raid
             var property = AccessTools.Property(healthObserver.GetType(), "Effects");
             if (property != null)
             {
