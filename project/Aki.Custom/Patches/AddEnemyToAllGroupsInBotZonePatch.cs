@@ -21,10 +21,15 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
         {
+            if (!groupOwner.IsAI)
+            {
+                return false; // Skip original
+            }
+
 			// If you damage yourself exit early as we dont want to try add ourself to our own enemy list
 			if (aggressor.IsYourPlayer && target.IsYourPlayer)
 			{
-				return false;
+				return false; // Skip original
 			}
 
             BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
@@ -51,7 +56,7 @@ namespace Aki.Custom.Patches
                 }
             }
 
-            return false;
+            return false; // Skip original
         }
     }
 }
