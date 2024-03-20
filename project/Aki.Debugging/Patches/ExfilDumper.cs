@@ -124,15 +124,15 @@ namespace Aki.Debugging.Patches
                 // Store the side
                 if (point is SharedExfiltrationPoint)
                 {
-                    Side = "Shared";
+                    Side = "Coop";
                 }
                 else if (point is ScavExfiltrationPoint)
                 {
-                    Side = "Savage";
+                    Side = "Scav";
                 }
                 else
                 {
-                    Side = "PMC";
+                    Side = "Pmc";
                 }
             }
         }
