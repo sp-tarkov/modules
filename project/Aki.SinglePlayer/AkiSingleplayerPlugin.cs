@@ -66,6 +66,9 @@ namespace Aki.SinglePlayer
                 new HideoutQuestIgnorePatch().Enable();
                 new LightKeeperServicesPatch().Enable();
                 new ScavEncyclopediaPatch().Enable();
+                new ScavRepAdjustmentPatch().Enable();
+                new AmmoUsedCounterPatch().Enable();
+                new ArmorDamageCounterPatch().Enable();
             }
             catch (Exception ex)
             {

@@ -1,15 +1,12 @@
 ﻿using Aki.Reflection.Patching;
-using EFT.HealthSystem;
 using EFT;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Comfort.Common;
 
-namespace Aki.Debugging.Patches.Stats
+namespace Aki.SinglePlayer.Patches.MainMenu
 {
-    public class AmmoUsedPatch : ModulePatch
+    public class AmmoUsedCounterPatch : ModulePatch
     {
         private static Player player;
 

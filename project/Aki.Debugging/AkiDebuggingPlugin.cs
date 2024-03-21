@@ -20,17 +20,16 @@ namespace Aki.Debugging
             {
                 new EndRaidDebug().Enable();
                 new LoggerClassLogPatch().Enable();
-				// new CoordinatesPatch().Enable();
+                // new CoordinatesPatch().Enable();
                 // new StaticLootDumper().Enable();
                 // new ExfilDumper().Enable();
 
-				// BTR debug command patches, can be disabled later
-				//new BTRDebugCommandPatch().Enable();
-				//new BTRDebugDataPatch().Enable();
+                // BTR debug command patches, can be disabled later
+                //new BTRDebugCommandPatch().Enable();
+                //new BTRDebugDataPatch().Enable();
 
-				//new PMCBotSpawnLocationPatch().Enable();
-				// Chomp said to leave it enabled by default
-				new ReloadClientPatch().Enable();
+                //new PMCBotSpawnLocationPatch().Enable();
+                //new ReloadClientPatch().Enable();
 			}
             catch (Exception ex)
             {

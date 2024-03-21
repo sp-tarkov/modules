@@ -5,9 +5,9 @@ using HarmonyLib;
 using System;
 using System.Reflection;
 
-namespace Aki.Debugging.Patches.Stats
+namespace Aki.SinglePlayer.Patches.MainMenu
 {
-    public class ArmorDamagePatch : ModulePatch
+    public class ArmorDamageCounterPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
