@@ -43,7 +43,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             }
 
             var inventoryController = Traverse.Create(player).Field<InventoryControllerClass>("_inventoryController").Value;
-            GClass2774.Remove(accessCardItem, inventoryController, false, true);
+            InteractionsHandlerClass.Remove(accessCardItem, inventoryController, false, true);
         }
     }
 }
