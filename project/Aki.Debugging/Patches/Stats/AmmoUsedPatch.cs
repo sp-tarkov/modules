@@ -5,12 +5,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using EFT.InventoryLogic;
 using Comfort.Common;
-using EFT.UI;
-using EFT.Ballistics;
-using static EFT.Player.FirearmController;
-
 
 namespace Aki.Debugging.Patches.Stats
 {
@@ -33,7 +28,7 @@ namespace Aki.Debugging.Patches.Stats
 
         private static void Hook()
         {
-            player.Profile.EftStats.SessionCounters.AddLong(1L, GClass2200.AmmoUsed);
+            player.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
         }
     }
 }

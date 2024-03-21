@@ -1,9 +1,7 @@
 ﻿using Aki.Reflection.Patching;
 using EFT;
 using EFT.InventoryLogic;
-using EFT.UI;
 using HarmonyLib;
-using Newtonsoft.Json;
 using System;
 using System.Reflection;
 
@@ -27,7 +25,7 @@ namespace Aki.Debugging.Patches.Stats
             if (damageInfo.Weapon is Weapon weapon && weapon.Chambers[0].ContainedItem is BulletClass bullet)
             {
                 float newDamage = (float)Math.Round(bullet.Damage - damageInfo.Damage);
-                damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(newDamage, GClass2200.CauseArmorDamage);
+                damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(newDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
             }
         }
     }
