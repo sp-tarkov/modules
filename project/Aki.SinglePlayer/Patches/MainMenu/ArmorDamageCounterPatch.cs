@@ -1,4 +1,5 @@
 ﻿using Aki.Reflection.Patching;
+using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
 using HarmonyLib;
@@ -22,10 +23,15 @@ namespace Aki.SinglePlayer.Patches.MainMenu
                 return;
             }
 
-            if (damageInfo.Weapon is Weapon weapon && weapon.Chambers[0].ContainedItem is BulletClass bullet)
+            if (damageInfo.Weapon is Weapon)
             {
-                float newDamage = (float)Math.Round(bullet.Damage - damageInfo.Damage);
-                damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(newDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
+                if (!Singleton<ItemFactory>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
+                {
+                    return;
+                }
+
+                float absorbedDamage = (float)Math.Round((template as AmmoTemplate).Damage - damageInfo.Damage);
+                damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(absorbedDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
             }
         }
     }
