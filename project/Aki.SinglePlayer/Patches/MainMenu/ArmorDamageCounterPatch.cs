@@ -17,7 +17,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
         [PatchPostfix]
         private static void PatchPostfix(DamageInfo damageInfo)
         {
-            if (!damageInfo.Player.iPlayer.IsYourPlayer)
+            if (damageInfo.Player == null || damageInfo.Player.iPlayer == null || !damageInfo.Player.iPlayer.IsYourPlayer)
             {
                 return;
             }

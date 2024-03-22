@@ -2,7 +2,6 @@
 using EFT;
 using HarmonyLib;
 using System.Reflection;
-using Comfort.Common;
 
 namespace Aki.SinglePlayer.Patches.MainMenu
 {
@@ -12,20 +11,16 @@ namespace Aki.SinglePlayer.Patches.MainMenu
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
+            return AccessTools.Method(typeof(Player), nameof(Player.OnMakingShot));
         }
 
         [PatchPostfix]
-        private static void PatchPostfix()
+        private static void PatchPostfix(Player __instance)
         {
-            player = Singleton<GameWorld>.Instance.MainPlayer;
-            var firearmsController = player.HandsController as Player.FirearmController;
-            firearmsController.OnShot += Hook;
-        }
-
-        private static void Hook()
-        {
-            player.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
+            if (__instance.IsYourPlayer)
+            {
+                __instance.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
+            }
         }
     }
 }
