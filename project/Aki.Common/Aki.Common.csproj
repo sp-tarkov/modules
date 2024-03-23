@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>

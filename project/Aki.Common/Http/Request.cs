@@ -1,83 +1,119 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
-    public class Request
+    public sealed class Client : IDisposable
     {
-        /// <summary>
-        /// Send a request to remote endpoint and optionally receive a response body.
-        /// Deflate is the accepted compression format.
-        /// </summary>
-        public byte[] Send(string url, string method, byte[] data = null, bool compress = true, string mime = null, Dictionary<string, string> headers = null)
+        private readonly HttpClient _httpv;
+        private readonly string _accountId;
+        private readonly string _address;
+
+        public Client(string address, string accountId)
         {
-            if (!WebConstants.IsValidMethod(method))
+            _accountId = accountId;
+            _address = address;
+
+            // setup certificate handler
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback += IsCertificateValid;
+
+            // setup http client
+            _httpv = new HttpClient(handler);
+        }
+
+        private bool IsCertificateValid(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            // todo: proper certificate validation
+            return true;
+        }
+
+        private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+        {
+            return new HttpRequestMessage()
             {
-                throw new ArgumentException("request method is invalid");
-            }
-
-            Uri uri = new Uri(url);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-
-            if (uri.Scheme == "https")
-            {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                request.ServerCertificateValidationCallback = delegate { return true; };
-            }
-
-            request.Timeout = 15000;
-            request.Method = method;
-            request.Headers.Add("Accept-Encoding", "deflate");
-
-            if (headers != null)
-            {
-                foreach (KeyValuePair<string, string> item in headers)
-                {
-                    request.Headers.Add(item.Key, item.Value);
+                Method = method,
+                RequestUri = new Uri(_address + path),
+                Headers = {
+                    // NOTE: might need option to set MIME type
+                    { "Cookie", $"PHPSESSID={_accountId}" },
+                    { "SessionId", _accountId }
                 }
-            }
+            };
+        }
 
-            if (method != WebConstants.Get && method != WebConstants.Head && data != null)
+        private byte[] Send(HttpMethod method, string path, byte[] data, bool compress = true)
+        {
+            HttpResponseMessage response = null;
+
+            using (var request = GetNewRequest(method, path))
             {
-                byte[] body = (compress) ? Zlib.Compress(data, ZlibCompression.Maximum) : data;
-
-                request.ContentType = WebConstants.IsValidMime(mime) ? mime : "application/octet-stream";
-                request.ContentLength = body.Length;
-
-                if (compress)
+                if (data != null)
                 {
-                    request.Headers.Add("Content-Encoding", "deflate");
+                    // if there is data, convert to payload
+                    byte[] payload = (compress)
+                        ? Zlib.Compress(data, ZlibCompression.Maximum)
+                        : data;
+
+                    // add payload to request
+                    request.Content = new ByteArrayContent(payload);
                 }
 
-                using (Stream stream = request.GetRequestStream())
-                {
-                    stream.Write(body, 0, body.Length);
-                }
+                // send request
+                response = _httpv.SendAsync(request).Result;
             }
 
-            using (WebResponse response = request.GetResponse())
+            if (!response.IsSuccessStatusCode)
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    response.GetResponseStream().CopyTo(ms);
-                    byte[] body = ms.ToArray();
+                // response error
+                throw new Exception($"Code {response.StatusCode}");
+            }
 
-                    if (body.Length == 0)
+            using (var ms = new MemoryStream())
+            {
+                using (var stream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    // grap response payload
+                    stream.CopyTo(ms);
+                    var bytes = ms.ToArray();
+
+                    if (bytes != null)
                     {
-                        return null;
+                        // payload contains data
+                        return Zlib.IsCompressed(bytes)
+                            ? Zlib.Decompress(bytes)
+                            : bytes;
                     }
-
-                    if (Zlib.IsCompressed(body))
-                    {
-                        return Zlib.Decompress(body);
-                    }
-
-                    return body;
                 }
             }
+
+            // response returned no data
+            return null;
+        }
+
+        public byte[] Get(string path)
+        {
+            return Send(HttpMethod.Get, path, null, false);
+        }
+
+        public byte[] Post(string path, byte[] data, bool compressed = true)
+        {
+            return Send(HttpMethod.Post, path, data, compressed);
+        }
+
+        public void Put(string path, byte[] data, bool compressed = true)
+        {
+            Send(HttpMethod.Put, path, data, compressed);
+        }
+
+        public void Dispose()
+        {
+            _httpv.Dispose();
         }
     }
 }
