@@ -29,7 +29,12 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             if (Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId) is Player killedPlayer)
             {
                 __state = new Tuple<Player, bool>(killedPlayer, killedPlayer.AIData.IsAI);
-                killedPlayer.AIData.IsAI = false;
+                // Extra check to ensure we only set playerscavs to IsAI = false
+                if (killedPlayer.Profile.Info.Settings.Role == WildSpawnType.assault && killedPlayer.Profile.Nickname.Contains("("))
+                {
+                    killedPlayer.AIData.IsAI = false;
+                }
+
                 player.Loyalty.method_1(killedPlayer);
             }
         }
