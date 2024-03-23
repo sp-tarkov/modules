@@ -8,7 +8,7 @@ using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
-    public sealed class Client : IDisposable
+    public class Client : IDisposable
     {
         private readonly HttpClient _httpv;
         private readonly string _accountId;
