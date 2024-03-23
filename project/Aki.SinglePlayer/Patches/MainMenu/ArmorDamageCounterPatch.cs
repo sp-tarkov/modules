@@ -30,8 +30,11 @@ namespace Aki.SinglePlayer.Patches.MainMenu
                     return;
                 }
 
-                float absorbedDamage = (float)Math.Round((template as AmmoTemplate).Damage - damageInfo.Damage);
-                damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(absorbedDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
+                if(template is AmmoTemplate bulletTemplate)
+                {
+                    float absorbedDamage = (float)Math.Round(bulletTemplate.Damage - damageInfo.Damage);
+                    damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(absorbedDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
+                }
             }
         }
     }
