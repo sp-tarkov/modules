@@ -18,19 +18,7 @@ namespace Aki.Common.Http
         {
             _accountId = accountId;
             _address = address;
-
-            // setup certificate handler
-            var handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback += IsCertificateValid;
-
-            // setup http client
-            _httpv = new HttpClient(handler);
-        }
-
-        private bool IsCertificateValid(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            // todo: proper certificate validation
-            return true;
+            _httpv = new HttpClient();
         }
 
         private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
