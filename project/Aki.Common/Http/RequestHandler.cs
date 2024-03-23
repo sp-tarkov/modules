@@ -9,13 +9,19 @@ namespace Aki.Common.Http
     public static class RequestHandler
     {
         private static ManualLogSource _logger;
+        private static Client _httpClient;
         public static string Host { get; private set; }
         public static string SessionId { get; private set; }
 
         static RequestHandler()
         {
             _logger = Logger.CreateLogSource(nameof(RequestHandler));
+
+            // lazy-load Host and SessionId
             Initialize();
+
+            // initialize http client
+            _httpClient = new Client(Host, SessionId)
         }
 
         private static void Initialize()
@@ -61,54 +67,42 @@ namespace Aki.Common.Http
         {
             var url = (hasHost) ? path : Host + path;
             _logger.LogInfo($"Request GET data: {SessionId}:{url}");
-            
-            using (var client = new Client(Host, SessionId))
-            {
-                var result = client.Get(path);
 
-                ValidateData(result);
-                return result;
-            }
+            var result = _httpClient.Get(path);
+
+            ValidateData(result);
+            return result;
         }
 
         public static string GetJson(string path)
         {
             _logger.LogInfo($"Request GET json: {SessionId}:{Host}{path}");
 
-            using (var client = new Client(Host, SessionId))
-            {
-                var data = client.Get(path);
-                var result = Encoding.UTF8.GetString(data);
+            var data = _httpClient.Get(path);
+            var result = Encoding.UTF8.GetString(data);
 
-                ValidateJson(result);
-                return result;
-            }
+            ValidateJson(result);
+            return result;
         }
 
         public static string PostJson(string path, string json)
         {
             _logger.LogInfo($"Request POST json: {SessionId}:{Host}{path}");
 
-            using (var client = new Client(Host, SessionId))
-            {
-                var body = Encoding.UTF8.GetBytes(json);
-                var data = client.Post(path, body);
-                var result = Encoding.UTF8.GetString(data);
+            var body = Encoding.UTF8.GetBytes(json);
+            var data = _httpClient.Post(path, body);
+            var result = Encoding.UTF8.GetString(data);
 
-                ValidateJson(result);
-                return result;
-            }
+            ValidateJson(result);
+            return result;
         }
 
         public static void PutJson(string path, string json)
         {
             _logger.LogInfo($"Request PUT json: {SessionId}:{Host}{path}");
 
-            using (var client = new Client(Host, SessionId))
-            {
-                var body = Encoding.UTF8.GetBytes(json);
-                client.Put(path, body);
-            }
+            var body = Encoding.UTF8.GetBytes(json);
+            _httpClient.Put(path, body);
         }
     }
 }
