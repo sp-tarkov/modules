@@ -18,7 +18,14 @@ namespace Aki.Common.Http
         {
             _accountId = accountId;
             _address = address;
-            _httpv = new HttpClient();
+
+            var handler = new HttpClientHandler()
+            {
+                // force setting cookies in header instead of CookieContainer
+                UseCookies = false
+            };
+
+            _httpv = new HttpClient(handler);
         }
 
         private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
@@ -28,9 +35,8 @@ namespace Aki.Common.Http
                 Method = method,
                 RequestUri = new Uri(_address + path),
                 Headers = {
-                    // NOTE: might need option to set MIME type
-                    { "Cookie", $"PHPSESSID={_accountId}" },
-                    { "SessionId", _accountId }
+                    { "Cookie", $"PHPSESSID={_accountId}" }
+                    // NOTE: might need option to set MIME type in the future
                 }
             };
         }
