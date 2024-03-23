@@ -10,22 +10,14 @@ namespace Aki.Common.Http
     {
         private static ManualLogSource _logger;
         private static Client _httpClient;
-        public static string Host { get; private set; }
-        public static string SessionId { get; private set; }
+        public static readonly string Host;
+        public static readonly string SessionId;
 
         static RequestHandler()
         {
             _logger = Logger.CreateLogSource(nameof(RequestHandler));
 
-            // lazy-load Host and SessionId
-            Initialize();
-
-            // initialize http client
-            _httpClient = new Client(Host, SessionId)
-        }
-
-        private static void Initialize()
-        {
+            // Host and SessionId
             var args = Environment.GetCommandLineArgs();
 
             foreach (var arg in args)
@@ -41,6 +33,9 @@ namespace Aki.Common.Http
                     SessionId = arg.Replace("-token=", string.Empty);
                 }
             }
+
+            // initialize http client
+            _httpClient = new Client(Host, SessionId);
         }
 
         private static void ValidateData(byte[] data)
