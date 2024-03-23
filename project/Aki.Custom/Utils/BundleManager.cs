@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Aki.Common.Http;
 using Aki.Common.Utils;
 using Aki.Custom.Models;
+using BepInEx.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace Aki.Custom.Utils
@@ -10,10 +11,12 @@ namespace Aki.Custom.Utils
     public static class BundleManager
     {
         public const string CachePath = "user/cache/bundles/";
+        private static ManualLogSource _logger;
         public static Dictionary<string, BundleInfo> Bundles { get; private set; }
 
         static BundleManager()
         {
+            _logger = Logger.CreateLogSource(nameof(BundleManager));
             Bundles = new Dictionary<string, BundleInfo>();
 
             if (VFS.Exists(CachePath))
@@ -35,8 +38,10 @@ namespace Aki.Custom.Utils
 
                 if (path.Contains("http"))
                 {
-                    var filepath = CachePath + Regex.Split(path, "bundle/", RegexOptions.IgnoreCase)[1];
-                    var data = RequestHandler.GetData(path, true);
+                    _logger.LogInfo($"DOWNLOADING BUNDLE: {path}");
+
+                    var filepath = CachePath + key;
+                    var data = RequestHandler.GetData($"/files/bundle/{key}");
                     VFS.WriteFile(filepath, data);
                     bundle.Path = filepath;
                 }

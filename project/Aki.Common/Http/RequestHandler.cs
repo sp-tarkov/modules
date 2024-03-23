@@ -58,10 +58,9 @@ namespace Aki.Common.Http
             _logger.LogInfo("Request was successful");
         }
 
-        public static byte[] GetData(string path, bool hasHost = false)
+        public static byte[] GetData(string path)
         {
-            var url = (hasHost) ? path : Host + path;
-            _logger.LogInfo($"Request GET data: {SessionId}:{url}");
+            _logger.LogInfo($"Request GET data: {SessionId}:{Host}{path}");
 
             var result = _httpClient.Get(path);
 
