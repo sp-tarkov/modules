@@ -42,20 +42,20 @@ namespace Aki.Common.Http
         {
             if (data == null)
             {
-                _logger.LogError($"Request failed, body is null");
+                _logger.LogError("Request failed, body is null");
             }
 
-            _logger.LogInfo($"Request was successful");
+            _logger.LogInfo("Request was successful");
         }
 
         private static void ValidateJson(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
             {
-                _logger.LogError($"Request failed, body is null");
+                _logger.LogError("Request failed, body is null");
             }
 
-            _logger.LogInfo($"Request was successful");
+            _logger.LogInfo("Request was successful");
         }
 
         public static byte[] GetData(string path, bool hasHost = false)
