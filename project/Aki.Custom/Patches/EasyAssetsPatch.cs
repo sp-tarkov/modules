@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Aki.Common.Utils;
 using Aki.Custom.Models;
 using Aki.Custom.Utils;
 using DependencyGraph = DependencyGraph<IEasyBundle>;
@@ -57,43 +58,55 @@ namespace Aki.Custom.Patches
             return false;
         }
 
-        private static async Task Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
-                                      string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
+        private static async Task Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath, string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
         {
             // platform manifest
             var path = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
             var filepath = path + platformName;
-            var jsonPath = filepath + ".json";
-            var manifest = (File.Exists(jsonPath)) ? await GetManifestJson(filepath) : await GetManifestBundle(filepath);
+            var jsonfile = filepath + ".json";
+            var manifest = File.Exists(jsonfile)
+                ? await GetManifestJson(jsonfile)
+                : await GetManifestBundle(filepath);
 
-            // load bundles
-            var bundleNames = manifest.GetAllAssetBundles().Union(BundleManager.Bundles.Keys).ToArray();
+            // create bundles array from obfuscated type
+            var bundleNames = manifest.GetAllAssetBundles()
+                .Union(BundleManager.Bundles.Keys)
+                .ToArray();
             var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
 
+            // create bundle lock
             if (bundleLock == null)
             {
                 bundleLock = new BundleLock(int.MaxValue);
             }
 
+            // create bundle of obfuscated type
             for (var i = 0; i < bundleNames.Length; i++)
             {
                 bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[]
-                    {
-                        bundleNames[i],
-                        path,
-                        manifest,
-                        bundleLock,
-                        bundleCheck
-                    });
+                {
+                    bundleNames[i],
+                    path,
+                    manifest,
+                    bundleLock,
+                    bundleCheck
+                });
 
                 await JobScheduler.Yield(EJobPriority.Immediate);
             }
 
+            // create dependency graph
             instance.Manifest = manifest;
             _bundlesField.SetValue(instance, bundles);
             instance.System = new DependencyGraph(bundles, defaultKey, shouldExclude);
         }
 
+        // NOTE: used by:
+        // - EscapeFromTarkov_Data/StreamingAssets/Windows/cubemaps
+        // - EscapeFromTarkov_Data/StreamingAssets/Windows/defaultmaterial
+        // - EscapeFromTarkov_Data/StreamingAssets/Windows/dissonancesetup
+        // - EscapeFromTarkov_Data/StreamingAssets/Windows/Doge
+        // - EscapeFromTarkov_Data/StreamingAssets/Windows/shaders
         private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(string filepath)
         {
             var manifestLoading = AssetBundle.LoadFromFileAsync(filepath);
@@ -108,16 +121,18 @@ namespace Aki.Custom.Patches
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestJson(string filepath)
         {
-            var text = string.Empty;
+            var text = VFS.ReadTextFile(filepath);
 
-            using (var reader = File.OpenText($"{filepath}.json"))
-            {
-                text = await reader.ReadToEndAsync();
-            }
+            /* we cannot parse directly as <string, BundleDetails>, because...
+                    [Error  : Unity Log] JsonSerializationException: Expected string when reading UnityEngine.Hash128 type, got 'StartObject' <>. Path '['assets/content/weapons/animations/simple_animations.bundle'].Hash', line 1, position 176.
+               ...so we need to first convert it to a slimmed-down type (BundleItem), then convert back to BundleDetails.
+            */
+            var raw = JsonConvert.DeserializeObject<Dictionary<string, BundleItem>>(text);
+            var converted = raw.ToDictionary(GetPairKey, GetPairValue);
 
-            var data = JsonConvert.DeserializeObject<Dictionary<string, BundleItem>>(text).ToDictionary(GetPairKey, GetPairValue);
+            // initialize manifest
             var manifest = ScriptableObject.CreateInstance<CompatibilityAssetBundleManifest>();
-            manifest.SetResults(data);
+            manifest.SetResults(converted);
 
             return manifest;
         }
