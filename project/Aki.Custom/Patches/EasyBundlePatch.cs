@@ -32,7 +32,12 @@ namespace Aki.Custom.Patches
 
             if (BundleManager.Bundles.TryGetValue(key, out BundleInfo bundle))
             {
-                dependencyKeys = (dependencyKeys.Length > 0) ? dependencyKeys.Union(bundle.DependencyKeys).ToArray() : bundle.DependencyKeys;
+                // server bundle
+                dependencyKeys = (dependencyKeys.Length > 0)
+                    ? dependencyKeys.Union(bundle.DependencyKeys).ToArray()
+                    : bundle.DependencyKeys;
+
+                // set path to either cachedpath (HTTP) or modpath (local)
                 path = bundle.Path;
             }
 
