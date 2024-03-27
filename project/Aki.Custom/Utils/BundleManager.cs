@@ -107,7 +107,7 @@ namespace Aki.Custom.Utils
                 // file doesn't exist in cache
                 _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
                 return true;
-            }            
+            }
         }
     }
 }
