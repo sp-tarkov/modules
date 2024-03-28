@@ -108,6 +108,61 @@ namespace Aki.Custom.Utils
                 _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
                 return true;
             }
+
+            // download bundles
+            // NOTE: assumes bundle keys to be unique
+            Parallel.ForEach(toDownload, (bundle) =>
+            {
+                var filepath = CachePath + bundle.FileName;
+                var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
+
+                VFS.WriteFile(filepath, data);
+                RegisterBundle(filepath, bundle);
+            });
+        }
+
+        private static bool ShouldReaquire(bool isLocal, BundleItem bundle)
+        {
+            if (isLocal)
+            {
+                // only handle remote bundles
+                return false;
+            }
+
+            // read cache
+            var filepath = CachePath + bundle.FileName;
+
+            if (VFS.Exists(filepath))
+            {
+                // calculate hash
+                var data = VFS.ReadFile(filepath);
+                var crc = Crc32.Compute(data);
+
+                if (crc != bundle.Crc)
+                {
+                    // crc doesn't match, reaquire the file
+                    _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
+                    return true;
+                }
+                else
+                {
+                    // file is up-to-date
+                    _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
+                    return false;
+                }
+            }
+            else
+            {
+                // file doesn't exist in cache
+                _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
+                return true;
+            }            
+        }
+
+        private static void RegisterBundle(string filepath, BundleItem bundle)
+        {
+            var bundleInfo = new BundleInfo(bundle.FileName, filepath, bundle.Dependencies);
+            Bundles.TryAdd(filepath, bundleInfo);
         }
     }
 }
