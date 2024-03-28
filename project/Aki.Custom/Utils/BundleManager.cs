@@ -115,9 +115,10 @@ namespace Aki.Custom.Utils
             {
                 var filepath = CachePath + bundle.FileName;
                 var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-
                 VFS.WriteFile(filepath, data);
-                RegisterBundle(filepath, bundle);
+
+                // register downloaded bundle
+                Bundles.TryAdd(bundle.FileName, bundle);
             });
         }
 
@@ -157,12 +158,6 @@ namespace Aki.Custom.Utils
                 _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
                 return true;
             }            
-        }
-
-        private static void RegisterBundle(string filepath, BundleItem bundle)
-        {
-            var bundleInfo = new BundleInfo(bundle.FileName, filepath, bundle.Dependencies);
-            Bundles.TryAdd(filepath, bundleInfo);
         }
     }
 }
