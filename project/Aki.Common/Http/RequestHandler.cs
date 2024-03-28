@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Aki.Common.Utils;
+using System.Threading.Tasks;
 using BepInEx.Logging;
+using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
     public static class RequestHandler
     {
         private static string _host;
-        private static Request _request;
-        private static Dictionary<string, string> _headers;
+        private static Client _request;
         private static ManualLogSource _logger;
-
         public static string SessionId { get; private set; }
 
         static RequestHandler()
@@ -23,8 +22,6 @@ namespace Aki.Common.Http
 
         private static void Initialize()
         {
-            _request = new Request();
-
             string[] args = Environment.GetCommandLineArgs();
 
             foreach (string arg in args)
@@ -38,13 +35,10 @@ namespace Aki.Common.Http
                 if (arg.Contains("-token="))
                 {
                     SessionId = arg.Replace("-token=", string.Empty);
-                    _headers = new Dictionary<string, string>()
-                    {
-                        { "Cookie", $"PHPSESSID={SessionId}" },
-                        { "SessionId", SessionId }
-                    };
                 }
             }
+
+            _request = new Client(_host, SessionId);
         }
 
         private static void ValidateData(byte[] data)
@@ -67,46 +61,39 @@ namespace Aki.Common.Http
             _logger.LogInfo($"Request was successful");
         }
 
-        public static byte[] GetData(string path, bool hasHost = false)
+        public static byte[] GetData(string path)
         {
-            string url = (hasHost) ? path : _host + path;
-
-            _logger.LogInfo($"Request GET data: {SessionId}:{url}");
-            byte[] result = _request.Send(url, "GET", null, headers: _headers);
+            _logger.LogInfo($"Request GET data: {SessionId}:{path}");
+            byte[] result = _request.Get(path);
 
             ValidateData(result);
             return result;
         }
 
-        public static string GetJson(string path, bool hasHost = false)
+        public static string GetJson(string path)
         {
-            string url = (hasHost) ? path : _host + path;
-
-            _logger.LogInfo($"Request GET json: {SessionId}:{url}");
-            byte[] data = _request.Send(url, "GET", headers: _headers);
+            _logger.LogInfo($"Request GET json: {SessionId}:{path}");
+            byte[] data = _request.Get(path);
             string result = Encoding.UTF8.GetString(data);
 
             ValidateJson(result);
             return result;
         }
 
-        public static string PostJson(string path, string json, bool hasHost = false)
+        public static string PostJson(string path, string json)
         {
-            string url = (hasHost) ? path : _host + path;
-
-            _logger.LogInfo($"Request POST json: {SessionId}:{url}");
-            byte[] data = _request.Send(url, "POST", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
+            _logger.LogInfo($"Request POST json: {SessionId}:{path}");
+            byte[] data = _request.Post(path, Encoding.UTF8.GetBytes(json));
             string result = Encoding.UTF8.GetString(data);
 
             ValidateJson(result);
             return result;
         }
 
-        public static void PutJson(string path, string json, bool hasHost = false)
+        public static void PutJson(string path, string json)
         {
-            string url = (hasHost) ? path : _host + path;
-            _logger.LogInfo($"Request PUT json: {SessionId}:{url}");
-            _request.Send(url, "PUT", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
+            _logger.LogInfo($"Request PUT json: {SessionId}:{path}");
+            _request.Put(path, Encoding.UTF8.GetBytes(json));
         }
     }
 }
