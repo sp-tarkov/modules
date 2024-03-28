@@ -35,6 +35,7 @@ namespace Aki.Custom.Utils
 
                 if (path.Contains("http"))
                 {
+                    var filepath = CachePath + key;
                     var data = RequestHandler.GetData($"/files/bundle/{key}");
                     VFS.WriteFile(filepath, data);
                     bundle.Path = filepath;
