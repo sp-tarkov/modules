@@ -39,11 +39,6 @@ namespace Aki.Common.Http
             HttpClient = new Client(Host, SessionId);
         }
 
-        private static void Initialize()
-        {
-            
-        }
-
         private static void ValidateData(byte[] data)
         {
             if (data == null)
@@ -67,36 +62,42 @@ namespace Aki.Common.Http
         public static byte[] GetData(string path)
         {
             _logger.LogInfo($"Request GET data: {SessionId}:{path}");
-            byte[] result = HttpClient.Get(path);
+            
+            var data = HttpClient.Get(path);
 
-            ValidateData(result);
-            return result;
+            ValidateData(data);
+            return data;
         }
 
         public static string GetJson(string path)
         {
             _logger.LogInfo($"Request GET json: {SessionId}:{path}");
-            byte[] data = HttpClient.Get(path);
-            string result = Encoding.UTF8.GetString(data);
+            
+            var payload = HttpClient.Get(path);
+            var body = Encoding.UTF8.GetString(payload);
 
-            ValidateJson(result);
-            return result;
+            ValidateJson(body);
+            return body;
         }
 
         public static string PostJson(string path, string json)
         {
             _logger.LogInfo($"Request POST json: {SessionId}:{path}");
-            byte[] data = HttpClient.Post(path, Encoding.UTF8.GetBytes(json));
-            string result = Encoding.UTF8.GetString(data);
+            
+            var payload = Encoding.UTF8.GetBytes(json);
+            var data = HttpClient.Post(path, payload);
+            var body = Encoding.UTF8.GetString(data);
 
-            ValidateJson(result);
-            return result;
+            ValidateJson(body);
+            return body;
         }
 
         public static void PutJson(string path, string json)
         {
             _logger.LogInfo($"Request PUT json: {SessionId}:{path}");
-            HttpClient.Put(path, Encoding.UTF8.GetBytes(json));
+
+            var payload = Encoding.UTF8.GetBytes(json)
+            HttpClient.Put(path, payload);
         }
     }
 }
