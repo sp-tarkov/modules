@@ -9,27 +9,24 @@ namespace Aki.Common.Http
 {
     public static class RequestHandler
     {
-        private static string _host;
-        private static Client _request;
         private static ManualLogSource _logger;
-        public static string SessionId { get; private set; }
+        public static readonly Client HttpClient;
+        public static readonly string Host;
+        public static readonly string SessionId;
 
         static RequestHandler()
         {
             _logger = Logger.CreateLogSource(nameof(RequestHandler));
-            Initialize();
-        }
+            
+            // grab required info from command args
+            var args = Environment.GetCommandLineArgs();
 
-        private static void Initialize()
-        {
-            string[] args = Environment.GetCommandLineArgs();
-
-            foreach (string arg in args)
+            foreach (var arg in args)
             {
                 if (arg.Contains("BackendUrl"))
                 {
-                    string json = arg.Replace("-config=", string.Empty);
-                    _host = Json.Deserialize<ServerConfig>(json).BackendUrl;
+                    var json = arg.Replace("-config=", string.Empty);
+                    Host = Json.Deserialize<ServerConfig>(json).BackendUrl;
                 }
 
                 if (arg.Contains("-token="))
@@ -38,7 +35,13 @@ namespace Aki.Common.Http
                 }
             }
 
-            _request = new Client(_host, SessionId);
+            // initialize http client
+            HttpClient = new Client(Host, SessionId);
+        }
+
+        private static void Initialize()
+        {
+            
         }
 
         private static void ValidateData(byte[] data)
@@ -64,7 +67,7 @@ namespace Aki.Common.Http
         public static byte[] GetData(string path)
         {
             _logger.LogInfo($"Request GET data: {SessionId}:{path}");
-            byte[] result = _request.Get(path);
+            byte[] result = HttpClient.Get(path);
 
             ValidateData(result);
             return result;
@@ -73,7 +76,7 @@ namespace Aki.Common.Http
         public static string GetJson(string path)
         {
             _logger.LogInfo($"Request GET json: {SessionId}:{path}");
-            byte[] data = _request.Get(path);
+            byte[] data = HttpClient.Get(path);
             string result = Encoding.UTF8.GetString(data);
 
             ValidateJson(result);
@@ -83,7 +86,7 @@ namespace Aki.Common.Http
         public static string PostJson(string path, string json)
         {
             _logger.LogInfo($"Request POST json: {SessionId}:{path}");
-            byte[] data = _request.Post(path, Encoding.UTF8.GetBytes(json));
+            byte[] data = HttpClient.Post(path, Encoding.UTF8.GetBytes(json));
             string result = Encoding.UTF8.GetString(data);
 
             ValidateJson(result);
@@ -93,7 +96,7 @@ namespace Aki.Common.Http
         public static void PutJson(string path, string json)
         {
             _logger.LogInfo($"Request PUT json: {SessionId}:{path}");
-            _request.Put(path, Encoding.UTF8.GetBytes(json));
+            HttpClient.Put(path, Encoding.UTF8.GetBytes(json));
         }
     }
 }
