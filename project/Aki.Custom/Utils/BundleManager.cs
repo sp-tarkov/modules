@@ -24,7 +24,7 @@ namespace Aki.Custom.Utils
         public static string GetBundlePath(BundleItem bundle)
         {
             return RequestHandler.IsLocal
-                ? bundle.ModPath + bundle.FileName
+                ? $"{bundle.ModPath}/bundles/{bundle.FileName}"
                 : CachePath + bundle.FileName;
         }
 
