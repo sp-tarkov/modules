@@ -40,7 +40,7 @@ namespace Aki.Custom.Utils
             Parallel.ForEach(bundles, (bundle) =>
             {
                 // assumes loading from cache happens more often
-                if (ShouldReaquire(RequestHandler.IsLocal, bundle))
+                if (ShouldReaquire(bundle))
                 {
                     // mark for download
                     toDownload.Add(bundle);
@@ -72,59 +72,9 @@ namespace Aki.Custom.Utils
             });
         }
 
-        private static bool ShouldReaquire(bool isLocal, BundleItem bundle)
+        private static bool ShouldReaquire(BundleItem bundle)
         {
-            if (isLocal)
-            {
-                // only handle remote bundles
-                return false;
-            }
-
-            // read cache
-            var filepath = CachePath + bundle.FileName;
-
-            if (VFS.Exists(filepath))
-            {
-                // calculate hash
-                var data = VFS.ReadFile(filepath);
-                var crc = Crc32.Compute(data);
-
-                if (crc != bundle.Crc)
-                {
-                    // crc doesn't match, reaquire the file
-                    _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
-                    return true;
-                }
-                else
-                {
-                    // file is up-to-date
-                    _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
-                    return false;
-                }
-            }
-            else
-            {
-                // file doesn't exist in cache
-                _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
-                return true;
-            }
-
-            // download bundles
-            // NOTE: assumes bundle keys to be unique
-            Parallel.ForEach(toDownload, (bundle) =>
-            {
-                var filepath = CachePath + bundle.FileName;
-                var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-                VFS.WriteFile(filepath, data);
-
-                // register downloaded bundle
-                Bundles.TryAdd(bundle.FileName, bundle);
-            });
-        }
-
-        private static bool ShouldReaquire(bool isLocal, BundleItem bundle)
-        {
-            if (isLocal)
+            if (RequestHandler.IsLocal)
             {
                 // only handle remote bundles
                 return false;
