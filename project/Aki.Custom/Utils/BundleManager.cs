@@ -39,37 +39,33 @@ namespace Aki.Custom.Utils
 
             Parallel.ForEach(bundles, (bundle) =>
             {
-                // assumes loading from cache happens more often
+                Bundles.TryAdd(bundle.FileName, bundle);
+
                 if (ShouldReaquire(bundle))
                 {
                     // mark for download
                     toDownload.Add(bundle);
                 }
-                else
-                {
-                    // register local bundles
-                    Bundles.TryAdd(bundle.FileName, bundle);
-                }
             });
 
             if (RequestHandler.IsLocal)
             {
+                // loading from local mods
                 _logger.LogInfo("CACHE: Loading all bundles from mods on disk.");
                 return;
             }
-
-            // download bundles
-            // NOTE: assumes bundle keys to be unique
-            Parallel.ForEach(toDownload, (bundle) =>
+            else
             {
-                // download bundle
-                var filepath = GetBundlePath(bundle);
-                var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-                VFS.WriteFile(filepath, data);
-
-                // register downloaded bundle
-                Bundles.TryAdd(bundle.FileName, bundle);
-            });
+                // download bundles
+                // NOTE: assumes bundle keys to be unique
+                Parallel.ForEach(toDownload, (bundle) =>
+                {
+                    // download bundle
+                    var filepath = GetBundlePath(bundle);
+                    var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
+                    VFS.WriteFile(filepath, data);
+                });
+            }
         }
 
         private static bool ShouldReaquire(BundleItem bundle)
@@ -89,17 +85,17 @@ namespace Aki.Custom.Utils
                 var data = VFS.ReadFile(filepath);
                 var crc = Crc32.Compute(data);
 
-                if (crc != bundle.Crc)
-                {
-                    // crc doesn't match, reaquire the file
-                    _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
-                    return true;
-                }
-                else
+                if (crc == bundle.Crc)
                 {
                     // file is up-to-date
                     _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
                     return false;
+                }
+                else
+                {
+                    // crc doesn't match, reaquire the file
+                    _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
+                    return true;
                 }
             }
             else
