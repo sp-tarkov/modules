@@ -11,22 +11,25 @@ namespace Aki.Custom.Utils
     public static class BundleManager
     {
         private static ManualLogSource _logger;
-        public static readonly ConcurrentDictionary<string, BundleInfo> Bundles;
+        public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
         public static string CachePath;
 
         static BundleManager()
         {
             _logger = Logger.CreateLogSource(nameof(BundleManager));
-            Bundles = new ConcurrentDictionary<string, BundleInfo>();
+            Bundles = new ConcurrentDictionary<string, BundleItem>();
             CachePath = "user/cache/bundles/";
+        }
+
+        public static string GetBundlePath(BundleItem bundle)
+        {
+            return RequestHandler.IsLocal
+                ? bundle.ModPath + bundle.FileName
+                : CachePath + bundle.FileName;
         }
 
         public static void GetBundles()
         {
-            // detect network location
-            var isLocal = RequestHandler.Host.Contains("127.0.0.1")
-                       || RequestHandler.Host.Contains("localhost");
-
             // get bundles
             var json = RequestHandler.GetJson("/singleplayer/bundles");
             var bundles = JsonConvert.DeserializeObject<BundleItem[]>(json);
@@ -37,7 +40,7 @@ namespace Aki.Custom.Utils
             Parallel.ForEach(bundles, (bundle) =>
             {
                 // assumes loading from cache happens more often
-                if (ShouldReaquire(isLocal, bundle))
+                if (ShouldReaquire(RequestHandler.IsLocal, bundle))
                 {
                     // mark for download
                     toDownload.Add(bundle);
@@ -45,12 +48,11 @@ namespace Aki.Custom.Utils
                 else
                 {
                     // register local bundles
-                    var filepath = bundle.ModPath + bundle.FileName;
-                    RegisterBundle(filepath, bundle);
+                    Bundles.TryAdd(bundle.FileName, bundle);
                 }
             });
 
-            if (isLocal)
+            if (RequestHandler.IsLocal)
             {
                 _logger.LogInfo("CACHE: Loading all bundles from mods on disk.");
                 return;
@@ -60,11 +62,13 @@ namespace Aki.Custom.Utils
             // NOTE: assumes bundle keys to be unique
             Parallel.ForEach(toDownload, (bundle) =>
             {
-                var filepath = CachePath + bundle.FileName;
+                // download bundle
+                var filepath = GetBundlePath(bundle);
                 var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-
                 VFS.WriteFile(filepath, data);
-                RegisterBundle(filepath, bundle);
+
+                // register downloaded bundle
+                Bundles.TryAdd(bundle.FileName, bundle);
             });
         }
 
@@ -104,12 +108,6 @@ namespace Aki.Custom.Utils
                 _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
                 return true;
             }            
-        }
-
-        private static void RegisterBundle(string filepath, BundleItem bundle)
-        {
-            var bundleInfo = new BundleInfo(bundle.FileName, filepath, bundle.Dependencies);
-            Bundles.TryAdd(filepath, bundleInfo);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Aki.Common.Http
         public static readonly Client HttpClient;
         public static readonly string Host;
         public static readonly string SessionId;
+        public static readonly bool IsLocal;
 
         static RequestHandler()
         {
@@ -34,6 +35,9 @@ namespace Aki.Common.Http
                     SessionId = arg.Replace("-token=", string.Empty);
                 }
             }
+
+            IsLocal = Host.Contains("127.0.0.1")
+                    || Host.Contains("localhost");
 
             // initialize http client
             HttpClient = new Client(Host, SessionId);
