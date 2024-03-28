@@ -1,48 +1,115 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using BepInEx.Logging;
+using Newtonsoft.Json;
 using Aki.Common.Http;
 using Aki.Common.Utils;
 using Aki.Custom.Models;
-using Newtonsoft.Json.Linq;
 
 namespace Aki.Custom.Utils
 {
     public static class BundleManager
     {
-        public const string CachePath = "user/cache/bundles/";
-        public static Dictionary<string, BundleInfo> Bundles { get; private set; }
+        private static ManualLogSource _logger;
+        public static readonly ConcurrentDictionary<string, BundleInfo> Bundles;
+        public static string CachePath;
 
         static BundleManager()
         {
-            Bundles = new Dictionary<string, BundleInfo>();
-
-            if (VFS.Exists(CachePath))
-            {
-                VFS.DeleteDirectory(CachePath);
-            }
+            _logger = Logger.CreateLogSource(nameof(BundleManager));
+            Bundles = new ConcurrentDictionary<string, BundleInfo>();
+            CachePath = "user/cache/bundles/";
         }
 
         public static void GetBundles()
         {
+            // detect network location
+            var isLocal = RequestHandler.Host.Contains("127.0.0.1")
+                       || RequestHandler.Host.Contains("localhost");
+
+            // get bundles
             var json = RequestHandler.GetJson("/singleplayer/bundles");
-            var jArray = JArray.Parse(json);
+            var bundles = JsonConvert.DeserializeObject<BundleItem[]>(json);
 
-            foreach (var jObj in jArray)
+            // register bundles
+            var toDownload = new ConcurrentBag<BundleItem>();
+
+            Parallel.ForEach(bundles, (bundle) =>
             {
-                var key = jObj["key"].ToString();
-                var path = jObj["path"].ToString();
-                var bundle = new BundleInfo(key, path, jObj["dependencyKeys"].ToObject<string[]>());
-
-                if (path.Contains("http"))
+                // assumes loading from cache happens more often
+                if (ShouldReaquire(isLocal, bundle))
                 {
-                    var filepath = CachePath + key;
-                    var data = RequestHandler.GetData($"/files/bundle/{key}");
-                    VFS.WriteFile(filepath, data);
-                    bundle.Path = filepath;
+                    // mark for download
+                    toDownload.Add(bundle);
                 }
+                else
+                {
+                    // register local bundles
+                    var filepath = bundle.ModPath + bundle.FileName;
+                    RegisterBundle(filepath, bundle);
+                }
+            });
 
-                Bundles.Add(key, bundle);
+            if (isLocal)
+            {
+                _logger.LogInfo("CACHE: Loading all bundles from mods on disk.");
+                return;
             }
+
+            // download bundles
+            // NOTE: assumes bundle keys to be unique
+            Parallel.ForEach(toDownload, (bundle) =>
+            {
+                var filepath = CachePath + bundle.FileName;
+                var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
+
+                VFS.WriteFile(filepath, data);
+                RegisterBundle(filepath, bundle);
+            });
+        }
+
+        private static bool ShouldReaquire(bool isLocal, BundleItem bundle)
+        {
+            if (isLocal)
+            {
+                // only handle remote bundles
+                return false;
+            }
+
+            // read cache
+            var filepath = CachePath + bundle.FileName;
+
+            if (VFS.Exists(filepath))
+            {
+                // calculate hash
+                var data = VFS.ReadFile(filepath);
+                var crc = Crc32.Compute(data);
+
+                if (crc != bundle.Crc)
+                {
+                    // crc doesn't match, reaquire the file
+                    _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
+                    return true;
+                }
+                else
+                {
+                    // file is up-to-date
+                    _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
+                    return false;
+                }
+            }
+            else
+            {
+                // file doesn't exist in cache
+                _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
+                return true;
+            }            
+        }
+
+        private static void RegisterBundle(string filepath, BundleItem bundle)
+        {
+            var bundleInfo = new BundleInfo(bundle.FileName, filepath, bundle.Dependencies);
+            Bundles.TryAdd(filepath, bundleInfo);
         }
     }
 }
