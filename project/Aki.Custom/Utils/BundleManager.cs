@@ -42,8 +42,6 @@ namespace Aki.Custom.Utils
 
                 Bundles.Add(key, bundle);
             }
-
-            VFS.WriteTextFile(CachePath + "bundles.json", Json.Serialize<Dictionary<string, BundleInfo>>(Bundles));
         }
     }
 }
