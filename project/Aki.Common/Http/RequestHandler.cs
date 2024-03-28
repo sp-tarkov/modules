@@ -103,5 +103,35 @@ namespace Aki.Common.Http
             var payload = Encoding.UTF8.GetBytes(json);
             HttpClient.Put(path, payload);
         }
+
+#region DEPRECATED, REMOVE IN 3.8.1
+        [Obsolete("GetData(path, isHost) is deprecated, please use GetData(path) instead.")]
+        public static byte[] GetData(string path, bool isHost)
+        {
+            _logger.LogWarning("isHost is ignored.");
+            return GetData(path);
+        }
+
+        [Obsolete("GetJson(path, isHost) is deprecated, please use GetJson(path) instead.")]
+        public static string GetJson(string path, bool isHost)
+        {
+            _logger.LogWarning("isHost is ignored.");
+            return GetJson(path);
+        }
+
+        [Obsolete("PostJson(path, json, isHost) is deprecated, please use PostJson(path, json) instead.")]
+        public static string PostJson(string path, string json, bool isHost)
+        {
+            _logger.LogWarning("isHost is ignored.");
+            return PostJson(path, json);
+        }
+
+        [Obsolete("PutJson(path, json, isHost) is deprecated, please use PutJson(path, json) instead.")]
+        public static void PutJson(string path, string json, bool isHost)
+        {
+            _logger.LogWarning("isHost is ignored.");
+            PutJson(path, json);
+        }
+#endregion
     }
 }
