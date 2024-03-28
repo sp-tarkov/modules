@@ -96,7 +96,7 @@ namespace Aki.Common.Http
         {
             _logger.LogInfo($"Request PUT json: {SessionId}:{path}");
 
-            var payload = Encoding.UTF8.GetBytes(json)
+            var payload = Encoding.UTF8.GetBytes(json);
             HttpClient.Put(path, payload);
         }
     }
