@@ -8,6 +8,7 @@ using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
+    [Obsolete("Request is deprecated, please use Aki.Common.Http.Client instead.")]
     public class Request
     {
         [Obsolete("Request.Send() is deprecated, please use Aki.Common.Http.Client instead.")]

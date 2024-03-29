@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Aki.Common.Http
 {
+    [Obsolete("WebConstants is deprecated, please use System.Net.Http functionality instead.")]
     public static class WebConstants
     {
         [Obsolete("Get is deprecated, please use HttpMethod.Get instead.")]
@@ -66,7 +67,7 @@ namespace Aki.Common.Http
                 || method == Trace;
         }
 
-        [Obsolete("isValidMime is deprecated, there is sadly no replacement.")]
+        [Obsolete("isValidMime is deprecated, there is sadly no replacement available.")]
 		public static bool IsValidMime(string mime)
         {
             return Mime.Any(x => x.Value == mime);
