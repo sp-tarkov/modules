@@ -72,7 +72,6 @@ namespace Aki.Custom.Patches
             var bundleNames = manifest.GetAllAssetBundles()
                 .Union(BundleManager.Bundles.Keys)
                 .ToArray();
-            var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
 
             // create bundle lock
             if (bundleLock == null)
@@ -81,6 +80,8 @@ namespace Aki.Custom.Patches
             }
 
             // create bundle of obfuscated type
+            var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
+
             for (var i = 0; i < bundleNames.Length; i++)
             {
                 bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[]

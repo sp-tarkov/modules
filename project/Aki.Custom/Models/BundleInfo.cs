@@ -1,5 +1,10 @@
-﻿namespace Aki.Custom.Models
+#region DEPRECATED, REMOVE IN 3.8.1
+
+using System;
+
+namespace Aki.Custom.Models
 {
+    [Obsolete("BundleInfo is deprecated, please use BundleItem instead.")]
     public class BundleInfo
     {
         public string Key { get; }
@@ -14,3 +19,5 @@
         }
     }
 }
+
+#endregion

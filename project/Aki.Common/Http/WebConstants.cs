@@ -1,53 +1,39 @@
-﻿using System.Collections.Generic;
+﻿#region DEPRECATED, REMOVE IN 3.8.1
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Aki.Common.Http
 {
+    [Obsolete("WebConstants is deprecated, please use System.Net.Http functionality instead.")]
     public static class WebConstants
     {
-        /// <summary>
-        /// HTML GET method.
-        /// </summary>
+        [Obsolete("Get is deprecated, please use HttpMethod.Get instead.")]
         public const string Get = "GET";
 
-        /// <summary>
-        /// HTML HEAD method.
-        /// </summary>
+        [Obsolete("Head is deprecated, please use HttpMethod.Head instead.")]
         public const string Head = "HEAD";
 
-        /// <summary>
-        /// HTML POST method.
-        /// </summary>
+        [Obsolete("Post is deprecated, please use HttpMethod.Post instead.")]
         public const string Post = "POST";
 
-        /// <summary>
-        /// HTML PUT method.
-        /// </summary>
+        [Obsolete("Put is deprecated, please use HttpMethod.Put instead.")]
         public const string Put = "PUT";
 
-        /// <summary>
-        /// HTML DELETE method.
-        /// </summary>
+        [Obsolete("Delete is deprecated, please use HttpMethod.Delete instead.")]
         public const string Delete = "DELETE";
 
-        /// <summary>
-        /// HTML CONNECT method.
-        /// </summary>
+        [Obsolete("Connect is deprecated, please use HttpMethod.Connect instead.")]
         public const string Connect = "CONNECT";
 
-        /// <summary>
-        /// HTML OPTIONS method.
-        /// </summary>
+        [Obsolete("Options is deprecated, please use HttpMethod.Options instead.")]
         public const string Options = "OPTIONS";
 
-        /// <summary>
-        /// HTML TRACE method.
-        /// </summary>
+        [Obsolete("Trace is deprecated, please use HttpMethod.Trace instead.")]
         public const string Trace = "TRACE";
 
-        /// <summary>
-        /// HTML MIME types.
-        /// </summary>
+        [Obsolete("Mime is deprecated, there is sadly no replacement.")]
         public static Dictionary<string, string> Mime { get; private set; }
 
         static WebConstants()
@@ -68,9 +54,7 @@ namespace Aki.Common.Http
             };
         }
 
-        /// <summary>
-        /// Is HTML method valid?
-        /// </summary>
+        [Obsolete("IsValidMethod is deprecated, please check against HttpMethod entries instead.")]
         public static bool IsValidMethod(string method)
         {
             return method == Get
@@ -83,12 +67,12 @@ namespace Aki.Common.Http
                 || method == Trace;
         }
 
-        /// <summary>
-        /// Is MIME type valid?
-        /// </summary>
+        [Obsolete("isValidMime is deprecated, there is sadly no replacement available.")]
 		public static bool IsValidMime(string mime)
         {
             return Mime.Any(x => x.Value == mime);
         }
     }
 }
+
+#endregion

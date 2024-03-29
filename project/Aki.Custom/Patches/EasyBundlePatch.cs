@@ -27,26 +27,26 @@ namespace Aki.Custom.Patches
         [PatchPostfix]
         private static void PatchPostfix(object __instance, string key, string rootPath, CompatibilityAssetBundleManifest manifest, IBundleLock bundleLock)
         {
-            var path = rootPath + key;
-            var dependencyKeys = manifest.GetDirectDependencies(key) ?? Array.Empty<string>();
+            var filepath = rootPath + key;
+            var dependencies = manifest.GetDirectDependencies(key) ?? Array.Empty<string>();
 
-            if (BundleManager.Bundles.TryGetValue(key, out BundleInfo bundle))
+            if (BundleManager.Bundles.TryGetValue(key, out BundleItem bundle))
             {
                 // server bundle
-                dependencyKeys = (dependencyKeys.Length > 0)
-                    ? dependencyKeys.Union(bundle.DependencyKeys).ToArray()
-                    : bundle.DependencyKeys;
+                dependencies = (dependencies.Length > 0)
+                    ? dependencies.Union(bundle.Dependencies).ToArray()
+                    : bundle.Dependencies;
 
-                // set path to either cachedpath (HTTP) or modpath (local)
-                path = bundle.Path;
+                // set path to either cache (HTTP) or mod (local)
+                filepath = BundleManager.GetBundlePath(bundle);
             }
 
             _ = new EasyBundleHelper(__instance)
             {
                 Key = key,
-                Path = path,
+                Path = filepath,
                 KeyWithoutExtension = Path.GetFileNameWithoutExtension(key),
-                DependencyKeys = dependencyKeys,
+                DependencyKeys = dependencies,
                 LoadState = new BindableState<ELoadState>(ELoadState.Unloaded, null),
                 BundleLock = bundleLock
             };
