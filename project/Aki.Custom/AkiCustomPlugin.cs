@@ -75,6 +75,7 @@ namespace Aki.Custom
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
+                new ClampRagdollPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
