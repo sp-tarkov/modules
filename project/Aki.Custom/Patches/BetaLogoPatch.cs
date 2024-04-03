@@ -13,7 +13,7 @@ namespace Aki.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_27));
+            return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_28));
         }
 
         [PatchPrefix]
