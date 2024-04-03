@@ -10,9 +10,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
-using TraderServiceClass = GClass1794;
-using QuestDictClass = GClass2133<string>;
-using StandingListClass = GClass2135<float>;
+using TraderServiceClass = GClass1802;
+using QuestDictClass = GClass2141<string>;
+using StandingListClass = GClass2143<float>;
 
 namespace Aki.SinglePlayer.Utils.TraderServices
 {

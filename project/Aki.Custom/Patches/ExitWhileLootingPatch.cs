@@ -13,7 +13,7 @@ namespace Aki.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.Stop));
+            return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.Stop));
         }
 
         // Look at BaseLocalGame<TPlayerOwner> and find a method named "Stop"
@@ -31,7 +31,7 @@ namespace Aki.Custom.Patches
             var player = Singleton<GameWorld>.Instance.MainPlayer;
             if (profileId == player?.Profile.Id)
             {
-                GClass3107.Instance.CloseAllScreensForced();
+                GClass3123.Instance.CloseAllScreensForced();
             }
 
             return true;

@@ -349,8 +349,8 @@ namespace Aki.Custom.BTR
             btrDataPacket.rotation = btrServerSide.transform.rotation;
             if (btrTurretServer != null && btrTurretServer.gunsBlockRoot != null)
             {
-                btrDataPacket.turretRotation = btrTurretServer.transform.rotation;
-                btrDataPacket.gunsBlockRotation = btrTurretServer.gunsBlockRoot.rotation;
+                btrDataPacket.turretRotation = btrTurretServer.transform.localEulerAngles.y;
+                btrDataPacket.gunsBlockRotation = btrTurretServer.gunsBlockRoot.localEulerAngles.x;
             }
             btrDataPacket.State = (byte)btrServerSide.BtrState;
             btrDataPacket.RouteState = (byte)btrServerSide.VehicleRouteState;
