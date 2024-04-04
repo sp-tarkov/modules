@@ -16,7 +16,7 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static void PatchPreFix(ref Vector3 velocity)
         {
-            velocity.y = Mathf.Clamp(velocity.y, -1f, 1f);
+            velocity.y = Mathf.Clamp(velocity.y, -2f, 2f);
         }
     }
 }
