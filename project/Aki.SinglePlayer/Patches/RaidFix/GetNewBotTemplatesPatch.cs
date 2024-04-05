@@ -7,13 +7,12 @@ using Aki.Reflection.Utils;
 using Aki.SinglePlayer.Models.RaidFix;
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
     public class GetNewBotTemplatesPatch : ModulePatch
     {
-        private static MethodInfo _getNewProfileMethod;
-
         static GetNewBotTemplatesPatch()
         {
             _ = nameof(IGetProfileData.PrepareToLoadBackend);
@@ -23,28 +22,15 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         }
 
         /// <summary>
-        /// BotsPresets.GetNewProfile()
-        /// </summary>
-        public GetNewBotTemplatesPatch()
-        {
-            var desiredType = typeof(BotsPresets);
-            _getNewProfileMethod = desiredType
-                .GetMethod(nameof(BotsPresets.GetNewProfile), BindingFlags.Instance | BindingFlags.NonPublic); // want the func with 2 params (protected + inherited from base)
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {_getNewProfileMethod?.Name}");
-        }
-
-        /// <summary>
         /// Looking for CreateProfile()
         /// </summary>
         /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(BotsPresets).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Single(x => IsTargetMethod(x));
+            return AccessTools.DeclaredMethod(typeof(BotsPresets), nameof(BotsPresets.CreateProfile));
         }
 
+        // Unused, but left here in case patch breaks and finding the intended method is difficult
         private bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
@@ -58,7 +44,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
         /// BotsPresets.GetNewProfile()
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, GClass513 data, ref bool withDelete)
+        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, GClass591 data, ref bool withDelete)
         {
             /*
                 When client wants new bot and GetNewProfile() return null (if not more available templates or they don't satisfy by Role and Difficulty condition)
@@ -72,7 +58,7 @@ namespace Aki.SinglePlayer.Patches.RaidFix
             try
             {
                 // Force true to ensure bot profile is deleted after use
-                _getNewProfileMethod.Invoke(__instance, new object[] { data, true });
+                __instance.GetNewProfile(data, true);
             }
             catch (Exception e)
             {

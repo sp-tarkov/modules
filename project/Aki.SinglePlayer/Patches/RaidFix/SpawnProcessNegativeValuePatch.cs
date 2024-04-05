@@ -3,6 +3,7 @@ using Aki.Reflection.Utils;
 using EFT;
 using System;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.RaidFix
 {
@@ -15,23 +16,16 @@ namespace Aki.SinglePlayer.Patches.RaidFix
     /// int_3 = spawn process? - current guess is open spawn positions - bsg doesnt seem to handle negative vaues well
     /// int_4 = max bots
     /// </summary>
-    class SpawnProcessNegativeValuePatch : ModulePatch
+    public class SpawnProcessNegativeValuePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(BotSpawner);
-            var desiredMethod = desiredType.GetMethod("CheckOnMax", PatchConstants.PublicFlags);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.CheckOnMax));
         }
 
         [PatchPrefix]
         private static bool PatchPreFix(int wantSpawn, ref int toDelay, ref int toSpawn, ref int ____maxBots, int ____allBotsCount, int ____inSpawnProcess)
         {
-
             // Set bots to delay if alive bots + spawning bots count > maxbots
             // ____inSpawnProcess can be negative, don't go below 0 when calculating
             if ((____allBotsCount + Math.Max(____inSpawnProcess, 0)) > ____maxBots)

@@ -1,25 +1,23 @@
-using System.Linq;
 using System.Reflection;
-using UnityEngine.Networking;
+using System.Security.Cryptography.X509Certificates;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using Aki.Core.Utils;
+using HarmonyLib;
 
 namespace Aki.Core.Patches
 {
 	public class SslCertificatePatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
-		{
-			return PatchConstants.EftTypes.Single(x => x.BaseType == typeof(CertificateHandler))
-				.GetMethod("ValidateCertificate", PatchConstants.PrivateFlags);
+        {
+            return AccessTools.Method(typeof(SslCertPatchClass), nameof(SslCertPatchClass.ValidateCertificate), new[] { typeof(X509Certificate) });
 		}
 
 		[PatchPrefix]
 		private static bool PatchPrefix(ref bool __result)
 		{
-			__result = ValidationUtil.Validate();
-			return false; // Skip origial
+			__result = true;
+			return false; // Skip original
 		}
 	}
 }

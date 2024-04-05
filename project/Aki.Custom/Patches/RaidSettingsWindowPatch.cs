@@ -5,6 +5,7 @@ using Aki.Custom.Models;
 using EFT.UI;
 using EFT.UI.Matchmaker;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
@@ -14,19 +15,23 @@ namespace Aki.Custom.Patches
     /// </summary>
     public class RaidSettingsWindowPatch : ModulePatch
     {
+        /// <summary>
+        /// Target method should have ~20 .UpdateValue() calls in it
+        /// </summary>
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(RaidSettingsWindow);
-            var desiredMethod = desiredType.GetMethod("method_8", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(RaidSettingsWindow), nameof(RaidSettingsWindow.method_8));
         }
 
         [PatchPrefix]
-        private static bool PatchPreFix(UpdatableToggle ____enableBosses, UpdatableToggle ____scavWars, UpdatableToggle ____taggedAndCursed, DropDownBox ____aiDifficultyDropdown, DropDownBox ____aiAmountDropdown)
+        private static bool PatchPreFix(
+            UpdatableToggle ____enableBosses,
+            UpdatableToggle ____scavWars,
+            UpdatableToggle ____taggedAndCursed,
+            DropDownBox ____aiDifficultyDropdown,
+            DropDownBox ____aiAmountDropdown,
+            UpdatableToggle ____randomWeatherToggle,
+            UpdatableToggle ____randomTimeToggle)
         {
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
             var settings = Json.Deserialize<DefaultRaidSettings>(json);
@@ -35,7 +40,10 @@ namespace Aki.Custom.Patches
             ____scavWars.UpdateValue(false);
             ____taggedAndCursed.UpdateValue(settings.TaggedAndCursed);
             ____aiDifficultyDropdown.UpdateValue((int)settings.AiDifficulty);
-            ____aiAmountDropdown.UpdateValue((int)(settings.AiAmount));
+            ____aiAmountDropdown.UpdateValue((int)settings.AiAmount);
+
+            ____randomWeatherToggle.UpdateValue(settings.RandomWeather);
+            ____randomTimeToggle.UpdateValue(settings.RandomTime);
 
             return false;
         }

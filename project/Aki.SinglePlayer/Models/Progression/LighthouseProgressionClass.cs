@@ -11,8 +11,7 @@ namespace Aki.SinglePlayer.Models.Progression
         private GameWorld _gameWorld;
         private Player _player;
         private float _timer;
-        private bool _playerFlaggedAsEnemyToBosses;
-        private List<MineDirectionalColliders> _bridgeMines;
+        private List<MineDirectional> _bridgeMines;
         private RecodableItemClass _transmitter;
         private readonly List<IPlayer> _zryachiyAndFollowers = new List<IPlayer>();
         private bool _aggressor;
@@ -32,6 +31,7 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
+
             // Get transmitter from players inventory
             _transmitter = GetTransmitterFromInventory();
 
@@ -43,19 +43,20 @@ namespace Aki.SinglePlayer.Models.Progression
                 return;
             }
 
-            GameObject.Find("Attack").SetActive(false);
+			var places = Singleton<IBotGame>.Instance.BotsController.CoversData.AIPlaceInfoHolder.Places;
 
-            // Zone was added in a newer version and the gameObject actually has a \
-            GameObject.Find("CloseZone\\").SetActive(false);
+			places.First(x => x.name == "Attack").gameObject.SetActive(false);
 
-            // Give access to Lightkeepers door
-            _gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
+			// Zone was added in a newer version and the gameObject actually has a \
+			places.First(y => y.name == "CloseZone\\").gameObject.SetActive(false);
 
-            // Expensive, run after gameworld / lighthouse checks above
-            _bridgeMines = FindObjectsOfType<MineDirectionalColliders>().ToList();
+			// Give access to Lightkeepers door
+			_gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
 
-            // Set mines to be non-active
-            SetBridgeMinesStatus(false);
+			_bridgeMines = _gameWorld.MineManager.Mines;
+
+			// Set mines to be non-active
+			SetBridgeMinesStatus(false);
         }
 
         public void Update()
@@ -73,7 +74,7 @@ namespace Aki.SinglePlayer.Models.Progression
             // Player not an enemy to Zryachiy
             // Lk door not accessible
             // Player has no transmitter on thier person
-            if (_gameWorld == null || _playerFlaggedAsEnemyToBosses || _isDoorDisabled || _transmitter == null)
+            if (_gameWorld == null || _isDoorDisabled || _transmitter == null)
             {
                 return;
             }
@@ -122,12 +123,13 @@ namespace Aki.SinglePlayer.Models.Progression
         /// <param name="active">What state mines should be</param>
         private void SetBridgeMinesStatus(bool active)
         {
-            // Find mines with opposite state of what we want
-            foreach (var mine in _bridgeMines.Where(mine => mine.gameObject.activeSelf == !active))
+			
+			// Find mines with opposite state of what we want
+			foreach (var mine in _bridgeMines.Where(mine => mine.gameObject.activeSelf == !active && mine.transform.parent.gameObject.name == "Directional_mines_LHZONE"))
             {
-                mine.gameObject.SetActive(active);
+				mine.gameObject.SetActive(active);
             }
-        }
+		}
 
         /// <summary>
         /// Put Zryachiy and followers into a list and sub to their death event

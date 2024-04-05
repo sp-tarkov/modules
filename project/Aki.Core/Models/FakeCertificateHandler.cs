@@ -5,9 +5,6 @@ namespace Aki.Core.Models
 {
     public class FakeCertificateHandler : CertificateHandler
     {
-        protected override bool ValidateCertificate(byte[] certificateData)
-        {
-            return ValidationUtil.Validate();
-        }
+        protected override bool ValidateCertificate(byte[] certificateData) => true;
     }
 }

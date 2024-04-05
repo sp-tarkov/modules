@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net472</TargetFramework>
+	<TargetFramework>net471</TargetFramework>
+	<Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2022</Copyright>
+    <Copyright>Copyright @ Aki 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
-      <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
     <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
     <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
     <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />

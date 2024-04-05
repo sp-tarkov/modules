@@ -1,10 +1,10 @@
+using System;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
 using EFT.Counters;
 using EFT.UI.SessionEnd;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
@@ -19,15 +19,13 @@ namespace Aki.SinglePlayer.Patches.Progression
         /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(SessionResultExitStatus);
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).FirstOrDefault(IsTargetMethod);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(
+                typeof(SessionResultExitStatus),
+                nameof(SessionResultExitStatus.Show),
+                new []{ typeof(Profile), typeof(PlayerVisualRepresentation), typeof(ESideType), typeof(ExitStatus), typeof(TimeSpan), typeof(ISession), typeof(bool) });
         }
 
+        // Unused, but left here in case patch breaks and finding the intended method is difficult
         private static bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();

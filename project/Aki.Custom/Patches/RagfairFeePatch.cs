@@ -1,9 +1,9 @@
 ﻿using Aki.Common.Http;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT.InventoryLogic;
 using EFT.UI.Ragfair;
 using System.Reflection;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Aki.Custom.Patches
@@ -17,33 +17,32 @@ namespace Aki.Custom.Patches
         public RagfairFeePatch()
         {
             // Remember to update prefix parameter if below lines are broken
-            _ = nameof(GClass2860.IsAllSelectedItemSame);
-            _ = nameof(GClass2860.AutoSelectSimilar);
+            _ = nameof(GClass3069.IsAllSelectedItemSame);
+            _ = nameof(GClass3069.AutoSelectSimilar);
         }
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(AddOfferWindow).GetMethod("method_1", PatchConstants.PrivateFlags);
+            return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_1));
         }
 
-        /// <summary>
-        /// Calculate tax to charge player and send to server before the offer is sent
-        /// </summary>
-        /// <param name="___item_0">Item sold</param>
-        /// <param name="___gclass2859_0">OfferItemCount</param>
-        /// <param name="___double_0">RequirementsPrice</param>
-        /// <param name="___bool_0">SellInOnePiece</param>
-        [PatchPrefix]
-        private static void PatchPrefix(ref Item ___item_0, ref GClass2860 ___gclass2860_0, ref double ___double_0, ref bool ___bool_0)
+		/// <summary>
+		/// Calculate tax to charge player and send to server before the offer is sent
+		/// </summary>
+		/// <param name="___item_0">Item sold</param>
+		/// <param name="___gclass3069_0">OfferItemCount</param>
+		/// <param name="___double_0">RequirementsPrice</param>
+		/// <param name="___bool_0">SellInOnePiece</param>
+		[PatchPrefix]
+        private static void PatchPrefix(ref Item ___item_0, ref GClass3069 ___gclass3069_0, ref double ___double_0, ref bool ___bool_0)
         {
             RequestHandler.PutJson("/client/ragfair/offerfees", new
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___gclass2860_0.OfferItemCount,
-                fee = Mathf.CeilToInt((float)GClass1941.CalculateTaxPrice(___item_0, ___gclass2860_0.OfferItemCount, ___double_0, ___bool_0))
-            }
-                .ToJson());
+                count = ___gclass3069_0.OfferItemCount,
+                fee = Mathf.CeilToInt((float)GClass2089.CalculateTaxPrice(___item_0, ___gclass3069_0.OfferItemCount, ___double_0, ___bool_0))
+            }.ToJson());
         }
     }
 }

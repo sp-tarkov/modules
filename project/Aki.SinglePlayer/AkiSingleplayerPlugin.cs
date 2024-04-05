@@ -6,6 +6,7 @@ using Aki.SinglePlayer.Patches.Progression;
 using Aki.SinglePlayer.Patches.Quests;
 using Aki.SinglePlayer.Patches.RaidFix;
 using Aki.SinglePlayer.Patches.ScavMode;
+using Aki.SinglePlayer.Patches.TraderServices;
 using BepInEx;
 
 namespace Aki.SinglePlayer
@@ -20,7 +21,7 @@ namespace Aki.SinglePlayer
             try
             {
                 new OfflineSaveProfilePatch().Enable();
-                new OfflineSpawnPointPatch().Enable();
+                //new OfflineSpawnPointPatch().Enable(); // Spawns are properly randomised and patch is likely no longer needed
                 new ExperienceGainPatch().Enable();
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
@@ -41,6 +42,7 @@ namespace Aki.SinglePlayer
                 new SpawnPmcPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
                 new EndByTimerPatch().Enable();
+                new InRaidQuestAvailablePatch().Enable();
                 new PostRaidHealScreenPatch().Enable();
                 new VoIPTogglerPatch().Enable();
                 new MidRaidQuestChangePatch().Enable();
@@ -56,6 +58,17 @@ namespace Aki.SinglePlayer
                 new MapReadyButtonPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new ScavLateStartPatch().Enable();
+				new MidRaidAchievementChangePatch().Enable();
+                new GetTraderServicesPatch().Enable();
+                new PurchaseTraderServicePatch().Enable();
+                new ScavSellAllPriceStorePatch().Enable();
+                new ScavSellAllRequestPatch().Enable();
+                new HideoutQuestIgnorePatch().Enable();
+                new LightKeeperServicesPatch().Enable();
+                new ScavEncyclopediaPatch().Enable();
+                new ScavRepAdjustmentPatch().Enable();
+                new AmmoUsedCounterPatch().Enable();
+                new ArmorDamageCounterPatch().Enable();
             }
             catch (Exception ex)
             {

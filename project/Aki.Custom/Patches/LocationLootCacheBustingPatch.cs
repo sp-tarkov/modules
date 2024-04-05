@@ -1,8 +1,7 @@
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
-using System;
-using System.Linq;
 using System.Reflection;
+using EFT;
 
 namespace Aki.Custom.Patches
 {
@@ -13,8 +12,8 @@ namespace Aki.Custom.Patches
 	{
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = PatchConstants.EftTypes.Single(x => x.Name == "LocalGame").BaseType; // BaseLocalGame
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).Single(x => IsTargetMethod(x)); // method_6
+            var desiredType = typeof(BaseLocalGame<GamePlayerOwner>);
+            var desiredMethod = desiredType.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public).SingleCustom(IsTargetMethod); // method_6
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

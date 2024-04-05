@@ -1,49 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Aki.Common.Utils;
+using System.Threading.Tasks;
 using BepInEx.Logging;
+using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
     public static class RequestHandler
     {
-        private static string _host;
-        private static string _session;
-        private static Request _request;
-        private static Dictionary<string, string> _headers;
         private static ManualLogSource _logger;
+        public static readonly Client HttpClient;
+        public static readonly string Host;
+        public static readonly string SessionId;
+        public static readonly bool IsLocal;
 
         static RequestHandler()
         {
             _logger = Logger.CreateLogSource(nameof(RequestHandler));
-            Initialize();
-        }
+            
+            // grab required info from command args
+            var args = Environment.GetCommandLineArgs();
 
-        private static void Initialize()
-        {
-            _request = new Request();
-
-            string[] args = Environment.GetCommandLineArgs();
-
-            foreach (string arg in args)
+            foreach (var arg in args)
             {
                 if (arg.Contains("BackendUrl"))
                 {
-                    string json = arg.Replace("-config=", string.Empty);
-                    _host = Json.Deserialize<ServerConfig>(json).BackendUrl;
+                    var json = arg.Replace("-config=", string.Empty);
+                    Host = Json.Deserialize<ServerConfig>(json).BackendUrl;
                 }
 
                 if (arg.Contains("-token="))
                 {
-                    _session = arg.Replace("-token=", string.Empty);
-                    _headers = new Dictionary<string, string>()
-                    {
-                        { "Cookie", $"PHPSESSID={_session}" },
-                        { "SessionId", _session }
-                    };
+                    SessionId = arg.Replace("-token=", string.Empty);
                 }
             }
+
+            IsLocal = Host.Contains("127.0.0.1")
+                    || Host.Contains("localhost");
+
+            // initialize http client
+            HttpClient = new Client(Host, SessionId);
         }
 
         private static void ValidateData(byte[] data)
@@ -66,46 +63,129 @@ namespace Aki.Common.Http
             _logger.LogInfo($"Request was successful");
         }
 
-        public static byte[] GetData(string path, bool hasHost = false)
+        public static byte[] GetData(string path)
         {
-            string url = (hasHost) ? path : _host + path;
+            _logger.LogInfo($"Request GET data: {SessionId}:{path}");
+            
+            var data = HttpClient.Get(path);
 
-            _logger.LogInfo($"Request GET data: {_session}:{url}");
-            byte[] result = _request.Send(url, "GET", null, headers: _headers);
-
-            ValidateData(result);
-            return result;
+            ValidateData(data);
+            return data;
         }
 
-        public static string GetJson(string path, bool hasHost = false)
+        public static string GetJson(string path)
         {
-            string url = (hasHost) ? path : _host + path;
+            _logger.LogInfo($"Request GET json: {SessionId}:{path}");
+            
+            var payload = HttpClient.Get(path);
+            var body = Encoding.UTF8.GetString(payload);
 
-            _logger.LogInfo($"Request GET json: {_session}:{url}");
-            byte[] data = _request.Send(url, "GET", headers: _headers);
-            string result = Encoding.UTF8.GetString(data);
-
-            ValidateJson(result);
-            return result;
+            ValidateJson(body);
+            return body;
         }
 
-        public static string PostJson(string path, string json, bool hasHost = false)
+        public static string PostJson(string path, string json)
         {
-            string url = (hasHost) ? path : _host + path;
+            _logger.LogInfo($"Request POST json: {SessionId}:{path}");
+            
+            var payload = Encoding.UTF8.GetBytes(json);
+            var data = HttpClient.Post(path, payload);
+            var body = Encoding.UTF8.GetString(data);
 
-            _logger.LogInfo($"Request POST json: {_session}:{url}");
-            byte[] data = _request.Send(url, "POST", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
-            string result = Encoding.UTF8.GetString(data);
-
-            ValidateJson(result);
-            return result;
+            ValidateJson(body);
+            return body;
         }
 
-        public static void PutJson(string path, string json, bool hasHost = false)
+        public static void PutJson(string path, string json)
         {
-            string url = (hasHost) ? path : _host + path;
-            _logger.LogInfo($"Request PUT json: {_session}:{url}");
-            _request.Send(url, "PUT", Encoding.UTF8.GetBytes(json), true, "application/json", _headers);
+            _logger.LogInfo($"Request PUT json: {SessionId}:{path}");
+
+            var payload = Encoding.UTF8.GetBytes(json);
+            HttpClient.Put(path, payload);
         }
+
+#region DEPRECATED, REMOVE IN 3.8.1
+        [Obsolete("GetData(path, isHost) is deprecated, please use GetData(path) instead.")]
+        public static byte[] GetData(string path, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request GET data: {SessionId}:{url}");
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "GET", null, headers: headers);
+
+            ValidateData(data);
+            return data;
+
+        }
+
+        [Obsolete("GetJson(path, isHost) is deprecated, please use GetJson(path) instead.")]
+        public static string GetJson(string path, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request GET json: {SessionId}:{url}");
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "GET", headers: headers);
+            var body = Encoding.UTF8.GetString(data);
+
+            ValidateJson(body);
+            return body;
+
+        }
+
+        [Obsolete("PostJson(path, json, isHost) is deprecated, please use PostJson(path, json) instead.")]
+        public static string PostJson(string path, string json, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request POST json: {SessionId}:{url}");
+
+            var payload = Encoding.UTF8.GetBytes(json);
+            var mime = WebConstants.Mime[".json"];
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "POST", payload, true, mime, headers);
+            var body = Encoding.UTF8.GetString(data);
+
+            ValidateJson(body);
+            return body;
+
+        }
+
+        [Obsolete("PutJson(path, json, isHost) is deprecated, please use PutJson(path, json) instead.")]
+        public static void PutJson(string path, string json, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request PUT json: {SessionId}:{url}");
+
+            var payload = Encoding.UTF8.GetBytes(json);
+            var mime = WebConstants.Mime[".json"];
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            request.Send(url, "PUT", payload, true, mime, headers);
+        }
+#endregion
     }
 }

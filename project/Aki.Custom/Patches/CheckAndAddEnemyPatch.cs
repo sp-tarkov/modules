@@ -1,65 +1,29 @@
 ﻿using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
-using System;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
     public class CheckAndAddEnemyPatch : ModulePatch
     {
-        private static Type _targetType;
-        private readonly string _targetMethodName = "CheckAndAddEnemy";
-
-        /// <summary>
-        /// BotGroupClass.CheckAndAddEnemy()
-        /// </summary>
-        public CheckAndAddEnemyPatch()
-        {
-            _targetType = PatchConstants.EftTypes.Single(IsTargetType);
-        }
-
-        private bool IsTargetType(Type type)
-        {
-            if (type.GetMethod("AddEnemy") != null && type.GetMethod("AddEnemyGroupIfAllowed") != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected override MethodBase GetTargetMethod()
         {
-            return _targetType.GetMethod(_targetMethodName);
+            return AccessTools.Method(typeof(BotsGroup), nameof(BotsGroup.CheckAndAddEnemy));
         }
 
         /// <summary>
         /// CheckAndAddEnemy()
         /// Goal: This patch lets bosses shoot back once a PMC has shot them
-        /// removes the !player.AIData.IsAI  check
+        /// Removes the !player.AIData.IsAI  check
+		/// BSG changed the way CheckAndAddEnemy Works in 14.0 Returns a bool now
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(BotsGroup __instance, IPlayer player, ref bool ignoreAI)
-        {
-            // Z already has player as enemy BUT Enemies dict is empty, adding them again causes 'existing key' errors
-            if (__instance.InitialBotType == WildSpawnType.bossZryachiy || __instance.InitialBotType == WildSpawnType.followerZryachiy)
-            {
-                return false;
-            }
-
-            if (!player.HealthController.IsAlive)
-            {
-                return false; // Skip original
-            }
-
-            if (!__instance.Enemies.ContainsKey(player))
-            {
-                __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
-            }            
-
-            return false; // Skip original
+        private static bool PatchPrefix(BotsGroup __instance, IPlayer player, ref bool __result)
+		{
+			// Set result to not include !player.AIData.IsAI checks
+			__result = player.HealthController.IsAlive && !__instance.Enemies.ContainsKey(player) && __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
+			return false; // Skip Original
         }
     }
 }

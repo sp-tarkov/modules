@@ -8,34 +8,35 @@ using System.Reflection;
 namespace Aki.SinglePlayer.Patches.Progression
 {
     /// <summary>
-    /// After picking up a quest item, trigger CheckForStatusChange() from the questController to fully update a quest subtasks to show (e.g. `survive and extract item from raid` task)
+    /// After picking up a quest item, trigger CheckForStatusChange() from the questController to fully update a quest sub-tasks to show (e.g. `survive and extract item from raid` task)
     /// </summary>
     public class MidRaidQuestChangePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(Profile).GetMethod("AddToCarriedQuestItems", BindingFlags.Public | BindingFlags.Instance);
+            return AccessTools.Method(typeof(Profile), nameof(Profile.AddToCarriedQuestItems));
         }
 
         [PatchPostfix]
         private static void PatchPostfix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-
-            if (gameWorld != null)
+            if (gameWorld == null)
             {
-                var player = gameWorld.MainPlayer;
+                Logger.LogDebug("[MidRaidQuestChangePatch] gameWorld instance was null");
 
-                var questController = Traverse.Create(player).Field<QuestControllerClass>("_questController").Value;
-                if (questController != null)
+                return;
+            }
+                
+            var player = gameWorld.MainPlayer;
+            var questController = Traverse.Create(player).Field<AbstractQuestControllerClass>("_questController").Value;
+            if (questController != null)
+            {
+                foreach (var quest in questController.Quests.ToList())
                 {
-                    foreach (var quest in questController.Quests.ToList())
-                    {
-                        quest.CheckForStatusChange(true, true);
-                    }
+                    quest.CheckForStatusChange(true, true);
                 }
             }
-            
         }
     }
 }

@@ -1,25 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net472</TargetFramework>
+	<TargetFramework>net471</TargetFramework>
     <AssemblyName>aki-singleplayer</AssemblyName>
+	<Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
     <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2023</Copyright>
+    <Copyright>Copyright @ Aki 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
-	  <Reference Include="Comfort.Unity" HintPath="..\Shared\Managed\Comfort.Unity.dll" Private="False" />
-	  <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
+	<Reference Include="Comfort.Unity" HintPath="..\Shared\Managed\Comfort.Unity.dll" Private="False" />
+	<Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
     <Reference Include="ItemComponent.Types" HintPath="..\Shared\Managed\ItemComponent.Types.dll" Private="False" />
     <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\Shared\Managed\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
+    <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
     <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
   </ItemGroup>
 

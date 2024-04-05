@@ -16,12 +16,12 @@ namespace Aki.Core.Utils
                 var v1 = Registry.LocalMachine.OpenSubKey(c0, false).GetValue("InstallLocation");
                 var v2 = (v1 != null) ? v1.ToString() : string.Empty;
                 var v3 = new DirectoryInfo(v2);
-
+                
                 var v4 = new FileSystemInfo[]
                 {
                     v3,
                     new FileInfo(Path.Combine(v2, @"BattlEye\BEClient_x64.dll")),
-                    new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.dll")),
+                    new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.exe")),
                     new FileInfo(Path.Combine(v2, "ConsistencyInfo")),
                     new FileInfo(Path.Combine(v2, "Uninstall.exe")),
                     new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))

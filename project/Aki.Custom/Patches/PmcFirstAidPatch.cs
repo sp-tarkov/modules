@@ -1,4 +1,5 @@
-﻿using Aki.Reflection.Patching;
+﻿using Aki.PrePatch;
+using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
 using System;
@@ -23,7 +24,7 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return _targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
+            return _targetType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(BotOwner ___botOwner_0)
         {
-            if (___botOwner_0.IsRole((WildSpawnType)33) || ___botOwner_0.IsRole((WildSpawnType)34))
+            if (___botOwner_0.IsRole((WildSpawnType)AkiBotsPrePatcher.sptUsecValue) || ___botOwner_0.IsRole((WildSpawnType)AkiBotsPrePatcher.sptBearValue))
             {
                 var healthController = ___botOwner_0.GetPlayer.ActiveHealthController;
 

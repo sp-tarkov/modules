@@ -1,3 +1,5 @@
+#region DEPRECATED, REMOVE IN 3.8.1
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,12 +8,10 @@ using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
+    [Obsolete("Request is deprecated, please use Aki.Common.Http.Client instead.")]
     public class Request
     {
-        /// <summary>
-        /// Send a request to remote endpoint and optionally receive a response body.
-        /// Deflate is the accepted compression format.
-        /// </summary>
+        [Obsolete("Request.Send() is deprecated, please use Aki.Common.Http.Client instead.")]
         public byte[] Send(string url, string method, byte[] data = null, bool compress = true, string mime = null, Dictionary<string, string> headers = null)
         {
             if (!WebConstants.IsValidMethod(method))
@@ -81,3 +81,5 @@ namespace Aki.Common.Http
         }
     }
 }
+
+#endregion

@@ -18,7 +18,7 @@
 			{
 				"label": "build",
 				"type": "shell",
-				"command": "dotnet cake",
+				"command": "dotnet build --configuration Release",
 				"group": {
 					"kind": "build",
 					"isDefault": true

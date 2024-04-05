@@ -5,7 +5,6 @@ using Aki.Reflection.Utils;
 using Aki.Custom.Models;
 using EFT.UI;
 using HarmonyLib;
-using System.Linq;
 using System.Reflection;
 using Comfort.Common;
 
@@ -17,18 +16,9 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            try
-            {
-                return PatchConstants.EftTypes
-                .Single(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
+            return PatchConstants.EftTypes
+                .SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
                 .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
-            }
-            catch (System.Exception e)
-            {
-                Logger.LogInfo($"VersionLabelPatch failed {e.Message} {e.StackTrace} {e.InnerException.StackTrace}");
-                throw;
-            }
-            
         }
 
         [PatchPostfix]
@@ -43,7 +33,9 @@ namespace Aki.Custom.Patches
 
             Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
             Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
-            Traverse.Create(__result).Field("Major").SetValue(_versionLabel);
+            var major = Traverse.Create(__result).Field("Major");
+            var existingValue = major.GetValue();
+            major.SetValue($"{existingValue} {_versionLabel}");
         }
     }
 }

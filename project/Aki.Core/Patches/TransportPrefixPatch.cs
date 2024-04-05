@@ -15,8 +15,7 @@ namespace Aki.Core.Patches
         {
             try
             {
-                _ = GClass239.DEBUG_LOGIC; // UPDATE BELOW LINE TOO
-                var type = PatchConstants.EftTypes.Single(t => t.Name == "Class239");
+                var type = PatchConstants.EftTypes.SingleOrDefault(t => t.GetField("TransportPrefixes") != null);
 
                 if (type == null)
                 {
@@ -36,18 +35,17 @@ namespace Aki.Core.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return PatchConstants.EftTypes.Single(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
+            return PatchConstants.EftTypes.SingleCustom(t => t.GetMethods().Any(m => m.Name == "CreateFromLegacyParams"))
                 .GetMethod("CreateFromLegacyParams", BindingFlags.Static | BindingFlags.Public);
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref GStruct21 legacyParams)
+        private static bool PatchPrefix(ref LegacyParamsStruct legacyParams)
         {
-            //Console.WriteLine($"Original url {legacyParams.Url}");
             legacyParams.Url = legacyParams.Url
                 .Replace("https://", "")
                 .Replace("http://", "");
-            //Console.WriteLine($"Edited url {legacyParams.Url}");
+
             return true; // do original method after
         }
 

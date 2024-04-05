@@ -1,8 +1,9 @@
+using System;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
 using System.Reflection;
 using System.Threading.Tasks;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Healing
 {
@@ -10,13 +11,7 @@ namespace Aki.SinglePlayer.Patches.Healing
     {
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(Player);
-            var desiredMethod = desiredType.GetMethod("Init", PatchConstants.PrivateFlags);
-
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-            Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-            return desiredMethod;
+            return AccessTools.Method(typeof(Player), nameof(Player.Init));
         }
 
         [PatchPostfix]
@@ -24,7 +19,7 @@ namespace Aki.SinglePlayer.Patches.Healing
         {
             await __result;
 
-            if (profile?.Id.StartsWith("pmc") == true)
+            if (profile?.Id.Equals(Common.Http.RequestHandler.SessionId, StringComparison.InvariantCultureIgnoreCase) ?? false)
             {
                 Logger.LogDebug($"Hooking up health listener to profile: {profile.Id}");
                 var listener = Utils.Healing.HealthListener.Instance;

@@ -1,35 +1,16 @@
 ﻿using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using EFT;
-using System;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.Custom.Patches
 {
     public class IsEnemyPatch : ModulePatch
     {
-        private static Type _targetType;
-        private readonly string _targetMethodName = "IsEnemy";
-
-        public IsEnemyPatch()
-        {
-            _targetType = PatchConstants.EftTypes.Single(IsTargetType);
-        }
-
-        private bool IsTargetType(Type type)
-        {
-            if (type.GetMethod("AddEnemy") != null && type.GetMethod("AddEnemyGroupIfAllowed") != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         protected override MethodBase GetTargetMethod()
         {
-            return _targetType.GetMethod(_targetMethodName);
+            return AccessTools.Method(typeof(BotsGroup), nameof(BotsGroup.IsEnemy));
         }
 
         /// <summary>
@@ -41,6 +22,17 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
+            if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent
+				|| __instance.InitialBotType == WildSpawnType.shooterBTR
+				|| __instance.InitialBotType == WildSpawnType.gifter
+				|| __instance.InitialBotType == WildSpawnType.sectantWarrior
+				|| __instance.InitialBotType == WildSpawnType.sectantPriest
+				|| __instance.InitialBotType == WildSpawnType.sectactPriestEvent
+				|| __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent)
+            {
+                return true; // Do original code
+            }
+
             var isEnemy = false; // default not an enemy
             if (requester == null)
             {

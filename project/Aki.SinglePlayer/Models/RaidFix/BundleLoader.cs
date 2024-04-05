@@ -24,7 +24,7 @@ namespace Aki.SinglePlayer.Models.RaidFix
             var loadTask = Singleton<PoolManager>.Instance.LoadBundlesAndCreatePools(
                 PoolManager.PoolsCategory.Raid,
                 PoolManager.AssemblyType.Local,
-                Profile.GetAllPrefabPaths(false).ToArray(),
+                Profile.GetAllPrefabPaths(false).Where(x => !x.IsNullOrEmpty()).ToArray(),
                 JobPriority.General,
                 null,
                 default(CancellationToken));

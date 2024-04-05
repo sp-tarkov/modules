@@ -4,24 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Healing
 {
     /// <summary>
-    /// HealthController used by post-raid heal screen and health listenen class are different, this patch
+    /// HealthController used by post-raid heal screen and health listener class are different, this patch
     /// ensures effects (fracture/bleeding) on body parts stay in sync
     /// </summary>
     public class HealthControllerPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(HealthControllerClass).GetMethod("ApplyTreatment", BindingFlags.Public | BindingFlags.Instance);
+            return AccessTools.Method(typeof(HealthControllerClass), nameof(HealthControllerClass.ApplyTreatment));
         }
 
         [PatchPrefix]
         private static void PatchPrefix(object healthObserver)
         {
-            var property = healthObserver.GetType().GetProperty("Effects");
+            // Accesstools will throw warnings if player doesnt have any Effects while using Treatment at end of raid
+            var property = AccessTools.Property(healthObserver.GetType(), "Effects");
             if (property != null)
             {
                 var effects = property.GetValue(healthObserver);

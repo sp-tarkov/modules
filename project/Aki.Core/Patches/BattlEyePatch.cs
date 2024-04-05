@@ -1,9 +1,8 @@
 using Aki.Core.Utils;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HarmonyLib;
 
 namespace Aki.Core.Patches
 {
@@ -11,11 +10,7 @@ namespace Aki.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var methodName = "RunValidation";
-            var flags = BindingFlags.Public | BindingFlags.Instance;
-
-            return PatchConstants.EftTypes.Single(x => x.GetMethod(methodName, flags) != null)
-                .GetMethod(methodName, flags);
+            return AccessTools.Method(typeof(BattleeyePatchClass), nameof(BattleeyePatchClass.RunValidation));
         }
 
         [PatchPrefix]

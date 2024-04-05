@@ -2,6 +2,7 @@
 using Comfort.Common;
 using EFT;
 using System.Reflection;
+using HarmonyLib;
 
 namespace Aki.SinglePlayer.Patches.Progression
 {
@@ -9,7 +10,7 @@ namespace Aki.SinglePlayer.Patches.Progression
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(RadioTransmitterHandlerClass).GetMethod("method_4", BindingFlags.NonPublic | BindingFlags.Instance);
+            return AccessTools.Method(typeof(RadioTransmitterHandlerClass), nameof(RadioTransmitterHandlerClass.method_4));
         }
 
         [PatchPrefix]
