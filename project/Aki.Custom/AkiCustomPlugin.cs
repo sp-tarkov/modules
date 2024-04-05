@@ -57,6 +57,7 @@ namespace Aki.Custom
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
                 new FixBrokenSpawnOnSandboxPatch().Enable();
+                new BTRControllerConstructorPatch().Enable();
                 new BTRPathLoadPatch().Enable();
                 new BTRActivateTraderDialogPatch().Enable();
                 new BTRInteractionPatch().Enable();

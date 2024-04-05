@@ -28,12 +28,7 @@ namespace Aki.Custom.BTR.Patches
         {
             FieldInfo btrField = type.GetField("btr");
 
-            if (btrField != null && btrField.FieldType == typeof(BTRSide))
-            {
-                return true;
-            }
-
-            return false;
+            return btrField != null && btrField.FieldType == typeof(BTRSide);
         }
 
         [PatchPrefix]

@@ -14,7 +14,16 @@ namespace Aki.Custom.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BTRView), nameof(BTRView.method_1));
+            return AccessTools.FirstMethod(typeof(BTRView), IsTargetMethod);
+        }
+
+        private bool IsTargetMethod(MethodBase method)
+        {
+            var parameters = method.GetParameters();
+
+            return parameters.Length == 1
+                && parameters[0].ParameterType == typeof(DamageInfo)
+                && parameters[0].Name == "damageInfo";
         }
 
         [PatchPrefix]
@@ -23,12 +32,15 @@ namespace Aki.Custom.BTR.Patches
             var botEventHandler = Singleton<BotEventHandler>.Instance;
             if (botEventHandler == null)
             {
-                Logger.LogError($"[AKI-BTR] BTRReceiveDamageInfoPatch - BotEventHandler is null");
+                Logger.LogError($"[AKI-BTR] {nameof(BTRReceiveDamageInfoPatch)} - BotEventHandler is null");
                 return;
             }
 
-            var shotBy = (Player)damageInfo.Player.iPlayer;
-            botEventHandler.InterruptTraderServiceBtrSupportByBetrayer(shotBy);
+            var shotBy = (Player)damageInfo.Player;
+            if (shotBy != null)
+            {
+                botEventHandler.InterruptTraderServiceBtrSupportByBetrayer(shotBy);
+            }
         }
     }
 }
