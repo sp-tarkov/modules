@@ -8,7 +8,7 @@ namespace Aki.Custom.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.GetDeclaredConstructors(typeof(BTRControllerClass))[0];
+            return AccessTools.Method(typeof(BTRControllerClass), nameof(BTRControllerClass.method_0));
         }
 
         [PatchPrefix]
