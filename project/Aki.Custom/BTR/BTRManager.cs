@@ -6,11 +6,9 @@ using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.Vehicle;
 using HarmonyLib;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -50,19 +48,7 @@ namespace Aki.Custom.BTR
         private Player.FirearmController firearmController;
         private WeaponSoundPlayer weaponSoundPlayer;
 
-        private MethodInfo _updateTaxiPriceMethod;
-        private MethodInfo _playWeaponSoundMethod;
-
         private float originalDamageCoeff;
-
-        BTRManager()
-        {
-            Type btrControllerType = typeof(BTRControllerClass);
-            _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
-
-            Type firearmControllerType = typeof(Player.FirearmController);
-            _playWeaponSoundMethod = AccessTools.GetDeclaredMethods(firearmControllerType).Single(IsPlayWeaponSoundMethod);
-        }
 
         private async void Awake()
         {
@@ -139,26 +125,6 @@ namespace Aki.Custom.BTR
             }
         }
 
-        // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
-        private bool IsUpdateTaxiPriceMethod(MethodInfo method)
-        {
-            ParameterInfo[] parameters = method.GetParameters();
-
-            return parameters.Length == 2 && parameters[0].ParameterType == typeof(PathDestination);
-        }
-
-        private bool IsPlayWeaponSoundMethod(MethodInfo method)
-        {
-            ParameterInfo[] parameters = method.GetParameters();
-
-            return parameters.Length == 5
-                && parameters[0].ParameterType == typeof(WeaponSoundPlayer)
-                && parameters[1].ParameterType == typeof(BulletClass)
-                && parameters[2].ParameterType == typeof(Vector3)
-                && parameters[3].ParameterType == typeof(Vector3)
-                && parameters[4].ParameterType == typeof(bool);
-        }
-
         private void Update()
         {
             if (!btrInitialized) return;
@@ -194,7 +160,7 @@ namespace Aki.Custom.BTR
         private async Task InitBtr()
         {
             // Initial setup
-            await btrController.method_1();
+            await btrController.InitBtrController();
 
             botEventHandler = Singleton<BotEventHandler>.Instance;
             var botsController = Singleton<IBotGame>.Instance.BotsController;
@@ -280,7 +246,7 @@ namespace Aki.Custom.BTR
             TraderServicesManager.Instance.RemovePurchasedService(ETraderServiceType.PlayerTaxi, BTRUtil.BTRTraderId);
 
             // Update the prices for the taxi service
-            _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
+            btrController.UpdateTaxiPrice(destinationPoint, isFinal);
 
             // Update the UI
             TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
@@ -488,7 +454,7 @@ namespace Aki.Custom.BTR
 
                 Vector3 aimDirection = Vector3.Normalize(targetHeadPos - machineGunMuzzle.position);
                 ballisticCalculator.Shoot(btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, btrBotShooter.ProfileId, btrMachineGunWeapon, 1f, 0);
-                _playWeaponSoundMethod.Invoke(firearmController, new object[] { weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false });
+                firearmController.PlayWeaponSound(weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false);
 
                 burstCount--;
                 yield return new WaitForSecondsRealtime(0.092308f); // 650 RPM
