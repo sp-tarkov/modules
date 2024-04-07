@@ -36,7 +36,7 @@ namespace Aki.Custom.BTR.Patches
                 return;
             }
 
-            var shotBy = (Player)damageInfo.Player;
+            var shotBy = (Player)damageInfo.Player.iPlayer;
             if (shotBy != null)
             {
                 botEventHandler.InterruptTraderServiceBtrSupportByBetrayer(shotBy);
