@@ -16,6 +16,7 @@ namespace Aki.Custom.CustomAI
         private static readonly string throwableItemId = "543be6564bdc2df4348b4568";
         private static readonly string ammoItemId = "5485a8684bdc2da71d8b4567";
         private static readonly string weaponId = "5422acb9af1c889c16000029";
+        private static readonly string moneyId = "543be5dd4bdc2deb348b4569";
         private static readonly string armorPlate = "644120aa86ffbe10ee032b6f";
         private static readonly string builtInInserts = "65649eb40bf0ed77b8044453";
         private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId, armorPlate, builtInInserts };
@@ -32,7 +33,7 @@ namespace Aki.Custom.CustomAI
         private static readonly string knifeId = "5447e1d04bdc2dff2f8b4567";
 
         private static readonly List<string> weaponTypeIds = new List<string>() { pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId, grenadeLauncherId, knifeId };
-        private static readonly List<string> nonFiRPocketLoot = new List<string>{ throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId };
+        private static readonly List<string> nonFiRPocketLoot = new List<string>{ moneyId, throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId };
         private readonly ManualLogSource logger;
 
         public PmcFoundInRaidEquipment(ManualLogSource logger)
