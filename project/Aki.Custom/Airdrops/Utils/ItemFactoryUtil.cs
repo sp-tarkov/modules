@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Aki.Custom.Airdrops.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Aki.Custom.Airdrops.Utils
 {
@@ -34,7 +35,7 @@ namespace Aki.Custom.Airdrops.Utils
             }
         }
 
-        public async void AddLoot(LootableContainer container, AirdropLootResultModel lootToAdd)
+        public async Task AddLoot(LootableContainer container, AirdropLootResultModel lootToAdd)
         {
             Item actualItem;
             foreach (var item in lootToAdd.Loot)
