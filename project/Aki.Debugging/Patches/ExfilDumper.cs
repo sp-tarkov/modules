@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using ExitSettingsClass = GClass1233;
+using ExitSettingsClass = GClass1234;
 
 namespace Aki.Debugging.Patches
 {

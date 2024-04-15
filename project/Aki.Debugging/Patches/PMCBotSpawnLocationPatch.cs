@@ -21,7 +21,7 @@ namespace Aki.Debugging.Patches
 
         public SptSpawnHelper()
         {
-            IEnumerable<ISpawnPoint> locationSpawnPoints = GClass2942.CreateFromScene();
+            IEnumerable<ISpawnPoint> locationSpawnPoints = GClass2944.CreateFromScene();
 
             var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
             this.playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
@@ -62,7 +62,7 @@ namespace Aki.Debugging.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(GClass1480 __instance, GClass590 data)
+        public static bool PatchPrefix(GClass1481 __instance, GClass591 data)
         {
 
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
