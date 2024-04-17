@@ -14,16 +14,17 @@ namespace Aki.PrePatch
         public static int sptUsecValue = 47;
         public static int sptBearValue = 48;
 
-        private static string _sptPluginFolder = "BepInEx/plugins/spt";
+        private static string _sptPluginFolder = "plugins/spt";
 
         public static void Patch(ref AssemblyDefinition assembly)
         {
             // Make sure the user hasn't deleted the SPT plugins folder
-            if (!ValidateSpt())
+            string assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string sptPluginPath = Path.GetFullPath(Path.Combine(assemblyFolder, "..", _sptPluginFolder));
+            if (!ValidateSpt(sptPluginPath))
             {
-                string message = $"`{_sptPluginFolder}` or required plugin files not found.\n" +
-                    "Please re-install SPT.\n" +
-                    "Exiting.";
+                string message = $"'{sptPluginPath}' or required plugin files not found.\n\n" +
+                    "Please re-install SPT. Exiting.";
                 MessageBoxHelper.Show(message, "[SPT-AKI] Missing Core Files", MessageBoxHelper.MessageBoxType.OK);
                 Environment.Exit(0);
                 return;
@@ -45,18 +46,14 @@ namespace Aki.PrePatch
             botEnums.Fields.Add(sptBear);
         }
 
-        private static bool ValidateSpt()
+        private static bool ValidateSpt(string sptPluginPath)
         {
             ManualLogSource logger = Logger.CreateLogSource(nameof(AkiBotsPrePatcher));
 
-            // Get the directory our prepatcher is in
-            string assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
             // Validate that the SPT plugin path exists
-            string sptPluginPath = Path.GetFullPath(Path.Combine(assemblyFolder, "..", _sptPluginFolder));
             if (!Directory.Exists(sptPluginPath))
             {
-                logger.LogError($"`{_sptPluginFolder}` directory not found");
+                logger.LogError($"'{sptPluginPath}' directory not found");
                 return false;
             }
 
