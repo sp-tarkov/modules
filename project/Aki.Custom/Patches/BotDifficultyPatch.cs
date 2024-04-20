@@ -1,4 +1,4 @@
-using Aki.Common.Http;
+using Aki.Custom.Utils;
 using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
 using EFT;
@@ -21,7 +21,7 @@ namespace Aki.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
         {
-            __result = RequestHandler.GetJson($"/singleplayer/settings/bot/difficulty/{role}/{botDifficulty}");
+            __result = DifficultyManager.Get(botDifficulty, role);
             var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
             if (resultIsNullEmpty)
             {
