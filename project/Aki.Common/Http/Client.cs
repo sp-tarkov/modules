@@ -33,7 +33,7 @@ namespace Aki.Common.Http
             _httpv = new HttpClient(handler);
         }
 
-        private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+        protected HttpRequestMessage GetNewRequest(HttpMethod method, string path)
         {
             return new HttpRequestMessage()
             {
@@ -42,15 +42,6 @@ namespace Aki.Common.Http
                 Headers = {
                     { "Cookie", $"PHPSESSID={_accountId}" }
                 }
-            };
-        }
-
-        protected HttpRequestMessage GetNewRequest(HttpMethod method, string path)
-        {
-            return new HttpRequestMessage()
-            {
-                Method = method,
-                RequestUri = new Uri(_address + path)
             };
         }
 
@@ -106,7 +97,7 @@ namespace Aki.Common.Http
             }
         }
 
-        public async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
+        protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
         {
             var error = new Exception("Internal error");
 
