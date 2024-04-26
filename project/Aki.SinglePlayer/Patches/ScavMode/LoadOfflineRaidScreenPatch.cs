@@ -123,7 +123,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
                 ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3176(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3178(profile?.Info, ref raidSettings, matchmakerPlayersController, ESessionMode.Regular);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
