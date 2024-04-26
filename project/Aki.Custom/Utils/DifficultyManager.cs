@@ -8,11 +8,11 @@ namespace Aki.Custom.Utils
 {
     public static class DifficultyManager
     {
-        public static List<DifficultyInfo> Difficulties { get; private set; }
+        public static Dictionary<string, DifficultyInfo> Difficulties { get; private set; }
 
         static DifficultyManager()
         {
-            Difficulties = new List<DifficultyInfo>();
+            Difficulties = new Dictionary<string, DifficultyInfo>();
         }
 
         public static void Update()
@@ -22,21 +22,13 @@ namespace Aki.Custom.Utils
 
             // get new difficulties
             var json = RequestHandler.GetJson("/singleplayer/settings/bot/difficulties");
-            Difficulties = Json.Deserialize<List<DifficultyInfo>>(json);
+            Difficulties = Json.Deserialize<Dictionary<string, DifficultyInfo>>(json);
         }
 
         public static string Get(BotDifficulty botDifficulty, WildSpawnType role)
         {
-            foreach (var entry in Difficulties)
-            {
-                if (botDifficulty.ToString().ToLower() == entry.Difficulty
-                && role.ToString().ToLower() == entry.Role)
-                {
-                    return entry.Data;
-                }
-            }
-
-            return string.Empty;
+            var difficultyMatrix = Difficulties[role.ToString().ToLower()];
+            return Json.Serialize(difficultyMatrix.GetDifficultyString(botDifficulty.ToString().ToLower()));
         }
     }
 }

@@ -1,24 +1,36 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Aki.Custom.Models
 {
-    [DataContract]
     public struct DifficultyInfo
     {
-        [DataMember(Name = "role")]
-        public string Role;
+        [JsonProperty("easy")]
+        public Dictionary<string, object> easy;
 
-        [DataMember(Name = "difficulty")]
-        public string Difficulty;
+        [JsonProperty("hard")]
+        public Dictionary<string, object> hard;
 
-        [DataMember(Name = "data")]
-        public string Data;
+        [JsonProperty("impossible")]
+        public Dictionary<string, object> impossible;
 
-        public DifficultyInfo(string role, string difficulty, string data)
+        [JsonProperty("normal")]
+        public Dictionary<string, object> normal;
+
+        public Dictionary<string, object> GetDifficultyString(string difficulty)
         {
-            Role = role;
-            Difficulty = difficulty;
-            Data = data;
+            // Find the field using reflection
+            FieldInfo fieldInfo = typeof(DifficultyInfo).GetField(difficulty, BindingFlags.Public | BindingFlags.Instance);
+
+            if (fieldInfo == null)
+            {
+                throw new ArgumentException($"Difficulty '{difficulty}' does not exist in DifficultyInfo.");
+            }
+
+            return (Dictionary<string, object>) fieldInfo.GetValue(this);
         }
     }
 }
