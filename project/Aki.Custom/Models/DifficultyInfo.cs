@@ -2,10 +2,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace Aki.Custom.Models
 {
+    [Serializable]
     public struct DifficultyInfo
     {
         [JsonProperty("easy")]
