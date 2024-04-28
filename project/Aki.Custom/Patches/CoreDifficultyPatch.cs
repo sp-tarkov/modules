@@ -20,8 +20,8 @@ namespace Aki.Custom.Patches
 		[PatchPrefix]
 		private static bool PatchPrefix(ref string __result)
 		{
-			// core difficulty is requested before the others
-			// so update the others now!
+			// fetch all bot difficulties to be used in BotDifficultyPatch
+			// this is called here since core difficulties are fetched before bot-specific difficulties are
 			DifficultyManager.Update();
 
 			// update core difficulty

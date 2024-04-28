@@ -1,24 +1,43 @@
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Aki.Custom.Models
 {
-    [DataContract]
+    [Serializable]
     public struct DifficultyInfo
     {
-        [DataMember(Name = "role")]
-        public string Role;
-
-        [DataMember(Name = "difficulty")]
-        public string Difficulty;
-
-        [DataMember(Name = "data")]
-        public string Data;
-
-        public DifficultyInfo(string role, string difficulty, string data)
+        public Dictionary<string, object> this[string key]
         {
-            Role = role;
-            Difficulty = difficulty;
-            Data = data;
+            get
+            {
+                switch (key)
+                {
+                    case "easy":
+                        return easy;
+                    case "hard":
+                        return hard;
+                    case "impossible":
+                        return impossible;
+                    case "normal":
+                        return normal;
+                    default:
+                        throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo.");
+                }
+            }
         }
+
+        [JsonProperty("easy")]
+        public Dictionary<string, object> easy;
+
+        [JsonProperty("hard")]
+        public Dictionary<string, object> hard;
+
+        [JsonProperty("impossible")]
+        public Dictionary<string, object> impossible;
+
+        [JsonProperty("normal")]
+        public Dictionary<string, object> normal;
     }
 }

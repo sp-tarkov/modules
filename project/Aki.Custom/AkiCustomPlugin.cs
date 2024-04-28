@@ -77,6 +77,7 @@ namespace Aki.Custom
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
                 new ClampRagdollPatch().Enable();
+                new DisablePvEPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }

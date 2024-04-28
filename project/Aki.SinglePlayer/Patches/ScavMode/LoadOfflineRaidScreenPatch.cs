@@ -46,7 +46,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_70));
         }
 
         [PatchTranspiler]
