@@ -28,7 +28,7 @@ namespace Aki.Custom.Utils
         public static string Get(BotDifficulty botDifficulty, WildSpawnType role)
         {
             var difficultyMatrix = Difficulties[role.ToString().ToLower()];
-            return Json.Serialize(difficultyMatrix.GetDifficultyString(botDifficulty.ToString().ToLower()));
+            return Json.Serialize(difficultyMatrix[botDifficulty.ToString().ToLower()]);
         }
     }
 }

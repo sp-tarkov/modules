@@ -8,6 +8,26 @@ namespace Aki.Custom.Models
     [Serializable]
     public struct DifficultyInfo
     {
+        public Dictionary<string, object> this[string key]
+        {
+            get
+            {
+                switch (key)
+                {
+                    case "easy":
+                        return easy;
+                    case "hard":
+                        return hard;
+                    case "impossible":
+                        return impossible;
+                    case "normal":
+                        return normal;
+                    default:
+                        throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo.");
+                }
+            }
+        }
+
         [JsonProperty("easy")]
         public Dictionary<string, object> easy;
 
@@ -19,18 +39,5 @@ namespace Aki.Custom.Models
 
         [JsonProperty("normal")]
         public Dictionary<string, object> normal;
-
-        public Dictionary<string, object> GetDifficultyString(string difficulty)
-        {
-            // Find the field using reflection
-            FieldInfo fieldInfo = typeof(DifficultyInfo).GetField(difficulty, BindingFlags.Public | BindingFlags.Instance);
-
-            if (fieldInfo == null)
-            {
-                throw new ArgumentException($"Difficulty '{difficulty}' does not exist in DifficultyInfo.");
-            }
-
-            return (Dictionary<string, object>) fieldInfo.GetValue(this);
-        }
     }
 }
