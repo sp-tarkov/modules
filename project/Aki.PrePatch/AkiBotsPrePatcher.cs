@@ -18,17 +18,7 @@ namespace Aki.PrePatch
 
         public static void Patch(ref AssemblyDefinition assembly)
         {
-            // Make sure the user hasn't deleted the SPT plugins folder
-            string assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string sptPluginPath = Path.GetFullPath(Path.Combine(assemblyFolder, "..", _sptPluginFolder));
-            if (!ValidateSpt(sptPluginPath))
-            {
-                string message = $"'{sptPluginPath}' or required plugin files not found.\n\n" +
-                    "Please re-install SPT. Exiting.";
-                MessageBoxHelper.Show(message, "[SPT-AKI] Missing Core Files", MessageBoxHelper.MessageBoxType.OK);
-                Environment.Exit(0);
-                return;
-            }
+            PerformPreValidation();
 
             var botEnums = assembly.MainModule.GetType("EFT.WildSpawnType");
 
@@ -46,14 +36,52 @@ namespace Aki.PrePatch
             botEnums.Fields.Add(sptBear);
         }
 
-        private static bool ValidateSpt(string sptPluginPath)
+        private static void PerformPreValidation()
         {
+            // Check if the launcher was used
+            bool launcherUsed = ValidateLauncherUse(out string launcherError);
+
+            // Check that all the expected plugins are in the BepInEx/Plugins/spt/ folder
+            string assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string sptPluginPath = Path.GetFullPath(Path.Combine(assemblyFolder, "..", _sptPluginFolder));
+            bool pluginsValidated = ValidateSptPlugins(sptPluginPath, out string pluginErrorMessage);
+
+            // If either the launcher wasn't used, or the plugins weren't found, exit
+            if (!launcherUsed || !pluginsValidated)
+            {
+                string errorTitle = (!launcherUsed) ? "Startup Error" : "Missing Core Files";
+                string errorMessage = (!launcherUsed) ? launcherError : pluginErrorMessage;
+                MessageBoxHelper.Show(errorMessage, $"[SPT-AKI] {errorTitle}", MessageBoxHelper.MessageBoxType.OK);
+                Environment.Exit(0);
+                return;
+            }
+        }
+
+        private static bool ValidateLauncherUse(out string message)
+        {
+            // Validate that parameters were passed to EscapeFromTarkov.exe, to verify the
+            // player used the SPT Launcher to start the process
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                message = "";
+                return true;
+            }
+
+            message = "Please start SPT-AKI using Aki.Launcher.exe. Exiting.";
+            return false;
+        }
+
+        private static bool ValidateSptPlugins(string sptPluginPath, out string message)
+        {
+            string exitMessage = "\n\nPlease re-install SPT. Exiting.";
             ManualLogSource logger = Logger.CreateLogSource(nameof(AkiBotsPrePatcher));
 
             // Validate that the SPT plugin path exists
             if (!Directory.Exists(sptPluginPath))
             {
-                logger.LogError($"'{sptPluginPath}' directory not found");
+                message = $"'{sptPluginPath}' directory not found{exitMessage}";
+                logger.LogError(message);
                 return false;
             }
 
@@ -65,10 +93,13 @@ namespace Aki.PrePatch
             {
                 if (!foundPlugins.Contains(plugin))
                 {
+                    message = $"Required SPT plugins missing from '{sptPluginPath}'{exitMessage}";
+                    logger.LogError(message);
                     return false;
                 }
             }
 
+            message = "";
             return true;
         }
     }
