@@ -11,12 +11,12 @@ namespace Aki.Common.Http
     //       application.
     public class Client : IDisposable
     {
-        protected HttpClient _httpv;
-        protected string _addres;
-        protected string _accountId;
-        protected int _retries;
+        protected readonly HttpClient _httpv;
+        protected readonly string _addres;
+        protected readonly string _accountId;
+        protected readonly int _retries;
 
-        public Client(string address, string accountId = "", int retries = 3)
+        public Client(string address, string accountId, int retries = 3)
         {
             _addres = address;
             _accountId = accountId;
@@ -31,7 +31,7 @@ namespace Aki.Common.Http
             _httpv = new HttpClient(handler);
         }
 
-        protected HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+        private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
         {
             return new HttpRequestMessage()
             {
