@@ -72,29 +72,40 @@ namespace Aki.SinglePlayer.Patches.ScavMode
              *   16	002A	call        instance void MainMenuController::method_44()
              *   17	002F	ret
              *
-             *   The goal is to replace the call to method_44 at 002A with our own LoadOfflineRaidScreenForScav function.
-             *   To achieve this we first find the matching call instruction and replace it with the
-             *   call instruction code pointing to our target function.
-             *   Then we delete the ldarg.0 at 0029 which is the "this" argument passed to method_44.
-             *   This achieves two things. First we don't need the ldarg.0 as our own function is static
-             *   and won't consume anything from the stack and second the brfalse.s will still point to
-             *   this same instruction offset where our call instruction now is.
+             *   The goal is to replace the call to method_44 with our own LoadOfflineRaidScreenForScav function.
+             *   method_44 expects one argument which is the implicit "this" pointer.
+             *   The ldarg.0 instruction loads "this" onto the stack and the function call will consume it.
+             *   But because our own LoadOfflineRaidScreenForScav method is static
+             *   it won't consume a "this" pointer from the stack, so we have to remove the ldarg.0 instruction.
+             *   But the brfalse instruction at 0020 jumps to the ldarg.0, so we can not simply delete it.
+             *   Instead, we first need to transfer the jump label from the ldarg.0 instruction to our new
+             *   call instruction and only then we remove it.
              */
             var codes = new List<CodeInstruction>(instructions);
             var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name);
 
-            var callIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
-                                                        && code.operand == onReadyScreenMethodOperand);
+            var callCodeIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
+                                                        && (MethodInfo)code.operand == onReadyScreenMethodOperand);
 
-            if (callIndex == -1)
+            if (callCodeIndex == -1)
             {
                 throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find {nameof(_onReadyScreenMethod)} reference code.");
             }
 
-            var newCallCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav)));
-            codes[callIndex] = newCallCode;
+            var loadThisIndex = callCodeIndex - 1;
+            if (codes[loadThisIndex].opcode != OpCodes.Ldarg_0)
+            {
+                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Expected ldarg.0 before call instruction but found {codes[loadThisIndex]}");
+            }
 
-            codes.RemoveAt(callIndex - 1);
+            // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
+            codes[callCodeIndex] = new CodeInstruction(OpCodes.Call, 
+                AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) {
+                labels = codes[loadThisIndex].labels
+            };
+
+            // Remove the ldarg.0 instruction which we no longer need because LoadOfflineRaidScreenForScav is static
+            codes.RemoveAt(loadThisIndex);
 
             return codes.AsEnumerable();
         }
