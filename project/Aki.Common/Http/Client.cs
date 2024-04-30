@@ -43,7 +43,7 @@ namespace Aki.Common.Http
             };
         }
 
-        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
+        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool compress = true)
         {
             HttpResponseMessage response = null;
 
@@ -52,7 +52,7 @@ namespace Aki.Common.Http
                 if (data != null)
                 {
                     // add payload to request
-                    if (zipped)
+                    if (compress)
                     {
                         data = Zlib.Compress(data, ZlibCompression.Maximum);
                     }
@@ -95,7 +95,7 @@ namespace Aki.Common.Http
             }
         }
 
-        protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
+        protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
         {
             var error = new Exception("Internal error");
 
@@ -104,7 +104,7 @@ namespace Aki.Common.Http
             {
                 try
                 {
-                    return await SendAsync(method, path, data, zipped);
+                    return await SendAsync(method, path, data, compress);
                 }
                 catch (Exception ex)
                 {
@@ -125,26 +125,26 @@ namespace Aki.Common.Http
             return Task.Run(() => GetAsync(path)).Result;
         }
 
-        public async Task<byte[]> PostAsync(string path, byte[] data, bool zipped = true)
+        public async Task<byte[]> PostAsync(string path, byte[] data, bool compress = true)
         {
-            return await SendWithRetriesAsync(HttpMethod.Post, path, data, zipped);
+            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
         }
 
-        public byte[] Post(string path, byte[] data, bool zipped = true)
+        public byte[] Post(string path, byte[] data, bool compress = true)
         {
-            return Task.Run(() => PostAsync(path, data, zipped)).Result;
-        }
-
-        // NOTE: returns status code as bytes
-        public async Task<byte[]> PutAsync(string path, byte[] data, bool zipped = true)
-        {
-            return await SendWithRetriesAsync(HttpMethod.Post, path, data, zipped);
+            return Task.Run(() => PostAsync(path, data, compress)).Result;
         }
 
         // NOTE: returns status code as bytes
-        public byte[] Put(string path, byte[] data, bool zipped = true)
+        public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
         {
-            return Task.Run(() => PutAsync(path, data, zipped)).Result;
+            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
+        }
+
+        // NOTE: returns status code as bytes
+        public byte[] Put(string path, byte[] data, bool compress = true)
+        {
+            return Task.Run(() => PutAsync(path, data, compress)).Result;
         }
 
         public void Dispose()
