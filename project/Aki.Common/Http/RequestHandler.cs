@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using BepInEx.Logging;
@@ -128,5 +129,89 @@ namespace Aki.Common.Http
         {
             return Task.Run(() => PutJsonAsync(path, json)).Result;
         }
+
+#region DEPRECATED, REMOVE IN 3.8.1
+        [Obsolete("GetData(path, isHost) is deprecated, please use GetData(path) instead.")]
+        public static byte[] GetData(string path, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request GET data: {SessionId}:{url}");
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "GET", null, headers: headers);
+
+            ValidateData(url, data);
+            return data;
+
+        }
+
+        [Obsolete("GetJson(path, isHost) is deprecated, please use GetJson(path) instead.")]
+        public static string GetJson(string path, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request GET json: {SessionId}:{url}");
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "GET", headers: headers);
+            var body = Encoding.UTF8.GetString(data);
+
+            ValidateJson(url, body);
+            return body;
+
+        }
+
+        [Obsolete("PostJson(path, json, isHost) is deprecated, please use PostJson(path, json) instead.")]
+        public static string PostJson(string path, string json, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request POST json: {SessionId}:{url}");
+
+            var payload = Encoding.UTF8.GetBytes(json);
+            var mime = WebConstants.Mime[".json"];
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            var data = request.Send(url, "POST", payload, true, mime, headers);
+            var body = Encoding.UTF8.GetString(data);
+
+            ValidateJson(url, body);
+            return body;
+
+        }
+
+        [Obsolete("PutJson(path, json, isHost) is deprecated, please use PutJson(path, json) instead.")]
+        public static void PutJson(string path, string json, bool hasHost)
+        {
+            var url = (hasHost) ? path : Host + path;
+            _logger.LogInfo($"Request PUT json: {SessionId}:{url}");
+
+            var payload = Encoding.UTF8.GetBytes(json);
+            var mime = WebConstants.Mime[".json"];
+            var headers = new Dictionary<string, string>()
+            {
+                { "Cookie", $"PHPSESSID={SessionId}" },
+                { "SessionId", SessionId }
+            };
+
+            var request = new Request();
+            request.Send(url, "PUT", payload, true, mime, headers);
+        }
+#endregion
     }
 }
