@@ -52,59 +52,49 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         [PatchTranspiler]
         private static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
         {
+            /* The original msil looks something like this:
+             *   0	0000	ldarg.0
+             *   1	0001	call        instance void MainMenuController::method_69()
+             *   2	0006	ldarg.0
+             *   3	0007	call        instance void MainMenuController::method_41()
+             *   4	000C	ldarg.0
+             *   5	000D	call        instance bool MainMenuController::method_46()
+             *   6	0012	brtrue.s    8 (0015) ldarg.0 
+             *   7	0014	ret
+             *   8	0015	ldarg.0
+             *   9	0016	ldfld       class EFT.RaidSettings MainMenuController::raidSettings_0
+             *   10	001B	callvirt    instance bool EFT.RaidSettings::get_IsPmc()
+             *   11	0020	brfalse.s   15 (0029) ldarg.0 
+             *   12	0022	ldarg.0
+             *   13	0023	call        instance void MainMenuController::method_42()
+             *   14	0028	ret
+             *   15	0029	ldarg.0
+             *   16	002A	call        instance void MainMenuController::method_44()
+             *   17	002F	ret
+             *
+             *   The goal is to replace the call to method_44 at 002A with our own LoadOfflineRaidScreenForScav function.
+             *   To achieve this we first find the matching call instruction and replace it with the
+             *   call instruction code pointing to our target function.
+             *   Then we delete the ldarg.0 at 0029 which is the "this" argument passed to method_44.
+             *   This achieves two things. First we don't need the ldarg.0 as our own function is static
+             *   and won't consume anything from the stack and second the brfalse.s will still point to
+             *   this same instruction offset where our call instruction now is.
+             */
             var codes = new List<CodeInstruction>(instructions);
+            var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name);
 
-            // The original method call that we want to replace
-            var onReadyScreenMethodIndex = -1;
-            var onReadyScreenMethodCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name));
+            var callIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
+                                                        && code.operand == onReadyScreenMethodOperand);
 
-            // We additionally need to replace an instruction that jumps to a label on certain conditions, since we change the jump target instruction
-            var jumpWhenFalse_Index = -1;
-
-            for (var i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode == onReadyScreenMethodCode.opcode && codes[i].operand == onReadyScreenMethodCode.operand)
-                {
-                    onReadyScreenMethodIndex = i;
-                    continue;
-                }
-
-                if (codes[i].opcode == OpCodes.Brfalse)
-                {
-                    if (jumpWhenFalse_Index != -1)
-                    {
-                        // If this warning is ever logged, the condition for locating the exact brfalse instruction will have to be updated
-                        Logger.LogWarning($"[{nameof(LoadOfflineRaidScreenPatch)}] Found extra instructions with the brfalse opcode! " +
-                                          "This breaks an old assumption that there is only one such instruction in the method body and is now very likely to cause bugs!");
-                    }
-                    jumpWhenFalse_Index = i;
-                }
-            }
-
-            if (onReadyScreenMethodIndex == -1)
+            if (callIndex == -1)
             {
                 throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find {nameof(_onReadyScreenMethod)} reference code.");
             }
 
-            if (jumpWhenFalse_Index == -1)
-            {
-                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find jump (brfalse) reference code.");
-            }
+            var newCallCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav)));
+            codes[callIndex] = newCallCode;
 
-            // Define the new jump label
-            var brFalseLabel = generator.DefineLabel();
-
-            // We build the method call for our substituted method and replace the initial method call with our own, also adding our new label
-            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel } };
-            codes[onReadyScreenMethodIndex] = callCode;
-
-            // We build a new brfalse instruction and give it our new label, then replace the original brfalse instruction
-            var newBrFalseCode = new CodeInstruction(OpCodes.Brfalse, brFalseLabel);
-            codes[jumpWhenFalse_Index] = newBrFalseCode;
-
-            // This will remove a stray ldarg.0 instruction. It's only needed if we wanted to reference something from `this` in the method body.
-            // This is done last to ensure that previous instruction indexes don't shift around (probably why this used to just turn it into a Nop OpCode)
-            codes.RemoveAt(onReadyScreenMethodIndex - 1);
+            codes.RemoveAt(callIndex - 1);
 
             return codes.AsEnumerable();
         }
