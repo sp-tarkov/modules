@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Aki.Common.Utils
 {
@@ -98,6 +99,22 @@ namespace Aki.Common.Utils
         }
 
         /// <summary>
+        /// Get file content as bytes.
+        /// </summary>
+        public static async Task<byte[]> ReadFileAsync(string filepath)
+        {
+            byte[] result;
+
+            using (FileStream stream = File.Open(filepath, FileMode.Open))
+            {
+                result = new byte[stream.Length];
+                await stream.ReadAsync(result, 0, (int)stream.Length);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Get file content as string.
         /// </summary>
         public static string ReadTextFile(string filepath)
@@ -116,6 +133,22 @@ namespace Aki.Common.Utils
             }
 
             File.WriteAllBytes(filepath, data);
+        }
+
+        /// <summary>
+        /// Write data to file.
+        /// </summary>
+        public static async Task WriteFileAsync(string filepath, byte[] data)
+        {
+            if (!Exists(filepath))
+            {
+                CreateDirectory(filepath.GetDirectory());
+            }
+
+            using (FileStream stream = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                await stream.WriteAsync(data, 0, data.Length);
+            }
         }
 
         /// <summary>

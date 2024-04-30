@@ -68,6 +68,12 @@ namespace Aki.Custom.Patches
                 ? await GetManifestJson(jsonfile)
                 : await GetManifestBundle(filepath);
 
+            // lazy-initialize aki bundles
+            if (BundleManager.Bundles.Keys.Count == 0)
+            {
+                await BundleManager.GetBundles();
+            }
+
             // create bundles array from obfuscated type
             var bundleNames = manifest.GetAllAssetBundles()
                 .Union(BundleManager.Bundles.Keys)
