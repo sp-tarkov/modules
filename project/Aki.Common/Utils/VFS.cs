@@ -105,10 +105,10 @@ namespace Aki.Common.Utils
         {
             byte[] result;
 
-            using (FileStream stream = File.Open(filepath, FileMode.Open))
+            using (var fs = File.Open(filepath, FileMode.Open))
             {
-                result = new byte[stream.Length];
-                await stream.ReadAsync(result, 0, (int)stream.Length);
+                result = new byte[fs.Length];
+                await fs.ReadAsync(result, 0, (int)fs.Length);
             }
 
             return result;
@@ -120,6 +120,20 @@ namespace Aki.Common.Utils
         public static string ReadTextFile(string filepath)
         {
             return File.ReadAllText(filepath);
+        }
+
+        /// <summary>
+        /// Get file content as string.
+        /// </summary>
+        public static async Task<string> ReadTextFileAsync(string filepath)
+        {
+            using (var fs = File.Open(filepath, FileMode.Open))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    return await sr.ReadToEndAsync();
+                }
+            }
         }
 
         /// <summary>
