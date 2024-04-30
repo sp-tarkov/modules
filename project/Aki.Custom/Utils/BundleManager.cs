@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using BepInEx.Logging;
 using Newtonsoft.Json;
@@ -11,13 +11,13 @@ namespace Aki.Custom.Utils
     public static class BundleManager
     {
         private static readonly ManualLogSource _logger;
-        public static readonly Dictionary<string, BundleItem> Bundles;
+        public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
         public static string CachePath;
 
         static BundleManager()
         {
             _logger = Logger.CreateLogSource(nameof(BundleManager));
-            Bundles = new Dictionary<string, BundleItem>();
+            Bundles = new ConcurrentDictionary<string, BundleItem>();
             CachePath = "user/cache/bundles/";
         }
 
@@ -35,11 +35,11 @@ namespace Aki.Custom.Utils
             var bundles = JsonConvert.DeserializeObject<BundleItem[]>(json);
 
             // register bundles
-            var toDownload = new List<BundleItem>();
+            var toDownload = new ConcurrentBag<BundleItem>();
 
             foreach (var bundle in bundles)
             {
-                Bundles.Add(bundle.FileName, bundle);
+                Bundles.TryAdd(bundle.FileName, bundle);
 
                 if (await ShouldReaquire(bundle))
                 {
