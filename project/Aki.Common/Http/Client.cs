@@ -12,13 +12,13 @@ namespace Aki.Common.Http
     public class Client : IDisposable
     {
         protected readonly HttpClient _httpv;
-        protected readonly string _addres;
+        protected readonly string _address;
         protected readonly string _accountId;
         protected readonly int _retries;
 
         public Client(string address, string accountId, int retries = 3)
         {
-            _addres = address;
+            _address = address;
             _accountId = accountId;
             _retries = retries;
 
@@ -36,7 +36,7 @@ namespace Aki.Common.Http
             return new HttpRequestMessage()
             {
                 Method = method,
-                RequestUri = new Uri(_addres + path),
+                RequestUri = new Uri(_address + path),
                 Headers = {
                     { "Cookie", $"PHPSESSID={_accountId}" }
                 }
