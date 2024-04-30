@@ -7,20 +7,20 @@ using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
-    // NOTE: you do not want to dispose this, keep a reference for the lifetime
-    //       of the application.
+    // NOTE: Don't dispose this, keep a reference for the lifetime of the
+    //       application.
     public class Client : IDisposable
     {
-        protected HttpClient Httpv;
-        protected string Address;
-        protected string Cookie;
-        protected int Retries;
+        protected HttpClient _httpv;
+        protected string _addres;
+        protected string _accountId;
+        protected int _retries;
 
-        public Client(string address, string sessionId = "", int retries = 3)
+        public Client(string address, string accountId = "", int retries = 3)
         {
-            Address = address;
-            Cookie = $"PHPSESSID={sessionId}";
-            Retries = retries;
+            _addres = address;
+            _accountId = accountId;
+            _retries = retries;
 
             var handler = new HttpClientHandler
             {
@@ -28,7 +28,7 @@ namespace Aki.Common.Http
                 UseCookies = false
             };
 
-            Httpv = new HttpClient(handler);
+            _httpv = new HttpClient(handler);
         }
 
         protected HttpRequestMessage GetNewRequest(HttpMethod method, string path)
@@ -36,14 +36,14 @@ namespace Aki.Common.Http
             return new HttpRequestMessage()
             {
                 Method = method,
-                RequestUri = new Uri(Address + path),
+                RequestUri = new Uri(_addres + path),
                 Headers = {
-                    { "Cookie", Cookie }
+                    { "Cookie", $"PHPSESSID={_accountId}" }
                 }
             };
         }
 
-        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool compress = true)
+        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
         {
             HttpResponseMessage response = null;
 
@@ -52,7 +52,7 @@ namespace Aki.Common.Http
                 if (data != null)
                 {
                     // add payload to request
-                    if (compress)
+                    if (zipped)
                     {
                         data = Zlib.Compress(data, ZlibCompression.Maximum);
                     }
@@ -61,7 +61,7 @@ namespace Aki.Common.Http
                 }
 
                 // send request
-                response = await Httpv.SendAsync(request);
+                response = await _httpv.SendAsync(request);
             }
 
             if (!response.IsSuccessStatusCode)
@@ -100,7 +100,7 @@ namespace Aki.Common.Http
             var error = new Exception("Internal error");
 
             // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
-            for (var i = 0; i <= Retries; ++i)
+            for (var i = 0; i <= _retries; ++i)
             {
                 try
                 {
@@ -149,7 +149,7 @@ namespace Aki.Common.Http
 
         public void Dispose()
         {
-            Httpv.Dispose();
+            _httpv.Dispose();
         }
     }
 }
