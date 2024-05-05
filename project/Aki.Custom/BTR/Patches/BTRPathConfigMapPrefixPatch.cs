@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using Comfort.Common;
@@ -43,18 +42,11 @@ namespace Aki.Custom.BTR.Patches
                 {
                     // destinationID is in the form of "Map/pX", strip the "Map/" part.
                     destinationID = destinationID.Replace(locationIdSlash, "");
-
-                    // dirty regex sanity check to make sure our new destination id is in the form of pX, where X can be one or two digits ("p3" or "p10" for example).
-                    if (!Regex.IsMatch(destinationID, @"^p\d{1,2}$"))
-                    {
-                        throw new FormatException($"[AKI-BTR] {nameof(BTRPathConfigMapPrefixPatch)}: destinationID '{destinationID}' is not in the correct format.");
-                    }
                 }
             }
             catch (Exception)
             {
-                ConsoleScreen.LogError("[AKI-BTR] Exception thrown, check logs.");
-                throw;
+                ConsoleScreen.LogError($"[AKI-BTR] Exception in {nameof(BTRPathConfigMapPrefixPatch)}, check logs.");
             }
         }
     }
