@@ -72,6 +72,7 @@ namespace Aki.Custom
                 new BTREndRaidItemDeliveryPatch().Enable();
                 new BTRDestroyAtRaidEndPatch().Enable();
                 new BTRVehicleMovementSpeedPatch().Enable();
+                new BTRPathConfigMapPrefixPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
