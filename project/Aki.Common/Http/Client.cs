@@ -3,15 +3,12 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Aki.Common.Http;
 using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
-    // NOTE: You do not want to dispose this, keep a reference for the lifetime
-    //       of the application.
-    // NOTE: There are many places within unity that do not support the Async
-    //       methods, use with causion.
+    // NOTE: Don't dispose this, keep a reference for the lifetime of the
+    //       application.
     public class Client : IDisposable
     {
         protected readonly HttpClient _httpv;
@@ -25,16 +22,16 @@ namespace Aki.Common.Http
             _accountId = accountId;
             _retries = retries;
 
-            var handler = new HttpClientHandler()
+            var handler = new HttpClientHandler
             {
-                // force setting cookies in header instead of CookieContainer
+                // set cookies in header instead
                 UseCookies = false
             };
 
             _httpv = new HttpClient(handler);
         }
 
-        protected HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+        private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
         {
             return new HttpRequestMessage()
             {
@@ -46,7 +43,7 @@ namespace Aki.Common.Http
             };
         }
 
-        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool compress = true)
+        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
         {
             HttpResponseMessage response = null;
 
@@ -54,12 +51,12 @@ namespace Aki.Common.Http
             {
                 if (data != null)
                 {
-                    if (compress)
+                    // add payload to request
+                    if (zipped)
                     {
                         data = Zlib.Compress(data, ZlibCompression.Maximum);
                     }
 
-                    // add payload to request
                     request.Content = new ByteArrayContent(data);
                 }
 

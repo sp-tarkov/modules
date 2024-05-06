@@ -21,7 +21,6 @@ namespace Aki.Custom
             try
             {
                 // Bundle patches should always load first
-                BundleManager.GetBundles();
                 new EasyAssetsPatch().Enable();
                 new EasyBundlePatch().Enable();
 

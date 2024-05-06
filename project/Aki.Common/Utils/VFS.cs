@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Aki.Common.Utils
 {
@@ -98,11 +99,41 @@ namespace Aki.Common.Utils
         }
 
         /// <summary>
+        /// Get file content as bytes.
+        /// </summary>
+        public static async Task<byte[]> ReadFileAsync(string filepath)
+        {
+            byte[] result;
+
+            using (var fs = File.Open(filepath, FileMode.Open))
+            {
+                result = new byte[fs.Length];
+                await fs.ReadAsync(result, 0, (int)fs.Length);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Get file content as string.
         /// </summary>
         public static string ReadTextFile(string filepath)
         {
             return File.ReadAllText(filepath);
+        }
+
+        /// <summary>
+        /// Get file content as string.
+        /// </summary>
+        public static async Task<string> ReadTextFileAsync(string filepath)
+        {
+            using (var fs = File.Open(filepath, FileMode.Open))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    return await sr.ReadToEndAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -116,6 +147,22 @@ namespace Aki.Common.Utils
             }
 
             File.WriteAllBytes(filepath, data);
+        }
+
+        /// <summary>
+        /// Write data to file.
+        /// </summary>
+        public static async Task WriteFileAsync(string filepath, byte[] data)
+        {
+            if (!Exists(filepath))
+            {
+                CreateDirectory(filepath.GetDirectory());
+            }
+
+            using (FileStream stream = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                await stream.WriteAsync(data, 0, data.Length);
+            }
         }
 
         /// <summary>
