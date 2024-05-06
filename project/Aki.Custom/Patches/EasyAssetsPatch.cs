@@ -68,6 +68,12 @@ namespace Aki.Custom.Patches
                 ? await GetManifestJson(jsonfile)
                 : await GetManifestBundle(filepath);
 
+            // lazy-initialize aki bundles
+            if (BundleManager.Bundles.Keys.Count == 0)
+            {
+                await BundleManager.GetBundles();
+            }
+
             // create bundles array from obfuscated type
             var bundleNames = manifest.GetAllAssetBundles()
                 .Union(BundleManager.Bundles.Keys)
@@ -122,7 +128,7 @@ namespace Aki.Custom.Patches
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestJson(string filepath)
         {
-            var text = VFS.ReadTextFile(filepath);
+            var text = await VFS.ReadTextFileAsync(filepath);
 
             /* we cannot parse directly as <string, BundleDetails>, because...
                     [Error  : Unity Log] JsonSerializationException: Expected string when reading UnityEngine.Hash128 type, got 'StartObject' <>. Path '['assets/content/weapons/animations/simple_animations.bundle'].Hash', line 1, position 176.

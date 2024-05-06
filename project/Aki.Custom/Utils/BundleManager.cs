@@ -10,7 +10,7 @@ namespace Aki.Custom.Utils
 {
     public static class BundleManager
     {
-        private static ManualLogSource _logger;
+        private static readonly ManualLogSource _logger;
         public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
         public static string CachePath;
 
@@ -28,7 +28,7 @@ namespace Aki.Custom.Utils
                 : CachePath + bundle.FileName;
         }
 
-        public static void GetBundles()
+        public static async Task GetBundles()
         {
             // get bundles
             var json = RequestHandler.GetJson("/singleplayer/bundles");
@@ -37,16 +37,16 @@ namespace Aki.Custom.Utils
             // register bundles
             var toDownload = new ConcurrentBag<BundleItem>();
 
-            Parallel.ForEach(bundles, (bundle) =>
+            foreach (var bundle in bundles)
             {
                 Bundles.TryAdd(bundle.FileName, bundle);
 
-                if (ShouldReaquire(bundle))
+                if (await ShouldReaquire(bundle))
                 {
                     // mark for download
                     toDownload.Add(bundle);
                 }
-            });
+            }
 
             if (RequestHandler.IsLocal)
             {
@@ -58,17 +58,17 @@ namespace Aki.Custom.Utils
             {
                 // download bundles
                 // NOTE: assumes bundle keys to be unique
-                Parallel.ForEach(toDownload, (bundle) =>
+                foreach (var bundle in toDownload)
                 {
                     // download bundle
                     var filepath = GetBundlePath(bundle);
-                    var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-                    VFS.WriteFile(filepath, data);
-                });
+                    var data = await RequestHandler.GetDataAsync($"/files/bundle/{bundle.FileName}");
+                    await VFS.WriteFileAsync(filepath, data);
+                }
             }
         }
 
-        private static bool ShouldReaquire(BundleItem bundle)
+        private static async Task<bool> ShouldReaquire(BundleItem bundle)
         {
             if (RequestHandler.IsLocal)
             {
@@ -82,7 +82,7 @@ namespace Aki.Custom.Utils
             if (VFS.Exists(filepath))
             {
                 // calculate hash
-                var data = VFS.ReadFile(filepath);
+                var data = await VFS.ReadFileAsync(filepath);
                 var crc = Crc32.Compute(data);
 
                 if (crc == bundle.Crc)
