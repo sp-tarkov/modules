@@ -1,12 +1,12 @@
 ﻿using System;
-using Aki.Reflection.Patching;
-using Diz.DependencyManager;
-using UnityEngine.Build.Pipeline;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Diz.DependencyManager;
+using UnityEngine.Build.Pipeline;
 using Aki.Custom.Models;
 using Aki.Custom.Utils;
+using Aki.Reflection.Patching;
 
 namespace Aki.Custom.Patches
 {
@@ -38,7 +38,7 @@ namespace Aki.Custom.Patches
                     : bundle.Dependencies;
 
                 // set path to either cache (HTTP) or mod (local)
-                filepath = BundleManager.GetBundlePath(bundle);
+                filepath = BundleManager.GetBundleFilePath(bundle);
             }
 
             _ = new EasyBundleHelper(__instance)
