@@ -1,21 +1,19 @@
-﻿using Aki.Reflection.Patching;
-using Diz.Jobs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using Diz.Resources;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Build.Pipeline;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Aki.Common.Utils;
 using Aki.Custom.Models;
 using Aki.Custom.Utils;
-using DependencyGraph = DependencyGraph<IEasyBundle>;
+using Aki.Reflection.Patching;
 using Aki.Reflection.Utils;
+using DependencyGraph = DependencyGraph<IEasyBundle>;
 
 namespace Aki.Custom.Patches
 {
@@ -38,40 +36,33 @@ namespace Aki.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EasyAssets).GetMethods(PatchConstants.PublicDeclaredFlags).SingleCustom(IsTargetMethod);
-        }
-
-        private static bool IsTargetMethod(MethodInfo mi)
-        {
-            var parameters = mi.GetParameters();
-            return (parameters.Length == 6
-                    && parameters[0].Name == "bundleLock"
-                    && parameters[1].Name == "defaultKey"
-                    && parameters[4].Name == "shouldExclude");
+            return typeof(EasyAssets).GetMethod(nameof(EasyAssets.Create));
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task __result, EasyAssets __instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
+        private static bool PatchPrefix(ref Task<EasyAssets> __result, GameObject gameObject, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
             string platformName, [CanBeNull] Func<string, bool> shouldExclude, [CanBeNull] Func<string, Task> bundleCheck)
         {
-            __result = Init(__instance, bundleLock, defaultKey, rootPath, platformName, shouldExclude, bundleCheck);
+            var easyAsset = gameObject.AddComponent<EasyAssets>();
+            __result = Init(easyAsset, bundleLock, defaultKey, rootPath, platformName, shouldExclude, bundleCheck);
+
             return false;
         }
 
-        private static async Task Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath, string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
+        private static async Task<EasyAssets> Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath, string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
         {
             // platform manifest
-            var path = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
-            var filepath = path + platformName;
+            var eftBundlesPath = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
+            var filepath = eftBundlesPath + platformName;
             var jsonfile = filepath + ".json";
-            var manifest = File.Exists(jsonfile)
+            var manifest = VFS.Exists(jsonfile)
                 ? await GetManifestJson(jsonfile)
                 : await GetManifestBundle(filepath);
 
             // lazy-initialize aki bundles
             if (BundleManager.Bundles.Keys.Count == 0)
             {
-                await BundleManager.GetBundles();
+                await BundleManager.DownloadManifest();
             }
 
             // create bundles array from obfuscated type
@@ -85,27 +76,43 @@ namespace Aki.Custom.Patches
                 bundleLock = new BundleLock(int.MaxValue);
             }
 
-            // create bundle of obfuscated type
             var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
 
             for (var i = 0; i < bundleNames.Length; i++)
             {
+                var key = bundleNames[i];
+                var path = eftBundlesPath;
+
+                // acquire external bundle
+                if (BundleManager.Bundles.TryGetValue(key, out var bundleInfo))
+                {
+                    // we need base path without file extension
+                    path = BundleManager.GetBundlePath(bundleInfo);
+
+                    // only download when connected externally
+                    if (await BundleManager.ShouldReaquire(bundleInfo))
+                    {
+                        await BundleManager.DownloadBundle(bundleInfo);
+                    }
+                }
+
+                // create bundle of obfuscated type
                 bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[]
                 {
-                    bundleNames[i],
+                    key,
                     path,
                     manifest,
                     bundleLock,
                     bundleCheck
                 });
-
-                await JobScheduler.Yield(EJobPriority.Immediate);
             }
 
             // create dependency graph
             instance.Manifest = manifest;
             _bundlesField.SetValue(instance, bundles);
             instance.System = new DependencyGraph(bundles, defaultKey, shouldExclude);
+
+            return instance;
         }
 
         // NOTE: used by:
