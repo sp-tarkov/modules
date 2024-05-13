@@ -10,85 +10,66 @@ namespace Aki.Custom.Utils
 {
     public static class BundleManager
     {
-        private static ManualLogSource _logger;
+        private const string CachePath = "user/cache/bundles/";
+        private static readonly ManualLogSource _logger;
         public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
-        public static string CachePath;
 
         static BundleManager()
         {
             _logger = Logger.CreateLogSource(nameof(BundleManager));
             Bundles = new ConcurrentDictionary<string, BundleItem>();
-            CachePath = "user/cache/bundles/";
         }
 
         public static string GetBundlePath(BundleItem bundle)
         {
             return RequestHandler.IsLocal
-                ? $"{bundle.ModPath}/bundles/{bundle.FileName}"
-                : CachePath + bundle.FileName;
+                ? $"{bundle.ModPath}/bundles/"
+                : CachePath;
         }
 
-        public static void GetBundles()
+        public static string GetBundleFilePath(BundleItem bundle)
+        {
+            return GetBundlePath(bundle) + bundle.FileName;
+        }
+
+        public static async Task DownloadManifest()
         {
             // get bundles
-            var json = RequestHandler.GetJson("/singleplayer/bundles");
+            var json = await RequestHandler.GetJsonAsync("/singleplayer/bundles");
             var bundles = JsonConvert.DeserializeObject<BundleItem[]>(json);
 
-            // register bundles
-            var toDownload = new ConcurrentBag<BundleItem>();
-
-            Parallel.ForEach(bundles, (bundle) =>
+            foreach (var bundle in bundles)
             {
                 Bundles.TryAdd(bundle.FileName, bundle);
-
-                if (ShouldReaquire(bundle))
-                {
-                    // mark for download
-                    toDownload.Add(bundle);
-                }
-            });
-
-            if (RequestHandler.IsLocal)
-            {
-                // loading from local mods
-                _logger.LogInfo("CACHE: Loading all bundles from mods on disk.");
-                return;
-            }
-            else
-            {
-                // download bundles
-                // NOTE: assumes bundle keys to be unique
-                Parallel.ForEach(toDownload, (bundle) =>
-                {
-                    // download bundle
-                    var filepath = GetBundlePath(bundle);
-                    var data = RequestHandler.GetData($"/files/bundle/{bundle.FileName}");
-                    VFS.WriteFile(filepath, data);
-                });
             }
         }
 
-        private static bool ShouldReaquire(BundleItem bundle)
+        public static async Task DownloadBundle(BundleItem bundle)
         {
-            if (RequestHandler.IsLocal)
-            {
-                // only handle remote bundles
-                return false;
-            }
+            var filepath = GetBundleFilePath(bundle);
+            var data = await RequestHandler.GetDataAsync($"/files/bundle/{bundle.FileName}");
+            await VFS.WriteFileAsync(filepath, data);
+        }
 
+        public static async Task<bool> ShouldReaquire(BundleItem bundle)
+        {
             // read cache
-            var filepath = CachePath + bundle.FileName;
+            var filepath = GetBundleFilePath(bundle);
 
             if (VFS.Exists(filepath))
             {
                 // calculate hash
-                var data = VFS.ReadFile(filepath);
+                var data = await VFS.ReadFileAsync(filepath);
                 var crc = Crc32.Compute(data);
 
                 if (crc == bundle.Crc)
                 {
                     // file is up-to-date
-                    _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
+                    var location = RequestHandler.IsLocal
+                        ? "MOD"
+                        : "CACHE";
+
+                    _logger.LogInfo($"{location}: Loading locally {bundle.FileName}");
                     return false;
                 }
                 else

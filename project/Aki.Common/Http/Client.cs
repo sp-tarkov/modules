@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using Aki.Common.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Aki.Common.Utils;
 
 namespace Aki.Common.Http
 {
-    // NOTE: you do not want to dispose this, keep a reference for the lifetime
-    //       of the application.
-    // NOTE: cannot be made async due to Unity's limitations.
+    // NOTE: Don't dispose this, keep a reference for the lifetime of the
+    //       application.
     public class Client : IDisposable
     {
         protected readonly HttpClient _httpv;
@@ -22,9 +22,9 @@ namespace Aki.Common.Http
             _accountId = accountId;
             _retries = retries;
 
-            var handler = new HttpClientHandler()
+            var handler = new HttpClientHandler
             {
-                // force setting cookies in header instead of CookieContainer
+                // set cookies in header instead
                 UseCookies = false
             };
 
@@ -43,7 +43,7 @@ namespace Aki.Common.Http
             };
         }
 
-        protected byte[] Send(HttpMethod method, string path, byte[] data, bool compress = true)
+        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
         {
             HttpResponseMessage response = null;
 
@@ -51,17 +51,17 @@ namespace Aki.Common.Http
             {
                 if (data != null)
                 {
-                    // if there is data, convert to payload
-                    byte[] payload = (compress)
-                        ? Zlib.Compress(data, ZlibCompression.Maximum)
-                        : data;
-
                     // add payload to request
-                    request.Content = new ByteArrayContent(payload);
+                    if (zipped)
+                    {
+                        data = Zlib.Compress(data, ZlibCompression.Maximum);
+                    }
+
+                    request.Content = new ByteArrayContent(data);
                 }
 
                 // send request
-                response = _httpv.SendAsync(request).Result;
+                response = await _httpv.SendAsync(request);
             }
 
             if (!response.IsSuccessStatusCode)
@@ -72,85 +72,79 @@ namespace Aki.Common.Http
 
             using (var ms = new MemoryStream())
             {
-                using (var stream = response.Content.ReadAsStreamAsync().Result)
+                using (var stream = await response.Content.ReadAsStreamAsync())
                 {
                     // grap response payload
-                    stream.CopyTo(ms);
-                    var bytes = ms.ToArray();
+                    await stream.CopyToAsync(ms);
+                    var body = ms.ToArray();
 
-                    if (bytes != null)
+                    if (Zlib.IsCompressed(body))
                     {
-                        // payload contains data
-                        return Zlib.IsCompressed(bytes)
-                            ? Zlib.Decompress(bytes)
-                            : bytes;
+                        body = Zlib.Decompress(body);
                     }
+
+                    if (body == null)
+                    {
+                        // payload doesn't contains data
+                        var code = response.StatusCode.ToString();
+                        body = Encoding.UTF8.GetBytes(code);
+                    }
+
+                    return body;
+                }
+            }
+        }
+
+        protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
+        {
+            var error = new Exception("Internal error");
+
+            // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
+            for (var i = 0; i <= _retries; ++i)
+            {
+                try
+                {
+                    return await SendAsync(method, path, data, compress);
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
                 }
             }
 
-            // response returned no data
-            return null;
+            throw error;
+        }
+
+        public async Task<byte[]> GetAsync(string path)
+        {
+            return await SendWithRetriesAsync(HttpMethod.Get, path, null);
         }
 
         public byte[] Get(string path)
         {
-            var error = new Exception("Internal error");
-
-            // NOTE: <= is intentional, 0 is send, 1,2,3 is retry
-            for (var i = 0; i <= _retries; ++i)
-            {
-                try
-                {
-                    return Send(HttpMethod.Get, path, null, false);
-                }
-                catch (Exception ex)
-                {
-                    error = ex;
-                }
-            }
-
-            throw error;
+            return Task.Run(() => GetAsync(path)).Result;
         }
 
-        public byte[] Post(string path, byte[] data, bool compressed = true)
+        public async Task<byte[]> PostAsync(string path, byte[] data, bool compress = true)
         {
-            var error = new Exception("Internal error");
-
-            // NOTE: <= is intentional, 0 is send, 1,2,3 is retry
-            for (var i = 0; i <= _retries; ++i)
-            {
-                try
-                {
-                    return Send(HttpMethod.Post, path, data, compressed);
-                }
-                catch (Exception ex)
-                {
-                    error = ex;
-                }
-            }
-
-            throw error;
+            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
         }
 
-        public void Put(string path, byte[] data, bool compressed = true)
+        public byte[] Post(string path, byte[] data, bool compress = true)
         {
-            var error = new Exception("Internal error");
+            return Task.Run(() => PostAsync(path, data, compress)).Result;
+        }
 
-            // NOTE: <= is intentional, 0 is send, 1,2,3 is retry
-            for (var i = 0; i <= _retries; ++i)
-            {
-                try
-                {
-                    Send(HttpMethod.Put, path, data, compressed);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    error = ex;
-                }
-            }
+        // NOTE: returns status code as bytes
+        public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
+        {
+            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
+        }
 
-            throw error;
+        // NOTE: returns status code as bytes
+        public byte[] Put(string path, byte[] data, bool compress = true)
+        {
+            return Task.Run(() => PutAsync(path, data, compress)).Result;
         }
 
         public void Dispose()
