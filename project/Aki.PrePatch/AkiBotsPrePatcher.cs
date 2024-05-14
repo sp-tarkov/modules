@@ -16,8 +16,6 @@ namespace Aki.PrePatch
 
         private static string _sptPluginFolder = "plugins/spt";
 
-        private static string _sptPluginFolder = "plugins/spt";
-
         public static void Patch(ref AssemblyDefinition assembly)
         {
             PerformPreValidation();
