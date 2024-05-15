@@ -11,8 +11,8 @@ namespace Aki.PrePatch
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
 
-        public static int sptUsecValue = 51;
-        public static int sptBearValue = 52;
+        public static int sptUsecValue = 100;
+        public static int sptBearValue = 101;
 
         private static string _sptPluginFolder = "plugins/spt";
 
