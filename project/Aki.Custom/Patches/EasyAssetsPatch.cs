@@ -12,8 +12,8 @@ using Aki.Common.Utils;
 using Aki.Custom.Models;
 using Aki.Custom.Utils;
 using Aki.Reflection.Patching;
-using Aki.Reflection.Utils;
 using DependencyGraph = DependencyGraph<IEasyBundle>;
+using Aki.Reflection.Utils;
 
 namespace Aki.Custom.Patches
 {
@@ -23,7 +23,7 @@ namespace Aki.Custom.Patches
 
         static EasyAssetsPatch()
         {
-            _bundlesField = typeof(EasyAssets).GetField($"{EasyBundleHelper.Type.Name.ToLowerInvariant()}_0", PatchConstants.PrivateFlags);
+            _bundlesField = typeof(EasyAssets).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(field => field.FieldType == typeof(EasyAssetHelperClass[]));
         }
 
         public EasyAssetsPatch()
