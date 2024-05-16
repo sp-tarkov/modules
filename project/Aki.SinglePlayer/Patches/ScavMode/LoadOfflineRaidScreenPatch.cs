@@ -46,7 +46,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_70));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
         }
 
         [PatchTranspiler]
@@ -129,7 +129,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_74));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_75));
             gclass.ShowScreen(EScreenState.Queued);
         }
 
