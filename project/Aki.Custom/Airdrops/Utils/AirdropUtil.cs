@@ -69,7 +69,7 @@ namespace Aki.Custom.Airdrops.Utils
                         break;
                     }
                 default:
-                    Debug.LogError($"[AKI-AIRDROPS]: Map with name {playerLocation} not handled, defaulting spawn chance to 25%");
+                    Debug.LogError($"[SPT-AIRDROPS]: Map with name {playerLocation} not handled, defaulting spawn chance to 25%");
                     result = 25;
                     break;
             }
@@ -104,7 +104,7 @@ namespace Aki.Custom.Airdrops.Utils
 
             if (flareAirdropPoints.Count == 0 && isFlare)
             {
-                Debug.LogError($"[AKI-AIRDROPS]: Airdrop called in by flare, Unable to find an airdropPoint within {flareSpawnRadiusDistance}m, defaulting to normal drop");
+                Debug.LogError($"[SPT-AIRDROPS]: Airdrop called in by flare, Unable to find an airdropPoint within {flareSpawnRadiusDistance}m, defaulting to normal drop");
                 flareAirdropPoints.Add(allAirdropPoints.OrderBy(_ => Guid.NewGuid()).FirstOrDefault());
             }
 

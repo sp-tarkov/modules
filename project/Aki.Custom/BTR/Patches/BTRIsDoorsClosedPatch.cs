@@ -19,14 +19,14 @@ namespace Aki.Custom.BTR.Patches
             var gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
-                Logger.LogError("[AKI-BTR] BTRIsDoorsClosedPatch - GameWorld is null");
+                Logger.LogError("[SPT-BTR] BTRIsDoorsClosedPatch - GameWorld is null");
                 return true;
             }
 
             var serverSideBTR = gameWorld.BtrController.BtrVehicle;
             if (serverSideBTR == null)
             {
-                Logger.LogError("[AKI-BTR] BTRIsDoorsClosedPatch - serverSideBTR is null");
+                Logger.LogError("[SPT-BTR] BTRIsDoorsClosedPatch - serverSideBTR is null");
                 return true;
             }
 

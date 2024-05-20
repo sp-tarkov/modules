@@ -31,7 +31,7 @@ namespace Aki.Custom.Airdrops.Utils
             }
             else
             {
-                Debug.LogError($"[AKI-AIRDROPS]: unable to find template: {containerId}");
+                Debug.LogError($"[SPT-AIRDROPS]: unable to find template: {containerId}");
             }
         }
 

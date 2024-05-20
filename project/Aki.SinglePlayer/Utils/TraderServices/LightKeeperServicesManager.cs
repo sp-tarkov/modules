@@ -19,7 +19,7 @@ namespace Aki.SinglePlayer.Utils.TraderServices
             gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null || TraderServicesManager.Instance == null)
             {
-                logger.LogError("[AKI-LKS] GameWorld or TraderServices null");
+                logger.LogError("[SPT-LKS] GameWorld or TraderServices null");
                 Destroy(this);
                 return;
             }
@@ -27,7 +27,7 @@ namespace Aki.SinglePlayer.Utils.TraderServices
             botsController = Singleton<IBotGame>.Instance.BotsController;
             if (botsController == null)
             {
-                logger.LogError("[AKI-LKS] BotsController null");
+                logger.LogError("[SPT-LKS] BotsController null");
                 Destroy(this);
                 return;
             }

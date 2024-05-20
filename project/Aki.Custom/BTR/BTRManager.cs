@@ -72,7 +72,7 @@ namespace Aki.Custom.BTR
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR] Unable to spawn BTR. Check logs.");
+                ConsoleScreen.LogError("[SPT-BTR] Unable to spawn BTR. Check logs.");
                 Destroy(this);
                 throw;
             }
@@ -330,7 +330,7 @@ namespace Aki.Custom.BTR
             }
             catch
             {
-                ConsoleScreen.LogError($"[AKI-BTR] {nameof(lastInteractedBtrSide)} is null when it shouldn't be. Check logs.");
+                ConsoleScreen.LogError($"[SPT-BTR] {nameof(lastInteractedBtrSide)} is null when it shouldn't be. Check logs.");
                 throw;
             }
         }
@@ -488,13 +488,13 @@ namespace Aki.Custom.BTR
 
             if (btrClientSide != null)
             {
-                Debug.LogWarning($"[AKI-BTR] {nameof(BTRManager)} - Destroying btrClientSide");
+                Debug.LogWarning($"[SPT-BTR] {nameof(BTRManager)} - Destroying btrClientSide");
                 Destroy(btrClientSide.gameObject);
             }
 
             if (btrServerSide != null)
             {
-                Debug.LogWarning($"[AKI-BTR] {nameof(BTRManager)} - Destroying btrServerSide");
+                Debug.LogWarning($"[SPT-BTR] {nameof(BTRManager)} - Destroying btrServerSide");
                 Destroy(btrServerSide.gameObject);
             }
         }

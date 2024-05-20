@@ -26,7 +26,7 @@ namespace Aki.Custom.BTR.Patches
             var btrManager = gameWorld.GetComponent<BTRManager>();
             if (btrManager != null)
             {
-                Logger.LogWarning("[AKI-BTR] BTRDestroyAtRaidEndPatch - Raid Ended: Destroying BTRManager");
+                Logger.LogWarning("[SPT-BTR] BTRDestroyAtRaidEndPatch - Raid Ended: Destroying BTRManager");
                 Object.Destroy(btrManager);
             }
         }

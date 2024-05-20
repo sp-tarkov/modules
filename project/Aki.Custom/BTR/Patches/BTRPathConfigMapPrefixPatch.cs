@@ -46,7 +46,7 @@ namespace Aki.Custom.BTR.Patches
             }
             catch (Exception)
             {
-                ConsoleScreen.LogError($"[AKI-BTR] Exception in {nameof(BTRPathConfigMapPrefixPatch)}, check logs.");
+                ConsoleScreen.LogError($"[SPT-BTR] Exception in {nameof(BTRPathConfigMapPrefixPatch)}, check logs.");
             }
         }
     }
