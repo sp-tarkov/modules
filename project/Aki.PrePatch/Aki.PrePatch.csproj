@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-    <AssemblyName>aki-prepatch</AssemblyName>
+    <AssemblyName>spt-prepatch</AssemblyName>
 	<Configuration>Release</Configuration>
   </PropertyGroup>
 

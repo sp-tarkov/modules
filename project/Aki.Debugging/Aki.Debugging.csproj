@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net471</TargetFramework>
-    <AssemblyName>aki-debugging</AssemblyName>
+    <AssemblyName>spt-debugging</AssemblyName>
 	<Configuration>Release</Configuration>
   </PropertyGroup>
 

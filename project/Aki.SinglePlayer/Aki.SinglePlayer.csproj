@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net471</TargetFramework>
-    <AssemblyName>aki-singleplayer</AssemblyName>
+    <AssemblyName>spt-singleplayer</AssemblyName>
 	<Configuration>Release</Configuration>
   </PropertyGroup>
 

@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>net471</TargetFramework>
 	  <Configuration>Release</Configuration>
-    <AssemblyName>aki-reflection</AssemblyName>
+    <AssemblyName>spt-reflection</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>

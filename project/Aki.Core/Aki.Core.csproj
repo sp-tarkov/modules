@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net471</TargetFramework>
-    <AssemblyName>aki-core</AssemblyName>
+    <AssemblyName>spt-core</AssemblyName>
 	<Configuration>Release</Configuration>
   </PropertyGroup>
 

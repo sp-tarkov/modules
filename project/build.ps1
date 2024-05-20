@@ -16,13 +16,13 @@ foreach ($folder in $foldersToCreate) {
 }
 
 # Move DLLs from project's bin-release folder to the build folder
-Copy-Item "$projReleaseFolder\aki-common.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki-reflection.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki-prepatch.dll" -Destination "$bepinexPatchFolder"
-Copy-Item "$projReleaseFolder\aki-core.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki-custom.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki-debugging.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki-singleplayer.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-common.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-reflection.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-prepatch.dll" -Destination "$bepinexPatchFolder"
+Copy-Item "$projReleaseFolder\spt-core.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-custom.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-debugging.dll" -Destination "$bepinexSptFolder"
+Copy-Item "$projReleaseFolder\spt-singleplayer.dll" -Destination "$bepinexSptFolder"
 # If any new DLLs need to be copied, add here
 
 # Write the contents of the license file to a txt
