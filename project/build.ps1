@@ -18,7 +18,7 @@ foreach ($folder in $foldersToCreate) {
 # Move DLLs from project's bin-release folder to the build folder
 Copy-Item "$projReleaseFolder\aki-common.dll" -Destination "$bepinexSptFolder"
 Copy-Item "$projReleaseFolder\aki-reflection.dll" -Destination "$bepinexSptFolder"
-Copy-Item "$projReleaseFolder\aki_PrePatch.dll" -Destination "$bepinexPatchFolder"
+Copy-Item "$projReleaseFolder\aki-prepatch.dll" -Destination "$bepinexPatchFolder"
 Copy-Item "$projReleaseFolder\aki-core.dll" -Destination "$bepinexSptFolder"
 Copy-Item "$projReleaseFolder\aki-custom.dll" -Destination "$bepinexSptFolder"
 Copy-Item "$projReleaseFolder\aki-debugging.dll" -Destination "$bepinexSptFolder"
