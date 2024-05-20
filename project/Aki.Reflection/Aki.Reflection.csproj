@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net471</TargetFramework>
-	<Configuration>Release</Configuration>
+	  <TargetFramework>net471</TargetFramework>
+	  <Configuration>Release</Configuration>
+    <AssemblyName>aki-reflection</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>
