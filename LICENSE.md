@@ -1,9 +1,8 @@
 ﻿# NCSA Open Source License  
 
-Copyright (c) 2022 Merijn Hendriks. All rights reserved.  
+Copyright (c) 2024 SPT. All rights reserved.  
 
-Developed by: Merijn Hendriks  
-              SPT-AKI
+Developed by: SPT
 
 Permission is hereby granted, free of charge, to any person obtaining a copy  
 of this software and associated documentation files (the "Software"), to deal  

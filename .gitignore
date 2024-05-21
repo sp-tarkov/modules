@@ -3,7 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Aki
+# SPT
 **/Build/
 **/Shared/Managed/*
 **/tools/

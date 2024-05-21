@@ -4,14 +4,14 @@ BepInEx plugins to alter Escape From Tarkov's behaviour
 
 **Project**        | **Function**
 ------------------ | --------------------------------------------
-Aki.Build          | Build script
-Aki.Bundles        | External bundle loader
-Aki.Common         | Common utilities used across projects
-Aki.Core           | Required patches to start the game
-Aki.Custom         | SPT-AKI enhancements to EFT
-Aki.Debugging      | Debug utilities (disabled in release builds)
-Aki.Reflection     | Reflection utilities used across the project
-Aki.SinglePlayer   | Simulating online game while offline
+SPT.Build          | Build script
+SPT.Bundles        | External bundle loader
+SPT.Common         | Common utilities used across projects
+SPT.Core           | Required patches to start the game
+SPT.Custom         | SPT enhancements to EFT
+SPT.Debugging      | Debug utilities (disabled in release builds)
+SPT.Reflection     | Reflection utilities used across the project
+SPT.SinglePlayer   | Simulating online game while offline
 
 ## Privacy
 SPT is an open source project. Your commit credentials as author of a commit will be visible by anyone. Please make sure you understand this before submitting a PR.
