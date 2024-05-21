@@ -18,7 +18,7 @@ this list of conditions and the following disclaimers.
 this list of conditions and the following disclaimers in the documentation  
 and/or other materials provided with the distribution.  
 
-* Neither the names of Merijn Hendriks, SPT-AKI, nor the names of  
+* SPT, nor the names of
 its contributors may be used to endorse or promote products derived from  
 this Software without specific prior written permission.  
 

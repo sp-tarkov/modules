@@ -51,7 +51,7 @@ namespace SPT.PrePatch
             {
                 string errorTitle = (!launcherUsed) ? "Startup Error" : "Missing Core Files";
                 string errorMessage = (!launcherUsed) ? launcherError : pluginErrorMessage;
-                MessageBoxHelper.Show(errorMessage, $"[SPT-AKI] {errorTitle}", MessageBoxHelper.MessageBoxType.OK);
+                MessageBoxHelper.Show(errorMessage, $"[SPT] {errorTitle}", MessageBoxHelper.MessageBoxType.OK);
                 Environment.Exit(0);
                 return;
             }
@@ -68,7 +68,7 @@ namespace SPT.PrePatch
                 return true;
             }
 
-            message = "Please start SPT-AKI using Aki.Launcher.exe. Exiting.";
+            message = "Please start SPT using SPT.Launcher.exe. Exiting.";
             return false;
         }
 

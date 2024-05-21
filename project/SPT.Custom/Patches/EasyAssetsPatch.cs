@@ -59,7 +59,7 @@ namespace SPT.Custom.Patches
                 ? await GetManifestJson(jsonfile)
                 : await GetManifestBundle(filepath);
 
-            // lazy-initialize aki bundles
+            // lazy-initialize SPT bundles
             if (BundleManager.Bundles.Keys.Count == 0)
             {
                 await BundleManager.DownloadManifest();

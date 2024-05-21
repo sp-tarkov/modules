@@ -54,7 +54,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             Logger.LogError(errorMessage);
 
             // Show errors in the server console
-            ServerLog.Error("Aki.Singleplayer", errorMessage);
+            ServerLog.Error("SPT.Singleplayer", errorMessage);
 
             // Show an error in the in-game console, we have to write this in reverse order because the
             // in-game console shows newer messages at the top

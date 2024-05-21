@@ -40,7 +40,7 @@ namespace SPT.SinglePlayer.Utils.Insurance
 
             foreach (var item in _items)
             {
-                var aki = new SPTInsuredItemClass
+                var spt = new SPTInsuredItemClass
                 {
                     id = item.Id
                 };
@@ -49,18 +49,18 @@ namespace SPT.SinglePlayer.Utils.Insurance
 
                 if (dura != null)
                 {
-                    aki.durability = dura.Durability;
-                    aki.maxDurability = dura.MaxDurability;
+                    spt.durability = dura.Durability;
+                    spt.maxDurability = dura.MaxDurability;
                 }
 
                 var faceshield = item.GetItemComponent<FaceShieldComponent>();
 
                 if (faceshield != null)
                 {
-                    aki.hits = faceshield.Hits;
+                    spt.hits = faceshield.Hits;
                 }
 
-                itemsToSend.Add(aki);
+                itemsToSend.Add(spt);
             }
 
             return itemsToSend;
