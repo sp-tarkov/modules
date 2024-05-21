@@ -16,7 +16,7 @@ namespace Aki.SinglePlayer
     {
         public void Awake()
         {
-            Logger.LogInfo("Loading: Aki.SinglePlayer");
+            Logger.LogInfo("Loading: SPT.SinglePlayer");
 
             try
             {

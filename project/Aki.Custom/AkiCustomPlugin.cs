@@ -16,7 +16,7 @@ namespace Aki.Custom
     {
         public void Awake()
         {
-            Logger.LogInfo("Loading: Aki.Custom");
+            Logger.LogInfo("Loading: SPT.Custom");
 
             try
             {
