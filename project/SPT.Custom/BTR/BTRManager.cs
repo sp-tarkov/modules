@@ -278,7 +278,7 @@ namespace SPT.Custom.BTR
                     break;
                 case ETraderServiceType.PlayerTaxi:
                     btrController.BtrVehicle.IsPaid = true;
-                    btrController.BtrVehicle.MoveToDestination(subserviceId);
+                    btrController.BtrVehicle.MoveToDestination(subserviceId.Split('/')[1]); // TODO: Look into fixing the main cause of this issue.
                     break;
             }
         }

@@ -7,8 +7,6 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 {
     public class AmmoUsedCounterPatch : ModulePatch
     {
-        private static Player player;
-
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(Player), nameof(Player.OnMakingShot));

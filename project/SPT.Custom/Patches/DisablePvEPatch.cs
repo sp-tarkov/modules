@@ -1,12 +1,9 @@
-﻿using SPT.Common.Http;
-using SPT.Reflection.Patching;
+﻿using SPT.Reflection.Patching;
 using System.Reflection;
 using EFT;
 using EFT.UI;
 using HarmonyLib;
 using UnityEngine;
-using TMPro;
-using System.Linq;
 
 namespace SPT.Custom.Patches
 {
@@ -21,8 +18,7 @@ namespace SPT.Custom.Patches
         private static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
         {
             ____notAvailableState.SetActive(true);
-            Object.FindObjectsOfType<HoverTooltipArea>().Where(o => o.name == "Locked").SingleOrDefault()?.SetMessageText("<color=#51c6db>SPT</color> is already PvE.");
-
+            ____notAvailableState.GetComponent<HoverTooltipArea>().SetMessageText("<color=#51c6db>SPT</color> is already PvE.");
             return false;
         }
     }
