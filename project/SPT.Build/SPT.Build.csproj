@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net471</TargetFramework>
+    <Configuration>Release</Configuration>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2024</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
+    <ProjectReference Include="..\SPT.Core\SPT.Core.csproj" />
+    <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
+    <ProjectReference Include="..\SPT.PrePatch\SPT.PrePatch.csproj" />
+    <ProjectReference Include="..\SPT.Debugging\SPT.Debugging.csproj" />
+    <ProjectReference Include="..\SPT.SinglePlayer\SPT.SinglePlayer.csproj" />
+    <ProjectReference Include="..\SPT.Custom\SPT.Custom.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass ../build.ps1" WorkingDirectory="$(ProjectDir)" />
+  </Target>
+
+</Project>
