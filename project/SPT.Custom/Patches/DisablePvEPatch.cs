@@ -21,7 +21,7 @@ namespace SPT.Custom.Patches
         private static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
         {
             ____notAvailableState.SetActive(true);
-            Object.FindObjectsOfType<HoverTooltipArea>().Where(o => o.name == "Locked").SingleOrDefault()?.SetMessageText("<color=#51c6db>SPT-SPT</color> is already PvE.");
+            Object.FindObjectsOfType<HoverTooltipArea>().Where(o => o.name == "Locked").SingleOrDefault()?.SetMessageText("<color=#51c6db>SPT</color> is already PvE.");
 
             return false;
         }
