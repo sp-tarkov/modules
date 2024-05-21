@@ -16,7 +16,7 @@ namespace Aki.Custom
     {
         public void Awake()
         {
-            Logger.LogInfo("Loading: Aki.Custom");
+            Logger.LogInfo("Loading: SPT.Custom");
 
             try
             {
@@ -56,6 +56,7 @@ namespace Aki.Custom
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
                 new FixBrokenSpawnOnSandboxPatch().Enable();
+                new BTRControllerInitPatch().Enable();
                 new BTRPathLoadPatch().Enable();
                 new BTRActivateTraderDialogPatch().Enable();
                 new BTRInteractionPatch().Enable();
@@ -70,11 +71,13 @@ namespace Aki.Custom
                 new BTREndRaidItemDeliveryPatch().Enable();
                 new BTRDestroyAtRaidEndPatch().Enable();
                 new BTRVehicleMovementSpeedPatch().Enable();
+                new BTRPathConfigMapPrefixPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
                 new ClampRagdollPatch().Enable();
+                new DisablePvEPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }

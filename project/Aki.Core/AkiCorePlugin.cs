@@ -15,7 +15,7 @@ namespace Aki.Core
         {
             _logger = Logger;
 
-            Logger.LogInfo("Loading: Aki.Core");
+            Logger.LogInfo("Loading: SPT.Core");
 
             try
             {
@@ -36,7 +36,7 @@ namespace Aki.Core
                 throw;
             }
 
-            Logger.LogInfo("Completed: Aki.Core");
+            Logger.LogInfo("Completed: SPT.Core");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Aki.Custom.BTR.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.Stop));
+            return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.Stop));
         }
 
         [PatchPrefix]
@@ -26,7 +26,7 @@ namespace Aki.Custom.BTR.Patches
             var btrManager = gameWorld.GetComponent<BTRManager>();
             if (btrManager != null)
             {
-                Logger.LogWarning("[AKI-BTR] BTRDestroyAtRaidEndPatch - Raid Ended: Destroying BTRManager");
+                Logger.LogWarning("[SPT-BTR] BTRDestroyAtRaidEndPatch - Raid Ended: Destroying BTRManager");
                 Object.Destroy(btrManager);
             }
         }

@@ -14,11 +14,11 @@ namespace Aki.Debugging.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BaseLocalGame<GamePlayerOwner>), nameof(BaseLocalGame<GamePlayerOwner>.Update));
+            return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.Update));
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(BaseLocalGame<GamePlayerOwner> __instance)
+        private static void PatchPrefix(BaseLocalGame<EftGamePlayerOwner> __instance)
         {
             if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
 

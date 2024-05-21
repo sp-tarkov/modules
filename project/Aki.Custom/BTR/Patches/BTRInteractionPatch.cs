@@ -46,7 +46,7 @@ namespace Aki.Custom.BTR.Patches
                 BTRView btrView = gameWorld.BtrController.BtrView;
                 if (btrView == null)
                 {
-                    Logger.LogError("[AKI-BTR] BTRInteractionPatch - btrView is null");
+                    Logger.LogError("[SPT-BTR] BTRInteractionPatch - btrView is null");
                     return;
                 }
 

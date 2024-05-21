@@ -8,7 +8,7 @@ namespace Aki.Core.Patches
 {
     public class GameValidationPatch : ModulePatch
     {
-        private const string PluginName = "Aki.Core";
+        private const string PluginName = "SPT.Core";
         private const string ErrorMessage = "Validation failed";
         private static BepInEx.Logging.ManualLogSource _logger = null;
         private static bool _hasRun = false;

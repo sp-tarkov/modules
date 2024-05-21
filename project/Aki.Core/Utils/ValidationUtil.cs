@@ -27,9 +27,9 @@ namespace Aki.Core.Utils
                     new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))
                 };
 
-                ServerLog.Debug("Aki.Core", Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0");
-                ServerLog.Debug("Aki.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
-                ServerLog.Debug("Aki.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
+                ServerLog.Debug("SPT.Core", Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0");
+                ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
+                ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
 
                 v0 = v4.Length - 1;
 

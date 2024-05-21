@@ -32,7 +32,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
             _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_43));
+            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_44));
 
             _isLocalField = AccessTools.Field(typeof(MainMenuController), "bool_0");
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
@@ -46,65 +46,66 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_69));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
         }
 
         [PatchTranspiler]
         private static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
         {
+            /* The original msil looks something like this:
+             *   0	0000	ldarg.0
+             *   1	0001	call        instance void MainMenuController::method_69()
+             *   2	0006	ldarg.0
+             *   3	0007	call        instance void MainMenuController::method_41()
+             *   4	000C	ldarg.0
+             *   5	000D	call        instance bool MainMenuController::method_46()
+             *   6	0012	brtrue.s    8 (0015) ldarg.0 
+             *   7	0014	ret
+             *   8	0015	ldarg.0
+             *   9	0016	ldfld       class EFT.RaidSettings MainMenuController::raidSettings_0
+             *   10	001B	callvirt    instance bool EFT.RaidSettings::get_IsPmc()
+             *   11	0020	brfalse.s   15 (0029) ldarg.0 
+             *   12	0022	ldarg.0
+             *   13	0023	call        instance void MainMenuController::method_42()
+             *   14	0028	ret
+             *   15	0029	ldarg.0
+             *   16	002A	call        instance void MainMenuController::method_44()
+             *   17	002F	ret
+             *
+             *   The goal is to replace the call to method_44 with our own LoadOfflineRaidScreenForScav function.
+             *   method_44 expects one argument which is the implicit "this" pointer.
+             *   The ldarg.0 instruction loads "this" onto the stack and the function call will consume it.
+             *   But because our own LoadOfflineRaidScreenForScav method is static
+             *   it won't consume a "this" pointer from the stack, so we have to remove the ldarg.0 instruction.
+             *   But the brfalse instruction at 0020 jumps to the ldarg.0, so we can not simply delete it.
+             *   Instead, we first need to transfer the jump label from the ldarg.0 instruction to our new
+             *   call instruction and only then we remove it.
+             */
             var codes = new List<CodeInstruction>(instructions);
+            var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name);
 
-            // The original method call that we want to replace
-            var onReadyScreenMethodIndex = -1;
-            var onReadyScreenMethodCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name));
+            var callCodeIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
+                                                        && (MethodInfo)code.operand == onReadyScreenMethodOperand);
 
-            // We additionally need to replace an instruction that jumps to a label on certain conditions, since we change the jump target instruction
-            var jumpWhenFalse_Index = -1;
-
-            for (var i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode == onReadyScreenMethodCode.opcode && codes[i].operand == onReadyScreenMethodCode.operand)
-                {
-                    onReadyScreenMethodIndex = i;
-                    continue;
-                }
-
-                if (codes[i].opcode == OpCodes.Brfalse)
-                {
-                    if (jumpWhenFalse_Index != -1)
-                    {
-                        // If this warning is ever logged, the condition for locating the exact brfalse instruction will have to be updated
-                        Logger.LogWarning($"[{nameof(LoadOfflineRaidScreenPatch)}] Found extra instructions with the brfalse opcode! " +
-                                          "This breaks an old assumption that there is only one such instruction in the method body and is now very likely to cause bugs!");
-                    }
-                    jumpWhenFalse_Index = i;
-                }
-            }
-
-            if (onReadyScreenMethodIndex == -1)
+            if (callCodeIndex == -1)
             {
                 throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find {nameof(_onReadyScreenMethod)} reference code.");
             }
 
-            if (jumpWhenFalse_Index == -1)
+            var loadThisIndex = callCodeIndex - 1;
+            if (codes[loadThisIndex].opcode != OpCodes.Ldarg_0)
             {
-                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find jump (brfalse) reference code.");
+                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Expected ldarg.0 before call instruction but found {codes[loadThisIndex]}");
             }
 
-            // Define the new jump label
-            var brFalseLabel = generator.DefineLabel();
+            // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
+            codes[callCodeIndex] = new CodeInstruction(OpCodes.Call, 
+                AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) {
+                labels = codes[loadThisIndex].labels
+            };
 
-            // We build the method call for our substituted method and replace the initial method call with our own, also adding our new label
-            var callCode = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) { labels = { brFalseLabel } };
-            codes[onReadyScreenMethodIndex] = callCode;
-
-            // We build a new brfalse instruction and give it our new label, then replace the original brfalse instruction
-            var newBrFalseCode = new CodeInstruction(OpCodes.Brfalse, brFalseLabel);
-            codes[jumpWhenFalse_Index] = newBrFalseCode;
-
-            // This will remove a stray ldarg.0 instruction. It's only needed if we wanted to reference something from `this` in the method body.
-            // This is done last to ensure that previous instruction indexes don't shift around (probably why this used to just turn it into a Nop OpCode)
-            codes.RemoveAt(onReadyScreenMethodIndex - 1);
+            // Remove the ldarg.0 instruction which we no longer need because LoadOfflineRaidScreenForScav is static
+            codes.RemoveAt(loadThisIndex);
 
             return codes.AsEnumerable();
         }
@@ -123,12 +124,12 @@ namespace Aki.SinglePlayer.Patches.ScavMode
                 .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
                 ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3155(profile?.Info, ref raidSettings, matchmakerPlayersController);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3178(profile?.Info, ref raidSettings, matchmakerPlayersController, ESessionMode.Regular);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_73));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_75));
             gclass.ShowScreen(EScreenState.Queued);
         }
 

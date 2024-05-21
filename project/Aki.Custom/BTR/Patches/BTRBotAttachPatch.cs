@@ -60,7 +60,7 @@ namespace Aki.Custom.BTR.Patches
             var valueTuple = (ValueTuple<ObservedPlayerView, bool>)_valueTuple0Field.GetValue(__instance);
             if (!valueTuple.Item2 && !InitTurretView(__instance, turretPlayer))
             {
-                Logger.LogError("[AKI-BTR] BTRBotAttachPatch - BtrBot initialization failed");
+                Logger.LogError("[SPT-BTR] BTRBotAttachPatch - BtrBot initialization failed");
                 return false;
             }
 

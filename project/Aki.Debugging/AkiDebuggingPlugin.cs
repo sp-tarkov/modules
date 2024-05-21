@@ -14,7 +14,7 @@ namespace Aki.Debugging
 
         public void Awake()
         {
-            Logger.LogInfo("Loading: Aki.Debugging");
+            Logger.LogInfo("Loading: SPT.Debugging");
 
             try
             {

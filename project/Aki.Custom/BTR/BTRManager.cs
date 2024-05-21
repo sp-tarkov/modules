@@ -6,11 +6,10 @@ using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.Vehicle;
 using HarmonyLib;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,6 +26,7 @@ namespace Aki.Custom.BTR
         private BTRView btrClientSide;
         private BotOwner btrBotShooter;
         private BTRDataPacket btrDataPacket = default;
+        private bool btrInitialized = false;
         private bool btrBotShooterInitialized = false;
 
         private float coverFireTime = 90f;
@@ -48,17 +48,9 @@ namespace Aki.Custom.BTR
         private Player.FirearmController firearmController;
         private WeaponSoundPlayer weaponSoundPlayer;
 
-        private MethodInfo _updateTaxiPriceMethod;
+        private float originalDamageCoeff;
 
-		private float originalDamageCoeff;
-
-		BTRManager()
-        {
-            Type btrControllerType = typeof(BTRControllerClass);
-            _updateTaxiPriceMethod = AccessTools.GetDeclaredMethods(btrControllerType).Single(IsUpdateTaxiPriceMethod);
-        }
-        
-        private void Awake()
+        private async void Awake()
         {
             try
             {
@@ -76,11 +68,11 @@ namespace Aki.Custom.BTR
 
                 btrController = gameWorld.BtrController;
 
-                InitBtr();
+                await InitBtr();
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR] Unable to spawn BTR. Check logs.");
+                ConsoleScreen.LogError("[SPT-BTR] Unable to spawn BTR. Check logs.");
                 Destroy(this);
                 throw;
             }
@@ -108,7 +100,7 @@ namespace Aki.Custom.BTR
             }
             else if (interactPacket.SideId == 1 && playerGoIn)
             {
-				if (interactPacket.SlotId == 0)
+                if (interactPacket.SlotId == 0)
                 {
                     btrServerSide.RightSlot0State = 1;
                 }
@@ -118,29 +110,25 @@ namespace Aki.Custom.BTR
                 }
             }
 
-			// If the player is going into the BTR, store their damage coefficient
-			// and set it to 0, so they don't die while inside the BTR
-			if (interactPacket.InteractionType == EInteractionType.GoIn)
-			{
-				originalDamageCoeff = gameWorld.MainPlayer.ActiveHealthController.DamageCoeff;
-				gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(0f);
+            // If the player is going into the BTR, store their damage coefficient
+            // and set it to 0, so they don't die while inside the BTR
+            if (interactPacket.InteractionType == EInteractionType.GoIn)
+            {
+                originalDamageCoeff = gameWorld.MainPlayer.ActiveHealthController.DamageCoeff;
+                gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(0f);
 
-			}
-			// Otherwise restore the damage coefficient
-			else if (interactPacket.InteractionType == EInteractionType.GoOut)
-			{
-				gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(originalDamageCoeff);
-			}
-		}
-
-        // Find `BTRControllerClass.method_9(PathDestination currentDestinationPoint, bool lastRoutePoint)`
-        private bool IsUpdateTaxiPriceMethod(MethodInfo method)
-        {
-            return (method.GetParameters().Length == 2 && method.GetParameters()[0].ParameterType == typeof(PathDestination));
+            }
+            // Otherwise restore the damage coefficient
+            else if (interactPacket.InteractionType == EInteractionType.GoOut)
+            {
+                gameWorld.MainPlayer.ActiveHealthController.SetDamageCoeff(originalDamageCoeff);
+            }
         }
 
         private void Update()
         {
+            if (!btrInitialized) return;
+
             btrController.SyncBTRVehicleFromServer(UpdateDataPacket());
 
             if (btrController.BotShooterBtr == null) return;
@@ -169,9 +157,11 @@ namespace Aki.Custom.BTR
             }
         }
 
-        private void InitBtr()
+        private async Task InitBtr()
         {
             // Initial setup
+            await btrController.InitBtrController();
+
             botEventHandler = Singleton<BotEventHandler>.Instance;
             var botsController = Singleton<IBotGame>.Instance.BotsController;
             btrBotService = botsController.BotTradersServices.BTRServices;
@@ -187,6 +177,11 @@ namespace Aki.Custom.BTR
             ConfigureSettingsFromServer();
 
             var btrMapConfig = btrController.MapPathsConfiguration;
+            if (btrMapConfig == null)
+            {
+                ConsoleScreen.LogError($"{nameof(btrController.MapPathsConfiguration)}");
+                return;
+            }
             btrServerSide.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
             btrServerSide.Initialization(btrMapConfig);
             btrController.method_14(); // creates and assigns the BTR a fake stash
@@ -206,13 +201,15 @@ namespace Aki.Custom.BTR
             // Initialise turret variables
             btrTurretServer = btrServerSide.BTRTurret;
             var btrTurretDefaultTargetTransform = (Transform)AccessTools.Field(btrTurretServer.GetType(), "defaultTargetTransform").GetValue(btrTurretServer);
-            isTurretInDefaultRotation = btrTurretServer.targetTransform == btrTurretDefaultTargetTransform 
+            isTurretInDefaultRotation = btrTurretServer.targetTransform == btrTurretDefaultTargetTransform
                 && btrTurretServer.targetPosition == btrTurretServer.defaultAimingPosition;
             btrMachineGunAmmo = (BulletClass)BTRUtil.CreateItem(BTRUtil.BTRMachineGunAmmoTplId);
             btrMachineGunWeapon = BTRUtil.CreateItem(BTRUtil.BTRMachineGunWeaponTplId);
 
             // Pull services data for the BTR from the server
             TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
+
+            btrInitialized = true;
         }
 
         private void ConfigureSettingsFromServer()
@@ -249,7 +246,7 @@ namespace Aki.Custom.BTR
             TraderServicesManager.Instance.RemovePurchasedService(ETraderServiceType.PlayerTaxi, BTRUtil.BTRTraderId);
 
             // Update the prices for the taxi service
-            _updateTaxiPriceMethod.Invoke(btrController, new object[] { destinationPoint, isFinal });
+            btrController.UpdateTaxiPrice(destinationPoint, isFinal);
 
             // Update the UI
             TraderServicesManager.Instance.GetTraderServicesDataFromServer(BTRUtil.BTRTraderId);
@@ -257,14 +254,9 @@ namespace Aki.Custom.BTR
 
         private bool IsBtrService(ETraderServiceType serviceType)
         {
-            if (serviceType == ETraderServiceType.BtrItemsDelivery 
-                || serviceType == ETraderServiceType.PlayerTaxi 
-                || serviceType == ETraderServiceType.BtrBotCover)
-            {
-                return true;
-            }
-
-            return false;
+            return serviceType == ETraderServiceType.BtrItemsDelivery
+                || serviceType == ETraderServiceType.PlayerTaxi
+                || serviceType == ETraderServiceType.BtrBotCover;
         }
 
         private void BtrTraderServicePurchased(ETraderServiceType serviceType, string subserviceId)
@@ -338,7 +330,7 @@ namespace Aki.Custom.BTR
             }
             catch
             {
-                ConsoleScreen.LogError("[AKI-BTR] lastInteractedBtrSide is null when it shouldn't be. Check logs.");
+                ConsoleScreen.LogError($"[SPT-BTR] {nameof(lastInteractedBtrSide)} is null when it shouldn't be. Check logs.");
                 throw;
             }
         }
@@ -349,8 +341,8 @@ namespace Aki.Custom.BTR
             btrDataPacket.rotation = btrServerSide.transform.rotation;
             if (btrTurretServer != null && btrTurretServer.gunsBlockRoot != null)
             {
-                btrDataPacket.turretRotation = btrTurretServer.transform.rotation;
-                btrDataPacket.gunsBlockRotation = btrTurretServer.gunsBlockRoot.rotation;
+                btrDataPacket.turretRotation = btrTurretServer.transform.localEulerAngles.y;
+                btrDataPacket.gunsBlockRotation = btrTurretServer.gunsBlockRoot.localEulerAngles.x;
             }
             btrDataPacket.State = (byte)btrServerSide.BtrState;
             btrDataPacket.RouteState = (byte)btrServerSide.VehicleRouteState;
@@ -390,16 +382,11 @@ namespace Aki.Custom.BTR
 
         private bool HasTarget()
         {
-            if (currentTarget != null)
-            {
-                return true;
-            }
-
-            return false;
+            return currentTarget != null;
         }
 
         private void SetAim()
-        {            
+        {
             if (currentTarget.IsVisible)
             {
                 Vector3 targetPos = currentTarget.CurrPosition;
@@ -412,8 +399,8 @@ namespace Aki.Custom.BTR
             else
             {
                 Vector3 targetLastPos = currentTarget.EnemyLastPositionReal;
-                if (btrTurretServer.CheckPositionInAimingZone(targetLastPos) 
-                    && Time.time - currentTarget.PersonalLastSeenTime < 3f 
+                if (btrTurretServer.CheckPositionInAimingZone(targetLastPos)
+                    && Time.time - currentTarget.PersonalLastSeenTime < 3f
                     && btrTurretServer.targetPosition != targetLastPos)
                 {
                     btrTurretServer.EnableAimingPosition(targetLastPos);
@@ -428,12 +415,7 @@ namespace Aki.Custom.BTR
 
         private bool CanShoot()
         {
-            if (currentTarget.IsVisible && btrBotShooter.BotBtrData.CanShoot())
-            {
-                return true;
-            }
-
-            return false;
+            return currentTarget.IsVisible && btrBotShooter.BotBtrData.CanShoot();
         }
 
         private void StartShooting()
@@ -469,16 +451,18 @@ namespace Aki.Custom.BTR
                 {
                     targetHeadPos = currentTarget.Person.PlayerBones.Head.position;
                 }
+
                 Vector3 aimDirection = Vector3.Normalize(targetHeadPos - machineGunMuzzle.position);
                 ballisticCalculator.Shoot(btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, btrBotShooter.ProfileId, btrMachineGunWeapon, 1f, 0);
-                firearmController.method_54(weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false);
+                firearmController.PlayWeaponSound(weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false);
+
                 burstCount--;
                 yield return new WaitForSecondsRealtime(0.092308f); // 650 RPM
             }
 
             float waitTime = Random.Range(machineGunRecoveryTime.x, machineGunRecoveryTime.y);
             yield return new WaitForSecondsRealtime(waitTime);
-            
+
             isShooting = false;
         }
 
@@ -504,13 +488,13 @@ namespace Aki.Custom.BTR
 
             if (btrClientSide != null)
             {
-                Debug.LogWarning("[AKI-BTR] BTRManager - Destroying btrClientSide");
+                Debug.LogWarning($"[SPT-BTR] {nameof(BTRManager)} - Destroying btrClientSide");
                 Destroy(btrClientSide.gameObject);
             }
 
             if (btrServerSide != null)
             {
-                Debug.LogWarning("[AKI-BTR] BTRManager - Destroying btrServerSide");
+                Debug.LogWarning($"[SPT-BTR] {nameof(BTRManager)} - Destroying btrServerSide");
                 Destroy(btrServerSide.gameObject);
             }
         }

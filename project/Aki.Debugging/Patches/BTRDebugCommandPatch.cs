@@ -5,7 +5,7 @@ using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
-using DialogControlClass = GClass1957;
+using DialogControlClass = GClass1971;
 
 namespace Aki.Debugging.Patches
 {

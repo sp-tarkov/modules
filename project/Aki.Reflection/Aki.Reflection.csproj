@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net471</TargetFramework>
-	<Configuration>Release</Configuration>
+	  <TargetFramework>net471</TargetFramework>
+	  <Configuration>Release</Configuration>
+    <AssemblyName>spt-reflection</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2024</Copyright>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

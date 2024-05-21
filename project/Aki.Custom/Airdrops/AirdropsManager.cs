@@ -35,7 +35,7 @@ namespace Aki.Custom.Airdrops
             }
             catch
             {
-                Debug.LogError("[AKI-AIRDROPS]: Unable to get config from server, airdrop won't occur");
+                Debug.LogError("[SPT-AIRDROPS]: Unable to get config from server, airdrop won't occur");
                 Destroy(this);
                 throw;
             }
@@ -52,7 +52,7 @@ namespace Aki.Custom.Airdrops
             }
             catch
             {
-                Debug.LogError("[AKI-AIRDROPS]: Unable to create plane or crate, airdrop won't occur");
+                Debug.LogError("[SPT-AIRDROPS]: Unable to create plane or crate, airdrop won't occur");
                 Destroy(this);
                 throw;
             }
@@ -98,7 +98,7 @@ namespace Aki.Custom.Airdrops
             }
             catch
             {
-                Debug.LogError("[AKI-AIRDROPS]: An error occurred during the airdrop FixedUpdate process");
+                Debug.LogError("[SPT-AIRDROPS]: An error occurred during the airdrop FixedUpdate process");
                 Destroy(airdropBox.gameObject);
                 Destroy(airdropPlane.gameObject);
                 Destroy(this);

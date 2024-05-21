@@ -2,13 +2,13 @@
 
   <PropertyGroup>
 	<TargetFramework>net471</TargetFramework>
-    <AssemblyName>aki-debugging</AssemblyName>
+    <AssemblyName>spt-debugging</AssemblyName>
 	<Configuration>Release</Configuration>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Company>Aki</Company>
-    <Copyright>Copyright @ Aki 2024</Copyright>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

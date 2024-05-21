@@ -12,7 +12,7 @@ namespace Aki.SinglePlayer.Patches.ScavMode
         // TODO: REMAP/UPDATE GCLASS REF
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass1790), nameof(GClass1790.OnEnemyKill));
+            return AccessTools.Method(typeof(GClass1799), nameof(GClass1799.OnEnemyKill));
         }
 
         [PatchPrefix]

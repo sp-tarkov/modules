@@ -35,7 +35,7 @@ namespace Aki.Custom.BTR.Patches
                     BTRView btrView = gameWorld.BtrController.BtrView;
                     if (btrView == null)
                     {
-                        Logger.LogError($"[AKI-BTR] BTRExtractPassengersPatch - btrView is null");
+                        Logger.LogError($"[SPT-BTR] BTRExtractPassengersPatch - btrView is null");
                         return;
                     }
 

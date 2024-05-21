@@ -32,13 +32,13 @@ namespace Aki.Custom.BTR.Patches
             GameWorld gameWorld = Singleton<GameWorld>.Instance;
             if (gameWorld == null)
             {
-                Logger.LogError("[AKI-BTR] BTREndRaidItemDeliveryPatch - GameWorld is null");
+                Logger.LogError("[SPT-BTR] BTREndRaidItemDeliveryPatch - GameWorld is null");
                 return;
             }
             var player = gameWorld.MainPlayer;
             if (player == null)
             {
-                Logger.LogError("[AKI-BTR] BTREndRaidItemDeliveryPatch - Player is null");
+                Logger.LogError("[SPT-BTR] BTREndRaidItemDeliveryPatch - Player is null");
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace Aki.Custom.BTR.Patches
 
             if (!gameWorld.BtrController.HasNonEmptyTransferContainer(player.Profile.Id))
             {
-                Logger.LogDebug("[AKI-BTR] BTREndRaidItemDeliveryPatch - No items in transfer container");
+                Logger.LogDebug("[SPT-BTR] BTREndRaidItemDeliveryPatch - No items in transfer container");
                 return;
             }
 

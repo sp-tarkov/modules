@@ -12,7 +12,7 @@ namespace Aki.Custom.Patches
 	{
         protected override MethodBase GetTargetMethod()
         {
-            var desiredType = typeof(BaseLocalGame<GamePlayerOwner>);
+            var desiredType = typeof(BaseLocalGame<EftGamePlayerOwner>);
             var desiredMethod = desiredType.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public).SingleCustom(IsTargetMethod); // method_6
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");

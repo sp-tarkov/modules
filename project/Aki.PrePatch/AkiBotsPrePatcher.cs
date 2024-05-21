@@ -11,8 +11,8 @@ namespace Aki.PrePatch
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
 
-        public static int sptUsecValue = 47;
-        public static int sptBearValue = 48;
+        public static int sptUsecValue = 100;
+        public static int sptBearValue = 101;
 
         private static string _sptPluginFolder = "plugins/spt";
 
@@ -86,14 +86,14 @@ namespace Aki.PrePatch
             }
 
             // Validate that the folder exists, and contains our plugins
-            string[] sptPlugins = new string[] { "aki-core.dll", "aki-custom.dll", "aki-singleplayer.dll" };
+            string[] sptPlugins = new string[] { "spt-common.dll", "spt-reflection.dll", "spt-core.dll", "spt-custom.dll", "spt-singleplayer.dll" };
             string[] foundPlugins = Directory.GetFiles(sptPluginPath).Select(x => Path.GetFileName(x)).ToArray();
 
-            foreach (string plugin in sptPlugins)
+            foreach (string pluginNameAndSuffix in sptPlugins)
             {
-                if (!foundPlugins.Contains(plugin))
+                if (!foundPlugins.Contains(pluginNameAndSuffix))
                 {
-                    message = $"Required SPT plugins missing from '{sptPluginPath}'{exitMessage}";
+                    message = $"Required SPT plugin: {pluginNameAndSuffix} missing from '{sptPluginPath}' {exitMessage}";
                     logger.LogError(message);
                     return false;
                 }

@@ -6,7 +6,7 @@ using EFT.Vehicle;
 using HarmonyLib;
 using System;
 using System.Reflection;
-using BTRDialog = EFT.UI.TraderDialogScreen.GClass3132;
+using BTRDialog = EFT.UI.TraderDialogScreen.GClass3153;
 
 namespace Aki.Custom.BTR.Patches
 {
@@ -28,12 +28,7 @@ namespace Aki.Custom.BTR.Patches
         {
             FieldInfo btrField = type.GetField("btr");
 
-            if (btrField != null && btrField.FieldType == typeof(BTRSide))
-            {
-                return true;
-            }
-
-            return false;
+            return btrField != null && btrField.FieldType == typeof(BTRSide);
         }
 
         [PatchPrefix]

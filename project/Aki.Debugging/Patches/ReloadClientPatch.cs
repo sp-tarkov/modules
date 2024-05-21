@@ -38,7 +38,7 @@ namespace Aki.Debugging.Patches
 			{
 				tarkovapp.HideoutControllerAccess.UnloadHideout();
 			}
-			tarkovapp.method_48();
+			tarkovapp.method_49();
 		}
 	}
 }
