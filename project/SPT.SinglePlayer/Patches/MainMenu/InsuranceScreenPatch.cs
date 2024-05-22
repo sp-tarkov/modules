@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             //    this.method_41();
             //}
 
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_73));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_74));
         }
 
         [PatchPrefix]
