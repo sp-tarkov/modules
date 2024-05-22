@@ -4,6 +4,7 @@ using EFT;
 using EFT.InventoryLogic;
 using System.Collections.Generic;
 using System.Linq;
+using EFT.UI;
 
 namespace SPT.SinglePlayer.Utils.Insurance
 {
@@ -11,6 +12,7 @@ namespace SPT.SinglePlayer.Utils.Insurance
     {
         private static InsuredItemManager _instance;
         private List<Item> _items;
+        private List<string> _placedItems = new List<string>();
 
         public static InsuredItemManager Instance
         {
@@ -45,6 +47,11 @@ namespace SPT.SinglePlayer.Utils.Insurance
                     id = item.Id
                 };
 
+                if (_placedItems.Contains(item.Id))
+                {
+                    spt.usedInQuest = true;
+                }
+
                 var dura = item.GetItemComponent<RepairableComponent>();
 
                 if (dura != null)
@@ -64,6 +71,15 @@ namespace SPT.SinglePlayer.Utils.Insurance
             }
 
             return itemsToSend;
+        }
+
+        public void SetPlacedItem(Item topLevelItem)
+        {
+            // Includes Parent and Children items
+            foreach (var item in topLevelItem.GetAllItems())
+            {
+                _placedItems.Add(item.Id);
+            }
         }
     }
 }

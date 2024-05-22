@@ -6,5 +6,6 @@
         public float? durability = null;
         public float? maxDurability = null;
         public byte? hits = null;
+        public bool usedInQuest = false;
     }
 }

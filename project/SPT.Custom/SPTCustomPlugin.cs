@@ -78,6 +78,7 @@ namespace SPT.Custom
 				new HalloweenExtractPatch().Enable();
                 new ClampRagdollPatch().Enable();
                 new DisablePvEPatch().Enable();
+                new InsurancePlaceItem().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
