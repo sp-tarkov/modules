@@ -21,7 +21,7 @@ namespace SPT.Debugging.Patches
 
         public SptSpawnHelper()
         {
-            IEnumerable<ISpawnPoint> locationSpawnPoints = GClass2946.CreateFromScene();
+            IEnumerable<ISpawnPoint> locationSpawnPoints = GClass2945.CreateFromScene();
 
             var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
             this.playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();

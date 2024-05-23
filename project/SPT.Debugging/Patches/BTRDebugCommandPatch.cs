@@ -5,7 +5,7 @@ using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
-using DialogControlClass = GClass1971;
+using DialogControlClass = GClass1970;
 
 namespace SPT.Debugging.Patches
 {
