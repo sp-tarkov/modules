@@ -12,14 +12,22 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         // TODO: REMAP/UPDATE GCLASS REF
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass1798), nameof(GClass1798.OnEnemyKill));
+            // Correct Gclass has sessionCounters
+            return AccessTools.Method(typeof(GClass1800), nameof(GClass1800.OnEnemyKill));
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(string playerProfileId, out Tuple<Player, bool> __state)
+        private static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
         {
-            var player = Singleton<GameWorld>.Instance.MainPlayer;
             __state = new Tuple<Player, bool>(null, false);
+            var player = (Player)damage.Player.iPlayer;
+
+            // Add safeguards to make sure no calculations happen from other bots
+            if (!player.IsYourPlayer)
+            {
+                Logger.LogError("This shouldn't be happening. Are you sure we are using the correct GClass?");
+                return;
+            }
 
             if (player.Profile.Side != EPlayerSide.Savage)
             {
