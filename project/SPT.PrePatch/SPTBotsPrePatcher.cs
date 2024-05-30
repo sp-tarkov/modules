@@ -8,7 +8,7 @@ using Mono.Cecil.Cil;
 
 namespace SPT.PrePatch
 {
-    public static class SPTBotsPrePatcher
+    public static class SPTPrePatcher
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
 
@@ -20,7 +20,32 @@ namespace SPT.PrePatch
         public static void Patch(ref AssemblyDefinition assembly)
         {
             PerformPreValidation();
+            AddCustomBotTypes(assembly);
+            ChangeAppDataPath(assembly);
+        }
 
+        private static void ChangeAppDataPath(AssemblyDefinition assembly)
+        {
+            // Change icon cache folder path to be local to SPT
+            // find the type that contains a method called ClearIconCache, there is currently only one
+            var typeToEdit = assembly.MainModule.GetTypes().FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache"));
+
+            // find the .cctor and change the instructions to use our path instead
+            var methodToEdit = typeToEdit.Methods.FirstOrDefault(x => x.Name == ".cctor");
+            var ilProc = methodToEdit.Body.GetILProcessor();
+            var instructions = GetCacheInstructions(assembly);
+
+            // all this constructor does is set this static field up
+            methodToEdit.Body.Instructions.Clear();
+            
+            foreach (var ins in instructions)
+            {
+                ilProc.Append(ins);
+            }
+        }
+
+        private static void AddCustomBotTypes(AssemblyDefinition assembly)
+        {
             // Add custom EFT.WildSpawnTypes
             var botEnums = assembly.MainModule.GetType("EFT.WildSpawnType");
 
@@ -36,22 +61,6 @@ namespace SPT.PrePatch
 
             botEnums.Fields.Add(sptUsec);
             botEnums.Fields.Add(sptBear);
-
-
-            // Change icon cache folder path to be local to SPT
-            // find the type that contains a method called ClearIconCache, there is currently only one
-            var typeToEdit = assembly.MainModule.GetTypes().FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache"));
-            // find the .cctor and change the instructions to use our path instead
-            var methodToEdit = typeToEdit.Methods.FirstOrDefault(x => x.Name == ".cctor");
-            var ilProc = methodToEdit.Body.GetILProcessor();
-            var instructions = GetCacheInstructions(assembly);
-            // all this constructor does is set this static field up
-            methodToEdit.Body.Instructions.Clear();
-            
-            foreach (var ins in instructions)
-            {
-                ilProc.Append(ins);
-            }
         }
 
         private static List<Instruction> GetCacheInstructions(AssemblyDefinition assembly)
@@ -106,7 +115,7 @@ namespace SPT.PrePatch
         private static bool ValidateSptPlugins(string sptPluginPath, out string message)
         {
             string exitMessage = "\n\nPlease re-install SPT. Exiting.";
-            ManualLogSource logger = Logger.CreateLogSource(nameof(SPTBotsPrePatcher));
+            ManualLogSource logger = Logger.CreateLogSource(nameof(SPTPrePatcher));
 
             // Validate that the SPT plugin path exists
             if (!Directory.Exists(sptPluginPath))

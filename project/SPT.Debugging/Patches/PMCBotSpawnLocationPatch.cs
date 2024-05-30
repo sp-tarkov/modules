@@ -66,7 +66,7 @@ namespace SPT.Debugging.Patches
         {
 
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
-            if ((int)firstBotRole != SPTBotsPrePatcher.sptBearValue || (int)firstBotRole != SPTBotsPrePatcher.sptUsecValue)
+            if ((int)firstBotRole != SPTPrePatcher.sptBearValue || (int)firstBotRole != SPTPrePatcher.sptUsecValue)
             {
                 ConsoleScreen.Log("[SPT PMC Bot spawn] Spawning a set of Scavs. Skipping...");
                 return true;

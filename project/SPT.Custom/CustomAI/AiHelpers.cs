@@ -19,7 +19,7 @@ namespace SPT.Custom.CustomAI
                 return true;
             }
 
-            return (int)botRoleToCheck == SPTBotsPrePatcher.sptBearValue || (int)botRoleToCheck == SPTBotsPrePatcher.sptUsecValue;
+            return (int)botRoleToCheck == SPTPrePatcher.sptBearValue || (int)botRoleToCheck == SPTPrePatcher.sptUsecValue;
         }
 
         public static bool BotIsPlayerScav(WildSpawnType role, string nickname)

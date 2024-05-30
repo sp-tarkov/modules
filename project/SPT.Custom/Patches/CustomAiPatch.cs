@@ -81,8 +81,8 @@ namespace SPT.Custom.Patches
 
                 // Its a PMC, figure out what the bot originally was and return it
                 return botOwner.Profile.Info.Side == EPlayerSide.Bear
-                    ? (WildSpawnType)SPTBotsPrePatcher.sptBearValue
-                    : (WildSpawnType)SPTBotsPrePatcher.sptUsecValue;
+                    ? (WildSpawnType)SPTPrePatcher.sptBearValue
+                    : (WildSpawnType)SPTPrePatcher.sptUsecValue;
             }
 
             // Not broken pmc, return original role
