@@ -44,7 +44,7 @@ Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this proje
 
 ## Game Setup
 1. Copy Live EFT files into a separate directory (from now on this will be referred to as the "SPT directory")
-2. Download BepInEx 5.4.22 x64 ([BepInEx Releases - GitHub](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.22))
+2. Download BepInEx 5.4.23.1 x64 ([BepInEx Releases - GitHub](https://github.com/BepInEx/BepInEx/releases/tag/v5.4.23.1))
 3. Extract contents of the BepInEx zip into the root SPT directory
 4. Build Modules, Server and Launcher
 5. Copy the contents of each project's `Build` folder into the root SPT directory
