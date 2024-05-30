@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(Class264), nameof(Class264.method_19));
+            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_19));
         }
 
         [PatchPrefix]
@@ -49,14 +49,14 @@ namespace SPT.Custom.Patches
 
         public static async Task<Texture2D> GetTexture0(string path)
         {
-            var result = await Class264.smethod_0(path);
+            var result = await ProfileEndpointFactoryAbstractClass.smethod_0(path);
 
             return result.Value;
         }
 
         public static async Task<Texture2D> GetTexture1(string path, string localPath)
         {
-            var result = await Class264.smethod_1(path);
+            var result = await ProfileEndpointFactoryAbstractClass.smethod_1(path);
 
             if (result.Succeed)
             {
