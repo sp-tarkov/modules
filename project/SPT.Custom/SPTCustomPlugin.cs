@@ -79,6 +79,7 @@ namespace SPT.Custom
                 new ClampRagdollPatch().Enable();
                 new DisablePvEPatch().Enable();
                 new InsurancePlaceItem().Enable();
+                new FileCachePatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }

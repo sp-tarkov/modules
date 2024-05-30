@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using BepInEx.Logging;
 using Mono.Cecil;
+using Mono.Cecil.Cil;
 
 namespace SPT.PrePatch
 {
@@ -20,6 +21,7 @@ namespace SPT.PrePatch
         {
             PerformPreValidation();
 
+            // Add custom EFT.WildSpawnTypes
             var botEnums = assembly.MainModule.GetType("EFT.WildSpawnType");
 
             var sptUsec = new FieldDefinition("sptUsec",
@@ -34,6 +36,35 @@ namespace SPT.PrePatch
 
             botEnums.Fields.Add(sptUsec);
             botEnums.Fields.Add(sptBear);
+
+
+            // Change icon cache folder path to be local to SPT
+            // find the type that contains a method called ClearIconCache, there is currently only one
+            var typeToEdit = assembly.MainModule.GetTypes().FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache"));
+            // find the .cctor and change the instructions to use our path instead
+            var methodToEdit = typeToEdit.Methods.FirstOrDefault(x => x.Name == ".cctor");
+            var ilProc = methodToEdit.Body.GetILProcessor();
+            var instructions = GetCacheInstructions(assembly);
+            // all this constructor does is set this static field up
+            methodToEdit.Body.Instructions.Clear();
+            
+            foreach (var ins in instructions)
+            {
+                ilProc.Append(ins);
+            }
+        }
+
+        private static List<Instruction> GetCacheInstructions(AssemblyDefinition assembly)
+        {
+            return new List<Instruction>
+            {
+                Instruction.Create(OpCodes.Call, assembly.MainModule.ImportReference(typeof(Environment).GetMethod("get_CurrentDirectory"))),
+                Instruction.Create(OpCodes.Ldstr, "user"),
+                Instruction.Create(OpCodes.Ldstr, "sptappdata"),
+                Instruction.Create(OpCodes.Call, assembly.MainModule.ImportReference(typeof(Path).GetMethod("Combine", new []{ typeof(string), typeof(string), typeof(string) }))),
+                Instruction.Create(OpCodes.Stsfld, assembly.MainModule.GetTypes().FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache")).Fields.FirstOrDefault(f => f.Name == "Path")),
+                Instruction.Create(OpCodes.Ret)
+            };
         }
 
         private static void PerformPreValidation()
