@@ -1,3 +1,5 @@
+using Comfort.Common;
+using EFT;
 using SPT.Common.Http;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
@@ -35,7 +37,10 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         [PatchPrefix]
         private static void PatchPreFix(ref int maxCount)
         {
-            if (int.TryParse(RequestHandler.GetJson("/singleplayer/settings/bot/maxCap"), out int parsedMaxCount))
+            var gameWorld = Singleton<GameWorld>.Instance;
+            var location = gameWorld.MainPlayer.Location;
+
+            if (int.TryParse(RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location ?? "default"}"), out int parsedMaxCount))
             {
                 Logger.LogWarning($"Set max bot cap to: {parsedMaxCount}");
                 maxCount = parsedMaxCount;
