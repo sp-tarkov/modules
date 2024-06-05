@@ -14,7 +14,7 @@ namespace SPT.Custom.Patches
     ///
     public class FileCachePatch : ModulePatch
     {
-        private static readonly string _sptPath = new Uri(Path.Combine(Environment.CurrentDirectory, "user", "sptappdata")).AbsolutePath;
+        private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptappdata");
 
         protected override MethodBase GetTargetMethod()
         {
