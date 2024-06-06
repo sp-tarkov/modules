@@ -80,6 +80,7 @@ namespace SPT.Custom
                 new DisablePvEPatch().Enable();
                 new InsurancePlaceItem().Enable();
                 new FileCachePatch().Enable();
+                new PMCSpawnParamPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
