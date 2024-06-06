@@ -99,7 +99,7 @@ namespace SPT.Custom.Patches
         {
             if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
             {
-                // Set spt bot bot back to original type
+                // Set spt pmc bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
             else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
