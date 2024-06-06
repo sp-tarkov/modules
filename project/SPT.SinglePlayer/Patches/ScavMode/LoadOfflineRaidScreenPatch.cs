@@ -124,7 +124,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
                 ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
 
-            var gclass = new MatchmakerOfflineRaidScreen.GClass3177(profile?.Info, ref raidSettings, matchmakerPlayersController, ESessionMode.Regular);
+            var gclass = new MatchmakerOfflineRaidScreen.GClass3181(profile?.Info, ref raidSettings, matchmakerPlayersController, ESessionMode.Regular);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
