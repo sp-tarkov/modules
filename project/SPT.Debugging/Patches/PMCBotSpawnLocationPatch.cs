@@ -7,7 +7,6 @@ using HarmonyLib;
 using System.Collections.Generic;
 using EFT.Game.Spawning;
 using System;
-using SPT.PrePatch;
 
 namespace SPT.Debugging.Patches
 {
@@ -17,7 +16,7 @@ namespace SPT.Debugging.Patches
     {
         private readonly List<ISpawnPoint> playerSpawnPoints;
         private readonly Random _rnd = new Random();
-        private readonly GStruct381 _spawnSettings = new GStruct381();
+        //private readonly GStruct381 _spawnSettings = new GStruct381();
 
         public SptSpawnHelper()
         {
@@ -64,9 +63,8 @@ namespace SPT.Debugging.Patches
         [PatchPrefix]
         public static bool PatchPrefix(GClass1483 __instance, GClass591 data)
         {
-
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
-            if ((int)firstBotRole != SPTPrePatcher.sptBearValue || (int)firstBotRole != SPTPrePatcher.sptUsecValue)
+            if (firstBotRole != WildSpawnType.pmcBEAR || firstBotRole != WildSpawnType.pmcUSEC)
             {
                 ConsoleScreen.Log("[SPT PMC Bot spawn] Spawning a set of Scavs. Skipping...");
                 return true;

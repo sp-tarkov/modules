@@ -11,16 +11,11 @@ namespace SPT.PrePatch
     public static class SPTPrePatcher
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
-
-        public static int sptUsecValue = 100;
-        public static int sptBearValue = 101;
-
-        private static string _sptPluginFolder = "plugins/spt";
+        private static readonly string _sptPluginFolder = "plugins/spt";
 
         public static void Patch(ref AssemblyDefinition assembly)
         {
             PerformPreValidation();
-            AddCustomBotTypes(assembly);
             ChangeAppDataPath(assembly);
         }
 
@@ -42,25 +37,6 @@ namespace SPT.PrePatch
             {
                 ilProc.Append(ins);
             }
-        }
-
-        private static void AddCustomBotTypes(AssemblyDefinition assembly)
-        {
-            // Add custom EFT.WildSpawnTypes
-            var botEnums = assembly.MainModule.GetType("EFT.WildSpawnType");
-
-            var sptUsec = new FieldDefinition("sptUsec",
-                    FieldAttributes.Public | FieldAttributes.Static | FieldAttributes.Literal | FieldAttributes.HasDefault,
-                    botEnums)
-                { Constant = sptUsecValue };
-
-            var sptBear = new FieldDefinition("sptBear",
-                    FieldAttributes.Public | FieldAttributes.Static | FieldAttributes.Literal | FieldAttributes.HasDefault,
-                    botEnums)
-                { Constant = sptBearValue };
-
-            botEnums.Fields.Add(sptUsec);
-            botEnums.Fields.Add(sptBear);
         }
 
         private static List<Instruction> GetCacheInstructions(AssemblyDefinition assembly)
