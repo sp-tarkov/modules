@@ -70,7 +70,7 @@ namespace SPT.Custom.Patches
         }
 
         /// <summary>
-        /// the client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (sptBear/sptUsec)
+        /// the client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (pmcBEAR/pmcUSEC)
         /// </summary>
         /// <returns>WildSpawnType</returns>
         private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
@@ -81,8 +81,8 @@ namespace SPT.Custom.Patches
 
                 // Its a PMC, figure out what the bot originally was and return it
                 return botOwner.Profile.Info.Side == EPlayerSide.Bear
-                    ? (WildSpawnType)SPTPrePatcher.sptBearValue
-                    : (WildSpawnType)SPTPrePatcher.sptUsecValue;
+                    ? WildSpawnType.pmcBEAR
+                    : WildSpawnType.pmcUSEC;
             }
 
             // Not broken pmc, return original role
@@ -99,7 +99,7 @@ namespace SPT.Custom.Patches
         {
             if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
             {
-                // Set spt bot bot back to original type
+                // Set spt pmc bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
             else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))

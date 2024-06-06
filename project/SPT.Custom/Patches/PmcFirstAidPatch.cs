@@ -43,7 +43,7 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(BotOwner ___botOwner_0)
         {
-            if (___botOwner_0.IsRole((WildSpawnType)SPTPrePatcher.sptUsecValue) || ___botOwner_0.IsRole((WildSpawnType)SPTPrePatcher.sptBearValue))
+            if (___botOwner_0.IsRole((WildSpawnType.pmcUSEC)) || ___botOwner_0.IsRole(WildSpawnType.pmcBEAR))
             {
                 var healthController = ___botOwner_0.GetPlayer.ActiveHealthController;
 

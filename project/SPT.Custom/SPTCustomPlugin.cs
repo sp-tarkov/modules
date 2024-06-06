@@ -44,7 +44,7 @@ namespace SPT.Custom
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
                 new AirdropPatch().Enable();
                 new AirdropFlarePatch().Enable();
-                new AddSptBotSettingsPatch().Enable();
+                //new AddSptBotSettingsPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new ExitWhileLootingPatch().Enable();
@@ -80,6 +80,7 @@ namespace SPT.Custom
                 new DisablePvEPatch().Enable();
                 new InsurancePlaceItem().Enable();
                 new FileCachePatch().Enable();
+                new PMCSpawnParamPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }

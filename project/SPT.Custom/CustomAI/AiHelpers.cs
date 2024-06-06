@@ -6,7 +6,7 @@ namespace SPT.Custom.CustomAI
     public static class AiHelpers
     {
         /// <summary>
-        /// Bot is a PMC when it has IsStreamerModeAvailable flagged and has a wildspawn type of 'sptBear' or 'sptUsec'
+        /// Bot is a PMC when it has IsStreamerModeAvailable flagged and has a wildspawn type of 'pmcBEAR' or 'pmcUSEC'
         /// </summary>
         /// <param name="botRoleToCheck">Bots role</param>
         /// <param name="___botOwner_0">Bot details</param>
@@ -19,7 +19,7 @@ namespace SPT.Custom.CustomAI
                 return true;
             }
 
-            return (int)botRoleToCheck == SPTPrePatcher.sptBearValue || (int)botRoleToCheck == SPTPrePatcher.sptUsecValue;
+            return botRoleToCheck == WildSpawnType.pmcBEAR || botRoleToCheck == WildSpawnType.pmcUSEC;
         }
 
         public static bool BotIsPlayerScav(WildSpawnType role, string nickname)

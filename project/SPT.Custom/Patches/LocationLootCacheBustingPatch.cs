@@ -21,6 +21,7 @@ namespace SPT.Custom.Patches
             return desiredMethod;
         }
 
+        // method_6
         private static bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
