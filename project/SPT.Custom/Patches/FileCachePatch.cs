@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_19));
+            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_26));
         }
 
         [PatchPrefix]

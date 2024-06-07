@@ -22,33 +22,16 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            // We want to find a type that contains `SellAllFromSavage` but doesn't extend from `IBackendStatus`
-            Type targetType = PatchConstants.EftTypes.SingleCustom(IsTargetType);
+            _sendOperationMethod = AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SendOperationRightNow));
 
-            Logger.LogDebug($"{this.GetType().Name} Type: {targetType?.Name}");
-
-            // So we can call "SendOperationRightNow" without directly referencing a GClass
-            _sendOperationMethod = AccessTools.Method(targetType, "SendOperationRightNow");
-
-            return AccessTools.Method(targetType, TargetMethodName);
-        }
-
-        private bool IsTargetType(Type type)
-        {
-            // Isn't an interface, isn't part of the dummy class, and contains our target method
-            if (!type.IsInterface
-                && type.DeclaringType != typeof(BackendDummyClass)
-                && type.GetMethod(TargetMethodName) != null)
-            {
-                return true;
-            }
-
-            return false;
+            // NEEDS FIXING
+            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SellAllFromSavage));
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(object __instance, ref Task<IResult> __result, string playerId, string petId)
+        private static bool PatchPrefix(ProfileEndpointFactoryAbstractClass __instance, ref Task<IResult> __result, string playerId, string petId)
         {
+
             // Build request with additional information
             OwnerInfo fromOwner = new OwnerInfo
             {
