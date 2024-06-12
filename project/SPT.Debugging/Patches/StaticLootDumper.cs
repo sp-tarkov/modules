@@ -13,7 +13,7 @@ namespace SPT.Debugging.Patches
 {
 	public class StaticLootDumper : ModulePatch 
 	{
-		public static string DumpFolder = Path.Combine(Environment.CurrentDirectory, "StaticDumps");
+		public static string DumpFolder = Path.Combine(Environment.CurrentDirectory, "Dumps");
 
 		protected override MethodBase GetTargetMethod()
 		{
@@ -65,9 +65,9 @@ namespace SPT.Debugging.Patches
 			});
 
 			string jsonString = JsonConvert.SerializeObject(containersData, Formatting.Indented);
-
-			string outputFile = Path.Combine(DumpFolder, $"{mapName}.json");
-			if (File.Exists(outputFile))
+			string outputFile = Path.Combine(DumpFolder, $"{mapName}", $"statics.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(outputFile));
+            if (File.Exists(outputFile))
 			{
 				File.Delete(outputFile);
 			}

@@ -15,7 +15,7 @@ namespace SPT.Debugging.Patches
 {
     internal class ExfilDumper : ModulePatch
     {
-        public static string DumpFolder = Path.Combine(Environment.CurrentDirectory, "ExfilDumps");
+        public static string DumpFolder = Path.Combine(Environment.CurrentDirectory, "Dumps");
 
         protected override MethodBase GetTargetMethod()
         {
