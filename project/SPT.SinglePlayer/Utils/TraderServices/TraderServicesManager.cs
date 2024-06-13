@@ -10,9 +10,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
-using TraderServiceClass = GClass1805;
-using QuestDictClass = GClass2146<string>;
-using StandingListClass = GClass2148<float>;
+using TraderServiceClass = GClass1806;
+using QuestDictClass = GClass2147<string>;
+using StandingListClass = GClass2149<float>;
 
 namespace SPT.SinglePlayer.Utils.TraderServices
 {
