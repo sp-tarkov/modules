@@ -373,14 +373,6 @@ namespace SPT.Custom.BTR
             }
 
             btrServerSide.turnCheckerObject.GetComponent<Renderer>().enabled = false; // Disables the red debug sphere
-
-            // Something is colliding with each other. We disabled the Main exterior collider on server objects
-            // and changed the layer of the Client exterior collider to be highPolyCollider to stop it twerking. Needs Proper fix
-            var servercolliders = btrServerSide.transform.GetComponentsInChildren<MeshCollider>();
-            var clientcolliders = btrClientSide.transform.GetComponentsInChildren<MeshCollider>();
-
-            clientcolliders.FirstOrDefault(x => x.gameObject.name == "BTR_82_exterior_COLLIDER").gameObject.layer = LayerMask.NameToLayer("HighPolyCollider");
-            servercolliders.FirstOrDefault(x => x.gameObject.name == "BTR_82_exterior_COLLIDER").enabled = false;
         }
 
         private void UpdateTarget()
