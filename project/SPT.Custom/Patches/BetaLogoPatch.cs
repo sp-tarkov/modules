@@ -6,6 +6,7 @@ using System.Reflection;
 using SPT.SinglePlayer.Utils.MainMenu;
 using TMPro;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
@@ -13,7 +14,17 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_30));
+            return AccessTools.FirstMethod(typeof(TarkovApplication), IsTargetMethod);
+        }
+
+        private bool IsTargetMethod(MethodInfo method)
+        {
+            ParameterInfo[] parameters = method.GetParameters();
+
+            return method.ReturnType == typeof(Task)
+                && parameters.Length == 4
+                && parameters[0].ParameterType == typeof(Profile)
+                && parameters[1].ParameterType == typeof(ProfileStatusClass);
         }
 
         [PatchPrefix]
