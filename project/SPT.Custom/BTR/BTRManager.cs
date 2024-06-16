@@ -290,7 +290,7 @@ namespace SPT.Custom.BTR
 
         private IEnumerator CoverFireTimer(float time)
         {
-            yield return new WaitForSecondsRealtime(time);
+            yield return new WaitForSeconds(time);
             botEventHandler.StopTraderServiceBtrSupport();
         }
 
@@ -314,7 +314,9 @@ namespace SPT.Custom.BTR
             {
                 var player = gameWorld.MainPlayer;
 
-                BTRSide btrSide = player.BtrInteractionSide != null ? player.BtrInteractionSide : lastInteractedBtrSide;
+                BTRSide btrSide = player.BtrInteractionSide != null
+                    ? player.BtrInteractionSide
+                    : lastInteractedBtrSide;
                 byte sideId = btrClientSide.GetSideId(btrSide);
                 switch (sideId)
                 {
@@ -430,7 +432,7 @@ namespace SPT.Custom.BTR
         {
             isShooting = true;
 
-            yield return new WaitForSecondsRealtime(machineGunAimDelay);
+            yield return new WaitForSeconds(machineGunAimDelay);
             if (currentTarget?.Person == null || currentTarget?.IsVisible == false || !btrBotShooter.BotBtrData.CanShoot())
             {
                 isShooting = false;
@@ -457,11 +459,11 @@ namespace SPT.Custom.BTR
                 firearmController.PlayWeaponSound(weaponSoundPlayer, btrMachineGunAmmo, machineGunMuzzle.position, aimDirection, false);
 
                 burstCount--;
-                yield return new WaitForSecondsRealtime(0.092308f); // 650 RPM
+                yield return new WaitForSeconds(0.092308f); // 650 RPM
             }
 
             float waitTime = Random.Range(machineGunRecoveryTime.x, machineGunRecoveryTime.y);
-            yield return new WaitForSecondsRealtime(waitTime);
+            yield return new WaitForSeconds(waitTime);
 
             isShooting = false;
         }
