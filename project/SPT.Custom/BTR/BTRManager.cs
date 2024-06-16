@@ -375,6 +375,19 @@ namespace SPT.Custom.BTR
             }
 
             btrServerSide.turnCheckerObject.GetComponent<Renderer>().enabled = false; // Disables the red debug sphere
+
+            // For some reason the client BTR collider is disabled but the server collider is enabled.
+            // Initially we assumed there was a reason for this so it was left as is.
+            // Turns out disabling the server collider in favour of the client collider fixes the "BTR doing a wheelie" bug,
+            // while preventing the player from walking through the BTR.
+            const string exteriorColliderName = "BTR_82_exterior_COLLIDER";
+            var serverExteriorCollider = btrServerSide.GetComponentsInChildren<Collider>(true)
+                .First(x => x.gameObject.name == exteriorColliderName);
+            var clientExteriorCollider = btrClientSide.GetComponentsInChildren<Collider>(true)
+                .First(x => x.gameObject.name == exteriorColliderName);
+
+            serverExteriorCollider.gameObject.SetActive(false);
+            clientExteriorCollider.gameObject.SetActive(true);
         }
 
         private void UpdateTarget()
