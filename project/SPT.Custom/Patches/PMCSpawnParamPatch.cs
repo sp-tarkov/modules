@@ -15,16 +15,13 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static void PatchPrefix(BotOwner bot)
         {
-            if (bot.Profile.Info.Settings.Role == WildSpawnType.pmcBEAR || bot.Profile.Info.Settings.Role == WildSpawnType.pmcUSEC)
+            if (bot.SpawnProfileData.SpawnParams == null)
             {
-                if (bot.SpawnProfileData.SpawnParams == null)
-                {
-                    bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
-                }
-                if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
-                {
-                    bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
-                }
+                bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
+            }
+            if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
+            {
+                bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
             }
         }
     }
