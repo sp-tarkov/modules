@@ -46,15 +46,15 @@ namespace SPT.Custom.Utils
             GUI.skin.window.normal.background = bgTexture;
             GUI.backgroundColor = Color.black;
 
-            int nWindowWidth = 500;
-            int nWindowHeight = 80;
-            GUI.Window(0,
-                new Rect((Screen.width / 2) - (nWindowWidth / 2),
-                (Screen.height / 2) - (nWindowHeight / 2),
-                nWindowWidth,
-                nWindowHeight),
-                DrawWindow,
-                "Bundle Loading");
+            GUI.Window(0, CreateRectangle(500, 80), DrawWindow, "Bundle Loading");
+        }
+
+        private Rect CreateRectangle(int width, int height)
+        {
+            return new Rect((Screen.width / 2) - (width / 2),
+                (Screen.height / 2) - (height / 2),
+                width,
+                height);
         }
 
         private void DrawWindow(int windowId)
