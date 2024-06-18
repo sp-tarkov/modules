@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="AnimationSystem.Types" HintPath="..\Shared\Managed\AnimationSystem.Types.dll" />
+    <Reference Include="AnimationSystem.Types" HintPath="..\Shared\Managed\AnimationSystem.Types.dll" Private="False" />
     <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
     <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
     <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
@@ -24,10 +24,10 @@
     <Reference Include="UnityEngine.AssetBundleModule" HintPath="..\Shared\Managed\UnityEngine.AssetBundleModule.dll" Private="False" />
     <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
     <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
-    <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" />
+    <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" Private="False" />
     <Reference Include="UnityEngine.ParticleSystemModule" HintPath="..\Shared\Managed\UnityEngine.ParticleSystemModule.dll" Private="false" />
     <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
-    <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" Private="False" />
     <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
     <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False" />
 	<Reference Include="Unity.ScriptableBuildPipeline" HintPath="..\Shared\Managed\Unity.ScriptableBuildPipeline.dll" Private="False" />
