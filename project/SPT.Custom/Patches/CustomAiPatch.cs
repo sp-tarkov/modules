@@ -59,13 +59,25 @@ namespace SPT.Custom.Patches
 
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
                 }
+
+                if (___botOwner_0.Profile.Info.Settings.IsBoss() 
+                    && !AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname)
+                    && !AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0)
+                    && !AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+                {
+                    if (___botOwner_0.Boss.BossLogic == null)
+                    {
+                        Logger.LogError($"[SPT.CUSTOM] [CUSTOMAIPATCH] : {___botOwner_0.Profile.Nickname} : {___botOwner_0.Profile.Info.Settings.Role} BossLogic was Null Setting as boss");
+                        ___botOwner_0.Boss.SetBoss(0);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Logger.LogError($"Error running CustomAiPatch PatchPrefix(): {ex.Message}");
                 Logger.LogError(ex.StackTrace);
             }
-            
+
             return true; // Do original 
         }
 
