@@ -82,7 +82,7 @@ namespace SPT.Custom.Patches
             bundleUtils.Init(bundleNames.Length);
 
             for (var i = 0; i < bundleNames.Length; i++)
-            {                
+            {
                 var key = bundleNames[i];
                 var path = eftBundlesPath;
 
