@@ -78,6 +78,9 @@ namespace SPT.Custom.Patches
 
             var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
 
+            var bundleUtils = BundleUtils.Create();
+            bundleUtils.Init(bundleNames.Length);
+
             for (var i = 0; i < bundleNames.Length; i++)
             {
                 var key = bundleNames[i];
@@ -86,6 +89,8 @@ namespace SPT.Custom.Patches
                 // acquire external bundle
                 if (BundleManager.Bundles.TryGetValue(key, out var bundleInfo))
                 {
+                    bundleUtils.SetProgress(i, bundleInfo.FileName);
+
                     // we need base path without file extension
                     path = BundleManager.GetBundlePath(bundleInfo);
 
@@ -106,6 +111,8 @@ namespace SPT.Custom.Patches
                     bundleCheck
                 });
             }
+
+            bundleUtils.Dispose();
 
             // create dependency graph
             instance.Manifest = manifest;
