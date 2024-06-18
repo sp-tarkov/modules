@@ -31,9 +31,9 @@ namespace SPT.Custom.Patches
 
 			var playerLocation = gameWorld.MainPlayer.Location;
 
-            if (playerLocation == "Sandbox")
+            if (playerLocation == "Sandbox" || playerLocation == "Sandbox_high")
             {
-				LocationScene.GetAll<BotZone>().ToList().First(x => x.name == "ZoneSandbox").MaxPersonsOnPatrol = GetMaxPatrolValueFromServer();
+				LocationScene.GetAll<BotZone>().ToList().First(zone => zone.name == "ZoneSandbox").MaxPersonsOnPatrol = GetMaxPatrolValueFromServer();
             }
 		}
 
