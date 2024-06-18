@@ -24,32 +24,34 @@ namespace SPT.Custom.Patches
         /// Postfix will adjust it back to original type
         /// </summary>
         /// <param name="__state">state to save for postfix to use later</param>
-        /// <param name="__instance"></param>
+        /// <param name="__instance">StandartBotBrain</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
         private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            var player = Singleton<GameWorld>.Instance.MainPlayer;
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
             try
             {
                 string currentMapName = GetCurrentMap();
-                if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
+                var isPlayerScav = AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname);
+                if (isPlayerScav)
                 {
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(___botOwner_0, currentMapName);
 
                     return true; // Do original
                 }
                 
-                if (AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0))
+                var isNormalAssaultScav = AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0);
+                if (isNormalAssaultScav)
                 {
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
 
                     return true; // Do original
                 }
 
-                if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+                var isSptPmc = AiHelpers.BotIsSptPmc(__state, ___botOwner_0);
+                if (isSptPmc)
                 {
                     // Bot has inventory equipment
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
@@ -60,14 +62,16 @@ namespace SPT.Custom.Patches
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
                 }
 
+                // Is a boss bot and not already handled above
                 if (___botOwner_0.Profile.Info.Settings.IsBoss() 
-                    && !AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname)
-                    && !AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0)
-                    && !AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+                    && !isPlayerScav
+                    && !isNormalAssaultScav
+                    && !isSptPmc)
                 {
                     if (___botOwner_0.Boss.BossLogic == null)
                     {
-                        Logger.LogError($"[SPT.CUSTOM] [CUSTOMAIPATCH] : {___botOwner_0.Profile.Nickname} : {___botOwner_0.Profile.Info.Settings.Role} BossLogic was Null Setting as boss");
+                        // Ensure boss has AI init
+                        Logger.LogError($"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {___botOwner_0.Profile.Nickname} type: {___botOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating");
                         ___botOwner_0.Boss.SetBoss(0);
                     }
                 }
@@ -87,6 +91,7 @@ namespace SPT.Custom.Patches
         /// <returns>WildSpawnType</returns>
         private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
         {
+            // Is PMC
             if (botOwner.Profile.Info.IsStreamerModeAvailable && botOwner.Profile.Info.Settings.Role == WildSpawnType.assaultGroup)
             {
                 Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
