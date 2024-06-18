@@ -45,7 +45,16 @@ namespace SPT.Custom.Utils
             GUI.skin.window.alignment = TextAnchor.MiddleCenter;
             GUI.skin.window.normal.background = bgTexture;
             GUI.backgroundColor = Color.black;
-            GUI.Window(0, new Rect((Screen.width / 2) - 200, (Screen.height / 2) + 200, 500, 80), DrawWindow, "Bundle Loading");
+
+            int nWindowWidth = 500;
+            int nWindowHeight = 80;
+            GUI.Window(0,
+                new Rect((Screen.width / 2) - (nWindowWidth / 2),
+                (Screen.height / 2) - (nWindowHeight / 2),
+                nWindowWidth,
+                nWindowHeight),
+                DrawWindow,
+                "Bundle Loading");
         }
 
         private void DrawWindow(int windowId)
