@@ -1,5 +1,5 @@
+using HarmonyLib;
 using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
 using System;
 using System.Reflection;
 
@@ -9,10 +9,7 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var targetInterface = PatchConstants.EftTypes.SingleCustom(x => x == typeof(IConnectionHandler) && x.IsInterface);
-            var typeThatMatches = PatchConstants.EftTypes.SingleCustom(x => targetInterface.IsAssignableFrom(x) && x.IsAbstract && !x.IsInterface);
-            
-            return typeThatMatches.GetMethods(BindingFlags.Public | BindingFlags.Instance).SingleCustom(x => x.ReturnType == typeof(Uri));
+            return AccessTools.Method(typeof(UriParamsClass), nameof(UriParamsClass.method_0));
         }
 
         // This is a pass through postfix and behaves a little differently than usual
