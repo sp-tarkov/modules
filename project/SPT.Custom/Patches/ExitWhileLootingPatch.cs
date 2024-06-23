@@ -31,7 +31,7 @@ namespace SPT.Custom.Patches
             var player = Singleton<GameWorld>.Instance.MainPlayer;
             if (profileId == player?.Profile.Id)
             {
-                GClass3131.Instance.CloseAllScreensForced();
+                CurrentScreenSingleton.Instance.CloseAllScreensForced();
             }
 
             return true;

@@ -8,7 +8,7 @@ namespace SPT.Custom.BTR
     {
         public override bool IsStatic => false;
 
-        public override void AddPenalty(GInterface106 player)
+        public override void AddPenalty(IPlayerOwner player)
         {
         }
 
@@ -16,7 +16,7 @@ namespace SPT.Custom.BTR
         {
         }
 
-        public override void ProceedDamage(GInterface106 player, BodyPartCollider bodyPart)
+        public override void ProceedDamage(IPlayerOwner player, BodyPartCollider bodyPart)
         {
             bodyPart.ApplyInstantKill(new DamageInfo()
             {
@@ -31,7 +31,7 @@ namespace SPT.Custom.BTR
             });
         }
 
-        public override void RemovePenalty(GInterface106 player)
+        public override void RemovePenalty(IPlayerOwner player)
         {
         }
     }
