@@ -5,7 +5,6 @@ using EFT;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection;
-using DialogControlClass = GClass1973;
 
 namespace SPT.Debugging.Patches
 {
@@ -20,7 +19,7 @@ namespace SPT.Debugging.Patches
         [PatchPostfix]
         internal static void PatchPostfix()
         {
-            ConsoleScreen.Processor.RegisterCommandGroup<DialogControlClass>();
+            ConsoleScreen.Processor.RegisterCommandGroup<TraderDialogInteractionScreenClass>();
             ConsoleScreen.Processor.RegisterCommand("btr_deliver_items", new System.Action(BtrDeliverItemsCommand));
         }
 
@@ -36,7 +35,7 @@ namespace SPT.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(DialogControlClass), nameof(DialogControlClass.ShowDialogScreen));
+            return AccessTools.Method(typeof(TraderDialogInteractionScreenClass), nameof(TraderDialogInteractionScreenClass.ShowDialogScreen));
         }
 
         [PatchPrefix]

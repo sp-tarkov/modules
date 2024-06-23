@@ -41,7 +41,7 @@ namespace SPT.Custom.Patches
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
                 count = _ragfairOfferSellHelperClass.OfferItemCount,
-                fee = Mathf.CeilToInt((float)GClass2105.CalculateTaxPrice(___item_0, _ragfairOfferSellHelperClass.OfferItemCount, ___double_0, ___bool_0))
+                fee = Mathf.CeilToInt((float)FleaTaxCalculatorAbstractClass.CalculateTaxPrice(___item_0, _ragfairOfferSellHelperClass.OfferItemCount, ___double_0, ___bool_0))
             }.ToJson());
         }
     }

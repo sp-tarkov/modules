@@ -10,8 +10,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
-using TraderServiceClass = GClass1806;
-using QuestDictClass = GClass2147<string>;
 using StandingListClass = GClass2149<float>;
 
 namespace SPT.SinglePlayer.Utils.TraderServices
@@ -86,7 +84,7 @@ namespace SPT.SinglePlayer.Utils.TraderServices
                     // Only populate trader services that don't exist yet
                     if (!servicesData.ContainsKey(traderServiceModel.ServiceType))
                     {
-                        TraderServiceClass traderService = new TraderServiceClass
+                        TraderServicesClass traderService = new TraderServicesClass
                         {
                             TraderId = traderId,
                             ServiceType = serviceType,
@@ -110,12 +108,12 @@ namespace SPT.SinglePlayer.Utils.TraderServices
                                 serviceData.TraderServiceRequirements.Standings.AddRange(traderServiceModel.Requirements.Standings);
 
                                 // BSG has a bug in their code, we _need_ to initialize this if Standings isn't null
-                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictClass();
+                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictionaryClass<string>();
                             }
                             
                             if (traderServiceModel.Requirements.CompletedQuests != null)
                             {
-                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictClass();
+                                serviceData.TraderServiceRequirements.CompletedQuests = new QuestDictionaryClass<string>();
                                 serviceData.TraderServiceRequirements.CompletedQuests.Concat(traderServiceModel.Requirements.CompletedQuests);
                             }
                         }
