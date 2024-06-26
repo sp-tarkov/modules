@@ -22,6 +22,13 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
+            if (requester == null)
+            {
+                __result = false;
+
+                return false; // Skip original
+            }
+
             if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent
 				|| __instance.InitialBotType == WildSpawnType.shooterBTR
 				|| __instance.InitialBotType == WildSpawnType.gifter
