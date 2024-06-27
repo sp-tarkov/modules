@@ -1,5 +1,4 @@
-﻿using SPT.PrePatch;
-using SPT.Reflection.Patching;
+﻿using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 using EFT;
 using System;
