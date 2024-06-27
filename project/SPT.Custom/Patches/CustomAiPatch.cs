@@ -63,7 +63,8 @@ namespace SPT.Custom.Patches
                 }
 
                 // Is a boss bot and not already handled above
-                if (___botOwner_0.Profile.Info.Settings.IsBoss() 
+                if (___botOwner_0.Profile.Info.Settings.IsBoss()
+                    && !BotHasAssaultGroupRole(___botOwner_0)
                     && !isPlayerScav
                     && !isNormalAssaultScav
                     && !isSptPmc)
@@ -91,8 +92,8 @@ namespace SPT.Custom.Patches
         /// <returns>WildSpawnType</returns>
         private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
         {
-            // Is PMC
-            if (botOwner.Profile.Info.IsStreamerModeAvailable && botOwner.Profile.Info.Settings.Role == WildSpawnType.assaultGroup)
+            // Is PMC + set to assaultGroup
+            if (botOwner.Profile.Info.IsStreamerModeAvailable && BotHasAssaultGroupRole(botOwner))
             {
                 Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
 
@@ -104,6 +105,11 @@ namespace SPT.Custom.Patches
 
             // Not broken pmc, return original role
             return botOwner.Profile.Info.Settings.Role;
+        }
+
+        private static bool BotHasAssaultGroupRole(BotOwner botOwner)
+        {
+            return botOwner.Profile.Info.Settings.Role == WildSpawnType.assaultGroup;
         }
 
         /// <summary>
