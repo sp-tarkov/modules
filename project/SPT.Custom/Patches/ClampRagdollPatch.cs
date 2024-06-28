@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace SPT.Custom.Patches
 {
+    /// <summary>
+    /// On death some bots have a habit of flying upwards. We have found this occurs when the velocity y and magnitude match
+    /// </summary>
     public class ClampRagdollPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
@@ -16,7 +19,11 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static void PatchPreFix(ref Vector3 velocity)
         {
-            velocity.y = Mathf.Clamp(velocity.y, -2f, 2f);
+            if (velocity.magnitude == velocity.y && velocity.y > 5)
+            {
+                // Probably flying upwards
+                velocity.y = 1;
+            }
         }
     }
 }
