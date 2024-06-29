@@ -137,7 +137,7 @@ namespace SPT.SinglePlayer.Models.Progression
         /// </summary>
         private void SetupZryachiyAndFollowerHostility()
         {
-            // only process non-players (ai)
+            // Only process non-players (ai)
             foreach (var aiBot in _gameWorld.AllAlivePlayersList.Where(x => !x.IsYourPlayer))
             {
                 // Bots that die on mounted guns get stuck in AllAlivePlayersList, need to check health
@@ -150,16 +150,7 @@ namespace SPT.SinglePlayer.Models.Progression
                 if (aiBot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || aiBot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
                 {
                     // Subscribe to bots OnDeath event
-                    aiBot.OnPlayerDeadOrUnspawn += player1 =>
-                    {
-                        // If player kills zryachiy or follower, force aggressor state
-                        // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
-                        if (player1?.KillerId == _player?.ProfileId)
-                        {
-                            _aggressor = true;
-                            _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
-                        }
-                    };
+                    aiBot.OnPlayerDeadOrUnspawn += OnZryachiyOrFollowerDeath;
 
                     // Save bot to list for later access
                     if (!_zryachiyAndFollowers.Contains(aiBot))
@@ -167,6 +158,22 @@ namespace SPT.SinglePlayer.Models.Progression
                         _zryachiyAndFollowers.Add(aiBot);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Set aggression + standing loss when Zryachiy/follower is killed by player
+        /// </summary>
+        /// <param name="player">The player who killed Zryachiy/follower.</param>
+        private void OnZryachiyOrFollowerDeath(Player player)
+        {
+            // Check if zryachiy/follower was killed by player
+            if (player?.KillerId == _player?.ProfileId)
+            {
+                // If player kills zryachiy or follower, force aggressor state
+                // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
+                _aggressor = true;
+                _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
             }
         }
 
