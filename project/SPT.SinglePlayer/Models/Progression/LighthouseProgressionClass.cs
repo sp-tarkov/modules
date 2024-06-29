@@ -120,14 +120,14 @@ namespace SPT.SinglePlayer.Models.Progression
         /// <summary>
         /// Set all brdige mines to desire state
         /// </summary>
-        /// <param name="active">What state mines should be</param>
-        private void SetBridgeMinesStatus(bool active)
+        /// <param name="desiredMineState">What state should bridge mines be set to</param>
+        private void SetBridgeMinesStatus(bool desiredMineState)
         {
-			
 			// Find mines with opposite state of what we want
-			foreach (var mine in _bridgeMines.Where(mine => mine.gameObject.activeSelf == !active && mine.transform.parent.gameObject.name == "Directional_mines_LHZONE"))
+            var mines = _bridgeMines.Where(mine => mine.gameObject.activeSelf == !desiredMineState && mine.transform.parent.gameObject.name == "Directional_mines_LHZONE");
+            foreach (var mine in mines)
             {
-				mine.gameObject.SetActive(active);
+				mine.gameObject.SetActive(desiredMineState);
             }
 		}
 
