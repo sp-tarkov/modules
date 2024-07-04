@@ -1,11 +1,12 @@
-﻿using SPT.Custom.BTR.Utils;
-using SPT.SinglePlayer.Utils.TraderServices;
-using Comfort.Common;
+﻿using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
 using EFT.UI;
 using EFT.Vehicle;
+using GPUInstancer;
 using HarmonyLib;
+using SPT.Custom.BTR.Utils;
+using SPT.SinglePlayer.Utils.TraderServices;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -229,6 +230,7 @@ namespace SPT.Custom.BTR
         private void InitBtrBotService()
         {
             btrBotShooter = btrController.BotShooterBtr;
+            btrBotShooter.GetPlayer.GetComponent<Rigidbody>().detectCollisions = false; // disable rigidbody collisions with BTR bot
             firearmController = btrBotShooter.GetComponent<Player.FirearmController>();
             var weaponPrefab = (WeaponPrefab)AccessTools.Field(firearmController.GetType(), "weaponPrefab_0").GetValue(firearmController);
             weaponSoundPlayer = weaponPrefab.GetComponent<WeaponSoundPlayer>();
@@ -380,14 +382,74 @@ namespace SPT.Custom.BTR
             // Initially we assumed there was a reason for this so it was left as is.
             // Turns out disabling the server collider in favour of the client collider fixes the "BTR doing a wheelie" bug,
             // while preventing the player from walking through the BTR.
+            // We also need to change the client collider's layer to HighPolyCollider due to unknown collisions that occur
+            // when going down a steep slope.
+
+            // Add collision debugger component to log collisions in the EFT Console
+            var clientColliders = btrClientSide.GetComponentsInChildren<Collider>(true);
+            //foreach (var collider in clientColliders)
+            //{
+            //    collider.gameObject.AddComponent<CollisionDebugger>();
+            //}
+
+            var serverColliders = btrServerSide.GetComponentsInChildren<Collider>(true);
+            //foreach (var collider in serverColliders)
+            //{
+            //    collider.gameObject.AddComponent<CollisionDebugger>();
+            //}
+
+            var clientRootCollider = clientColliders.First(x => x.gameObject.name == "Root");
+
+            // Retrieve all TerrainColliders
+            var terrainColliders = new List<TerrainCollider>();
+
+            foreach (GPUInstancerManager manager in GPUInstancerManager.activeManagerList)
+            {
+                if (manager.GetType() != typeof(GPUInstancerDetailManager))
+                {
+                    continue;
+                }
+
+                var detailManager = (GPUInstancerDetailManager)manager;
+                if (detailManager.terrain == null)
+                {
+                    continue;
+                }
+
+                terrainColliders.Add(detailManager.terrain.GetComponent<TerrainCollider>());
+            }
+
+            // Make the Root collider ignore collisions with TerrainColliders
+            foreach (var collider in terrainColliders)
+            {
+                Physics.IgnoreCollision(clientRootCollider, collider);
+            }
+
+            // Retrieve all wheel colliders on the serverside BTR
+            const string wheelColliderParentName = "BTR_82_wheel";
+            const string wheelColliderName = "Cylinder";
+
+            var serverWheelColliders = serverColliders
+                .Where(x => x.transform.parent.name.StartsWith(wheelColliderParentName) && x.gameObject.name.StartsWith(wheelColliderName))
+                .ToArray();
+
+            // Make the Root collider ignore collisions with the serverside BTR wheels
+            foreach (var collider in serverWheelColliders)
+            {
+                Physics.IgnoreCollision(clientRootCollider, collider);
+            }
+
+            // Enable clientside BTR collider and disable serverside BTR collider
             const string exteriorColliderName = "BTR_82_exterior_COLLIDER";
-            var serverExteriorCollider = btrServerSide.GetComponentsInChildren<Collider>(true)
+
+            var serverExteriorCollider = serverColliders
                 .First(x => x.gameObject.name == exteriorColliderName);
-            var clientExteriorCollider = btrClientSide.GetComponentsInChildren<Collider>(true)
+            var clientExteriorCollider = clientColliders
                 .First(x => x.gameObject.name == exteriorColliderName);
 
             serverExteriorCollider.gameObject.SetActive(false);
             clientExteriorCollider.gameObject.SetActive(true);
+            clientExteriorCollider.gameObject.layer = LayerMask.NameToLayer("HighPolyCollider");
         }
 
         private void UpdateTarget()
