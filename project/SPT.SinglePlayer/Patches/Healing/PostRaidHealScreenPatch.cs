@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.Healing
         protected override MethodBase GetTargetMethod()
         {
             // Class1049.smethod_0 as of 18969
-            //internal static Class1049 smethod_0(GInterface29 backend, string profileId, Profile savageProfile, LocationSettingsClass.GClass1097 location, ExitStatus exitStatus, TimeSpan exitTime, ERaidMode raidMode)
+            // internal static Class1049 smethod_0(GInterface29 backend, string profileId, Profile savageProfile, LocationSettingsClass.GClass1097 location, ExitStatus exitStatus, TimeSpan exitTime, RaidSettings raidSettings)
             var desiredMethod = typeof(PostRaidHealthScreenClass).GetMethods(BindingFlags.Static | BindingFlags.Public).SingleCustom(IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -34,7 +34,7 @@ namespace SPT.SinglePlayer.Patches.Healing
                 && parameters[3].Name == "location"
                 && parameters[4].Name == "exitStatus"
                 && parameters[5].Name == "exitTime"
-                && parameters[6].Name == "raidMode";
+                && parameters[6].Name == "raidSettings";
         }
 
         [PatchPrefix]
