@@ -36,11 +36,13 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         private bool IsTargetMethod(MethodInfo arg)
         {
-            // method_43 as of 26535
+            // method_47 as of 26535
             var parameters = arg.GetParameters();
-            return parameters.Length == 2
+            return parameters.Length == 4
                 && parameters[0]?.Name == "timeAndWeather"
                 && parameters[1]?.Name == "timeHasComeScreenController"
+                && parameters[2]?.Name == "metricsEvents"
+                && parameters[3]?.Name == "metricsConfig"
                 && arg.ReturnType == typeof(Task);
         }
 
