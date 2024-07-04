@@ -185,7 +185,7 @@ namespace SPT.Custom.BTR
             }
             btrServerSide.CurrentPathConfig = btrMapConfig.PathsConfiguration.pathsConfigurations.RandomElement();
             btrServerSide.Initialization(btrMapConfig);
-            btrController.method_14(); // creates and assigns the BTR a fake stash
+            btrController.method_19(); // creates and assigns the BTR a fake stash
 
             DisableServerSideObjects();
 
@@ -270,7 +270,7 @@ namespace SPT.Custom.BTR
 
             List<Player> passengers = gameWorld.AllAlivePlayersList.Where(x => x.BtrState == EPlayerBtrState.Inside).ToList();
             List<int> playersToNotify = passengers.Select(x => x.Id).ToList();
-            btrController.method_6(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
+            btrController.method_11(playersToNotify, serviceType); // notify BTR passengers that a service has been purchased
 
             switch (serviceType)
             {
