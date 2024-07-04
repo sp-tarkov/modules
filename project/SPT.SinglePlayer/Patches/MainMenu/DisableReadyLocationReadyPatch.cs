@@ -9,7 +9,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     /// <summary>
     /// Remove the ready button from select location screen
     /// </summary>
-    public class SelectLocationScreenPatch : ModulePatch
+    public class DisableReadyLocationReadyPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
