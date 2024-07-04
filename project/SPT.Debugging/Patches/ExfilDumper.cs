@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using ExitSettingsClass = GClass1234;
 
 namespace SPT.Debugging.Patches
 {
@@ -23,7 +22,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPostfix]
-        public static void PatchPreFix(ExitSettingsClass[] settings)
+        public static void PatchPreFix(LocationExitClass[] settings)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             string mapName = gameWorld.MainPlayer.Location.ToLower();
@@ -37,7 +36,7 @@ namespace SPT.Debugging.Patches
 
             foreach (var exfil in pmcExfilPoints.Concat(scavExfilPoints))
             {
-                ExitSettingsClass exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
+                LocationExitClass exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
                 exfils.Add(new SPTExfilData(exfil, exitSettings));
             }
 
@@ -73,7 +72,7 @@ namespace SPT.Debugging.Patches
             public string RequirementTip = "";
             public string Side = "";
 
-            public SPTExfilData(ExfiltrationPoint point, ExitSettingsClass settings)
+            public SPTExfilData(ExfiltrationPoint point, LocationExitClass settings)
             {
                 // PMC and shared extracts, prioritize settings over the map data to match base behaviour
                 if (settings != null && (!(point is ScavExfiltrationPoint) || point is SharedExfiltrationPoint))

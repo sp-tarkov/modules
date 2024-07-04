@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // Correct Gclass has sessionCounters
-            return AccessTools.Method(typeof(GClass1802), nameof(GClass1802.OnEnemyKill));
+            return AccessTools.Method(typeof(LocationStatisticsCollectorAbstractClass), nameof(LocationStatisticsCollectorAbstractClass.OnEnemyKill));
         }
 
         [PatchPrefix]

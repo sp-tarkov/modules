@@ -3,7 +3,6 @@ using EFT;
 using System;
 using Comfort.Common;
 using System.Reflection;
-using SPT.PrePatch;
 using SPT.Custom.CustomAI;
 using HarmonyLib;
 

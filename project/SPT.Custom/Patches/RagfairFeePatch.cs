@@ -17,8 +17,8 @@ namespace SPT.Custom.Patches
         public RagfairFeePatch()
         {
             // Remember to update prefix parameter if below lines are broken
-            _ = nameof(GClass3091.IsAllSelectedItemSame);
-            _ = nameof(GClass3091.AutoSelectSimilar);
+            _ = nameof(RagfairOfferSellHelperClass.IsAllSelectedItemSame);
+            _ = nameof(RagfairOfferSellHelperClass.AutoSelectSimilar);
         }
 
         protected override MethodBase GetTargetMethod()
@@ -34,14 +34,14 @@ namespace SPT.Custom.Patches
 		/// <param name="___double_0">RequirementsPrice</param>
 		/// <param name="___bool_0">SellInOnePiece</param>
 		[PatchPrefix]
-        private static void PatchPrefix(ref Item ___item_0, ref GClass3091 ___gclass3091_0, ref double ___double_0, ref bool ___bool_0)
+        private static void PatchPrefix(ref Item ___item_0, ref RagfairOfferSellHelperClass ___ragfairOfferSellHelperClass, ref double ___double_0, ref bool ___bool_0)
         {
             RequestHandler.PutJson("/client/ragfair/offerfees", new
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___gclass3091_0.OfferItemCount,
-                fee = Mathf.CeilToInt((float)GClass2105.CalculateTaxPrice(___item_0, ___gclass3091_0.OfferItemCount, ___double_0, ___bool_0))
+                count = ___ragfairOfferSellHelperClass.OfferItemCount,
+                fee = Mathf.CeilToInt((float)FleaTaxCalculatorAbstractClass.CalculateTaxPrice(___item_0, ___ragfairOfferSellHelperClass.OfferItemCount, ___double_0, ___bool_0))
             }.ToJson());
         }
     }

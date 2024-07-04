@@ -1,5 +1,4 @@
-﻿using SPT.PrePatch;
-using EFT;
+﻿using EFT;
 
 namespace SPT.Custom.CustomAI
 {
