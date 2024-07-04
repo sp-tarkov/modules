@@ -26,8 +26,11 @@ namespace SPT.SinglePlayer
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new PlayerPatch().Enable();
-                new SelectLocationScreenPatch().Enable();
-                new InsuranceScreenPatch().Enable();
+                new DisableReadyLocationReadyPatch().Enable();
+                
+                // No longer required with PVE offline mode
+                // new InsuranceScreenPatch().Enable();
+                
                 new BotTemplateLimitPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
@@ -69,6 +72,7 @@ namespace SPT.SinglePlayer
                 new ScavRepAdjustmentPatch().Enable();
                 new AmmoUsedCounterPatch().Enable();
                 new ArmorDamageCounterPatch().Enable();
+                new PVEModeWelcomeMessagePatch().Enable();
             }
             catch (Exception ex)
             {
