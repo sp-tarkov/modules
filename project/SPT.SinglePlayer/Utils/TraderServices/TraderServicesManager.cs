@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using static BackendConfigSettingsClass;
-using StandingListClass = GClass2149<float>;
+using StandingListClass = GClass2188<float>;
 
 namespace SPT.SinglePlayer.Utils.TraderServices
 {
