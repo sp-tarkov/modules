@@ -9,7 +9,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 {
     public class ScavRepAdjustmentPatch : ModulePatch
     {
-        // TODO: REMAP/UPDATE GCLASS REF
         protected override MethodBase GetTargetMethod()
         {
             // Correct Gclass has sessionCounters
@@ -43,16 +42,43 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                     killedPlayer.AIData.IsAI = false;
                 }
 
-                player.Loyalty.method_1(killedPlayer);
+                // If Victim is a PMC and has killed a Scav or Marksman.
+                if (killedPlayer.Side == EPlayerSide.Bear || killedPlayer.Side == EPlayerSide.Usec)
+                {
+                    if(HasBotKilledScav(killedPlayer))
+                    {
+                        player.Profile.FenceInfo.AddStanding(killedPlayer.Profile.Info.Settings.StandingForKill, EFT.Counters.EFenceStandingSource.ScavHelp);
+                    }
+                }
+                else
+                {
+                    player.Loyalty.method_1(killedPlayer);
+                }
             }
         }
+
         [PatchPostfix]
         private static void PatchPostfix(Tuple<Player, bool> __state)
         {
-            if(__state.Item1 != null)
+            if (__state.Item1 != null)
             {
                 __state.Item1.AIData.IsAI = __state.Item2;
             }
+        }
+
+        private static bool HasBotKilledScav(Player killedPlayer)
+        {
+            var killedBots = killedPlayer.Profile.EftStats.Victims;
+
+            foreach (var Bot in killedBots)
+            {
+                if (Bot.Role == WildSpawnType.assault || Bot.Role == WildSpawnType.marksman || Bot.Role == WildSpawnType.assaultGroup)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
