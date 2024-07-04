@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_44));
+            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_45));
 
             _isLocalField = AccessTools.Field(typeof(MainMenuController), "bool_0");
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
@@ -46,7 +46,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_71));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_73));
         }
 
         [PatchTranspiler]
@@ -129,7 +129,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_75));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_77));
             gclass.ShowScreen(EScreenState.Queued);
         }
 
