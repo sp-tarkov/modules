@@ -9,11 +9,11 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(Class1496), nameof(Class1496.method_0));
+            return AccessTools.Method(typeof(Class1518), nameof(Class1518.method_0));
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(Class1496 __instance, bool successful)
+        private static void PatchPostfix(Class1518 __instance, bool successful)
         {
             if (!successful)
             {
