@@ -24,7 +24,8 @@ namespace SPT.Custom.Airdrops
             var instance = (await LoadPlane()).AddComponent<AirdropPlane>();
             
             instance.airplaneSync = instance.GetComponent<AirplaneSynchronizableObject>();
-            instance.airplaneSync.SetLogic(new AirplaneLogicClass());
+            // now has new parameter for AirplaneLogicClass, might be wrong
+            instance.airplaneSync.SetLogic(new AirplaneLogicClass(true));
 
             instance.SetPosition(dropHeight, airdropPoint);
             instance.SetAudio(planeVolume);
