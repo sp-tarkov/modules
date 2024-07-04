@@ -25,8 +25,10 @@
     <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
     <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
     <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" Private="False" />
-    <Reference Include="UnityEngine.ParticleSystemModule" HintPath="..\Shared\Managed\UnityEngine.ParticleSystemModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ParticleSystemModule" HintPath="..\Shared\Managed\UnityEngine.ParticleSystemModule.dll" Private="False" />
     <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
+    <Reference Include="UnityEngine.TerrainModule" HintPath="..\Shared\Managed\UnityEngine.TerrainModule.dll" Private="False" />
+    <Reference Include="UnityEngine.TerrainPhysicsModule" HintPath="..\Shared\Managed\UnityEngine.TerrainPhysicsModule.dll" Private="False" />
     <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" Private="False" />
     <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
     <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False" />
