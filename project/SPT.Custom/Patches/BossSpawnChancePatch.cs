@@ -28,9 +28,10 @@ namespace SPT.Custom.Patches
         private static bool IsTargetMethod(MethodInfo mi)
         {
             var parameters = mi.GetParameters();
-            return (parameters.Length == 2
-                && parameters[0].Name == "wavesSettings"
-                && parameters[1].Name == "bossLocationSpawn");
+            return (parameters.Length == 3
+                && parameters[0].Name == "isPVEOffline"
+                && parameters[1].Name == "wavesSettings"
+                && parameters[2].Name == "bossLocationSpawn");
         }
 
         [PatchPrefix]
