@@ -73,6 +73,7 @@ namespace SPT.SinglePlayer
                 new AmmoUsedCounterPatch().Enable();
                 new ArmorDamageCounterPatch().Enable();
                 new PVEModeWelcomeMessagePatch().Enable();
+                new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
             }
             catch (Exception ex)
             {
