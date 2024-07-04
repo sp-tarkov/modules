@@ -40,10 +40,10 @@ namespace SPT.SinglePlayer
                 new TinnitusFixPatch().Enable();
                 new MaxBotPatch().Enable();
                 new SpawnPmcPatch().Enable();
-                // new PostRaidHealingPricePatch().Enable(); // TODO: Temp disabled, this might not be needed
+                new PostRaidHealingPricePatch().Enable();
                 new EndByTimerPatch().Enable();
                 new InRaidQuestAvailablePatch().Enable();
-                new PostRaidHealScreenPatch().Enable();
+                // new PostRaidHealScreenPatch().Enable(); // TODO: Temp disabled, this might not be needed
                 new VoIPTogglerPatch().Enable();
                 new MidRaidQuestChangePatch().Enable();
                 new HealthControllerPatch().Enable();
