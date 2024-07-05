@@ -50,16 +50,11 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, UiElementBlocker ____onlineBlocker)
+        private static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, DefaultUIButton ____changeSettingsButton, UiElementBlocker ____onlineBlocker)
         {
-            // Hide "no progression save" panel
-            var warningPanel = __instance.transform.Find("Content/WarningPanelHorLayout").gameObject;
-            warningPanel.SetActive(false);
-            var spacer = __instance.transform.Find("Content/Space (1)").gameObject;
-            spacer.SetActive(false);
-
-            // Disable "Enable practice mode for this raid" toggle
-            ____onlineBlocker.SetBlock(true, "Raids in SPT are always Offline raids. Don't worry - your progress will be saved!");
+            ____onlineBlocker.gameObject.SetActive(false);
+            ____changeSettingsButton.Interactable = true;
+            __instance.transform.Find("Content/WarningPanelHorLayout").gameObject.SetActive(false);
         }
     }
 }

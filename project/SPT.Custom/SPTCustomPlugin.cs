@@ -27,7 +27,7 @@ namespace SPT.Custom
                 new BossSpawnChancePatch().Enable();
                 new BotDifficultyPatch().Enable();
                 new CoreDifficultyPatch().Enable();
-                // new OfflineRaidMenuPatch().Enable();
+                new OfflineRaidMenuPatch().Enable();
                 
                 // Fixed in live, no need for patch
                 // new RaidSettingsWindowPatch().Enable();
