@@ -117,6 +117,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
+            raidSettings.RaidMode = ERaidMode.Local;
 
             // Find the private field of type `MatchmakerPlayerControllerClass`
             var matchmakerPlayersController = menuController.GetType()
@@ -142,6 +143,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             {
                 raidSettings.WavesSettings.IsBosses = true;
             }
+
+            raidSettings.RaidMode = ERaidMode.Local;
 
             // Set offline raid values
             _isLocalField.SetValue(menuController, raidSettings.Local);
