@@ -33,26 +33,27 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 return;
             }
 
-            if (Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId) is Player killedPlayer)
+            if (Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId) is Player killedBot)
             {
-                __state = new Tuple<Player, bool>(killedPlayer, killedPlayer.AIData.IsAI);
+                __state = new Tuple<Player, bool>(killedBot, killedBot.AIData.IsAI);
+                var killedPlayerSettings = killedBot.Profile.Info.Settings;
                 // Extra check to ensure we only set playerscavs to IsAI = false
-                if (killedPlayer.Profile.Info.Settings.Role == WildSpawnType.assault && killedPlayer.Profile.Nickname.Contains("("))
+                if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Nickname.Contains("("))
                 {
-                    killedPlayer.AIData.IsAI = false;
+                    killedBot.AIData.IsAI = false;
                 }
 
                 // If Victim is a PMC and has killed a Scav or Marksman.
-                if (killedPlayer.Side == EPlayerSide.Bear || killedPlayer.Side == EPlayerSide.Usec)
+                if (killedPlayerSettings.Role == WildSpawnType.pmcBEAR || killedPlayerSettings.Role == WildSpawnType.pmcUSEC)
                 {
-                    if(HasBotKilledScav(killedPlayer))
+                    if (HasBotKilledScav(killedBot))
                     {
-                        player.Profile.FenceInfo.AddStanding(killedPlayer.Profile.Info.Settings.StandingForKill, EFT.Counters.EFenceStandingSource.ScavHelp);
+                        player.Profile.FenceInfo.AddStanding(killedPlayerSettings.StandingForKill, EFT.Counters.EFenceStandingSource.ScavHelp);
                     }
                 }
                 else
                 {
-                    player.Loyalty.method_1(killedPlayer);
+                    player.Loyalty.method_1(killedBot);
                 }
             }
         }
