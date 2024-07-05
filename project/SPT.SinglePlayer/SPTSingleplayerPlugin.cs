@@ -20,9 +20,9 @@ namespace SPT.SinglePlayer
 
             try
             {
-                new OfflineSaveProfilePatch().Enable();
+                //new OfflineSaveProfilePatch().Enable();
                 //new OfflineSpawnPointPatch().Enable(); // Spawns are properly randomised and patch is likely no longer needed
-                new ExperienceGainPatch().Enable();
+                //new ExperienceGainPatch().Enable();
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new PlayerPatch().Enable();
@@ -44,7 +44,7 @@ namespace SPT.SinglePlayer
                 new MaxBotPatch().Enable();
                 new SpawnPmcPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
-                new EndByTimerPatch().Enable();
+                //new EndByTimerPatch().Enable();
                 new InRaidQuestAvailablePatch().Enable();
                 // new PostRaidHealScreenPatch().Enable(); // TODO: Temp disabled, this might not be needed
                 new VoIPTogglerPatch().Enable();
