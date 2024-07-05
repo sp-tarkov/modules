@@ -26,19 +26,7 @@ namespace SPT.Debugging.Patches
 			"\nMay Cause Unexpected Behaviors inraid")]
 		public static void Reload()
 		{
-
-			var tarkovapp = Reflection.Utils.ClientAppUtils.GetMainApp();
-			GameWorld gameWorld = Singleton<GameWorld>.Instance;
-			if (gameWorld != null && gameWorld.MainPlayer.Location != "hideout")
-			{
-				ConsoleScreen.LogError("You are in raid. Please only use in Mainmenu");
-				return; // return early we dont want to cause errors because we are inraid
-			}
-			else if (gameWorld != null)
-			{
-				tarkovapp.HideoutControllerAccess.UnloadHideout();
-			}
-			tarkovapp.method_49();
+			Reflection.Utils.ClientAppUtils.GetMainApp().method_52().HandleExceptions();
 		}
 	}
 }

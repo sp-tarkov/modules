@@ -29,7 +29,7 @@ namespace SPT.Debugging
                 //new BTRDebugDataPatch().Enable();
 
                 //new PMCBotSpawnLocationPatch().Enable();
-                //new ReloadClientPatch().Enable();
+                new ReloadClientPatch().Enable();
 			}
             catch (Exception ex)
             {
