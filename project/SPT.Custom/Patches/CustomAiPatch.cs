@@ -5,6 +5,9 @@ using Comfort.Common;
 using System.Reflection;
 using SPT.Custom.CustomAI;
 using HarmonyLib;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using SPT.Common.Http;
 
 namespace SPT.Custom.Patches
 {
@@ -12,6 +15,7 @@ namespace SPT.Custom.Patches
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
         private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
+        private static List<string> BossConvertAllowedTypes = GetBossConvertFromServer();
 
         protected override MethodBase GetTargetMethod()
         {
@@ -62,11 +66,7 @@ namespace SPT.Custom.Patches
                 }
 
                 // Is a boss bot and not already handled above
-                if (___botOwner_0.Profile.Info.Settings.IsBoss()
-                    && !BotHasAssaultGroupRole(___botOwner_0)
-                    && !isPlayerScav
-                    && !isNormalAssaultScav
-                    && !isSptPmc)
+                if (BossConvertAllowedTypes.Contains(nameof(__state)))
                 {
                     if (___botOwner_0.Boss.BossLogic == null)
                     {
@@ -104,6 +104,12 @@ namespace SPT.Custom.Patches
 
             // Not broken pmc, return original role
             return botOwner.Profile.Info.Settings.Role;
+        }
+
+        private static List<string> GetBossConvertFromServer()
+        {
+            string json = RequestHandler.GetJson("/singleplayer/BossConvert");
+            return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
         private static bool BotHasAssaultGroupRole(BotOwner botOwner)
