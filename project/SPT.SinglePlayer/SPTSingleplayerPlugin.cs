@@ -77,6 +77,7 @@ namespace SPT.SinglePlayer
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
+                new RaidSettingsScreenPatch().Enable();
             }
             catch (Exception ex)
             {

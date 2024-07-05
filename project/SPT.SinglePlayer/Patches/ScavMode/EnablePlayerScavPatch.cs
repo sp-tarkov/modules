@@ -22,11 +22,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         private static void PatchPrefix(ref MainMenuController __instance, ref RaidSettings ___raidSettings_0, ref ISession ___iSession)
         {
-            if (!___raidSettings_0.IsScav)
-            {
-                return;
-            }
-
             // Store old settings to restore them later in postfix
             storedRaidMode = ___raidSettings_0.RaidMode;
             storedSide = ___raidSettings_0.Side;
@@ -41,11 +36,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPostfix]
         private static void PatchPostfix(ref MainMenuController __instance, ref RaidSettings ___raidSettings_0, ref ISession ___iSession)
         {
-            if (!___raidSettings_0.IsScav)
-            {
-                return;
-            }
-
             ___raidSettings_0.RaidMode = storedRaidMode;
             ___raidSettings_0.Side = storedSide;
             ___raidSettings_0.SelectedLocation.ForceOnlineRaidInPVE = storedOnlineRaidInPVE;
