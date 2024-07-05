@@ -76,6 +76,7 @@ namespace SPT.SinglePlayer
                 new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
+                new EnablePlayerScavPatch().Enable();
             }
             catch (Exception ex)
             {
