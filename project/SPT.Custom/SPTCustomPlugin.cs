@@ -45,8 +45,8 @@ namespace SPT.Custom
                 new CheckAndAddEnemyPatch().Enable();
                 new BotSelfEnemyPatch().Enable(); // needed
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
-                new AirdropPatch().Enable();
-                new AirdropFlarePatch().Enable();
+                //new AirdropPatch().Enable();
+                //new AirdropFlarePatch().Enable();
                 //new AddSptBotSettingsPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
