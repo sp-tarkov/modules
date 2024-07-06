@@ -20,17 +20,16 @@ namespace SPT.SinglePlayer
 
             try
             {
-                //new OfflineSaveProfilePatch().Enable();
-                //new OfflineSpawnPointPatch().Enable(); // Spawns are properly randomised and patch is likely no longer needed
-                //new ExperienceGainPatch().Enable();
+                // TODO: check if these patches are needed
+                new MidRaidQuestChangePatch().Enable(); 
+				new MidRaidAchievementChangePatch().Enable();
+                new ScavSellAllPriceStorePatch().Enable();
+                new ScavSellAllRequestPatch().Enable();
+                
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new PlayerPatch().Enable();
                 new DisableReadyLocationReadyPatch().Enable();
-                
-                // No longer required with PVE offline mode
-                // new InsuranceScreenPatch().Enable();
-                
                 new BotTemplateLimitPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
@@ -44,11 +43,8 @@ namespace SPT.SinglePlayer
                 new MaxBotPatch().Enable();
                 new SpawnPmcPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
-                //new EndByTimerPatch().Enable();
                 new InRaidQuestAvailablePatch().Enable();
-                // new PostRaidHealScreenPatch().Enable(); // TODO: Temp disabled, this might not be needed
                 new VoIPTogglerPatch().Enable();
-                new MidRaidQuestChangePatch().Enable();
                 new HealthControllerPatch().Enable();
                 new LighthouseBridgePatch().Enable();
                 new LighthouseTransmitterPatch().Enable();
@@ -61,11 +57,8 @@ namespace SPT.SinglePlayer
                 new MapReadyButtonPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new ScavLateStartPatch().Enable();
-				new MidRaidAchievementChangePatch().Enable();
                 new GetTraderServicesPatch().Enable();
                 new PurchaseTraderServicePatch().Enable();
-                new ScavSellAllPriceStorePatch().Enable();
-                new ScavSellAllRequestPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
                 new LightKeeperServicesPatch().Enable();
                 new ScavEncyclopediaPatch().Enable();

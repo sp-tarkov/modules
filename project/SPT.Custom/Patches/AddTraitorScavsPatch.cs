@@ -1,5 +1,4 @@
 ﻿using SPT.Common.Http;
-using SPT.Custom.Airdrops.Models;
 using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
 using Comfort.Common;

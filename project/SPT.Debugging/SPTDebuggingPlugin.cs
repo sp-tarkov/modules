@@ -24,10 +24,6 @@ namespace SPT.Debugging
                 // new StaticLootDumper().Enable();
                 // new ExfilDumper().Enable();
 
-                // BTR debug command patches, can be disabled later
-                //new BTRDebugCommandPatch().Enable();
-                //new BTRDebugDataPatch().Enable();
-
                 //new PMCBotSpawnLocationPatch().Enable();
                 new ReloadClientPatch().Enable();
 			}

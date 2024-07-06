@@ -1,7 +1,5 @@
 ﻿using System;
 using SPT.Common;
-using SPT.Custom.Airdrops.Patches;
-using SPT.Custom.BTR.Patches;
 using SPT.Custom.Patches;
 using SPT.Custom.Utils;
 using SPT.Reflection.Utils;
@@ -23,31 +21,19 @@ namespace SPT.Custom
                 // Bundle patches should always load first
                 new EasyAssetsPatch().Enable();
                 new EasyBundlePatch().Enable();
-
                 new BossSpawnChancePatch().Enable();
                 new BotDifficultyPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new OfflineRaidMenuPatch().Enable();
-                
-                // Fixed in live, no need for patch
-                // new RaidSettingsWindowPatch().Enable();
-                // new SessionIdPatch().Enable();
-                
-                // Unused in PvE mode
-                // new OfflineRaidSettingsMenuPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
                 new BotCalledDataTryCallPatch().Enable();
                 new BotCallForHelpCallBotPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();
-                //new AddSelfAsEnemyPatch().Enable();
                 new CheckAndAddEnemyPatch().Enable();
                 new BotSelfEnemyPatch().Enable(); // needed
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
-                //new AirdropPatch().Enable();
-                //new AirdropFlarePatch().Enable();
-                //new AddSptBotSettingsPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new ExitWhileLootingPatch().Enable();
@@ -55,26 +41,9 @@ namespace SPT.Custom
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
                 new SetLocationIdOnRaidStartPatch().Enable();
-                //new RankPanelPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
                 new FixBrokenSpawnOnSandboxPatch().Enable();
-                //new BTRControllerInitPatch().Enable();
-                //new BTRPathLoadPatch().Enable();
-                //new BTRActivateTraderDialogPatch().Enable();
-                //new BTRInteractionPatch().Enable();
-                //new BTRExtractPassengersPatch().Enable();
-                //new BTRBotAttachPatch().Enable();
-                //new BTRReceiveDamageInfoPatch().Enable();
-                //new BTRTurretCanShootPatch().Enable();
-                //new BTRTurretDefaultAimingPositionPatch().Enable();
-                //new BTRIsDoorsClosedPath().Enable();
-                //new BTRPatch().Enable();
-                //new BTRTransferItemsPatch().Enable();
-                //new BTREndRaidItemDeliveryPatch().Enable();
-                //new BTRDestroyAtRaidEndPatch().Enable();
-                //new BTRVehicleMovementSpeedPatch().Enable();
-                //new BTRPathConfigMapPrefixPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
