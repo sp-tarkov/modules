@@ -19,12 +19,14 @@ namespace SPT.Custom.Patches
             if (!bot.Profile.Info.Settings.IsBoss() && !CustomAI.AiHelpers.BotIsSptPmc(bot.Profile.Info.Settings.Role, bot))
             {
                 return;
-            }                 
+            }
+            
             // is a boss and follower and a pmc
             if (bot.SpawnProfileData.SpawnParams == null)
             {
                 bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
             }
+            
             if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
             {
                 bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);

@@ -23,53 +23,57 @@ namespace SPT.SinglePlayer
                 // TODO: check if these patches are needed
                 new MidRaidQuestChangePatch().Enable(); 
 				new MidRaidAchievementChangePatch().Enable();
+                new TinnitusFixPatch().Enable();
+                new SmokeGrenadeFuseSoundFixPatch().Enable();
+                new EmptyInfilFixPatch().Enable();
+                new VoIPTogglerPatch().Enable();
+                new ScavExperienceGainPatch().Enable();
+                new DogtagPatch().Enable();
+                new MainMenuControllerPatch().Enable();
+                new HealthControllerPatch().Enable();
+                new PlayerPatch().Enable();
+                new MaxBotPatch().Enable();
+                new PostRaidHealingPricePatch().Enable();
+                new InRaidQuestAvailablePatch().Enable();
+                new ExfilPointManagerPatch().Enable();
+                new ScavEncyclopediaPatch().Enable();
+                new HideoutQuestIgnorePatch().Enable();
+                new PlayerToggleSoundFixPatch().Enable();
+                new SpawnProcessNegativeValuePatch().Enable();
+                new SpawnPmcPatch().Enable();
+                new ScavProfileLoadPatch().Enable();
+                new ScavPrefabLoadPatch().Enable();
+                new ScavExfilPatch().Enable();
+                new LighthouseBridgePatch().Enable();
+                new LighthouseTransmitterPatch().Enable();
+                new InsuredItemManagerStartPatch().Enable();
+                new GetTraderServicesPatch().Enable();
+                new PurchaseTraderServicePatch().Enable();
+                new LightKeeperServicesPatch().Enable();
+                
+                // Still need
+                new DisableReadyLocationReadyPatch().Enable();
+                new BotTemplateLimitPatch().Enable();
+                new LoadOfflineRaidScreenPatch().Enable();
+                new AmmoUsedCounterPatch().Enable();
+                new ArmorDamageCounterPatch().Enable();
+                new ScavRepAdjustmentPatch().Enable();
+                new PluginErrorNotifierPatch().Enable();
+                new GetNewBotTemplatesPatch().Enable();
+                new ScavLateStartPatch().Enable();
+                new LabsKeycardRemovalPatch().Enable();
+                new MapReadyButtonPatch().Enable();
+                new RemoveUsedBotProfilePatch().Enable();
                 new ScavSellAllPriceStorePatch().Enable();
                 new ScavSellAllRequestPatch().Enable();
                 
-                new ScavExperienceGainPatch().Enable();
-                new MainMenuControllerPatch().Enable();
-                new PlayerPatch().Enable();
-                new DisableReadyLocationReadyPatch().Enable();
-                new BotTemplateLimitPatch().Enable();
-                new GetNewBotTemplatesPatch().Enable();
-                new RemoveUsedBotProfilePatch().Enable();
-                new DogtagPatch().Enable();
-                new LoadOfflineRaidScreenPatch().Enable();
-                new ScavPrefabLoadPatch().Enable();
-                new ScavProfileLoadPatch().Enable();
-                new ScavExfilPatch().Enable();
-                new ExfilPointManagerPatch().Enable();
-                new TinnitusFixPatch().Enable();
-                new MaxBotPatch().Enable();
-                new SpawnPmcPatch().Enable();
-                new PostRaidHealingPricePatch().Enable();
-                new InRaidQuestAvailablePatch().Enable();
-                new VoIPTogglerPatch().Enable();
-                new HealthControllerPatch().Enable();
-                new LighthouseBridgePatch().Enable();
-                new LighthouseTransmitterPatch().Enable();
-                new EmptyInfilFixPatch().Enable();
-                new SmokeGrenadeFuseSoundFixPatch().Enable();
-                new PlayerToggleSoundFixPatch().Enable();
-                new PluginErrorNotifierPatch().Enable();
-                new SpawnProcessNegativeValuePatch().Enable();
-                new InsuredItemManagerStartPatch().Enable();
-                new MapReadyButtonPatch().Enable();
-                new LabsKeycardRemovalPatch().Enable();
-                new ScavLateStartPatch().Enable();
-                new GetTraderServicesPatch().Enable();
-                new PurchaseTraderServicePatch().Enable();
-                new HideoutQuestIgnorePatch().Enable();
-                new LightKeeperServicesPatch().Enable();
-                new ScavEncyclopediaPatch().Enable();
-                new ScavRepAdjustmentPatch().Enable();
-                new AmmoUsedCounterPatch().Enable();
-                new ArmorDamageCounterPatch().Enable();
+                // 3.10.0
                 new PVEModeWelcomeMessagePatch().Enable();
                 new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
+                
             }
             catch (Exception ex)
             {

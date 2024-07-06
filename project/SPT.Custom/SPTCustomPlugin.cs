@@ -18,41 +18,45 @@ namespace SPT.Custom
 
             try
             {
-                // Bundle patches should always load first
+                // Bundle patches should always load first - DO NOT REMOVE
                 new EasyAssetsPatch().Enable();
                 new EasyBundlePatch().Enable();
-                new BossSpawnChancePatch().Enable();
-                new BotDifficultyPatch().Enable();
-                new CoreDifficultyPatch().Enable();
-                new OfflineRaidMenuPatch().Enable();
-                new VersionLabelPatch().Enable();
+                
+                // TODO: check if these patches are needed
+                new QTEPatch().Enable();
                 new IsEnemyPatch().Enable();
                 new BotCalledDataTryCallPatch().Enable();
                 new BotCallForHelpCallBotPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
-                new LocationLootCacheBustingPatch().Enable();
                 new CheckAndAddEnemyPatch().Enable();
-                new BotSelfEnemyPatch().Enable(); // needed
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new ExitWhileLootingPatch().Enable();
-                new QTEPatch().Enable();
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
                 new SetLocationIdOnRaidStartPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
                 new FixBrokenSpawnOnSandboxPatch().Enable();
-				new ScavItemCheckmarkPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
+				new ScavItemCheckmarkPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
-                new ClampRagdollPatch().Enable();
-                new DisablePvEPatch().Enable();
-                new InsurancePlaceItem().Enable();
+                
+                // Still need
                 new FileCachePatch().Enable();
+                new BotSelfEnemyPatch().Enable();
+                new DisablePvEPatch().Enable();
+                new ClampRagdollPatch().Enable();
                 new PMCSpawnParamPatch().Enable();
+                new InsurancePlaceItem().Enable();
+                new OfflineRaidMenuPatch().Enable();
+                new CoreDifficultyPatch().Enable();
+                new BotDifficultyPatch().Enable();
+                new BossSpawnChancePatch().Enable();
+                new LocationLootCacheBustingPatch().Enable();
+                new VersionLabelPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }

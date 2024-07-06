@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SPT.Custom.Patches
 {
-        /// <summary>
+    /// <summary>
     /// Redirects Trader and quest images to the SPT folder, not the app data
     /// </summary>
     ///

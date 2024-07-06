@@ -17,8 +17,7 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
         {
-            ____notAvailableState.SetActive(true);
-            ____notAvailableState.GetComponent<HoverTooltipArea>().SetMessageText("<color=#51c6db>SPT</color> is already PvE.");
+            ____notAvailableState.SetActive(false);
             return false;
         }
     }
