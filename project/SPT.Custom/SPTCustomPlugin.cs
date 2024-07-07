@@ -81,6 +81,7 @@ namespace SPT.Custom
                 new InsurancePlaceItem().Enable();
                 new FileCachePatch().Enable();
                 new PMCSpawnParamPatch().Enable();
+                new FixBotgroupMarkofTheUnknown().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
