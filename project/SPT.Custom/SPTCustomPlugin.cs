@@ -57,6 +57,7 @@ namespace SPT.Custom
                 new BossSpawnChancePatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();
                 new VersionLabelPatch().Enable();
+                new FixBotgroupMarkofTheUnknown().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
