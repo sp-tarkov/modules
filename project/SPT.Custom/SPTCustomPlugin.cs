@@ -51,7 +51,7 @@ namespace SPT.Custom
                 new ClampRagdollPatch().Enable();
                 new PMCSpawnParamPatch().Enable();
                 new InsurancePlaceItem().Enable();
-                new OfflineRaidMenuPatch().Enable();
+                new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();
                 new BossSpawnChancePatch().Enable();

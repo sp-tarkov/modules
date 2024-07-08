@@ -11,7 +11,7 @@ using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches
 {
-    public class OfflineRaidMenuPatch : ModulePatch
+    public class SetPreRaidSettingsScreenDefaultsPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
