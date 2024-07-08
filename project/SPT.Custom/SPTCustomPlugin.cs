@@ -50,7 +50,6 @@ namespace SPT.Custom
                 new DisablePvEPatch().Enable();
                 new ClampRagdollPatch().Enable();
                 new PMCSpawnParamPatch().Enable();
-                new InsurancePlaceItem().Enable();
                 new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();

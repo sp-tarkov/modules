@@ -43,7 +43,6 @@ namespace SPT.SinglePlayer
                 new ScavExfilPatch().Enable();
                 new LighthouseBridgePatch().Enable();
                 new LighthouseTransmitterPatch().Enable();
-                new InsuredItemManagerStartPatch().Enable();
                 new GetTraderServicesPatch().Enable();
                 new PurchaseTraderServicePatch().Enable();
                 new LightKeeperServicesPatch().Enable();
@@ -70,6 +69,7 @@ namespace SPT.SinglePlayer
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
+                new ScavFoundInRaidPatch().Enable();
             }
             catch (Exception ex)
             {
