@@ -8,18 +8,24 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     public class EnablePlayerScavPatch : ModulePatch
     {
         /// <summary>
-        /// Change Raid Mode to local and ForceOnlineRaidInPVE to true to allow loading in as a scav
+        /// Temporarily trick client into thinking we are PMC and in offline mode to allow loading of scavs in PVE mode
         /// </summary>
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_22));
         }
 
-        [PatchPostfix]
-        private static void PatchPostfix(ref MainMenuController __instance, ref RaidSettings ___raidSettings_0, ref ISession ___iSession)
+        [PatchPrefix]
+        private static void PatchPrefix(ref RaidSettings ___raidSettings_0)
         {
             ___raidSettings_0.RaidMode = ERaidMode.Local;
-            ___raidSettings_0.SelectedLocation.ForceOnlineRaidInPVE = true;
+            ___raidSettings_0.IsPveOffline = true;
+        }
+        [PatchPostfix]
+        private static void PatchPostfix(ref RaidSettings ___raidSettings_0)
+        {
+            ___raidSettings_0.RaidMode = ERaidMode.Online;
+            ___raidSettings_0.IsPveOffline = true;
         }
     }
 }
