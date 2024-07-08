@@ -23,8 +23,6 @@ namespace SPT.Custom
                 new EasyBundlePatch().Enable();
                 
                 // TODO: check if these patches are needed
-                new QTEPatch().Enable();
-                new IsEnemyPatch().Enable();
                 new BotCalledDataTryCallPatch().Enable();
                 new BotCallForHelpCallBotPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
@@ -32,19 +30,21 @@ namespace SPT.Custom
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
-                new ExitWhileLootingPatch().Enable();
                 new PmcFirstAidPatch().Enable();
                 new SettingsLocationPatch().Enable();
                 new SetLocationIdOnRaidStartPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
-                new FixBrokenSpawnOnSandboxPatch().Enable();
                 new ResetTraderServicesPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
                 
+                // Needed but needs editing
+                new IsEnemyPatch().Enable();
+                
                 // Still need
+                new QTEPatch().Enable();
                 new FileCachePatch().Enable();
                 new BotSelfEnemyPatch().Enable();
                 new DisablePvEPatch().Enable();
