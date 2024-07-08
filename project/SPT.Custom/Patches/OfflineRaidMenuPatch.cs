@@ -24,12 +24,10 @@ namespace SPT.Custom.Patches
         {
             var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
 
-            raidSettings.RaidMode = ERaidMode.Local;
+            // Default checkbox to be unchecked so we're in PvE
+            ____offlineModeToggle.isOn = false;
 
-            // Default checkbox to be ticked
-            ____offlineModeToggle.isOn = true;
-
-            // get settings from server
+            // Get settings from server
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
             var settings = Json.Deserialize<DefaultRaidSettings>(json);
 
