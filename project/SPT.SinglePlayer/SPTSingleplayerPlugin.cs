@@ -26,7 +26,6 @@ namespace SPT.SinglePlayer
                 new TinnitusFixPatch().Enable();
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
-                new VoIPTogglerPatch().Enable();
                 new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new HealthControllerPatch().Enable();
