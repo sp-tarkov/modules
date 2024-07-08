@@ -37,7 +37,6 @@ namespace SPT.SinglePlayer
                 new ExfilPointManagerPatch().Enable();
                 new ScavEncyclopediaPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
-                new PlayerToggleSoundFixPatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
                 new SpawnPmcPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
