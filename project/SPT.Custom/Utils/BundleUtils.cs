@@ -9,6 +9,10 @@ namespace SPT.Custom.Utils
         private int maximum;
         private string bundleName;
         private Texture2D bgTexture;
+        private bool started;
+        private GUIStyle labelStyle;
+        private GUIStyle windowStyle;
+        private Rect windowRect;
 
         public static BundleUtils Create()
         {
@@ -19,6 +23,7 @@ namespace SPT.Custom.Utils
             bundleUtils.maximum = 0;
             bundleUtils.enabled = true;
             bundleUtils.bgTexture = new Texture2D(2, 2);
+            bundleUtils.windowRect = bundleUtils.CreateRectangle(500, 80);
             return bundleUtils;
         }
 
@@ -41,12 +46,29 @@ namespace SPT.Custom.Utils
 
         public void OnGUI()
         {
-            GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-            GUI.skin.window.alignment = TextAnchor.MiddleCenter;
-            GUI.skin.window.normal.background = bgTexture;
-            GUI.backgroundColor = Color.black;
+            if (!started)
+            {
+                CreateStyles();
+            }
 
-            GUI.Window(0, CreateRectangle(500, 80), DrawWindow, "Bundle Loading");
+            GUI.backgroundColor = Color.black;
+            GUI.Window(0, windowRect, DrawWindow, "Bundle Loading", windowStyle);
+        }
+
+        private void CreateStyles()
+        {
+            labelStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
+
+            windowStyle = new GUIStyle(GUI.skin.window)
+            {
+                alignment = TextAnchor.UpperCenter
+            };
+            windowStyle.normal.background = bgTexture;
+
+            started = true;
         }
 
         private Rect CreateRectangle(int width, int height)
@@ -59,8 +81,8 @@ namespace SPT.Custom.Utils
 
         private void DrawWindow(int windowId)
         {
-            GUI.Label(new Rect(0, 35, 500, 20), $"Loading bundle: {current} / {maximum}");
-            GUI.Label(new Rect(0, 50, 500, 20), bundleName);
+            GUI.Label(new Rect(0, 35, 500, 20), $"Loading bundle: {current} / {maximum}", labelStyle);
+            GUI.Label(new Rect(0, 50, 500, 20), bundleName, labelStyle);
         }
     }
 }
