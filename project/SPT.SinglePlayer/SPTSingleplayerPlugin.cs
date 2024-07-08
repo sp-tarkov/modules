@@ -28,7 +28,6 @@ namespace SPT.SinglePlayer
                 new EmptyInfilFixPatch().Enable();
                 new VoIPTogglerPatch().Enable();
                 new ScavExperienceGainPatch().Enable();
-                new DogtagPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new HealthControllerPatch().Enable();
                 new PlayerPatch().Enable();
