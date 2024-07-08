@@ -46,7 +46,6 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             var newCode = new CodeInstruction(OpCodes.Ldstr, "SPT-PVE");
 
             codes.RemoveAt(searchIndex);
-            searchIndex -= 1;
             codes.Insert(searchIndex, newCode);
             
             return codes.AsEnumerable();
