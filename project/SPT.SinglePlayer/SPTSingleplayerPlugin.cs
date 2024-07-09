@@ -6,7 +6,6 @@ using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.Quests;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
-using SPT.SinglePlayer.Patches.TraderServices;
 using BepInEx;
 
 namespace SPT.SinglePlayer
@@ -41,11 +40,6 @@ namespace SPT.SinglePlayer
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
                 new ScavExfilPatch().Enable();
-                new LighthouseBridgePatch().Enable();
-                new LighthouseTransmitterPatch().Enable();
-                new GetTraderServicesPatch().Enable();
-                new PurchaseTraderServicePatch().Enable();
-                new LightKeeperServicesPatch().Enable();
 
                 // Still need
                 new DisableReadyLocationReadyPatch().Enable();

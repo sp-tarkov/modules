@@ -35,7 +35,6 @@ namespace SPT.Custom
                 new SetLocationIdOnRaidStartPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
-                new ResetTraderServicesPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
 				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
