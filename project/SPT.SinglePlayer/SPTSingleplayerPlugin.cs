@@ -26,7 +26,6 @@ namespace SPT.SinglePlayer
                 new TinnitusFixPatch().Enable();
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
-                new ScavExperienceGainPatch().Enable();
                 new MainMenuControllerPatch().Enable();
                 new HealthControllerPatch().Enable();
                 new PlayerPatch().Enable();
@@ -34,10 +33,11 @@ namespace SPT.SinglePlayer
                 new PostRaidHealingPricePatch().Enable();
                 new InRaidQuestAvailablePatch().Enable();
                 new ExfilPointManagerPatch().Enable();
-                new ScavEncyclopediaPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
                 new SpawnPmcPatch().Enable();
+                new ScavExperienceGainPatch().Enable();
+                new ScavEncyclopediaPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
                 new ScavExfilPatch().Enable();
@@ -46,7 +46,7 @@ namespace SPT.SinglePlayer
                 new GetTraderServicesPatch().Enable();
                 new PurchaseTraderServicePatch().Enable();
                 new LightKeeperServicesPatch().Enable();
-                
+
                 // Still need
                 new DisableReadyLocationReadyPatch().Enable();
                 new BotTemplateLimitPatch().Enable();
@@ -56,7 +56,6 @@ namespace SPT.SinglePlayer
                 new ScavRepAdjustmentPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
-                new ScavLateStartPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new MapReadyButtonPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
@@ -70,6 +69,8 @@ namespace SPT.SinglePlayer
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
                 new ScavFoundInRaidPatch().Enable();
+                new GetProfileAtEndOfRaidPatch().Enable();
+                new FixSavageInventoryScreenPatch().Enable();
             }
             catch (Exception ex)
             {
