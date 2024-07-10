@@ -83,7 +83,7 @@
   },
   {
     "NewTypeName": "SpawnSystemClass",
-    "OriginalTypeName": "Class2282",
+    "OriginalTypeName": "Class2284",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -4643,7 +4643,7 @@
   },
   {
     "NewTypeName": "EasyAssetHelperClass",
-    "OriginalTypeName": "Class3252",
+    "OriginalTypeName": "Class3254",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -6643,7 +6643,7 @@
   },
   {
     "NewTypeName": "UriParamsClass",
-    "OriginalTypeName": "Class1772",
+    "OriginalTypeName": "Class1774",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
