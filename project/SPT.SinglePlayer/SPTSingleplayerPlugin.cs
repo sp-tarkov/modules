@@ -58,7 +58,6 @@ namespace SPT.SinglePlayer
                 new MapReadyButtonPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new ScavLateStartPatch().Enable();
-				new MidRaidAchievementChangePatch().Enable();
                 new GetTraderServicesPatch().Enable();
                 new PurchaseTraderServicePatch().Enable();
                 new ScavSellAllPriceStorePatch().Enable();
@@ -69,6 +68,7 @@ namespace SPT.SinglePlayer
                 new ScavRepAdjustmentPatch().Enable();
                 new AmmoUsedCounterPatch().Enable();
                 new ArmorDamageCounterPatch().Enable();
+                new FixAchievementsPatch().Enable();
             }
             catch (Exception ex)
             {
