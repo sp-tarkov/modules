@@ -14,7 +14,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(Profile profile, InventoryControllerClass inventoryController, ref AbstractAchievementControllerClass ____achievementsController, ref AbstractQuestControllerClass ____questController)
+        public static void PatchPostfix(Profile profile, InventoryControllerClass inventoryController, ref AbstractAchievementControllerClass ____achievementsController)
         {
             var achievementController = new GClass3233(profile, inventoryController, PatchConstants.BackEndSession, true);
             achievementController.Init();
