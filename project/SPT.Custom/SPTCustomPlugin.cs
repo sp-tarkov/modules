@@ -23,8 +23,8 @@ namespace SPT.Custom
                 new EasyBundlePatch().Enable();
                 
                 // TODO: check if these patches are needed
-                new BotCalledDataTryCallPatch().Enable();
-                new BotCallForHelpCallBotPatch().Enable();
+                new AddEnemyTryCallFailureFixPatch().Enable();
+                new BotCallForHelpWrongTargetLocationPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
                 new BotsGroupLetBossesShootPmcsPatch().Enable();
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
