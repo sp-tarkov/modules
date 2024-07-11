@@ -26,7 +26,7 @@ namespace SPT.Custom
                 new BotCalledDataTryCallPatch().Enable();
                 new BotCallForHelpCallBotPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
-                new CheckAndAddEnemyPatch().Enable();
+                new BotsGroupLetBossesShootPmcsPatch().Enable();
                 new AddEnemyToAllGroupsInBotZonePatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
