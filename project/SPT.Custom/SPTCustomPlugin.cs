@@ -36,7 +36,6 @@ namespace SPT.Custom
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();
-				new CultistAmuletRemovalPatch().Enable();
 				new HalloweenExtractPatch().Enable();
                 
                 // Needed but needs editing

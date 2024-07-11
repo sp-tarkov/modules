@@ -65,6 +65,8 @@ namespace SPT.SinglePlayer
                 new ScavFoundInRaidPatch().Enable();
                 new GetProfileAtEndOfRaidPatch().Enable();
                 new FixSavageInventoryScreenPatch().Enable();
+                new InsuranceScreenPatch().Enable();
+                new ApplyRaidSettingsPatch().Enable();
             }
             catch (Exception ex)
             {
