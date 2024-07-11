@@ -8,15 +8,15 @@ using System.Reflection;
 namespace SPT.Custom.Patches
 {
     /// <summary>
-    /// SPT PMC enum value is high enough in wildspawntype it means the first aid class that gets init doesnt have an implementation
-    /// On heal event, remove all negative effects from limbs e.g. light/heavy bleeds
+    /// On pmc heal action, remove all negative effects from limbs e.g. light/heavy bleeds
+    /// Solves PMCs spending multiple minutes healing every limb
     /// </summary>
-    public class PmcFirstAidPatch : ModulePatch
+    public class PmcTakesAgesToHealLimbsPatch : ModulePatch
     {
         private static Type _targetType;
         private static readonly string methodName = "FirstAidApplied";
 
-        public PmcFirstAidPatch()
+        public PmcTakesAgesToHealLimbsPatch()
         {
             _targetType = PatchConstants.EftTypes.FirstOrDefault(IsTargetType);
         }
@@ -27,7 +27,7 @@ namespace SPT.Custom.Patches
         }
 
         /// <summary>
-        /// GCLass350 for client version 25782
+        /// BotFirstAidClass
         /// </summary>
         private bool IsTargetType(Type type)
         {

@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace SPT.Custom.Patches
 {
-    public class AddEnemyToAllGroupsInBotZonePatch : ModulePatch
+    public class AllScavsHostileHostileToPlayerScavPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

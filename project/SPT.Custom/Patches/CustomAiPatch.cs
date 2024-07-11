@@ -11,6 +11,13 @@ using SPT.Common.Http;
 
 namespace SPT.Custom.Patches
 {
+    /// <summary>
+    /// Kitchen sink patch:
+    /// Converts ai PMC role to random one using data supplied by server
+    /// Converts ai scav role to random one using data supplied by server
+    /// Configured AI PMC equipment to be FiR/not FiR to match live behaviour
+    /// Converts all AI scavs to bosses (if configured in server)
+    /// </summary>
     public class CustomAiPatch : ModulePatch
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);

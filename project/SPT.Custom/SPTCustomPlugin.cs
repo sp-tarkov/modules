@@ -27,12 +27,12 @@ namespace SPT.Custom
                 new BotCallForHelpWrongTargetLocationPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
                 new BotsGroupLetBossesShootPmcsPatch().Enable();
-                new AddEnemyToAllGroupsInBotZonePatch().Enable();
+                new AllScavsHostileHostileToPlayerScavPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
-                new PmcFirstAidPatch().Enable();
-                new SettingsLocationPatch().Enable();
-                new SetLocationIdOnRaidStartPatch().Enable();
+                new PmcTakesAgesToHealLimbsPatch().Enable();
+                new SaveSettingsToSptFolderPatch().Enable();
+                //new SetLocationIdOnRaidStartPatch().Enable();
                 new RagfairFeePatch().Enable();
                 new ScavQuestPatch().Enable();
 				new ScavItemCheckmarkPatch().Enable();

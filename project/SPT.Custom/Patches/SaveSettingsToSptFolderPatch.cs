@@ -9,7 +9,7 @@ namespace SPT.Custom.Patches
     /// <summary>
     /// Redirect the settings data to save into the SPT folder, not app data
     /// </summary>
-    public class SettingsLocationPatch : ModulePatch
+    public class SaveSettingsToSptFolderPatch : ModulePatch
     {
         private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptSettings");
 

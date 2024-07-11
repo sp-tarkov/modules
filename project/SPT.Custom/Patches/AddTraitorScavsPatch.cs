@@ -11,6 +11,11 @@ using System.Reflection;
 
 namespace SPT.Custom.Patches
 {
+    /// <summary>
+    /// Adds ability for some scavs to be hostile to player scavs
+    /// Allow player to kill these hostile scavs with no repercussions
+    /// Gets config data from server
+    /// </summary>
     public class AddTraitorScavsPatch : ModulePatch
     {
         private static int? TraitorChancePercent;
