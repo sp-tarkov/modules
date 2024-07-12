@@ -11,7 +11,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     /// <summary>
     /// Disable PMC exfil points when playing as pscav
     /// </summary>
-    public class ExfilPointManagerPatch : ModulePatch
+    public class DisablePMCExtractsForScavsPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

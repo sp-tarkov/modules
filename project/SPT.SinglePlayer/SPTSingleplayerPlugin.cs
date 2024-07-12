@@ -24,18 +24,18 @@ namespace SPT.SinglePlayer
                 new EmptyInfilFixPatch().Enable();
                 new MaxBotPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
-                new ExfilPointManagerPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
                 new SpawnPmcPatch().Enable();
-                // new ScavExperienceGainPatch().Enable();
-                // new ScavExfilPatch().Enable();
                 // new ScavRepAdjustmentPatch().Enable();
                 // new ScavSellAllPriceStorePatch().Enable();
                 // new ScavSellAllRequestPatch().Enable();
                 
 
                 // Still need
+                new ScavExperienceGainPatch().Enable();
+                new DisablePMCExtractsForScavsPatch().Enable();
+                new ScavExfilPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
                 new DisableReadyLocationReadyPatch().Enable();

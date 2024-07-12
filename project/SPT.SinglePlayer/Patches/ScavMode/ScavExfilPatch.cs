@@ -34,7 +34,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             
             // Get the required mask value and retrieve a list of exfil points, setting it as the result
             var mask = __instance.GetScavExfiltrationMask(profile.Id);
-            __result = __instance.ScavExfiltrationClaim(mask, profile.Id);
+            __result = __instance.ScavExfiltrationClaim(mask, profile.Id);      
 
             return false; // Don't run the original method anymore, as that will overwrite our new exfil points with ones meant for a PMC
         }
