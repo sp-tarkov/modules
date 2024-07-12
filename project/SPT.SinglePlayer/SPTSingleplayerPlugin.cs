@@ -28,26 +28,27 @@ namespace SPT.SinglePlayer
                 new HideoutQuestIgnorePatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
                 new SpawnPmcPatch().Enable();
-                new ScavExperienceGainPatch().Enable();
-                new ScavEncyclopediaPatch().Enable();
-                new ScavProfileLoadPatch().Enable();
-                new ScavPrefabLoadPatch().Enable();
-                new ScavExfilPatch().Enable();
+                // new ScavExperienceGainPatch().Enable();
+                // new ScavExfilPatch().Enable();
+                // new ScavRepAdjustmentPatch().Enable();
+                // new ScavSellAllPriceStorePatch().Enable();
+                // new ScavSellAllRequestPatch().Enable();
+                
 
                 // Still need
+                new ScavProfileLoadPatch().Enable();
+                new ScavPrefabLoadPatch().Enable();
                 new DisableReadyLocationReadyPatch().Enable();
                 new BotTemplateLimitPatch().Enable();
                 new LoadOfflineRaidScreenPatch().Enable();
                 new AmmoUsedCounterPatch().Enable();
                 new ArmorDamageCounterPatch().Enable();
-                new ScavRepAdjustmentPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();
                 new MapReadyButtonPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
-                new ScavSellAllPriceStorePatch().Enable();
-                new ScavSellAllRequestPatch().Enable();
+                new ScavLateStartPatch().Enable();
                 
                 // 3.10.0
                 new PVEModeWelcomeMessagePatch().Enable();
