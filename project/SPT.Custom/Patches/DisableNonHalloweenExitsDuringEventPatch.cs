@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace SPT.Custom.Patches
 {
-	public class HalloweenExtractPatch : ModulePatch
+	public class DisableNonHalloweenExitsDuringEventPatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
 		{

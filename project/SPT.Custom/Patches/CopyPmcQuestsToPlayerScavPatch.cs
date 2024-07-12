@@ -11,7 +11,7 @@ namespace SPT.Custom.Patches
     /// Copy over scav-only quests from PMC profile to scav profile on pre-raid screen
     /// Allows scavs to see and complete quests
     /// </summary>
-    public class ScavQuestPatch : ModulePatch
+    public class CopyPmcQuestsToPlayerScavPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

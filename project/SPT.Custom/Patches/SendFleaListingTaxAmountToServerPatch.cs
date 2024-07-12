@@ -12,9 +12,9 @@ namespace SPT.Custom.Patches
     /// Send the tax amount for listing an item for sale on flea by player to server for later use when charging player
     /// Client doesnt send this data and calculating it server-side isn't accurate
     /// </summary>
-    public class RagfairFeePatch : ModulePatch
+    public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     {
-        public RagfairFeePatch()
+        public SendFleaListingTaxAmountToServerPatch()
         {
             // Remember to update prefix parameter if below lines are broken
             _ = nameof(RagfairOfferSellHelperClass.IsAllSelectedItemSame);

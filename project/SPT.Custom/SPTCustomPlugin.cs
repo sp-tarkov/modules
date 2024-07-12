@@ -33,10 +33,10 @@ namespace SPT.Custom
                 new PmcTakesAgesToHealLimbsPatch().Enable();
                 new SaveSettingsToSptFolderPatch().Enable();
                 //new SetLocationIdOnRaidStartPatch().Enable();
-                new RagfairFeePatch().Enable();
-                new ScavQuestPatch().Enable();
-				new ScavItemCheckmarkPatch().Enable();
-				new HalloweenExtractPatch().Enable();
+                new SendFleaListingTaxAmountToServerPatch().Enable();
+                new CopyPmcQuestsToPlayerScavPatch().Enable();
+				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
+				new DisableNonHalloweenExitsDuringEventPatch().Enable();
                 
                 // Needed but needs editing
                 new IsEnemyPatch().Enable();

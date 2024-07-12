@@ -11,7 +11,7 @@ using HarmonyLib;
 namespace SPT.Custom.Patches
 {
 
-    public class ScavItemCheckmarkPatch : ModulePatch
+    public class MergeScavPmcQuestsOnInventoryLoadPatch : ModulePatch
     {	
 		/// <summary>
 		/// This patch runs both inraid and on main Menu everytime the inventory is loaded
