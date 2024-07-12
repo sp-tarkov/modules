@@ -14,6 +14,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     {
         protected override MethodBase GetTargetMethod()
         {
+            // Struct324 - 3.10.0
             var desiredType = typeof(TarkovApplication)
                 .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
                 .SingleCustom(x => x.GetField("timeAndWeather") != null
