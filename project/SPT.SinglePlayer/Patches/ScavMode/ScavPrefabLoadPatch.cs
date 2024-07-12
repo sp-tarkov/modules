@@ -12,6 +12,12 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 {
     public class ScavPrefabLoadPatch : ModulePatch
     {
+        /// <summary>
+        /// Aim of this patch is to check what Side we are loading into the raid as.
+        /// then if we are Scav, the game will load the bundles for that
+        /// else it will load the bundles for PMC
+        /// </summary>
+        /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
             // Struct324 - 3.10.0
