@@ -3,6 +3,7 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
 using System.Linq;
+using SPT.Common.Http;
 
 
 namespace SPT.SinglePlayer.Patches.ScavMode
@@ -39,10 +40,12 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         private static void PatchPrefix(ref ISession ___iSession)
         {
             var profile = GetProfileAtEndOfRaidPatch.Profile.ParseJsonTo<Profile>();
+            
             if (profile.Side != EPlayerSide.Savage)
             {
                 return;
             }
+            
             var session = (ProfileEndpointFactoryAbstractClass)___iSession;
             session.AllProfiles = new Profile[]
             {
@@ -50,6 +53,13 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 profile
             };
             session.ProfileOfPet.UncoverAll();
+            
+            // make a request to the server, so it knows of the items we might transfer
+            RequestHandler.PutJson("/raid/profile/scavsave", new
+            {
+                profile = session.ProfileOfPet
+            }
+            .ToJson());
         }
     }
 }
