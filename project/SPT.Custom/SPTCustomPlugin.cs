@@ -27,15 +27,15 @@ namespace SPT.Custom
                 new BotCallForHelpWrongTargetLocationPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
                 new BotsGroupLetBossesShootPmcsPatch().Enable();
-                new AllScavsHostileHostileToPlayerScavPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new PmcTakesAgesToHealLimbsPatch().Enable();
-                //new SetLocationIdOnRaidStartPatch().Enable();
                 new SendFleaListingTaxAmountToServerPatch().Enable();
-                new CopyPmcQuestsToPlayerScavPatch().Enable();
-				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
 				new DisableNonHalloweenExitsDuringEventPatch().Enable();
+                // new SetLocationIdOnRaidStartPatch().Enable();
+                // new AllScavsHostileHostileToPlayerScavPatch().Enable();
+                // new CopyPmcQuestsToPlayerScavPatch().Enable();
+				// new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
                 
                 // Needed but needs editing
                 new IsEnemyPatch().Enable();
