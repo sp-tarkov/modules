@@ -20,8 +20,7 @@ namespace SPT.SinglePlayer
             try
             {
                 // TODO: check if these patches are needed
-                new MidRaidQuestChangePatch().Enable(); 
-				new MidRaidAchievementChangePatch().Enable();
+                new InRaidQuestAvailablePatch().Enable();
                 new TinnitusFixPatch().Enable();
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
@@ -30,7 +29,6 @@ namespace SPT.SinglePlayer
                 new PlayerPatch().Enable();
                 new MaxBotPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
-                new InRaidQuestAvailablePatch().Enable();
                 new ExfilPointManagerPatch().Enable();
                 new HideoutQuestIgnorePatch().Enable();
                 new SpawnProcessNegativeValuePatch().Enable();
@@ -67,6 +65,7 @@ namespace SPT.SinglePlayer
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
                 new ApplyRaidSettingsPatch().Enable();
+                new FixQuestAchieveControllersPatch().Enable();
             }
             catch (Exception ex)
             {
