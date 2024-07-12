@@ -115,7 +115,7 @@ namespace SPT.Custom.Patches
 
         private static List<string> GetBossConvertFromServer()
         {
-            string json = RequestHandler.GetJson("/singleplayer/BossConvert");
+            string json = RequestHandler.GetJson("/singleplayer/bossconvert");
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
