@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SPT.Custom.Patches
 {
-    public class DisablePvEPatch : ModulePatch
+    public class DisableGamemodeButtonPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
