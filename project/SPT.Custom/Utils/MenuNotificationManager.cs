@@ -1,7 +1,6 @@
 ﻿using SPT.Common.Http;
 using SPT.Common.Utils;
 using SPT.Custom.Models;
-using SPT.SinglePlayer.Patches.MainMenu;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
@@ -9,9 +8,10 @@ using EFT.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SPT.Custom.Patches;
 using UnityEngine;
 
-namespace SPT.SinglePlayer.Utils.MainMenu
+namespace SPT.Custom.Utils
 {
     public class MenuNotificationManager : MonoBehaviour
     {

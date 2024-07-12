@@ -3,7 +3,6 @@ using SPT.Common;
 using SPT.Custom.Patches;
 using SPT.Custom.Utils;
 using SPT.Reflection.Utils;
-using SPT.SinglePlayer.Utils.MainMenu;
 using BepInEx;
 using UnityEngine;
 
@@ -45,8 +44,7 @@ namespace SPT.Custom
                 new QTEPatch().Enable();
                 new FileCachePatch().Enable();
                 new BotSelfEnemyPatch().Enable();
-                new DisablePvEPatch().Enable();
-                new ClampRagdollPatch().Enable();
+                new DisableGamemodeButtonPatch().Enable();
                 new PMCSpawnParamPatch().Enable();
                 new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();

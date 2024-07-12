@@ -1,5 +1,8 @@
-public struct LoggingLevelResponse
+namespace SPT.Custom.Models
 {
-    public int verbosity { get; set; }
-    public bool sendToServer {get; set; }
+    public struct LoggingLevelResponse
+    {
+        public int verbosity { get; set; }
+        public bool sendToServer { get; set; }
+    }
 }

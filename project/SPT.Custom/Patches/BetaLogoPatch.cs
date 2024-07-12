@@ -3,12 +3,12 @@ using EFT.UI;
 using EFT;
 using HarmonyLib;
 using System.Reflection;
-using SPT.SinglePlayer.Utils.MainMenu;
 using TMPro;
 using UnityEngine;
 using System.Threading.Tasks;
+using SPT.Custom.Utils;
 
-namespace SPT.SinglePlayer.Patches.MainMenu
+namespace SPT.Custom.Patches
 {
     public class BetaLogoPatch : ModulePatch
     {
