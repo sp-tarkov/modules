@@ -31,7 +31,6 @@ namespace SPT.Custom
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new PmcTakesAgesToHealLimbsPatch().Enable();
-                new SaveSettingsToSptFolderPatch().Enable();
                 //new SetLocationIdOnRaidStartPatch().Enable();
                 new SendFleaListingTaxAmountToServerPatch().Enable();
                 new CopyPmcQuestsToPlayerScavPatch().Enable();
@@ -42,6 +41,7 @@ namespace SPT.Custom
                 new IsEnemyPatch().Enable();
                 
                 // Still need
+                new SaveSettingsToSptFolderPatch().Enable();
                 new QTEPatch().Enable();
                 new FileCachePatch().Enable();
                 new BotSelfEnemyPatch().Enable();

@@ -1,6 +1,5 @@
 using System;
 using SPT.Common;
-using SPT.SinglePlayer.Patches.Healing;
 using SPT.SinglePlayer.Patches.MainMenu;
 using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.Quests;
@@ -20,13 +19,9 @@ namespace SPT.SinglePlayer
             try
             {
                 // TODO: check if these patches are needed
-                new InRaidQuestAvailablePatch().Enable();
                 new TinnitusFixPatch().Enable();
                 new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
-                new MainMenuControllerPatch().Enable();
-                new HealthControllerPatch().Enable();
-                new PlayerPatch().Enable();
                 new MaxBotPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
                 new ExfilPointManagerPatch().Enable();
