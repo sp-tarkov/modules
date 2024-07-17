@@ -1,7 +1,7 @@
 [
   {
     "NewTypeName": "BattleeyePatchClass",
-    "OriginalTypeName": "Class1274",
+    "OriginalTypeName": "Class1278",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -20,7 +20,7 @@
   },
   {
     "NewTypeName": "TraderDialogInteractionScreenClass",
-    "OriginalTypeName": "GClass2010",
+    "OriginalTypeName": "GClass2011",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -40,7 +40,7 @@
   },
   {
     "NewTypeName": "PostRaidHealthScreenClass",
-    "OriginalTypeName": "Class1290",
+    "OriginalTypeName": "Class1294",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -62,7 +62,7 @@
   },
   {
     "NewTypeName": "BackendDummyClass",
-    "OriginalTypeName": "GClass1870",
+    "OriginalTypeName": "GClass1871",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -83,7 +83,7 @@
   },
   {
     "NewTypeName": "SpawnSystemClass",
-    "OriginalTypeName": "Class2284",
+    "OriginalTypeName": "Class2288",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -109,7 +109,7 @@
   },
   {
     "NewTypeName": "BackendAbstractClass",
-    "OriginalTypeName": "Class268`1",
+    "OriginalTypeName": "Class269`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -130,7 +130,7 @@
   },
   {
     "NewTypeName": "DataHandler",
-    "OriginalTypeName": "Class276",
+    "OriginalTypeName": "Class277",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -149,7 +149,7 @@
   },
   {
     "NewTypeName": "SslCertPatchClass",
-    "OriginalTypeName": "Class939",
+    "OriginalTypeName": "Class943",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -186,7 +186,7 @@
   },
   {
     "NewTypeName": "RecodableItemClass",
-    "OriginalTypeName": "GClass2792",
+    "OriginalTypeName": "GClass2793",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -205,7 +205,7 @@
   },
   {
     "NewTypeName": "RadioTransmitterHandlerClass",
-    "OriginalTypeName": "GClass1514",
+    "OriginalTypeName": "GClass1515",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -223,7 +223,7 @@
   },
   {
     "NewTypeName": "ExfiltrationControllerClass",
-    "OriginalTypeName": "GClass1285",
+    "OriginalTypeName": "GClass1286",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -241,7 +241,7 @@
   },
   {
     "NewTypeName": "GameServerClass",
-    "OriginalTypeName": "GClass1205",
+    "OriginalTypeName": "GClass1206",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -262,7 +262,7 @@
   },
   {
     "NewTypeName": "QuestItemClass",
-    "OriginalTypeName": "GClass1216",
+    "OriginalTypeName": "GClass1217",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -283,7 +283,7 @@
   },
   {
     "NewTypeName": "EnemyInfoClass",
-    "OriginalTypeName": "GClass565`1",
+    "OriginalTypeName": "GClass566`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -310,7 +310,7 @@
   },
   {
     "NewTypeName": "InsuredItemClass",
-    "OriginalTypeName": "GClass1222",
+    "OriginalTypeName": "GClass1223",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -332,7 +332,7 @@
   },
   {
     "NewTypeName": "BackendConfigClass",
-    "OriginalTypeName": "GClass1258",
+    "OriginalTypeName": "GClass1259",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -351,7 +351,7 @@
   },
   {
     "NewTypeName": "LocationSettingsClass",
-    "OriginalTypeName": "GClass1243",
+    "OriginalTypeName": "GClass1244",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -370,7 +370,7 @@
   },
   {
     "NewTypeName": "BotPresetClass",
-    "OriginalTypeName": "GClass1261",
+    "OriginalTypeName": "GClass1262",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -389,7 +389,7 @@
   },
   {
     "NewTypeName": "BotMemoryClass",
-    "OriginalTypeName": "GClass1328",
+    "OriginalTypeName": "GClass1329",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -407,7 +407,7 @@
   },
   {
     "NewTypeName": "BackendConfigSettingsClass",
-    "OriginalTypeName": "GClass1339",
+    "OriginalTypeName": "GClass1340",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -426,7 +426,7 @@
   },
   {
     "NewTypeName": "SharedGameSettingsClass",
-    "OriginalTypeName": "GClass1928",
+    "OriginalTypeName": "GClass1929",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -445,7 +445,7 @@
   },
   {
     "NewTypeName": "WaveInfo",
-    "OriginalTypeName": "GClass1497",
+    "OriginalTypeName": "GClass1498",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -469,7 +469,7 @@
   },
   {
     "NewTypeName": "GameTimerClass",
-    "OriginalTypeName": "GClass1505",
+    "OriginalTypeName": "GClass1506",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -488,7 +488,7 @@
   },
   {
     "NewTypeName": "ItemFactory",
-    "OriginalTypeName": "GClass1516",
+    "OriginalTypeName": "GClass1517",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -507,7 +507,7 @@
   },
   {
     "NewTypeName": "ProfileStatusClass",
-    "OriginalTypeName": "GClass1781",
+    "OriginalTypeName": "GClass1782",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -526,7 +526,7 @@
   },
   {
     "NewTypeName": "InfoClass",
-    "OriginalTypeName": "GClass1794",
+    "OriginalTypeName": "GClass1795",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -544,7 +544,7 @@
   },
   {
     "NewTypeName": "PoolManager",
-    "OriginalTypeName": "GClass1835",
+    "OriginalTypeName": "GClass1836",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -563,7 +563,7 @@
   },
   {
     "NewTypeName": "MainMenuController",
-    "OriginalTypeName": "GClass1860",
+    "OriginalTypeName": "GClass1861",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -582,7 +582,7 @@
   },
   {
     "NewTypeName": "GameGraphicsClass",
-    "OriginalTypeName": "GClass967",
+    "OriginalTypeName": "GClass968",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -610,7 +610,7 @@
   },
   {
     "NewTypeName": "ProfileChangesPocoClass",
-    "OriginalTypeName": "GClass1874",
+    "OriginalTypeName": "GClass1875",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -629,7 +629,7 @@
   },
   {
     "NewTypeName": "LoggerFactoryClass",
-    "OriginalTypeName": "GClass1924",
+    "OriginalTypeName": "GClass1925",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -649,7 +649,7 @@
   },
   {
     "NewTypeName": "EnergyControllerClass",
-    "OriginalTypeName": "GClass1957",
+    "OriginalTypeName": "GClass1958",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -668,7 +668,7 @@
   },
   {
     "NewTypeName": "HideoutClass",
-    "OriginalTypeName": "GClass1960",
+    "OriginalTypeName": "GClass1961",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -687,7 +687,7 @@
   },
   {
     "NewTypeName": "ProductionControllerClass",
-    "OriginalTypeName": "GClass1973",
+    "OriginalTypeName": "GClass1974",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -706,7 +706,7 @@
   },
   {
     "NewTypeName": "NotificationAbstractClass",
-    "OriginalTypeName": "GClass2015",
+    "OriginalTypeName": "GClass2016",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -727,7 +727,7 @@
   },
   {
     "NewTypeName": "NotificationManagerClass",
-    "OriginalTypeName": "GClass2098",
+    "OriginalTypeName": "GClass2099",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -746,7 +746,7 @@
   },
   {
     "NewTypeName": "CameraClass",
-    "OriginalTypeName": "GClass3009",
+    "OriginalTypeName": "GClass3010",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -765,7 +765,7 @@
   },
   {
     "NewTypeName": "TraderAssortmentControllerClass",
-    "OriginalTypeName": "GClass2101",
+    "OriginalTypeName": "GClass2102",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -826,7 +826,7 @@
   },
   {
     "NewTypeName": "TraderClass",
-    "OriginalTypeName": "GClass2104",
+    "OriginalTypeName": "GClass2105",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -845,7 +845,7 @@
   },
   {
     "NewTypeName": "WeatherClass",
-    "OriginalTypeName": "GClass2157",
+    "OriginalTypeName": "GClass2158",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -863,7 +863,7 @@
   },
   {
     "NewTypeName": "ClientMetrics",
-    "OriginalTypeName": "GClass2180",
+    "OriginalTypeName": "GClass2181",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -882,7 +882,7 @@
   },
   {
     "NewTypeName": "MetricsClass",
-    "OriginalTypeName": "GClass2190",
+    "OriginalTypeName": "GClass2191",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -901,7 +901,7 @@
   },
   {
     "NewTypeName": "MetricsConfigClass",
-    "OriginalTypeName": "GClass2191",
+    "OriginalTypeName": "GClass2192",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -922,7 +922,7 @@
   },
   {
     "NewTypeName": "SynchronizableObjectLogicProcessorClass",
-    "OriginalTypeName": "GClass2196",
+    "OriginalTypeName": "GClass2197",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -940,7 +940,7 @@
   },
   {
     "NewTypeName": "AirdropManagerAbstractClass",
-    "OriginalTypeName": "GClass2197",
+    "OriginalTypeName": "GClass2198",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -959,7 +959,7 @@
   },
   {
     "NewTypeName": "AirdropManagerClass",
-    "OriginalTypeName": "GClass2199",
+    "OriginalTypeName": "GClass2200",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -978,7 +978,7 @@
   },
   {
     "NewTypeName": "AirdropLogicClass",
-    "OriginalTypeName": "GClass2200",
+    "OriginalTypeName": "GClass2201",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -996,7 +996,7 @@
   },
   {
     "NewTypeName": "AirplaneLogicClass",
-    "OriginalTypeName": "GClass2205",
+    "OriginalTypeName": "GClass2206",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1018,7 +1018,7 @@
   },
   {
     "NewTypeName": "QuestDataClass",
-    "OriginalTypeName": "GClass3320",
+    "OriginalTypeName": "GClass3321",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1037,7 +1037,7 @@
   },
   {
     "NewTypeName": "AbstractQuestClass",
-    "OriginalTypeName": "GClass1276`1",
+    "OriginalTypeName": "GClass1277`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1057,7 +1057,7 @@
   },
   {
     "NewTypeName": "QuestControllerAbstractClass",
-    "OriginalTypeName": "GClass3296`1",
+    "OriginalTypeName": "GClass3297`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1076,7 +1076,7 @@
   },
   {
     "NewTypeName": "RawQuestClass",
-    "OriginalTypeName": "GClass3321",
+    "OriginalTypeName": "GClass3322",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1096,7 +1096,7 @@
   },
   {
     "NewTypeName": "DailyQuestClass",
-    "OriginalTypeName": "GClass3327",
+    "OriginalTypeName": "GClass3328",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1116,7 +1116,7 @@
   },
   {
     "NewTypeName": "SessionCountersClass",
-    "OriginalTypeName": "GClass2258",
+    "OriginalTypeName": "GClass2259",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1134,7 +1134,7 @@
   },
   {
     "NewTypeName": "HealthControllerClass",
-    "OriginalTypeName": "GClass2475",
+    "OriginalTypeName": "GClass2476",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1152,7 +1152,7 @@
   },
   {
     "NewTypeName": "TreatmentDataClass",
-    "OriginalTypeName": "GClass2514",
+    "OriginalTypeName": "GClass2515",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1195,7 +1195,7 @@
   },
   {
     "NewTypeName": "SecureContainerTemplateClass",
-    "OriginalTypeName": "GClass2641",
+    "OriginalTypeName": "GClass2642",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1213,7 +1213,7 @@
   },
   {
     "NewTypeName": "Meds2Class",
-    "OriginalTypeName": "GClass2669",
+    "OriginalTypeName": "GClass2670",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1231,7 +1231,7 @@
   },
   {
     "NewTypeName": "RepairKitClass",
-    "OriginalTypeName": "GClass2674",
+    "OriginalTypeName": "GClass2675",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1249,7 +1249,7 @@
   },
   {
     "NewTypeName": "MoneyClass",
-    "OriginalTypeName": "GClass2682",
+    "OriginalTypeName": "GClass2683",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1267,7 +1267,7 @@
   },
   {
     "NewTypeName": "ThrowableWeaponClass",
-    "OriginalTypeName": "GClass2684",
+    "OriginalTypeName": "GClass2685",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1285,7 +1285,7 @@
   },
   {
     "NewTypeName": "LootItemClass",
-    "OriginalTypeName": "GClass2686",
+    "OriginalTypeName": "GClass2687",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1303,7 +1303,7 @@
   },
   {
     "NewTypeName": "ArmorClass",
-    "OriginalTypeName": "GClass2689",
+    "OriginalTypeName": "GClass2690",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1323,7 +1323,7 @@
   },
   {
     "NewTypeName": "GogglesClass",
-    "OriginalTypeName": "GClass2695",
+    "OriginalTypeName": "GClass2696",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1342,7 +1342,7 @@
   },
   {
     "NewTypeName": "SightModClass",
-    "OriginalTypeName": "GClass2714",
+    "OriginalTypeName": "GClass2715",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1404,7 +1404,7 @@
   },
   {
     "NewTypeName": "MagazineClass",
-    "OriginalTypeName": "GClass2726",
+    "OriginalTypeName": "GClass2727",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1422,7 +1422,7 @@
   },
   {
     "NewTypeName": "CylinderMagazineClass",
-    "OriginalTypeName": "GClass2727",
+    "OriginalTypeName": "GClass2728",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1440,7 +1440,7 @@
   },
   {
     "NewTypeName": "SpringDrivenCylinderMagazineClass",
-    "OriginalTypeName": "GClass2728",
+    "OriginalTypeName": "GClass2729",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1459,7 +1459,7 @@
   },
   {
     "NewTypeName": "MountModClass",
-    "OriginalTypeName": "GClass2734",
+    "OriginalTypeName": "GClass2735",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1482,7 +1482,7 @@
   },
   {
     "NewTypeName": "StockItemClass",
-    "OriginalTypeName": "GClass2731",
+    "OriginalTypeName": "GClass2732",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1504,7 +1504,7 @@
   },
   {
     "NewTypeName": "BarrelModClass",
-    "OriginalTypeName": "GClass2733",
+    "OriginalTypeName": "GClass2734",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1525,7 +1525,7 @@
   },
   {
     "NewTypeName": "SearchableItemClass",
-    "OriginalTypeName": "GClass2737",
+    "OriginalTypeName": "GClass2738",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1543,7 +1543,7 @@
   },
   {
     "NewTypeName": "ItemContainerClass",
-    "OriginalTypeName": "GClass2739",
+    "OriginalTypeName": "GClass2740",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1562,7 +1562,7 @@
   },
   {
     "NewTypeName": "SortingTableClass",
-    "OriginalTypeName": "GClass2760",
+    "OriginalTypeName": "GClass2761",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1582,7 +1582,7 @@
   },
   {
     "NewTypeName": "StashClass",
-    "OriginalTypeName": "GClass2759",
+    "OriginalTypeName": "GClass2760",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1600,7 +1600,7 @@
   },
   {
     "NewTypeName": "EquipmentClass",
-    "OriginalTypeName": "GClass2758",
+    "OriginalTypeName": "GClass2759",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1618,7 +1618,7 @@
   },
   {
     "NewTypeName": "FoodClass",
-    "OriginalTypeName": "GClass2774",
+    "OriginalTypeName": "GClass2775",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1636,7 +1636,7 @@
   },
   {
     "NewTypeName": "KnifeClass",
-    "OriginalTypeName": "GClass2780",
+    "OriginalTypeName": "GClass2781",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1654,7 +1654,7 @@
   },
   {
     "NewTypeName": "MedsClass",
-    "OriginalTypeName": "GClass2782",
+    "OriginalTypeName": "GClass2783",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1681,7 +1681,7 @@
   },
   {
     "NewTypeName": "BulletClass",
-    "OriginalTypeName": "GClass2794",
+    "OriginalTypeName": "GClass2795",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1699,7 +1699,7 @@
   },
   {
     "NewTypeName": "GrenadeClass",
-    "OriginalTypeName": "GClass2797",
+    "OriginalTypeName": "GClass2798",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1717,7 +1717,7 @@
   },
   {
     "NewTypeName": "TemplateIdToObjectMappingsClass",
-    "OriginalTypeName": "GClass2799",
+    "OriginalTypeName": "GClass2800",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1735,7 +1735,7 @@
   },
   {
     "NewTypeName": "ItemAttributeClass",
-    "OriginalTypeName": "GClass2807",
+    "OriginalTypeName": "GClass2808",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1753,7 +1753,7 @@
   },
   {
     "NewTypeName": "TraderControllerClass",
-    "OriginalTypeName": "GClass2816",
+    "OriginalTypeName": "GClass2817",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1771,7 +1771,7 @@
   },
   {
     "NewTypeName": "InventoryControllerClass",
-    "OriginalTypeName": "GClass2819",
+    "OriginalTypeName": "GClass2820",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1809,7 +1809,7 @@
   },
   {
     "NewTypeName": "RagdollClass",
-    "OriginalTypeName": "GClass3029",
+    "OriginalTypeName": "GClass3030",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1846,7 +1846,7 @@
   },
   {
     "NewTypeName": "UserInterfaceClass",
-    "OriginalTypeName": "GClass3177`1",
+    "OriginalTypeName": "GClass3178`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1883,7 +1883,7 @@
   },
   {
     "NewTypeName": "InsuranceCompanyClass",
-    "OriginalTypeName": "GClass3251",
+    "OriginalTypeName": "GClass3252",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1902,7 +1902,7 @@
   },
   {
     "NewTypeName": "ItemClass",
-    "OriginalTypeName": "GClass3252",
+    "OriginalTypeName": "GClass3253",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1940,7 +1940,7 @@
   },
   {
     "NewTypeName": "RagfairSettingsClass",
-    "OriginalTypeName": "GClass3260",
+    "OriginalTypeName": "GClass3261",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1959,7 +1959,7 @@
   },
   {
     "NewTypeName": "SonicInfoClass",
-    "OriginalTypeName": "GClass933",
+    "OriginalTypeName": "GClass934",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1977,7 +1977,7 @@
   },
   {
     "NewTypeName": "HideoutControllerClass",
-    "OriginalTypeName": "GClass1983",
+    "OriginalTypeName": "GClass1984",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -1995,7 +1995,7 @@
   },
   {
     "NewTypeName": "RagFairClass",
-    "OriginalTypeName": "GClass3263",
+    "OriginalTypeName": "GClass3264",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2014,7 +2014,7 @@
   },
   {
     "NewTypeName": "HostManagerClass",
-    "OriginalTypeName": "GClass2547",
+    "OriginalTypeName": "GClass2548",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2073,7 +2073,7 @@
   },
   {
     "NewTypeName": "CustomizationClass",
-    "OriginalTypeName": "GClass1909",
+    "OriginalTypeName": "GClass1910",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2095,7 +2095,7 @@
   },
   {
     "NewTypeName": "JobPriority",
-    "OriginalTypeName": "GClass3425",
+    "OriginalTypeName": "GClass3427",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2113,7 +2113,7 @@
   },
   {
     "NewTypeName": "BindableState",
-    "OriginalTypeName": "GClass3448`1",
+    "OriginalTypeName": "GClass3450`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2136,7 +2136,7 @@
   },
   {
     "NewTypeName": "BundleLock",
-    "OriginalTypeName": "GClass3462",
+    "OriginalTypeName": "GClass3464",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2158,7 +2158,7 @@
   },
   {
     "NewTypeName": "DependencyGraph",
-    "OriginalTypeName": "GClass3463`1",
+    "OriginalTypeName": "GClass3465`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2254,7 +2254,7 @@
   },
   {
     "NewTypeName": "BossSpawnerClass",
-    "OriginalTypeName": "GClass588",
+    "OriginalTypeName": "GClass589",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2272,7 +2272,7 @@
   },
   {
     "NewTypeName": "ZoneLeaveControllerClass",
-    "OriginalTypeName": "GClass593",
+    "OriginalTypeName": "GClass594",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2290,7 +2290,7 @@
   },
   {
     "NewTypeName": "BotsClass",
-    "OriginalTypeName": "GClass594",
+    "OriginalTypeName": "GClass595",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2308,7 +2308,7 @@
   },
   {
     "NewTypeName": "ProfileDataClass",
-    "OriginalTypeName": "GClass606",
+    "OriginalTypeName": "GClass607",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2336,7 +2336,7 @@
   },
   {
     "NewTypeName": "WeaponAnimationSpeedControllerClass",
-    "OriginalTypeName": "GClass677",
+    "OriginalTypeName": "GClass678",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2354,7 +2354,7 @@
   },
   {
     "NewTypeName": "TimerClass",
-    "OriginalTypeName": "GClass715",
+    "OriginalTypeName": "GClass716",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2374,7 +2374,7 @@
   },
   {
     "NewTypeName": "LayerMaskClass",
-    "OriginalTypeName": "GClass744",
+    "OriginalTypeName": "GClass745",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2392,7 +2392,7 @@
   },
   {
     "NewTypeName": "DecalMeshClass",
-    "OriginalTypeName": "GClass930",
+    "OriginalTypeName": "GClass931",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2410,7 +2410,7 @@
   },
   {
     "NewTypeName": "ChatServerClass",
-    "OriginalTypeName": "GClass942",
+    "OriginalTypeName": "GClass943",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2428,7 +2428,7 @@
   },
   {
     "NewTypeName": "ChatMessageClass",
-    "OriginalTypeName": "GClass958",
+    "OriginalTypeName": "GClass959",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2836,7 +2836,7 @@
   },
   {
     "NewTypeName": "AssetsManagerSingletonClass",
-    "OriginalTypeName": "GClass1427",
+    "OriginalTypeName": "GClass1428",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2857,7 +2857,7 @@
   },
   {
     "NewTypeName": "AssetsManagerClass",
-    "OriginalTypeName": "GClass3058",
+    "OriginalTypeName": "GClass3059",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -2877,7 +2877,7 @@
   },
   {
     "NewTypeName": "BundlesManagerClass",
-    "OriginalTypeName": "GClass3063",
+    "OriginalTypeName": "GClass3064",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3042,7 +3042,7 @@
   },
   {
     "NewTypeName": "LootItemPositionClass",
-    "OriginalTypeName": "GClass1226",
+    "OriginalTypeName": "GClass1227",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3063,7 +3063,7 @@
   },
   {
     "NewTypeName": "BotWaveDataClass",
-    "OriginalTypeName": "GClass1498",
+    "OriginalTypeName": "GClass1499",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3081,7 +3081,7 @@
   },
   {
     "NewTypeName": "BTRControllerClass",
-    "OriginalTypeName": "GClass2983",
+    "OriginalTypeName": "GClass2984",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3139,7 +3139,7 @@
   },
   {
     "NewTypeName": "AchievementDataClass",
-    "OriginalTypeName": "GClass3329",
+    "OriginalTypeName": "GClass3330",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3158,7 +3158,7 @@
   },
   {
     "NewTypeName": "AchievementControllerClass",
-    "OriginalTypeName": "GClass3284",
+    "OriginalTypeName": "GClass3285",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3180,7 +3180,7 @@
   },
   {
     "NewTypeName": "BufferZoneControllerClass",
-    "OriginalTypeName": "GClass3016",
+    "OriginalTypeName": "GClass3017",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3198,7 +3198,7 @@
   },
   {
     "NewTypeName": "GetActionsClass",
-    "OriginalTypeName": "GClass1900",
+    "OriginalTypeName": "GClass1901",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3216,7 +3216,7 @@
   },
   {
     "NewTypeName": "AbstractQuestControllerClass",
-    "OriginalTypeName": "GClass3276",
+    "OriginalTypeName": "GClass3277",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3235,7 +3235,7 @@
   },
   {
     "NewTypeName": "AbstractAchievementControllerClass",
-    "OriginalTypeName": "GClass3281",
+    "OriginalTypeName": "GClass3282",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3275,7 +3275,7 @@
   },
   {
     "NewTypeName": "HalloweenEventControllerClass",
-    "OriginalTypeName": "GClass1511",
+    "OriginalTypeName": "GClass1512",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3293,7 +3293,7 @@
   },
   {
     "NewTypeName": "ImprovementControllerClass",
-    "OriginalTypeName": "GClass1965",
+    "OriginalTypeName": "GClass1966",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3428,7 +3428,7 @@
   },
   {
     "NewTypeName": "FastAnimatorProcessorClass",
-    "OriginalTypeName": "GClass1163",
+    "OriginalTypeName": "GClass1164",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3467,7 +3467,7 @@
   },
   {
     "NewTypeName": "BotEventHandler",
-    "OriginalTypeName": "GClass611",
+    "OriginalTypeName": "GClass612",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3486,7 +3486,7 @@
   },
   {
     "NewTypeName": "GlobalEventHandlerClass",
-    "OriginalTypeName": "GClass2981",
+    "OriginalTypeName": "GClass2982",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3529,7 +3529,7 @@
   },
   {
     "NewTypeName": "RepairControllerClass",
-    "OriginalTypeName": "GClass2145",
+    "OriginalTypeName": "GClass2146",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3613,7 +3613,7 @@
   },
   {
     "NewTypeName": "ProjectorHelperClass",
-    "OriginalTypeName": "GClass928",
+    "OriginalTypeName": "GClass929",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3652,7 +3652,7 @@
   },
   {
     "NewTypeName": "SocialNetworkClass",
-    "OriginalTypeName": "GClass1882",
+    "OriginalTypeName": "GClass1883",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3671,7 +3671,7 @@
   },
   {
     "NewTypeName": "OnEventClass",
-    "OriginalTypeName": "GClass3433`1",
+    "OriginalTypeName": "GClass3435`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3716,7 +3716,7 @@
   },
   {
     "NewTypeName": "SourceContainerClass",
-    "OriginalTypeName": "GClass1006",
+    "OriginalTypeName": "GClass1007",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3753,7 +3753,7 @@
   },
   {
     "NewTypeName": "FastAnimatorControllerClass",
-    "OriginalTypeName": "GClass1136",
+    "OriginalTypeName": "GClass1137",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3772,7 +3772,7 @@
   },
   {
     "NewTypeName": "SpeedAnimParamClass",
-    "OriginalTypeName": "GClass1147",
+    "OriginalTypeName": "GClass1148",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3849,7 +3849,7 @@
   },
   {
     "NewTypeName": "PhraseSpeakerClass",
-    "OriginalTypeName": "GClass1842",
+    "OriginalTypeName": "GClass1843",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3869,7 +3869,7 @@
   },
   {
     "NewTypeName": "MasterSkillClass",
-    "OriginalTypeName": "GClass1801",
+    "OriginalTypeName": "GClass1802",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3889,7 +3889,7 @@
   },
   {
     "NewTypeName": "PacketEncryptorAbstractClass",
-    "OriginalTypeName": "GClass1680",
+    "OriginalTypeName": "GClass1681",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3968,7 +3968,7 @@
   },
   {
     "NewTypeName": "MetricsEventsClass",
-    "OriginalTypeName": "GClass2192",
+    "OriginalTypeName": "GClass2193",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -3988,7 +3988,7 @@
   },
   {
     "NewTypeName": "VersionNumberClass",
-    "OriginalTypeName": "GClass1436",
+    "OriginalTypeName": "GClass1437",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4010,7 +4010,7 @@
   },
   {
     "NewTypeName": "LoginResponseClass",
-    "OriginalTypeName": "GClass1219",
+    "OriginalTypeName": "GClass1220",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4029,7 +4029,7 @@
   },
   {
     "NewTypeName": "DialogueClass",
-    "OriginalTypeName": "GClass961",
+    "OriginalTypeName": "GClass962",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4048,7 +4048,7 @@
   },
   {
     "NewTypeName": "StashGridClass",
-    "OriginalTypeName": "GClass2555",
+    "OriginalTypeName": "GClass2556",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4088,7 +4088,7 @@
   },
   {
     "NewTypeName": "HandsControllerClass",
-    "OriginalTypeName": "GClass2433",
+    "OriginalTypeName": "GClass2434",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4189,7 +4189,7 @@
   },
   {
     "NewTypeName": "NotesManagerClass",
-    "OriginalTypeName": "GClass2550",
+    "OriginalTypeName": "GClass2551",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4209,7 +4209,7 @@
   },
   {
     "NewTypeName": "ItemContextClass",
-    "OriginalTypeName": "GClass2884",
+    "OriginalTypeName": "GClass2885",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4228,7 +4228,7 @@
   },
   {
     "NewTypeName": "HandbookClass",
-    "OriginalTypeName": "GClass2947",
+    "OriginalTypeName": "GClass2948",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4247,7 +4247,7 @@
   },
   {
     "NewTypeName": "JobYieldClass",
-    "OriginalTypeName": "GClass3427",
+    "OriginalTypeName": "GClass3429",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4266,7 +4266,7 @@
   },
   {
     "NewTypeName": "MagazineBuildClass",
-    "OriginalTypeName": "GClass2146",
+    "OriginalTypeName": "GClass2147",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4285,7 +4285,7 @@
   },
   {
     "NewTypeName": "MatchmakerPlayerControllerClass",
-    "OriginalTypeName": "GClass3237",
+    "OriginalTypeName": "GClass3238",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4304,7 +4304,7 @@
   },
   {
     "NewTypeName": "EftBulletClass",
-    "OriginalTypeName": "GClass3054",
+    "OriginalTypeName": "GClass3055",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4324,7 +4324,7 @@
   },
   {
     "NewTypeName": "DynamicInteractionClass",
-    "OriginalTypeName": "GClass3119",
+    "OriginalTypeName": "GClass3120",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4345,7 +4345,7 @@
   },
   {
     "NewTypeName": "ItemInfoInteractionsAbstractClass",
-    "OriginalTypeName": "GClass3086`1",
+    "OriginalTypeName": "GClass3087`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4365,7 +4365,7 @@
   },
   {
     "NewTypeName": "ItemContextAbstractClass",
-    "OriginalTypeName": "GClass2871",
+    "OriginalTypeName": "GClass2872",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4386,7 +4386,7 @@
   },
   {
     "NewTypeName": "CacheResourcesPopAbstractClass",
-    "OriginalTypeName": "GClass2184",
+    "OriginalTypeName": "GClass2185",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4405,7 +4405,7 @@
   },
   {
     "NewTypeName": "SkillClass",
-    "OriginalTypeName": "GClass1802",
+    "OriginalTypeName": "GClass1803",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4445,7 +4445,7 @@
   },
   {
     "NewTypeName": "WeaponSkillClass",
-    "OriginalTypeName": "GClass1804",
+    "OriginalTypeName": "GClass1805",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4464,7 +4464,7 @@
   },
   {
     "NewTypeName": "ActionsTypesClass",
-    "OriginalTypeName": "GClass3073",
+    "OriginalTypeName": "GClass3074",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4486,7 +4486,7 @@
   },
   {
     "NewTypeName": "ActionsReturnClass",
-    "OriginalTypeName": "GClass3074",
+    "OriginalTypeName": "GClass3075",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4546,7 +4546,7 @@
   },
   {
     "NewTypeName": "SessionCounterTypesAbstractClass",
-    "OriginalTypeName": "GClass2257",
+    "OriginalTypeName": "GClass2258",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4567,7 +4567,7 @@
   },
   {
     "NewTypeName": "InteractionsHandlerClass",
-    "OriginalTypeName": "GClass2832",
+    "OriginalTypeName": "GClass2833",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4586,7 +4586,7 @@
   },
   {
     "NewTypeName": "HardwareDescriptionClass",
-    "OriginalTypeName": "GClass1844",
+    "OriginalTypeName": "GClass1845",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4625,7 +4625,7 @@
   },
   {
     "NewTypeName": "LocaleManagerClass",
-    "OriginalTypeName": "GClass1896",
+    "OriginalTypeName": "GClass1897",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4643,7 +4643,7 @@
   },
   {
     "NewTypeName": "EasyAssetHelperClass",
-    "OriginalTypeName": "Class3254",
+    "OriginalTypeName": "Class3258",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -4663,7 +4663,7 @@
   },
   {
     "NewTypeName": "ProfileEndpointFactoryAbstractClass",
-    "OriginalTypeName": "Class270",
+    "OriginalTypeName": "Class271",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -4704,7 +4704,7 @@
   },
   {
     "NewTypeName": "AmmoPackReloadingClass",
-    "OriginalTypeName": "GClass2551",
+    "OriginalTypeName": "GClass2552",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4722,7 +4722,7 @@
   },
   {
     "NewTypeName": "ItemAddressClass",
-    "OriginalTypeName": "GClass2827",
+    "OriginalTypeName": "GClass2828",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4789,7 +4789,7 @@
   },
   {
     "NewTypeName": "FromObjectAbstractClass",
-    "OriginalTypeName": "GClass1665",
+    "OriginalTypeName": "GClass1666",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4808,7 +4808,7 @@
   },
   {
     "NewTypeName": "BackendConfigAbstractClass",
-    "OriginalTypeName": "GClass560",
+    "OriginalTypeName": "GClass561",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4827,7 +4827,7 @@
   },
   {
     "NewTypeName": "ApplicationConfigClass",
-    "OriginalTypeName": "GClass800",
+    "OriginalTypeName": "GClass801",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4847,7 +4847,7 @@
   },
   {
     "NewTypeName": "AchievementsBookClass",
-    "OriginalTypeName": "GClass3438",
+    "OriginalTypeName": "GClass3440",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4912,7 +4912,7 @@
   },
   {
     "NewTypeName": "AssetPoolAbstractClass",
-    "OriginalTypeName": "GClass3067`1",
+    "OriginalTypeName": "GClass3068`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4933,7 +4933,7 @@
   },
   {
     "NewTypeName": "RepairKitItemClass",
-    "OriginalTypeName": "GClass2787",
+    "OriginalTypeName": "GClass2788",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4971,7 +4971,7 @@
   },
   {
     "NewTypeName": "SeasonChangedEventClass",
-    "OriginalTypeName": "GClass2978",
+    "OriginalTypeName": "GClass2979",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -4991,7 +4991,7 @@
   },
   {
     "NewTypeName": "InventoryItemFromToClass",
-    "OriginalTypeName": "GClass2898",
+    "OriginalTypeName": "GClass2899",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5016,7 +5016,7 @@
   },
   {
     "NewTypeName": "VisibilityIndicesClass",
-    "OriginalTypeName": "GClass1042`1",
+    "OriginalTypeName": "GClass1043`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5037,7 +5037,7 @@
   },
   {
     "NewTypeName": "CurrentStateAbstractClass",
-    "OriginalTypeName": "GClass1141",
+    "OriginalTypeName": "GClass1142",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5058,7 +5058,7 @@
   },
   {
     "NewTypeName": "TransitionClass",
-    "OriginalTypeName": "GClass1140",
+    "OriginalTypeName": "GClass1141",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5077,7 +5077,7 @@
   },
   {
     "NewTypeName": "ThresholdClass",
-    "OriginalTypeName": "GClass1146",
+    "OriginalTypeName": "GClass1147",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5177,7 +5177,7 @@
   },
   {
     "NewTypeName": "MarkOfUnknownItemClass",
-    "OriginalTypeName": "GClass2790",
+    "OriginalTypeName": "GClass2791",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5253,7 +5253,7 @@
   },
   {
     "NewTypeName": "PedometerClass",
-    "OriginalTypeName": "GClass1692",
+    "OriginalTypeName": "GClass1693",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5330,7 +5330,7 @@
   },
   {
     "NewTypeName": "InventoryContainerClass",
-    "OriginalTypeName": "GClass2821",
+    "OriginalTypeName": "GClass2822",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5350,7 +5350,7 @@
   },
   {
     "NewTypeName": "CreateItemsOperationClass",
-    "OriginalTypeName": "GClass2909",
+    "OriginalTypeName": "GClass2910",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5371,7 +5371,7 @@
   },
   {
     "NewTypeName": "CreateItemsDescriptorClass",
-    "OriginalTypeName": "GClass1604",
+    "OriginalTypeName": "GClass1605",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5393,7 +5393,7 @@
   },
   {
     "NewTypeName": "PurchaseTraderServiceOperationClass",
-    "OriginalTypeName": "GClass2927",
+    "OriginalTypeName": "GClass2928",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5414,7 +5414,7 @@
   },
   {
     "NewTypeName": "PurchaseTraderServiceDescriptorClass",
-    "OriginalTypeName": "GClass1605",
+    "OriginalTypeName": "GClass1606",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5436,7 +5436,7 @@
   },
   {
     "NewTypeName": "AddOperationClass",
-    "OriginalTypeName": "GClass2902",
+    "OriginalTypeName": "GClass2903",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5462,7 +5462,7 @@
   },
   {
     "NewTypeName": "AddDescriptorClass",
-    "OriginalTypeName": "GClass1563",
+    "OriginalTypeName": "GClass1564",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5485,7 +5485,7 @@
   },
   {
     "NewTypeName": "RemoveOperationClass",
-    "OriginalTypeName": "GClass2930",
+    "OriginalTypeName": "GClass2931",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5509,7 +5509,7 @@
   },
   {
     "NewTypeName": "MoveDescriptorClass",
-    "OriginalTypeName": "GClass1575",
+    "OriginalTypeName": "GClass1576",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5531,7 +5531,7 @@
   },
   {
     "NewTypeName": "MoveAllOperationClass",
-    "OriginalTypeName": "GClass2926",
+    "OriginalTypeName": "GClass2927",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5553,7 +5553,7 @@
   },
   {
     "NewTypeName": "SplitOperationClass",
-    "OriginalTypeName": "GClass2934",
+    "OriginalTypeName": "GClass2935",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5573,7 +5573,7 @@
   },
   {
     "NewTypeName": "SplitDescriptorClass",
-    "OriginalTypeName": "GClass1577",
+    "OriginalTypeName": "GClass1578",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5597,7 +5597,7 @@
   },
   {
     "NewTypeName": "MergeOperationClass",
-    "OriginalTypeName": "GClass2925",
+    "OriginalTypeName": "GClass2926",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5631,7 +5631,7 @@
   },
   {
     "NewTypeName": "MergeDescriptorClass",
-    "OriginalTypeName": "GClass1578",
+    "OriginalTypeName": "GClass1579",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5651,7 +5651,7 @@
   },
   {
     "NewTypeName": "TransferOperationClass",
-    "OriginalTypeName": "GClass2938",
+    "OriginalTypeName": "GClass2939",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5672,7 +5672,7 @@
   },
   {
     "NewTypeName": "TransferDescriptorClass",
-    "OriginalTypeName": "GClass1579",
+    "OriginalTypeName": "GClass1580",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5695,7 +5695,7 @@
   },
   {
     "NewTypeName": "SwapOperationClass",
-    "OriginalTypeName": "GClass2899",
+    "OriginalTypeName": "GClass2900",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5714,7 +5714,7 @@
   },
   {
     "NewTypeName": "SwapDescriptorClass",
-    "OriginalTypeName": "GClass1580",
+    "OriginalTypeName": "GClass1581",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5737,7 +5737,7 @@
   },
   {
     "NewTypeName": "ThrowOperationClass",
-    "OriginalTypeName": "GClass2900",
+    "OriginalTypeName": "GClass2901",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5759,7 +5759,7 @@
   },
   {
     "NewTypeName": "ThrowDescriptorClass",
-    "OriginalTypeName": "GClass1581",
+    "OriginalTypeName": "GClass1582",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5780,7 +5780,7 @@
   },
   {
     "NewTypeName": "ToggleOperationClass",
-    "OriginalTypeName": "GClass2937",
+    "OriginalTypeName": "GClass2938",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5800,7 +5800,7 @@
   },
   {
     "NewTypeName": "FoldOperationClass",
-    "OriginalTypeName": "GClass2919",
+    "OriginalTypeName": "GClass2920",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5824,7 +5824,7 @@
   },
   {
     "NewTypeName": "ShotOperationClass",
-    "OriginalTypeName": "GClass2933",
+    "OriginalTypeName": "GClass2934",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5845,7 +5845,7 @@
   },
   {
     "NewTypeName": "SetupItemOperationClass",
-    "OriginalTypeName": "GClass2932",
+    "OriginalTypeName": "GClass2933",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5867,7 +5867,7 @@
   },
   {
     "NewTypeName": "SetupItemDescriptorClass",
-    "OriginalTypeName": "GClass1585",
+    "OriginalTypeName": "GClass1586",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5889,7 +5889,7 @@
   },
   {
     "NewTypeName": "TagOperationClass",
-    "OriginalTypeName": "GClass2936",
+    "OriginalTypeName": "GClass2937",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5911,7 +5911,7 @@
   },
   {
     "NewTypeName": "TagDescriptorClass",
-    "OriginalTypeName": "GClass1594",
+    "OriginalTypeName": "GClass1595",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5933,7 +5933,7 @@
   },
   {
     "NewTypeName": "StationaryOperationClass",
-    "OriginalTypeName": "GClass2935",
+    "OriginalTypeName": "GClass2936",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5954,7 +5954,7 @@
   },
   {
     "NewTypeName": "WeaponRechamberOperationClass",
-    "OriginalTypeName": "GClass2940",
+    "OriginalTypeName": "GClass2941",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -5984,7 +5984,7 @@
   },
   {
     "NewTypeName": "ApplyKeyOperationClass",
-    "OriginalTypeName": "GClass2905",
+    "OriginalTypeName": "GClass2906",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6004,7 +6004,7 @@
   },
   {
     "NewTypeName": "ApplyKeyDescriptorClass",
-    "OriginalTypeName": "GClass1586",
+    "OriginalTypeName": "GClass1587",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6025,7 +6025,7 @@
   },
   {
     "NewTypeName": "CreateMapMarkerOperationClass",
-    "OriginalTypeName": "GClass2910",
+    "OriginalTypeName": "GClass2911",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6047,7 +6047,7 @@
   },
   {
     "NewTypeName": "CreateMapMarkerDescriptorClass",
-    "OriginalTypeName": "GClass1588",
+    "OriginalTypeName": "GClass1589",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6069,7 +6069,7 @@
   },
   {
     "NewTypeName": "EditMapMarkerOperationClass",
-    "OriginalTypeName": "GClass2914",
+    "OriginalTypeName": "GClass2915",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6092,7 +6092,7 @@
   },
   {
     "NewTypeName": "EditMapMarkerDescriptorClass",
-    "OriginalTypeName": "GClass1589",
+    "OriginalTypeName": "GClass1590",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6115,7 +6115,7 @@
   },
   {
     "NewTypeName": "DeleteMapMarkerOperationClass",
-    "OriginalTypeName": "GClass2911",
+    "OriginalTypeName": "GClass2912",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6139,7 +6139,7 @@
   },
   {
     "NewTypeName": "DeleteMapMarkerOperationDescriptorClass",
-    "OriginalTypeName": "GClass1590",
+    "OriginalTypeName": "GClass1591",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6162,7 +6162,7 @@
   },
   {
     "NewTypeName": "AddNoteOperationClass",
-    "OriginalTypeName": "GClass2901",
+    "OriginalTypeName": "GClass2902",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6186,7 +6186,7 @@
   },
   {
     "NewTypeName": "AddNoteDescriptorClass",
-    "OriginalTypeName": "GClass1591",
+    "OriginalTypeName": "GClass1592",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6208,7 +6208,7 @@
   },
   {
     "NewTypeName": "EditNoteOperationClass",
-    "OriginalTypeName": "GClass2915",
+    "OriginalTypeName": "GClass2916",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6229,7 +6229,7 @@
   },
   {
     "NewTypeName": "EditNoteDescriptorClass",
-    "OriginalTypeName": "GClass1592",
+    "OriginalTypeName": "GClass1593",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6252,7 +6252,7 @@
   },
   {
     "NewTypeName": "DeleteNoteOperationClass",
-    "OriginalTypeName": "GClass2912",
+    "OriginalTypeName": "GClass2913",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6272,7 +6272,7 @@
   },
   {
     "NewTypeName": "DeleteNoteDescriptorClass",
-    "OriginalTypeName": "GClass1593",
+    "OriginalTypeName": "GClass1594",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6295,7 +6295,7 @@
   },
   {
     "NewTypeName": "ExamineOperationClass",
-    "OriginalTypeName": "GClass2918",
+    "OriginalTypeName": "GClass2919",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6313,7 +6313,7 @@
   },
   {
     "NewTypeName": "QuestHandoverOperationClass",
-    "OriginalTypeName": "GClass2944",
+    "OriginalTypeName": "GClass2945",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6333,7 +6333,7 @@
   },
   {
     "NewTypeName": "QuestHandoverDescriptorClass",
-    "OriginalTypeName": "GClass1601",
+    "OriginalTypeName": "GClass1602",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6355,7 +6355,7 @@
   },
   {
     "NewTypeName": "CheckMagazineOperationClass",
-    "OriginalTypeName": "GClass2908",
+    "OriginalTypeName": "GClass2909",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6376,7 +6376,7 @@
   },
   {
     "NewTypeName": "CheckMagazineDescriptorClass",
-    "OriginalTypeName": "GClass1571",
+    "OriginalTypeName": "GClass1572",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6499,7 +6499,7 @@
   },
   {
     "NewTypeName": "WeaponBuildsStorageClass",
-    "OriginalTypeName": "GClass3256",
+    "OriginalTypeName": "GClass3257",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6520,7 +6520,7 @@
   },
   {
     "NewTypeName": "EquipmentBuildsStorageClass",
-    "OriginalTypeName": "GClass3254",
+    "OriginalTypeName": "GClass3255",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6540,7 +6540,7 @@
   },
   {
     "NewTypeName": "ProductionBuildAbstractClass",
-    "OriginalTypeName": "GClass1975",
+    "OriginalTypeName": "GClass1976",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6643,7 +6643,7 @@
   },
   {
     "NewTypeName": "UriParamsClass",
-    "OriginalTypeName": "Class1774",
+    "OriginalTypeName": "Class1778",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": false,
@@ -6663,7 +6663,7 @@
   },
   {
     "NewTypeName": "BotsPresets",
-    "OriginalTypeName": "GClass601",
+    "OriginalTypeName": "GClass602",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6683,7 +6683,7 @@
   },
   {
     "NewTypeName": "LoggerClass",
-    "OriginalTypeName": "GClass627",
+    "OriginalTypeName": "GClass628",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6704,7 +6704,7 @@
   },
   {
     "NewTypeName": "SkillActionClass",
-    "OriginalTypeName": "GClass1814",
+    "OriginalTypeName": "GClass1815",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6725,7 +6725,7 @@
   },
   {
     "NewTypeName": "SkillBuffClass",
-    "OriginalTypeName": "GClass1808",
+    "OriginalTypeName": "GClass1809",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6745,7 +6745,7 @@
   },
   {
     "NewTypeName": "SkillBuffAbstractClass",
-    "OriginalTypeName": "GClass1807",
+    "OriginalTypeName": "GClass1808",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6766,7 +6766,7 @@
   },
   {
     "NewTypeName": "BotSettingsRepoAbstractClass",
-    "OriginalTypeName": "GClass710",
+    "OriginalTypeName": "GClass711",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6791,7 +6791,7 @@
   },
   {
     "NewTypeName": "BTRDialogClass",
-    "OriginalTypeName": "GClass3205",
+    "OriginalTypeName": "GClass3206",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6817,7 +6817,7 @@
   },
   {
     "NewTypeName": "CreateRaidSettingsForProfileClass",
-    "OriginalTypeName": "GClass3230",
+    "OriginalTypeName": "GClass3231",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6842,7 +6842,7 @@
   },
   {
     "NewTypeName": "RagfairOfferSellHelperClass",
-    "OriginalTypeName": "GClass3137",
+    "OriginalTypeName": "GClass3138",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6886,7 +6886,7 @@
   },
   {
     "NewTypeName": "ProfileHealthClass",
-    "OriginalTypeName": "GClass1790",
+    "OriginalTypeName": "GClass1791",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6912,7 +6912,7 @@
   },
   {
     "NewTypeName": "CorpseLootItemClass",
-    "OriginalTypeName": "GClass1227",
+    "OriginalTypeName": "GClass1228",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6936,7 +6936,7 @@
   },
   {
     "NewTypeName": "NetworkHealthControllerAbstractClass",
-    "OriginalTypeName": "GClass2473",
+    "OriginalTypeName": "GClass2474",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6958,7 +6958,7 @@
   },
   {
     "NewTypeName": "NetworkBodyEffectsAbstractClass",
-    "OriginalTypeName": "GClass2476",
+    "OriginalTypeName": "GClass2477",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -6984,7 +6984,7 @@
   },
   {
     "NewTypeName": "QuestClass",
-    "OriginalTypeName": "GClass1277",
+    "OriginalTypeName": "GClass1278",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7002,7 +7002,7 @@
   },
   {
     "NewTypeName": "TaskConditionCounterClass",
-    "OriginalTypeName": "GClass3292",
+    "OriginalTypeName": "GClass3293",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7023,7 +7023,7 @@
   },
   {
     "NewTypeName": "StatNotificationClass",
-    "OriginalTypeName": "GClass2095",
+    "OriginalTypeName": "GClass2096",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7043,7 +7043,7 @@
   },
   {
     "NewTypeName": "GridItemAddressDescriptorClass",
-    "OriginalTypeName": "GClass1558",
+    "OriginalTypeName": "GClass1559",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7062,7 +7062,7 @@
   },
   {
     "NewTypeName": "EFTPhysicsClass",
-    "OriginalTypeName": "GClass662",
+    "OriginalTypeName": "GClass663",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7080,7 +7080,7 @@
   },
   {
     "NewTypeName": "SpawnPointManagerClass",
-    "OriginalTypeName": "GClass2994",
+    "OriginalTypeName": "GClass2995",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7103,7 +7103,7 @@
   },
   {
     "NewTypeName": "BossSpawnWaveManagerClass",
-    "OriginalTypeName": "GClass591",
+    "OriginalTypeName": "GClass592",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7121,7 +7121,7 @@
   },
   {
     "NewTypeName": "EFTDateTimeClass",
-    "OriginalTypeName": "GClass1323",
+    "OriginalTypeName": "GClass1324",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7139,7 +7139,7 @@
   },
   {
     "NewTypeName": "CurrentScreenSingleton",
-    "OriginalTypeName": "GClass3178",
+    "OriginalTypeName": "GClass3179",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7159,7 +7159,7 @@
   },
   {
     "NewTypeName": "TimeHasComeScreenClass",
-    "OriginalTypeName": "GClass3235",
+    "OriginalTypeName": "GClass3236",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7180,7 +7180,7 @@
   },
   {
     "NewTypeName": "FinalCountdownScreenClass",
-    "OriginalTypeName": "GClass3234",
+    "OriginalTypeName": "GClass3235",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7200,7 +7200,7 @@
   },
   {
     "NewTypeName": "SkillBonusAbstractClass",
-    "OriginalTypeName": "GClass1437",
+    "OriginalTypeName": "GClass1438",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7228,7 +7228,7 @@
   },
   {
     "NewTypeName": "CustomizationSolverClass",
-    "OriginalTypeName": "GClass1474",
+    "OriginalTypeName": "GClass1475",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7540,7 +7540,7 @@
   },
   {
     "NewTypeName": "LogConfiguratorAbstractClass",
-    "OriginalTypeName": "GClass651",
+    "OriginalTypeName": "GClass652",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7594,7 +7594,7 @@
   },
   {
     "NewTypeName": "CultistAmuletClass",
-    "OriginalTypeName": "GClass2773",
+    "OriginalTypeName": "GClass2774",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7679,7 +7679,7 @@
   },
   {
     "NewTypeName": "FleaTaxCalculatorAbstractClass",
-    "OriginalTypeName": "GClass2144",
+    "OriginalTypeName": "GClass2145",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7702,7 +7702,7 @@
   },
   {
     "NewTypeName": "LocationExitClass",
-    "OriginalTypeName": "GClass1252",
+    "OriginalTypeName": "GClass1253",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7727,7 +7727,7 @@
   },
   {
     "NewTypeName": "BotCreationDataClass",
-    "OriginalTypeName": "GClass603",
+    "OriginalTypeName": "GClass604",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7756,7 +7756,7 @@
   },
   {
     "NewTypeName": "LocationStatisticsCollectorAbstractClass",
-    "OriginalTypeName": "GClass1824",
+    "OriginalTypeName": "GClass1825",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7784,7 +7784,7 @@
   },
   {
     "NewTypeName": "TraderServicesClass",
-    "OriginalTypeName": "GClass1828",
+    "OriginalTypeName": "GClass1829",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7812,7 +7812,7 @@
   },
   {
     "NewTypeName": "QuestDictionaryClass",
-    "OriginalTypeName": "GClass2186`1",
+    "OriginalTypeName": "GClass2187`1",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7838,7 +7838,7 @@
   },
   {
     "NewTypeName": "IconLoaderClass",
-    "OriginalTypeName": "GClass3076",
+    "OriginalTypeName": "GClass3077",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7872,7 +7872,7 @@
   },
   {
     "NewTypeName": "AddViewList",
-    "OriginalTypeName": "GClass782",
+    "OriginalTypeName": "GClass783",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7898,7 +7898,7 @@
   },
   {
     "NewTypeName": "SessionCounterIdentifierValueClass",
-    "OriginalTypeName": "GClass1821",
+    "OriginalTypeName": "GClass1822",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7926,7 +7926,7 @@
   },
   {
     "NewTypeName": "MathHelperClass",
-    "OriginalTypeName": "GClass910",
+    "OriginalTypeName": "GClass911",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7955,7 +7955,7 @@
   },
   {
     "NewTypeName": "WeaponMalfunctionStateClass",
-    "OriginalTypeName": "GClass2800",
+    "OriginalTypeName": "GClass2801",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -7990,7 +7990,7 @@
   },
   {
     "NewTypeName": "CompositeDisposableClass",
-    "OriginalTypeName": "GClass781",
+    "OriginalTypeName": "GClass782",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8019,7 +8019,7 @@
   },
   {
     "NewTypeName": "ChessboardMatrixClass",
-    "OriginalTypeName": "GClass911",
+    "OriginalTypeName": "GClass912",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8047,7 +8047,7 @@
   },
   {
     "NewTypeName": "BasePhysicalClass",
-    "OriginalTypeName": "GClass694",
+    "OriginalTypeName": "GClass695",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8076,7 +8076,7 @@
   },
   {
     "NewTypeName": "TaskCompletionClass",
-    "OriginalTypeName": "GClass2446",
+    "OriginalTypeName": "GClass2447",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8102,7 +8102,7 @@
   },
   {
     "NewTypeName": "WeaponManagerClass",
-    "OriginalTypeName": "GClass1702",
+    "OriginalTypeName": "GClass1703",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8157,7 +8157,7 @@
   },
   {
     "NewTypeName": "MagazineBuildPresetClass",
-    "OriginalTypeName": "GClass2147",
+    "OriginalTypeName": "GClass2148",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8183,7 +8183,7 @@
   },
   {
     "NewTypeName": "FirearmHandsControllerClass",
-    "OriginalTypeName": "GClass2427",
+    "OriginalTypeName": "GClass2428",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8234,7 +8234,7 @@
   },
   {
     "NewTypeName": "ProfileInfoSettingsClass",
-    "OriginalTypeName": "GClass1782",
+    "OriginalTypeName": "GClass1783",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8261,7 +8261,7 @@
   },
   {
     "NewTypeName": "ItemDescriptionClass",
-    "OriginalTypeName": "GClass1529",
+    "OriginalTypeName": "GClass1530",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8290,7 +8290,7 @@
   },
   {
     "NewTypeName": "EntityNodeClass",
-    "OriginalTypeName": "GClass2950",
+    "OriginalTypeName": "GClass2951",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8346,7 +8346,7 @@
   },
   {
     "NewTypeName": "ObservedVaultingParametersClass",
-    "OriginalTypeName": "GClass2213",
+    "OriginalTypeName": "GClass2214",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8391,7 +8391,7 @@
   },
   {
     "NewTypeName": "KeyInteractionResultClass",
-    "OriginalTypeName": "GClass3030",
+    "OriginalTypeName": "GClass3031",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8415,7 +8415,7 @@
   },
   {
     "NewTypeName": "UnloadOperationClass",
-    "OriginalTypeName": "GClass2922",
+    "OriginalTypeName": "GClass2923",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8437,7 +8437,7 @@
   },
   {
     "NewTypeName": "ResourceKeyManagerAbstractClass",
-    "OriginalTypeName": "GClass1418",
+    "OriginalTypeName": "GClass1419",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8465,7 +8465,7 @@
   },
   {
     "NewTypeName": "LocalQuestControllerClass",
-    "OriginalTypeName": "GClass3278",
+    "OriginalTypeName": "GClass3279",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8486,7 +8486,7 @@
   },
   {
     "NewTypeName": "PlayerPhysicalClass",
-    "OriginalTypeName": "GClass695",
+    "OriginalTypeName": "GClass696",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
@@ -8510,7 +8510,7 @@
   },
   {
     "NewTypeName": "ShotInfoClass",
-    "OriginalTypeName": "GClass1710",
+    "OriginalTypeName": "GClass1711",
     "UseForceRename": false,
     "SearchParams": {
       "IsPublic": true,
