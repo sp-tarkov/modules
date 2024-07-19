@@ -31,6 +31,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ## Project Setup
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this project's `Project/Shared/Managed/` folder
 
+
 ## Build (VS Code)
 1. File > Open Workspace > Modules.code-workspace
 2. Terminal > Run Build Task...
