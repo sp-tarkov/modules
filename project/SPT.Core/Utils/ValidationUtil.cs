@@ -6,6 +6,8 @@ namespace SPT.Core.Utils
 {
     public static class ValidationUtil
     {
+        private static bool _hasRun = false;
+        
         public static bool Validate()
         {
             var c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
@@ -27,10 +29,14 @@ namespace SPT.Core.Utils
                     new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))
                 };
 
-                ServerLog.Debug("SPT.Core", Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0");
-                ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
-                ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
-
+                if (!_hasRun)
+                {
+                    ServerLog.Debug("SPT.Core", Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0");
+                    ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
+                    ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
+                    _hasRun = true;
+                }
+                
                 v0 = v4.Length - 1;
 
                 foreach (var value in v4)
