@@ -11,6 +11,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     {
 		/// <summary>
 		/// Modifys the raidsettings to retain raidsettings options in menu and allows scav to load into raid
+		/// All these settings might not be needed but this allows pmc and scavs to load in as needed.
 		/// </summary>
 		protected override MethodBase GetTargetMethod()
         {
