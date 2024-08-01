@@ -55,12 +55,12 @@ namespace SPT.SinglePlayer
                 new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
-                //new EnablePlayerScavPatch().Enable();
+                new EnablePlayerScavPatch().Enable();
                 new ScavFoundInRaidPatch().Enable();
                 new GetProfileAtEndOfRaidPatch().Enable();
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
-                //new ApplyRaidSettingsPatch().Enable();
+                //new ApplyRaidSettingsPatch().Enable(); Should be no longer needed keeping here just to be safe.
                 new FixQuestAchieveControllersPatch().Enable();
             }
             catch (Exception ex)

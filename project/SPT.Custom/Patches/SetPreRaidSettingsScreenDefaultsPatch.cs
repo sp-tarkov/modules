@@ -22,10 +22,11 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static void PatchPrefix(object controller, UpdatableToggle ____offlineModeToggle)
         {
-            var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
+            //var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
+            var offlineRaidSettings = Traverse.Create(controller).Field<RaidSettings>("OfflineRaidSettings").Value;
 
-            // Default checkbox to be unchecked so we're in PvE
-            ____offlineModeToggle.isOn = false;
+			// Default checkbox to be unchecked so we're in PvE
+			____offlineModeToggle.isOn = false;
 
             // Get settings from server
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
@@ -37,15 +38,26 @@ namespace SPT.Custom.Patches
                 return;
             }
 
-            raidSettings.BotSettings.BotAmount = settings.AiAmount;
-            raidSettings.WavesSettings.BotAmount = settings.AiAmount;
-            raidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
-            raidSettings.WavesSettings.IsBosses = settings.BossEnabled;
-            raidSettings.BotSettings.IsScavWars = false;
-            raidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
-            raidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
-            raidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
-        }
+            //raidSettings.BotSettings.BotAmount = settings.AiAmount;
+            //raidSettings.WavesSettings.BotAmount = settings.AiAmount;
+            //raidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
+            //raidSettings.WavesSettings.IsBosses = settings.BossEnabled;
+            //raidSettings.BotSettings.IsScavWars = false;
+            //raidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
+            //raidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
+            //raidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
+
+            // We use PVE mode from Tarkov now we need to modify PVE MODE instead of ONLINE Mode
+
+			offlineRaidSettings.BotSettings.BotAmount = settings.AiAmount;
+			offlineRaidSettings.WavesSettings.BotAmount = settings.AiAmount;
+			offlineRaidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
+			offlineRaidSettings.WavesSettings.IsBosses = settings.BossEnabled;
+			offlineRaidSettings.BotSettings.IsScavWars = false;
+			offlineRaidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
+			offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
+			offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
+		}
 
         [PatchPostfix]
         private static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, DefaultUIButton ____changeSettingsButton, UiElementBlocker ____onlineBlocker)
