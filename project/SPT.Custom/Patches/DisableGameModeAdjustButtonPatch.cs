@@ -7,7 +7,10 @@ using UnityEngine;
 
 namespace SPT.Custom.Patches
 {
-    public class DisableGamemodeButtonPatch : ModulePatch
+    /// <summary>
+    /// Remove ability to alter the game mode
+    /// </summary>
+    public class DisableGameModeAdjustButtonPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
