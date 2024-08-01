@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SPT.Custom.Patches
 {
-    public class PMCSpawnParamPatch : ModulePatch
+    public class FixPmcSpawnParamsNullErrorPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -15,13 +15,13 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         private static void PatchPrefix(BotOwner bot)
         {
-            // is a boss and not a follower and not a PMC
+            // Is a boss and not a follower and not a PMC
             if (!bot.Profile.Info.Settings.IsBoss() && !CustomAI.AiHelpers.BotIsSptPmc(bot.Profile.Info.Settings.Role, bot))
             {
                 return;
             }
             
-            // is a boss and follower and a pmc
+            // Is a boss and follower and a pmc
             if (bot.SpawnProfileData.SpawnParams == null)
             {
                 bot.SpawnProfileData.SpawnParams = new BotSpawnParams();

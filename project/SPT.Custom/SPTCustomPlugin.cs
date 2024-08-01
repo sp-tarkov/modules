@@ -44,8 +44,8 @@ namespace SPT.Custom
                 new QTEPatch().Enable();
                 new RedirectClientImageRequestsPatch().Enable();
                 new BotSelfEnemyPatch().Enable();
-                new DisableGamemodeButtonPatch().Enable();
-                new PMCSpawnParamPatch().Enable();
+                new DisableGameModeAdjustButtonPatch().Enable();
+                new FixPmcSpawnParamsNullErrorPatch().Enable();
                 new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();
