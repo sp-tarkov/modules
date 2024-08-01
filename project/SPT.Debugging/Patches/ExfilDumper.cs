@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace SPT.Debugging.Patches
 {
-    internal class ExfilDumper : ModulePatch
+    public class ExfilDumper : ModulePatch
     {
         public static string DumpFolder = Path.Combine(Environment.CurrentDirectory, "Dumps");
 
