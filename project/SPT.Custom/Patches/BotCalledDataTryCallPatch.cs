@@ -9,7 +9,7 @@ namespace SPT.Custom.Patches
      * It's possible for `AddEnemy` to return false, in that case, further code in TryCall will fail,
      * so we do the first bit of `TryCall` ourselves, and skip the original function if AddEnemy fails
      */
-    internal class BotCalledDataTryCallPatch : ModulePatch
+    public class BotCalledDataTryCallPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

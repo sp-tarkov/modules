@@ -8,7 +8,7 @@ namespace SPT.Custom.Patches
     /// <summary>
     /// Goal: patch removes the current bot from its own enemy list - occurs when adding bots type to its enemy array in difficulty settings
     /// </summary>
-    internal class BotSelfEnemyPatch : ModulePatch
+    public class BotSelfEnemyPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

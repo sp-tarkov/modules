@@ -12,7 +12,7 @@ namespace SPT.Custom.Patches
      * 
      * This results in both an NRE, and the called bots target location being wrong
      */
-    internal class BotCallForHelpCallBotPatch : ModulePatch
+    public class BotCallForHelpCallBotPatch : ModulePatch
     {
         private static FieldInfo _originalPanicTypeField;
 
