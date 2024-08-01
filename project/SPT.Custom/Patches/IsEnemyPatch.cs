@@ -41,12 +41,6 @@ namespace SPT.Custom.Patches
             }
 
             var isEnemy = false; // default not an enemy
-            if (requester == null)
-            {
-                __result = isEnemy;
-
-                return false; // Skip original
-            }
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
@@ -55,46 +49,44 @@ namespace SPT.Custom.Patches
                 __result = true;
                 return false; // Skip original
             }
-            else
-            {
-                // Weird edge case - without this you get spammed with key already in enemy list error when you move around on lighthouse
-                // Make zryachiy use existing isEnemy() code
-                if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
-                {
-                    return false; // Skip original
-                }
 
-                if (__instance.Side == EPlayerSide.Usec)
+            // Weird edge case - without this you get spammed with key already in enemy list error when you move around on lighthouse
+            // Make zryachiy use existing isEnemy() code
+            if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
+            {
+                return false; // Skip original
+            }
+
+            if (__instance.Side == EPlayerSide.Usec)
+            {
+                if (requester.Side == EPlayerSide.Bear || requester.Side == EPlayerSide.Savage ||
+                    ShouldAttackUsec(requester))
                 {
-                    if (requester.Side == EPlayerSide.Bear || requester.Side == EPlayerSide.Savage ||
-                        ShouldAttackUsec(requester))
-                    {
-                        isEnemy = true;
-                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
-                    }
+                    isEnemy = true;
+                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                 }
-                else if (__instance.Side == EPlayerSide.Bear)
+            }
+            else if (__instance.Side == EPlayerSide.Bear)
+            {
+                if (requester.Side == EPlayerSide.Usec || requester.Side == EPlayerSide.Savage ||
+                    ShouldAttackBear(requester))
                 {
-                    if (requester.Side == EPlayerSide.Usec || requester.Side == EPlayerSide.Savage ||
-                        ShouldAttackBear(requester))
-                    {
-                        isEnemy = true;
-                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
-                    }
+                    isEnemy = true;
+                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                 }
-                else if (__instance.Side == EPlayerSide.Savage)
+            }
+            else if (__instance.Side == EPlayerSide.Savage)
+            {
+                if (requester.Side != EPlayerSide.Savage)
                 {
-                    if (requester.Side != EPlayerSide.Savage)
+                    //Lets exUsec warn Usecs and fire at will at Bears
+                    if (__instance.InitialBotType == WildSpawnType.exUsec)
                     {
-                        //Lets exUsec warn Usecs and fire at will at Bears
-                        if (__instance.InitialBotType == WildSpawnType.exUsec)
-                        {
-                            return true; // Let BSG handle things
-                        }
-                        // everyone else is an enemy to savage (scavs)
-                        isEnemy = true;
-                        __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
+                        return true; // Let BSG handle things
                     }
+                    // everyone else is an enemy to savage (scavs)
+                    isEnemy = true;
+                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
                 }
             }
 
