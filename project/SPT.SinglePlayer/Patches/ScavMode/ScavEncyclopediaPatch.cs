@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
      * At the start of a scav raid, copy the PMC encyclopedia to the scav profile, and
      * make sure the scav knows all of the items it has in its inventory
      */
-    internal class ScavEncyclopediaPatch : ModulePatch
+    public class ScavEncyclopediaPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
