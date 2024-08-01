@@ -42,7 +42,7 @@ namespace SPT.Custom
                 // Still need
                 new SaveSettingsToSptFolderPatch().Enable();
                 new QTEPatch().Enable();
-                new FileCachePatch().Enable();
+                new RedirectClientImageRequestsPatch().Enable();
                 new BotSelfEnemyPatch().Enable();
                 new DisableGamemodeButtonPatch().Enable();
                 new PMCSpawnParamPatch().Enable();

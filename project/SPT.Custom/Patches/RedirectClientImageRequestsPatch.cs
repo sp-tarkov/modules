@@ -12,7 +12,7 @@ namespace SPT.Custom.Patches
     /// Redirects Trader and quest images to the SPT folder, not the app data
     /// </summary>
     ///
-    public class FileCachePatch : ModulePatch
+    public class RedirectClientImageRequestsPatch : ModulePatch
     {
         private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptappdata");
 
