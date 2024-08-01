@@ -53,8 +53,6 @@ namespace SPT.Custom
                 new LocationLootCacheBustingPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new FixBotgroupMarkofTheUnknown().Enable();
-				new StunGrenadeExplosionPatch().Enable();
-				new GrenadeExplosionPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
