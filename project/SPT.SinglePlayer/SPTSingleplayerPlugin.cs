@@ -20,7 +20,6 @@ namespace SPT.SinglePlayer
             {
                 // TODO: check if these patches are needed
                 new TinnitusFixPatch().Enable();
-                new SmokeGrenadeFuseSoundFixPatch().Enable();
                 new EmptyInfilFixPatch().Enable();
                 new MaxBotPatch().Enable();
                 new PostRaidHealingPricePatch().Enable();
@@ -30,9 +29,10 @@ namespace SPT.SinglePlayer
                 // new ScavRepAdjustmentPatch().Enable();
                 // new ScavSellAllPriceStorePatch().Enable();
                 // new ScavSellAllRequestPatch().Enable();
-                
+
 
                 // Still need
+                //new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
                 new ScavExperienceGainPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
                 new ScavExfilPatch().Enable();
