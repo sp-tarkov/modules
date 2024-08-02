@@ -50,7 +50,6 @@ namespace SPT.Custom
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();
                 new BossSpawnChancePatch().Enable();
-                new LocationLootCacheBustingPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new FixBotgroupMarkofTheUnknown().Enable();
 
