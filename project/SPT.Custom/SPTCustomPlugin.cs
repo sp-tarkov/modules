@@ -34,10 +34,13 @@ namespace SPT.Custom
                 // new SessionIdPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
+                new BotCalledDataTryCallPatch().Enable();
+                new BotOwnerDisposePatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();
                 //new AddSelfAsEnemyPatch().Enable();
                 new CheckAndAddEnemyPatch().Enable();
-                //new AddEnemyToAllGroupsInBotZonePatch().Enable();
+                new BotSelfEnemyPatch().Enable(); // needed
+                new AddEnemyToAllGroupsInBotZonePatch().Enable();
                 new AirdropPatch().Enable();
                 new AirdropFlarePatch().Enable();
                 //new AddSptBotSettingsPatch().Enable();
