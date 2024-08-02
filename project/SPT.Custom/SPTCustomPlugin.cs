@@ -22,7 +22,7 @@ namespace SPT.Custom
                 new EasyBundlePatch().Enable();
                 
                 // TODO: check if these patches are needed
-                new PmcTakesAgesToHealLimbsPatch().Enable();
+                // new PmcTakesAgesToHealLimbsPatch().Enable();
 				new DisableNonHalloweenExitsDuringEventPatch().Enable();
                 // new AllScavsHostileHostileToPlayerScavPatch().Enable();
                 // new CopyPmcQuestsToPlayerScavPatch().Enable();

@@ -30,7 +30,8 @@ namespace SPT.Custom.Utils
                 "com.cwx.debuggingtool",
                 "xyz.drakia.botdebug",
                 "com.kobrakon.camunsnap",
-                "RuntimeUnityEditor"
+                "RuntimeUnityEditor",
+                "com.dirtbikercj.debugplus"
         };
         
         public static string[] disallowedPlugins;
