@@ -22,10 +22,7 @@ namespace SPT.Custom
                 new EasyBundlePatch().Enable();
                 
                 // TODO: check if these patches are needed
-                //new AddEnemyTryCallFailureFixPatch().Enable(); // NOT NEEDED bsg do it now
-                new BotCallForHelpWrongTargetLocationPatch().Enable();
-                //new BotOwnerDisposePatch().Enable(); // NOT NEEDED bsg do it now
-                new BotsGroupLetBossesShootPmcsPatch().Enable();
+                // new BotsGroupLetBossesShootPmcsPatch().Enable();
                 new CustomAiPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new PmcTakesAgesToHealLimbsPatch().Enable();
