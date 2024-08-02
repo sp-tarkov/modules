@@ -22,7 +22,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static void Prefix()
+        public static void PatchPrefix()
         {
             CheckForNonWhitelistedPlugins(Logger);
         }

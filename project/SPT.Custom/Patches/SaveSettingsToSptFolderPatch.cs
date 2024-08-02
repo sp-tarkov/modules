@@ -19,7 +19,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        internal static void PatchPrefix(ref string ___string_0, ref string ___string_1)
+        public static void PatchPrefix(ref string ___string_0, ref string ___string_1)
         {
             if (!Directory.Exists(_sptPath))
             {

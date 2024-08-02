@@ -14,7 +14,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(HideoutPlayerOwner __instance)
+        public static void PatchPostfix(HideoutPlayerOwner __instance)
         {
             RequestHandler.PutJson("/client/hideout/workout", new
             {

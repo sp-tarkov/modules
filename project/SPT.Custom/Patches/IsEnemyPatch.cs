@@ -20,7 +20,7 @@ namespace SPT.Custom.Patches
         /// Needed to ensure bot checks the enemy side, not just its botType
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
+        public static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
         {
             if (requester == null)
             {

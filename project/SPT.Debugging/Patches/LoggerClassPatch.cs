@@ -18,7 +18,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(string nlogFormat, string unityFormat, LogLevel logLevel, object[] args)
+        public static void PatchPostfix(string nlogFormat, string unityFormat, LogLevel logLevel, object[] args)
         {
             var bsgLevel = LogLevel.FromOrdinal(logLevel.Ordinal);
             var sptLevel = LogLevel.FromOrdinal(SPTDebuggingPlugin.logLevel.verbosity);

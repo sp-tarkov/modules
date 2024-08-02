@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(Player __instance)
+        public static void PatchPostfix(Player __instance)
         {
             if (__instance.IsYourPlayer)
             {

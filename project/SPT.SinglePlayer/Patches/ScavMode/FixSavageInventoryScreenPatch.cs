@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(LocalGame __instance)
+        public static void PatchPrefix(LocalGame __instance)
         {
             GetProfileAtEndOfRaidPatch.Profile = __instance.Profile_0.ToJson();
         }
@@ -37,7 +37,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(ref ISession ___iSession)
+        public static void PatchPrefix(ref ISession ___iSession)
         {
             var profile = GetProfileAtEndOfRaidPatch.Profile.ParseJsonTo<Profile>();
             

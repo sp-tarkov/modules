@@ -19,7 +19,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
+        public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
         {
             __result = DifficultyManager.Get(botDifficulty, role);
             var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);

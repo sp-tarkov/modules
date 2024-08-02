@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(GameWorld __instance)
+        public static void PatchPrefix(GameWorld __instance)
         {
             var player = __instance.MainPlayer;
 

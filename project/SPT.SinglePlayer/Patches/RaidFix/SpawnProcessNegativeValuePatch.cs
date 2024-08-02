@@ -24,7 +24,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static bool PatchPreFix(int wantSpawn, ref int toDelay, ref int toSpawn, ref int ____maxBots, int ____allBotsCount, int ____inSpawnProcess)
+        public static bool PatchPreFix(int wantSpawn, ref int toDelay, ref int toSpawn, ref int ____maxBots, int ____allBotsCount, int ____inSpawnProcess)
         {
             // Set bots to delay if alive bots + spawning bots count > maxbots
             // ____inSpawnProcess can be negative, don't go below 0 when calculating

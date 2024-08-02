@@ -13,7 +13,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(BotOwner bot)
+        public static void PatchPrefix(BotOwner bot)
         {
             // Is a boss and not a follower and not a PMC
             if (!bot.Profile.Info.Settings.IsBoss() && !CustomAI.AiHelpers.BotIsSptPmc(bot.Profile.Info.Settings.Role, bot))

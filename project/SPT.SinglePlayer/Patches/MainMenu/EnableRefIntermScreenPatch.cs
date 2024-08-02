@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result)
+        public static bool PatchPrefix(ref bool __result)
         {
             __result = false;
             return false; // Do not run original method

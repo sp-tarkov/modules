@@ -23,7 +23,7 @@ namespace SPT.Custom.Patches
 		}
 
 		[PatchPrefix]
-		private static void PatchPreFix(ref IEnumerable<QuestDataClass> quests)
+		public static void PatchPreFix(ref IEnumerable<QuestDataClass> quests)
 		{
 			var gameWorld = Singleton<GameWorld>.Instance;
 

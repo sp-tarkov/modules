@@ -47,7 +47,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref RaidSettings ____raidSettings)
+        public static bool PatchPrefix(ref RaidSettings ____raidSettings)
         {
             var currentMapId = ____raidSettings.SelectedLocation.Id;
 

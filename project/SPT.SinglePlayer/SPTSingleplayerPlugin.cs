@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer
 
 
                 // Still need
-                //new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
+                // new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
                 new ScavExperienceGainPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
                 new ScavExfilPatch().Enable();
@@ -60,7 +60,7 @@ namespace SPT.SinglePlayer
                 new GetProfileAtEndOfRaidPatch().Enable();
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
-                //new ApplyRaidSettingsPatch().Enable(); Should be no longer needed keeping here just to be safe.
+                // new ApplyRaidSettingsPatch().Enable(); Should be no longer needed keeping here just to be safe.
                 new FixQuestAchieveControllersPatch().Enable();
             }
             catch (Exception ex)

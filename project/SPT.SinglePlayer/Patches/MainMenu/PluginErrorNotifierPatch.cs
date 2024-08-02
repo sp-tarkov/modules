@@ -26,7 +26,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostfix()
+        public static void PatchPostfix()
         {
             var failedPluginCount = Chainloader.DependencyErrors.Count;
 

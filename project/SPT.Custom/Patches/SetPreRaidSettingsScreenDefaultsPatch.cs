@@ -20,7 +20,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(object controller, UpdatableToggle ____offlineModeToggle)
+        public static void PatchPrefix(object controller, UpdatableToggle ____offlineModeToggle)
         {
             //var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
             var offlineRaidSettings = Traverse.Create(controller).Field<RaidSettings>("OfflineRaidSettings").Value;
@@ -38,15 +38,6 @@ namespace SPT.Custom.Patches
                 return;
             }
 
-            //raidSettings.BotSettings.BotAmount = settings.AiAmount;
-            //raidSettings.WavesSettings.BotAmount = settings.AiAmount;
-            //raidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
-            //raidSettings.WavesSettings.IsBosses = settings.BossEnabled;
-            //raidSettings.BotSettings.IsScavWars = false;
-            //raidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
-            //raidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
-            //raidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
-
             // We use PVE mode from Tarkov now we need to modify PVE MODE instead of ONLINE Mode
 
 			offlineRaidSettings.BotSettings.BotAmount = settings.AiAmount;
@@ -60,7 +51,7 @@ namespace SPT.Custom.Patches
 		}
 
         [PatchPostfix]
-        private static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, DefaultUIButton ____changeSettingsButton, UiElementBlocker ____onlineBlocker)
+        public static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, DefaultUIButton ____changeSettingsButton, UiElementBlocker ____onlineBlocker)
         {
             ____onlineBlocker.gameObject.SetActive(false);
             ____changeSettingsButton.Interactable = true;

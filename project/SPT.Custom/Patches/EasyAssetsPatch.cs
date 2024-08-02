@@ -40,7 +40,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<EasyAssets> __result, GameObject gameObject, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
+        public static bool PatchPrefix(ref Task<EasyAssets> __result, GameObject gameObject, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
             string platformName, [CanBeNull] Func<string, bool> shouldExclude, [CanBeNull] Func<string, Task> bundleCheck)
         {
             var easyAsset = gameObject.AddComponent<EasyAssets>();

@@ -16,7 +16,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPreFix(ref LocalizedText ____nickName, ref TMP_Text ____standing,
+        public static bool PatchPreFix(ref LocalizedText ____nickName, ref TMP_Text ____standing,
             ref RankPanel ____rankPanel, ref Profile.TraderInfo ___traderInfo_0)
         {
             if (____nickName.LocalizationKey == null)

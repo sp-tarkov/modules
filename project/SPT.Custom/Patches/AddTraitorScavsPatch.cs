@@ -26,7 +26,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref BotsGroup __result, IBotGame ____game, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone)
+        public static bool PatchPrefix(ref BotsGroup __result, IBotGame ____game, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone)
         {
             if (!TraitorChancePercent.HasValue)
             {

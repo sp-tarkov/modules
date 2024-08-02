@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPostfix]
-        private static void PatchPostfix()
+        public static void PatchPostfix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             var player = gameWorld?.MainPlayer;

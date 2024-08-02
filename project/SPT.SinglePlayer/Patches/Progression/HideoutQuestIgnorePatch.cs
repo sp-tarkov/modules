@@ -20,14 +20,14 @@ namespace SPT.SinglePlayer.Patches.Progression
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(ref AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
+        public static void PatchPrefix(ref AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
         {
             __state = ____questController;
             ____questController = null;
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
+        public static void PatchPostfix(AbstractQuestControllerClass __state, ref AbstractQuestControllerClass ____questController)
         {
             ____questController = __state;
         }

@@ -16,7 +16,7 @@ namespace SPT.Debugging.Patches
 		}
 
 		[PatchPostfix]
-		private static void PatchPostfix()
+		public static void PatchPostfix()
 		{
 			ConsoleScreen.Processor.RegisterCommandGroup<ReloadClientPatch>();
 		}

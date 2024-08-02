@@ -29,7 +29,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ProfileEndpointFactoryAbstractClass __instance, ref Task<IResult> __result, string playerId, string petId)
+        public static bool PatchPrefix(ProfileEndpointFactoryAbstractClass __instance, ref Task<IResult> __result, string playerId, string petId)
         {
             // Build request with additional information
             OwnerInfo fromOwner = new OwnerInfo

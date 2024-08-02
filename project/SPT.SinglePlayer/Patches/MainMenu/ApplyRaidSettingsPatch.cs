@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1)
+        public static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1)
         {
             // If Raidsettingswindow is never opened it will soft lock game
             if (___raidSettings_0 == null)

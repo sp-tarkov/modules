@@ -37,7 +37,7 @@ namespace SPT.Custom.Patches
         /// <param name="__instance">StandartBotBrain</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
-        private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
+        public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
@@ -130,7 +130,7 @@ namespace SPT.Custom.Patches
         /// <param name="__state">Saved state from prefix patch</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPostfix]
-        private static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
+        public static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
         {
             if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
             {

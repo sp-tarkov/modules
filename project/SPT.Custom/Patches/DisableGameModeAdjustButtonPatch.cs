@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
+        public static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
         {
             ____notAvailableState.SetActive(false);
             return false;

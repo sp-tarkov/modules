@@ -31,7 +31,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        private static void PrefixPatch(RaidSettings ___raidSettings_0)
+        public static void PrefixPatch(RaidSettings ___raidSettings_0)
         {
             ___raidSettings_0.RaidMode = ERaidMode.Online;
         }

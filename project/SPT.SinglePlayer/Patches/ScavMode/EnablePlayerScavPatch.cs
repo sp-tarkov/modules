@@ -19,7 +19,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
 		[PatchPrefix]
-		private static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1, MainMenuController __instance)
+		public static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1, MainMenuController __instance)
 		{
 			___raidSettings_0.RaidMode = ERaidMode.Local;
 			___raidSettings_0.IsPveOffline = true;
@@ -29,7 +29,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 		}
 
 		[PatchPostfix]
-		private static void PatchPostfix(ref RaidSettings ___raidSettings_0)
+		public static void PatchPostfix(ref RaidSettings ___raidSettings_0)
 		{
 			___raidSettings_0.RaidMode = ERaidMode.Local;
 			___raidSettings_0.IsPveOffline = true;

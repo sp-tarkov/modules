@@ -19,7 +19,7 @@ namespace SPT.Custom.Patches
         /// This should fix that.
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
+        public static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
         {
             if (!groupOwner.IsAI)
             {

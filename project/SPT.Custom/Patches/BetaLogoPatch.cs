@@ -28,7 +28,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(Profile profile)
+        public static void PatchPrefix(Profile profile)
         {
             MonoBehaviourSingleton<PreloaderUI>.Instance.SetWatermarkStatus(profile, true);
         }
@@ -42,7 +42,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
+        public static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
         {
             ____label.text = $"{MenuNotificationManager.commitHash}";
         }
@@ -57,7 +57,7 @@ namespace SPT.Custom.Patches
 
         // Prefix so the logic isn't being duplicated.
         [PatchPrefix]
-        private static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
+        public static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
         {
             System.Random random = new System.Random();
 

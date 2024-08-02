@@ -19,7 +19,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         /// <summary>
         /// BotsPresets.GetNewProfile()
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool withDelete)
+        public static bool PatchPrefix(ref bool withDelete)
         {
             withDelete = true;
 

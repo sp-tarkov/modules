@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
 		}
 
 		[PatchPostfix]
-		private static void PatchPostfix()
+		public static void PatchPostfix()
 		{
 			GameWorld gameWorld = Singleton<GameWorld>.Instance;
 			Random random = new Random();

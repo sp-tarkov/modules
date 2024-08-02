@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
         
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, string variable)
+        public static bool PatchPrefix(ref bool __result, string variable)
         {
             if (variable == "pve_first_time")
             {

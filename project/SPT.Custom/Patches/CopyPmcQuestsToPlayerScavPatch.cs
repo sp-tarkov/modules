@@ -20,7 +20,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix()
+        public static void PatchPostfix()
         {
             var pmcProfile = PatchConstants.BackEndSession.Profile;
             var scavProfile = PatchConstants.BackEndSession.ProfileOfPet;

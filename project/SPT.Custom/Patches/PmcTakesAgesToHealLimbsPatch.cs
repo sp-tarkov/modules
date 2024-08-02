@@ -40,7 +40,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(BotOwner ___botOwner_0)
+        public static bool PatchPrefix(BotOwner ___botOwner_0)
         {
             if (___botOwner_0.IsRole(WildSpawnType.pmcUSEC) || ___botOwner_0.IsRole(WildSpawnType.pmcBEAR))
             {

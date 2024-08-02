@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
+        public static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
         {
             __state = new Tuple<Player, bool>(null, false);
             var player = (Player)damage.Player.iPlayer;
