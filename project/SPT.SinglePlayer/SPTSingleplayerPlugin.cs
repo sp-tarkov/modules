@@ -60,7 +60,6 @@ namespace SPT.SinglePlayer
                 new GetProfileAtEndOfRaidPatch().Enable();
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
-                // new ApplyRaidSettingsPatch().Enable(); Should be no longer needed keeping here just to be safe.
                 new FixQuestAchieveControllersPatch().Enable();
             }
             catch (Exception ex)
