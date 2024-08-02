@@ -35,7 +35,6 @@ namespace SPT.Custom
                 new VersionLabelPatch().Enable();
                 new IsEnemyPatch().Enable();
                 new BotCalledDataTryCallPatch().Enable();
-                new BotCallForHelpCallBotPatch().Enable();
                 new BotOwnerDisposePatch().Enable();
                 new LocationLootCacheBustingPatch().Enable();
                 //new AddSelfAsEnemyPatch().Enable();

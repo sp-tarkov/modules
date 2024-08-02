@@ -41,12 +41,6 @@ namespace SPT.Custom.Patches
             }
 
             var isEnemy = false; // default not an enemy
-            if (requester == null)
-            {
-                __result = isEnemy;
-
-                return false; // Skip original
-            }
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
