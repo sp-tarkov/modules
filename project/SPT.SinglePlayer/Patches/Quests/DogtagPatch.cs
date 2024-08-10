@@ -98,7 +98,7 @@ namespace SPT.SinglePlayer.Patches.Quests
             string weaponName = damageInfo.Weapon?.Name;
             if (weaponName == null)
             {
-                Logger.LogWarning($"The weapon used by {itemComponent.KillerName} to kill {itemComponent.Nickname} is null");
+                Logger.LogWarning($"DogtagPatch error > The weapon used by {itemComponent.KillerName} to kill {itemComponent.Nickname} is null");
                 weaponName = "???";
             }
 
