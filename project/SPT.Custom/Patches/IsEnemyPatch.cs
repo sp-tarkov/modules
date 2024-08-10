@@ -40,6 +40,16 @@ namespace SPT.Custom.Patches
                 return true; // Do original code
             }
 
+            // Don't force bots to be enemies if they're allied
+            if (__instance.Allies.Contains(requester) && false)
+            {
+                string alliesText = string.Join(", ", __instance.Allies.Select(a => a.Profile.Nickname));
+                Logger.LogInfo(requester.Profile.Info.Nickname + " is an ally of the bot group containing " + alliesText + ". Forcing IsEnemy=false");
+
+                __result = false;
+                return false; // Do original code
+            }
+
             var isEnemy = false; // default not an enemy
 
             // Check existing enemies list
