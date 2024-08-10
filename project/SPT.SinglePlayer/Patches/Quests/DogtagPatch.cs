@@ -94,7 +94,15 @@ namespace SPT.SinglePlayer.Patches.Quests
             itemComponent.Status = "Killed by ";
             itemComponent.KillerAccountId = aggressor.Profile.AccountId;
             itemComponent.KillerProfileId = aggressor.Profile.Id;
-            itemComponent.WeaponName = damageInfo.Weapon.Name;
+
+            string weaponName = damageInfo.Weapon?.Name;
+            if (weaponName == null)
+            {
+                Logger.LogWarning($"The weapon used by {itemComponent.KillerName} to kill {itemComponent.Nickname} is null");
+                weaponName = "???";
+            }
+
+            itemComponent.WeaponName = weaponName;
 
             if (__instance.Profile.Info.Experience > 0)
             {
