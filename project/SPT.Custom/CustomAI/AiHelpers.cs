@@ -1,4 +1,5 @@
 ﻿using EFT;
+using System.Collections.Generic;
 
 namespace SPT.Custom.CustomAI
 {
@@ -41,6 +42,21 @@ namespace SPT.Custom.CustomAI
             }
 
             return false;
+        }
+
+        public static List<BotOwner> GetAllMembers(this BotsGroup group)
+        {
+            List<BotOwner> members = new List<BotOwner>();
+            
+            if (group != null)
+            {
+                for (int m = 0; m < group.MembersCount; m++)
+                {
+                    members.Add(group.Member(m));
+                }
+            }
+
+            return members;
         }
     }
 }
