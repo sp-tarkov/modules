@@ -27,7 +27,28 @@ namespace SPT.Custom.Patches
             if (requester == null)
             {
                 __result = false;
+                return false; // Skip original
+            }
 
+            // Check existing enemies list
+            // Could also check x.Value.Player?.Id - BSG do it this way
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key?.Id == requester.Id))
+            {
+                __result = true;
+                return false; // Skip original
+            }
+
+            // Do not force bots to be enemies if they are allies
+            if (!__instance.Allies.IsNullOrEmpty() && __instance.Allies.Any(x => x?.Id == requester.Id))
+            {
+                __result = false;
+                return false; // Skip original
+            }
+
+            // Bots should not become hostile with their group members here. This is needed in case mods add mixed groups (i.e. BEAR's and USEC's).
+            if (__instance.GetAllMembers().Any(i => i?.Id == requester.Id))
+            {
+                __result = false;
                 return false; // Skip original
             }
 
@@ -37,89 +58,59 @@ namespace SPT.Custom.Patches
 				|| __instance.InitialBotType == WildSpawnType.sectantWarrior
 				|| __instance.InitialBotType == WildSpawnType.sectantPriest
 				|| __instance.InitialBotType == WildSpawnType.sectactPriestEvent
-				|| __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent)
+				|| __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent
+                || __instance.InitialBotType == WildSpawnType.bossZryachiy
+                || __instance.InitialBotType == WildSpawnType.followerZryachiy)
             {
                 return true; // Do original code
             }
 
-            // Do not force bots to be enemies if they are allies
-            // Note: This works because BotsGroup::AddAlly has a Player parameter despite the Allies list being IPlayers. If this ever changes,
-            //       the ID's will need to be compared because the object references may not match.
-            if (__instance.Allies.Contains(requester))
+            // Let EFT manage Rogue behavior toward PMC's
+            if (__instance.InitialBotType == WildSpawnType.exUsec
+                && __instance.Side == EPlayerSide.Savage
+                && requester.Side != EPlayerSide.Savage)
             {
-                __result = false;
-                return false; // Skip original
+                return true; // Do original code
             }
 
-            // Check existing enemies list
-            // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key.Id == requester.Id))
+            // In all other cases, requester needs to be added to the enemies collection of the bot group if it should be treated as hostile
+            // NOTE: Manually adding enemies is needed as a result of EFT's implementation of PMC's because they are not hostile toward
+            //       Scavs (any probably other bot types too)
+            __result = CheckIfPlayerShouldBeEnemy(__instance, requester);
+            if (__result)
             {
-                __result = true;
-                return false; // Skip original
+                __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
             }
-
-            // Weird edge case - without this you get spammed with key already in enemy list error when you move around on lighthouse
-            // Make zryachiy use existing isEnemy() code
-            if (__instance.InitialBotType == WildSpawnType.bossZryachiy)
-            {
-                // TODO: Should __result be set here, or should this actaully return true?
-                return false; // Skip original
-            }
-
-            // Bots should not become hostile with their group members here. This is needed in case mods add mixed groups (i.e. BEAR's and USEC's).
-            if (__instance.GetAllMembers().Any(i => i.Id == requester.Id))
-            {
-                __result = false;
-
-                return false; // Skip original
-            }
-
-            var isEnemy = false; // default not an enemy
-
-            if (__instance.Side == EPlayerSide.Usec)
-            {
-                if (requester.Side == EPlayerSide.Bear || requester.Side == EPlayerSide.Savage ||
-                    ShouldAttackUsec(requester))
-                {
-                    isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
-                }
-            }
-            else if (__instance.Side == EPlayerSide.Bear)
-            {
-                if (requester.Side == EPlayerSide.Usec || requester.Side == EPlayerSide.Savage ||
-                    ShouldAttackBear(requester))
-                {
-                    isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
-                }
-            }
-            else if (__instance.Side == EPlayerSide.Savage)
-            {
-                if (requester.Side != EPlayerSide.Savage)
-                {
-                    //Lets exUsec warn Usecs and fire at will at Bears
-                    if (__instance.InitialBotType == WildSpawnType.exUsec)
-                    {
-                        return true; // Let BSG handle things
-                    }
-                    // everyone else is an enemy to savage (scavs)
-                    isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
-                }
-            }
-
-            __result = isEnemy;
 
             return false; // Skip original
+        }
+
+        /// <summary>
+        /// Returns true if requester should be an enemy of the bot group
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="requester"></param>
+        /// <returns></returns>
+        private static bool CheckIfPlayerShouldBeEnemy(BotsGroup __instance, IPlayer requester)
+        {
+            switch (__instance.Side)
+            {
+                case EPlayerSide.Usec:
+                    return requester.Side != EPlayerSide.Usec || ShouldAttackUsec(requester);
+                case EPlayerSide.Bear:
+                    return requester.Side != EPlayerSide.Bear || ShouldAttackBear(requester);
+                case EPlayerSide.Savage:
+                    return requester.Side != EPlayerSide.Savage;
+            }
+
+            return false;
         }
 
         /// <summary>
         /// Return True when usec default behavior is attack + bot is usec
         /// </summary>
         /// <param name="requester"></param>
-        /// <returns>bool</returns>
+        /// <returns></returns>
         private static bool ShouldAttackUsec(IPlayer requester)
         {
             var requesterMind = requester?.AIData?.BotOwner?.Settings?.FileSettings?.Mind;
