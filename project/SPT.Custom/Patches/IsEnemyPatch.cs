@@ -32,14 +32,14 @@ namespace SPT.Custom.Patches
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Keys.ContainsPlayer(requester))
+            if (__instance.Enemies != null && __instance.Enemies.Keys.ContainsPlayer(requester))
             {
                 __result = true;
                 return false; // Skip original
             }
 
             // Do not force bots to be enemies if they are allies
-            if (!__instance.Allies.IsNullOrEmpty() && __instance.Allies.ContainsPlayer(requester))
+            if (__instance.Allies != null && __instance.Allies.ContainsPlayer(requester))
             {
                 __result = false;
                 return false; // Skip original
