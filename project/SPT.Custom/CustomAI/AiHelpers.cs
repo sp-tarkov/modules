@@ -47,7 +47,7 @@ namespace SPT.Custom.CustomAI
         public static List<BotOwner> GetAllMembers(this BotsGroup group)
         {
             List<BotOwner> members = new List<BotOwner>();
-            
+
             if (group != null)
             {
                 for (int m = 0; m < group.MembersCount; m++)
@@ -57,6 +57,30 @@ namespace SPT.Custom.CustomAI
             }
 
             return members;
+        }
+
+        /// <summary>
+        /// Returns true if the player is found in the collection by searching for matching player Id's
+        /// </summary>
+        /// <param name="players"></param>
+        /// <param name="playerToCheck"></param>
+        /// <returns></returns>
+        public static bool ContainsPlayer(this IEnumerable<IPlayer> players, IPlayer playerToCheck)
+        {
+            if (playerToCheck == null)
+            {
+                return false;
+            }
+
+            foreach (IPlayer player in players)
+            {
+                if (player.Id == playerToCheck.Id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

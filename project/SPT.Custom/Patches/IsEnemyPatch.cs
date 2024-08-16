@@ -32,33 +32,33 @@ namespace SPT.Custom.Patches
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key?.Id == requester.Id))
+            if (__instance.Enemies != null && __instance.Enemies.Keys.ContainsPlayer(requester))
             {
                 __result = true;
                 return false; // Skip original
             }
 
             // Do not force bots to be enemies if they are allies
-            if (!__instance.Allies.IsNullOrEmpty() && __instance.Allies.Any(x => x?.Id == requester.Id))
+            if (__instance.Allies != null && __instance.Allies.ContainsPlayer(requester))
             {
                 __result = false;
                 return false; // Skip original
             }
 
             // Bots should not become hostile with their group members here. This is needed in case mods add mixed groups (i.e. BEAR's and USEC's).
-            if (__instance.GetAllMembers().Any(i => i?.Id == requester.Id))
+            if (__instance.GetAllMembers().ContainsPlayer(requester))
             {
                 __result = false;
                 return false; // Skip original
             }
 
             if (__instance.InitialBotType == WildSpawnType.peacefullZryachiyEvent
-				|| __instance.InitialBotType == WildSpawnType.shooterBTR
-				|| __instance.InitialBotType == WildSpawnType.gifter
-				|| __instance.InitialBotType == WildSpawnType.sectantWarrior
-				|| __instance.InitialBotType == WildSpawnType.sectantPriest
-				|| __instance.InitialBotType == WildSpawnType.sectactPriestEvent
-				|| __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent
+                || __instance.InitialBotType == WildSpawnType.shooterBTR
+                || __instance.InitialBotType == WildSpawnType.gifter
+                || __instance.InitialBotType == WildSpawnType.sectantWarrior
+                || __instance.InitialBotType == WildSpawnType.sectantPriest
+                || __instance.InitialBotType == WildSpawnType.sectactPriestEvent
+                || __instance.InitialBotType == WildSpawnType.ravangeZryachiyEvent
                 || __instance.InitialBotType == WildSpawnType.bossZryachiy
                 || __instance.InitialBotType == WildSpawnType.followerZryachiy)
             {
