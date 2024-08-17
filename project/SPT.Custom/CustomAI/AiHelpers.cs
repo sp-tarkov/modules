@@ -74,7 +74,7 @@ namespace SPT.Custom.CustomAI
 
             foreach (IPlayer player in players)
             {
-                if (player.Id == playerToCheck.Id)
+                if (player != null && player.Id == playerToCheck.Id)
                 {
                     return true;
                 }
