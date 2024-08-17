@@ -11,20 +11,36 @@ namespace SPT.SinglePlayer.Models.Progression
 {
     public class LighthouseProgressionClass : MonoBehaviour
     {
-        public static bool MainPlayerControlsIslandAccessForEveryone {get; set;} = true;
+        /// <summary>
+        /// Flag to disable mines and AI data that instructs Zryachiy to attack you if the main player is authorized to enter Lightkeeper Island
+        /// </summary>
+        public static bool MainPlayerControlsIslandAccessForEveryone { get; set; } = true;
+
+        /// <summary>
+        /// Flag indicating if the Lightkeeper-Island bridge mines and AI data that instructs Zryachiy to attack you have been disabled for everyone
+        /// </summary>
         public bool IsIslandOpenForEveryone { get; private set; } = false;
 
-        private ManualLogSource Logger;
+        private static readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
+        private static readonly string _lightKeeperTid = "638f541a29ffd1183d187f57";
+
         private GameWorld _gameWorld;
+        private ManualLogSource _logger;
         private List<IPlayer> lightkeeperFriendlyPlayers = new List<IPlayer>();
         private List<Player> playersOnIsland = new List<Player>();
-        private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
-        private readonly string _lightKeeperTid = "638f541a29ffd1183d187f57";
+
+        /// <summary>
+        /// PMC's that have been reported to be Lightkeeper-friendly
+        /// </summary>
+        public IReadOnlyList<IPlayer> LightkeeperFriendlyPlayers => lightkeeperFriendlyPlayers.AsReadOnly();
+
+        /// <summary>
+        /// PMC's that have been reported to be on Lightkeeper Island
+        /// </summary>
+        public IReadOnlyList<Player> LightkeeperFriendlyPlayersOnIsland => playersOnIsland.AsReadOnly();
 
         public void Start()
         {
-            Logger = BepInEx.Logging.Logger.CreateLogSource(nameof(ModulePatch));
-
             _gameWorld = Singleton<GameWorld>.Instance;
 
             if (_gameWorld == null || _gameWorld.MainPlayer == null)
@@ -32,16 +48,38 @@ namespace SPT.SinglePlayer.Models.Progression
                 return;
             }
 
+            _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(ModulePatch));
+
             // Watch for Zryachiy and his followers to spawn
             Singleton<IBotGame>.Instance.BotsController.BotSpawner.OnBotCreated += botCreated;
 
             // Exit if transmitter does not exist and isnt green
             if (CheckAndAddLightkeeperFriendlyPlayer(_gameWorld.MainPlayer) && MainPlayerControlsIslandAccessForEveryone)
             {
-                AllowEveryoneAccessToIsland();
+                AllowEveryoneAccessToLightkeeperIsland();
             }
         }
 
+        /// <summary>
+        /// Check if the player has been added to the Lightkeeper-friendly PMC list
+        /// </summary>
+        public bool IsALightkeeperFriendlyPlayer(IPlayer player)
+        {
+            return player != null && lightkeeperFriendlyPlayers.Contains(player);
+        }
+
+        /// <summary>
+        /// Check if the player has been added to the list of Lightkeeper-friendly PMC's on Lightkeeper Island
+        /// </summary>
+        public bool IsLightkeeperFriendlyPlayerOnIsland(IPlayer player)
+        {
+            return player != null && playersOnIsland.Contains(player);
+        }
+
+        /// <summary>
+        /// Checks if the player has an active transmitter in its inventory, and if so add it to the Lightkeeper-friendly PMC list
+        /// </summary>
+        /// <returns>True if the player was added to the Lightkeeper-friendly PMC list</returns>
         public bool CheckAndAddLightkeeperFriendlyPlayer(IPlayer player)
         {
             if (PlayerHasActiveTransmitterInInventory(player))
@@ -52,6 +90,10 @@ namespace SPT.SinglePlayer.Models.Progression
             return false;
         }
 
+        /// <summary>
+        /// Add the player to the Lightkeeper-friendly PMC list
+        /// </summary>
+        /// <returns>True if the player was added to the Lightkeeper-friendly PMC list</returns>
         public bool AddLightkeeperFriendlyPlayer(IPlayer player)
         {
             if (player == null)
@@ -61,7 +103,7 @@ namespace SPT.SinglePlayer.Models.Progression
 
             if (lightkeeperFriendlyPlayers.Contains(player))
             {
-                Logger.LogWarning($"{player.Profile.Nickname} is already a registered Lightkeeper-friendly player");
+                _logger.LogWarning($"{player.Profile.Nickname} is already a registered Lightkeeper-friendly player");
                 return false;
             }
 
@@ -73,6 +115,10 @@ namespace SPT.SinglePlayer.Models.Progression
             return true;
         }
 
+        /// <summary>
+        /// Remove the player from the Lightkeeper-friendly PMC list
+        /// </summary>
+        /// <returns>True if the player was removed from the Lightkeeper-friendly PMC list</returns>
         public bool RemoveLightkeeperFriendlyPlayer(IPlayer player)
         {
             if (player == null)
@@ -82,7 +128,7 @@ namespace SPT.SinglePlayer.Models.Progression
 
             if (!lightkeeperFriendlyPlayers.Contains(player))
             {
-                Logger.LogWarning($"{player.Profile.Nickname} is not a registered Lightkeeper-friendly player");
+                _logger.LogWarning($"{player.Profile.Nickname} is not a registered Lightkeeper-friendly player");
                 return false;
             }
 
@@ -94,11 +140,14 @@ namespace SPT.SinglePlayer.Models.Progression
             return true;
         }
 
+        /// <summary>
+        /// Add the player to the list of PMC's that are on Lightkeeper Island
+        /// </summary>
         public void LightkeeperFriendlyPlayerEnteredIsland(Player player)
         {
             if (playersOnIsland.Contains(player))
             {
-                Logger.LogWarning($"{player.name} is already a registered player on Lightkeeper Island");
+                _logger.LogWarning($"{player.name} is already a registered player on Lightkeeper Island");
                 return;
             }
 
@@ -106,11 +155,14 @@ namespace SPT.SinglePlayer.Models.Progression
             player.OnPlayerDead += OnLightkeeperFriendlyPlayerDead;
         }
 
+        /// <summary>
+        /// Remove the player from the list of PMC's that are on Lightkeeper Island
+        /// </summary>
         public void LightkeeperFriendlyPlayerLeftIsland(Player player)
         {
             if (!playersOnIsland.Contains(player))
             {
-                Logger.LogWarning($"{player.name} is not a registered player on Lightkeeper Island");
+                _logger.LogWarning($"{player.name} is not a registered player on Lightkeeper Island");
                 return;
             }
 
@@ -121,7 +173,7 @@ namespace SPT.SinglePlayer.Models.Progression
         /// <summary>
         /// Disables brige mines, disables AI data to instruct Zryachiy to attack you, and watch for Zryachiy and his followers to spawn
         /// </summary>
-        public void AllowEveryoneAccessToIsland()
+        public void AllowEveryoneAccessToLightkeeperIsland()
         {
             if (IsIslandOpenForEveryone)
             {
@@ -136,6 +188,9 @@ namespace SPT.SinglePlayer.Models.Progression
             IsIslandOpenForEveryone = true;
         }
 
+        /// <summary>
+        /// Disable the "Attack" and "CloseZone" AIPlaceInfo objects that instruct Zryachiy and his followers to attack you
+        /// </summary>
         public void DisableAIPlaceInfoForZryachiy()
         {
             var places = Singleton<IBotGame>.Instance.BotsController.CoversData.AIPlaceInfoHolder.Places;
@@ -192,6 +247,10 @@ namespace SPT.SinglePlayer.Models.Progression
             }
 		}
 
+        /// <summary>
+        /// Check if the mine is on the Lightkeeper Island bridge
+        /// </summary>
+        /// <returns>True if the mine is on the Lightkeeper Island bridge</returns>
         public static bool IsLighthouseBridgeMine(MineDirectional mine)
         {
             if (mine == null)
@@ -234,23 +293,13 @@ namespace SPT.SinglePlayer.Models.Progression
 
         private void playerKilledLightkeeperFriendlyPlayer(IPlayer player)
         {
-            // If player kills zryachiy or follower, force aggressor state
-            // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
-            player.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
-            DisableAccessToLightKeeper(player);
-
-
-        }
-
-        /// <summary>
-        /// Disable door + set transmitter to 'red'
-        /// </summary>
-        private void DisableAccessToLightKeeper(IPlayer player)
-        {
             if (player == null)
             {
                 return;
             }
+
+            // Set players Lk standing to negative (allows access to quest chain (Making Amends))
+            player.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
 
             // Disable access to Lightkeepers door for the player
             _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, false);
@@ -264,7 +313,7 @@ namespace SPT.SinglePlayer.Models.Progression
 
             RemoveLightkeeperFriendlyPlayer(player);
 
-            Logger.LogWarning($"Removed Lightkeeper access for {player.Profile.Nickname}");
+            _logger.LogInfo($"Removed Lightkeeper access for {player.Profile.Nickname}");
         }
 
         private void botCreated(BotOwner bot)
