@@ -24,7 +24,7 @@ namespace SPT.SinglePlayer.Patches.Progression
                 return;
             }
 
-            if (gameWorld.MainPlayer.Location.ToLower() != "lighthouse" || gameWorld.MainPlayer.Side == EPlayerSide.Savage)
+            if (gameWorld.MainPlayer.Location.ToLower() != "lighthouse")
             {
                 return;
             }
