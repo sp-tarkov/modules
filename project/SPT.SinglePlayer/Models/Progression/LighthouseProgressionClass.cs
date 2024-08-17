@@ -1,5 +1,8 @@
-﻿using Comfort.Common;
+﻿using BepInEx.Logging;
+using Comfort.Common;
 using EFT;
+using SPT.Reflection.Patching;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,13 +14,17 @@ namespace SPT.SinglePlayer.Models.Progression
         public static bool MainPlayerControlsIslandAccessForEveryone {get; set;} = true;
         public bool IsIslandOpenForEveryone { get; private set; } = false;
 
+        private ManualLogSource Logger;
         private GameWorld _gameWorld;
-        private List<Player> lightkeeperFriendlyPlayers = new List<Player>();
+        private List<IPlayer> lightkeeperFriendlyPlayers = new List<IPlayer>();
+        private List<Player> playersOnIsland = new List<Player>();
         private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
         private readonly string _lightKeeperTid = "638f541a29ffd1183d187f57";
 
         public void Start()
         {
+            Logger = BepInEx.Logging.Logger.CreateLogSource(nameof(ModulePatch));
+
             _gameWorld = Singleton<GameWorld>.Instance;
 
             if (_gameWorld == null || _gameWorld.MainPlayer == null)
@@ -29,37 +36,86 @@ namespace SPT.SinglePlayer.Models.Progression
             Singleton<IBotGame>.Instance.BotsController.BotSpawner.OnBotCreated += botCreated;
 
             // Exit if transmitter does not exist and isnt green
-            if (MainPlayerControlsIslandAccessForEveryone && PlayerHasActiveTransmitterInInventory(_gameWorld.MainPlayer))
+            if (CheckAndAddLightkeeperFriendlyPlayer(_gameWorld.MainPlayer) && MainPlayerControlsIslandAccessForEveryone)
             {
-                AddLightkeeperFriendlyPlayer(_gameWorld.MainPlayer);
                 AllowEveryoneAccessToIsland();
             }
         }
 
-        public void AddLightkeeperFriendlyPlayer(Player player)
+        public bool CheckAndAddLightkeeperFriendlyPlayer(IPlayer player)
         {
-            if ((player == null) || lightkeeperFriendlyPlayers.Contains(player))
+            if (PlayerHasActiveTransmitterInInventory(player))
             {
-                return;
+                return AddLightkeeperFriendlyPlayer(player);
+            }
+
+            return false;
+        }
+
+        public bool AddLightkeeperFriendlyPlayer(IPlayer player)
+        {
+            if (player == null)
+            {
+                return false;
+            }
+
+            if (lightkeeperFriendlyPlayers.Contains(player))
+            {
+                Logger.LogWarning($"{player.Profile.Nickname} is already a registered Lightkeeper-friendly player");
+                return false;
             }
 
             lightkeeperFriendlyPlayers.Add(player);
 
             // Give access to Lightkeepers door
             _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, true);
+
+            return true;
         }
 
-        public void RemoveLightkeeperFriendlyPlayer(Player player)
+        public bool RemoveLightkeeperFriendlyPlayer(IPlayer player)
         {
-            if ((player == null) || !lightkeeperFriendlyPlayers.Contains(player))
+            if (player == null)
             {
-                return;
+                return false;
+            }
+
+            if (!lightkeeperFriendlyPlayers.Contains(player))
+            {
+                Logger.LogWarning($"{player.Profile.Nickname} is not a registered Lightkeeper-friendly player");
+                return false;
             }
 
             lightkeeperFriendlyPlayers.Remove(player);
 
             // Revoke access to Lightkeepers door
             _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, false);
+
+            return true;
+        }
+
+        public void LightkeeperFriendlyPlayerEnteredIsland(Player player)
+        {
+            if (playersOnIsland.Contains(player))
+            {
+                Logger.LogWarning($"{player.name} is already a registered player on Lightkeeper Island");
+                return;
+            }
+
+            playersOnIsland.Add(player);
+            player.OnPlayerDead += OnLightkeeperFriendlyPlayerDead;
+        }
+
+        public void LightkeeperFriendlyPlayerLeftIsland(Player player)
+        {
+            if (!playersOnIsland.Contains(player))
+            {
+                Logger.LogWarning($"{player.name} is not a registered player on Lightkeeper Island");
+                return;
+            }
+
+            playersOnIsland.Remove(player);
+            player.OnPlayerDead -= OnLightkeeperFriendlyPlayerDead;
         }
 
         /// <summary>
@@ -93,7 +149,7 @@ namespace SPT.SinglePlayer.Models.Progression
         /// <summary>
         /// Gets transmitter from players inventory
         /// </summary>
-        public RecodableItemClass GetTransmitterFromInventory(Player player)
+        public RecodableItemClass GetTransmitterFromInventory(IPlayer player)
         {
             if (player == null)
             {
@@ -106,7 +162,7 @@ namespace SPT.SinglePlayer.Models.Progression
         /// <summary>
         /// Checks for transmitter status and exists in players inventory
         /// </summary>
-        public bool PlayerHasActiveTransmitterInInventory(Player player)
+        public bool PlayerHasActiveTransmitterInInventory(IPlayer player)
         {
             RecodableItemClass transmitter = GetTransmitterFromInventory(player);
             return IsTransmitterActive(transmitter);
@@ -128,8 +184,7 @@ namespace SPT.SinglePlayer.Models.Progression
         {
             // Find mines with opposite state of what we want
             var mines = _gameWorld.MineManager.Mines
-                .Where(mine => mine.gameObject.activeSelf == !desiredMineState)
-                .Where(mine => mine.transform.parent.gameObject.name == "Directional_mines_LHZONE");
+                .Where(mine => IsLighthouseBridgeMine(mine) && mine.gameObject.activeSelf == !desiredMineState);
             
             foreach (var mine in mines)
             {
@@ -137,30 +192,60 @@ namespace SPT.SinglePlayer.Models.Progression
             }
 		}
 
+        public static bool IsLighthouseBridgeMine(MineDirectional mine)
+        {
+            if (mine == null)
+            {
+                return false;
+            }
+
+            return mine.transform.parent.gameObject.name == "Directional_mines_LHZONE";
+        }
+
         /// <summary>
         /// Set aggression + standing loss when Zryachiy/follower or a Lightkeeper-friendly PMC is killed by the main player
         /// </summary>
         /// <param name="player">The player that was killed</param>
-        public void OnLightkeeperFriendlyPlayerDead(Player player)
+        public void OnLightkeeperFriendlyPlayerDead(Player player, IPlayer lastAggressor, DamageInfo damageInfo, EBodyPart part)
         {
             foreach (Player lightkeeperFriendlyPlayer in lightkeeperFriendlyPlayers)
             {
-                if ((lightkeeperFriendlyPlayer != null) && (lightkeeperFriendlyPlayer.ProfileId == player?.KillerId))
+                // Check if a Lightkeeper-friendly player was the killer
+                if ((lightkeeperFriendlyPlayer == null) || (lightkeeperFriendlyPlayer.ProfileId != player?.KillerId))
                 {
-                    // If player kills zryachiy or follower, force aggressor state
-                    // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
-                    lightkeeperFriendlyPlayer.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
-                    DisableAccessToLightKeeper(lightkeeperFriendlyPlayer);
+                    continue;
+                }
 
+                // A Lightkeeper-friendly player killed Zryachiy or one of his followers
+                if (isZryachiyOrFollower(player))
+                {
+                    playerKilledLightkeeperFriendlyPlayer(lastAggressor);
+                    break;
+                }
+
+                // A Lightkeeper-friendly player killed another Lightkeeper-friendly player when they were both on the island
+                if (playersOnIsland.Any(x => x?.Id == player?.Id) && playersOnIsland.Any(x => x?.Id == lastAggressor?.Id))
+                {
+                    playerKilledLightkeeperFriendlyPlayer(lastAggressor);
                     break;
                 }
             }
         }
 
+        private void playerKilledLightkeeperFriendlyPlayer(IPlayer player)
+        {
+            // If player kills zryachiy or follower, force aggressor state
+            // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
+            player.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
+            DisableAccessToLightKeeper(player);
+
+
+        }
+
         /// <summary>
         /// Disable door + set transmitter to 'red'
         /// </summary>
-        private void DisableAccessToLightKeeper(Player player)
+        private void DisableAccessToLightKeeper(IPlayer player)
         {
             if (player == null)
             {
@@ -176,6 +261,10 @@ namespace SPT.SinglePlayer.Models.Progression
                 transmitter.RecodableComponent.SetStatus(RadioTransmitterStatus.Yellow);
                 transmitter.RecodableComponent.SetEncoded(false);
             }
+
+            RemoveLightkeeperFriendlyPlayer(player);
+
+            Logger.LogWarning($"Removed Lightkeeper access for {player.Profile.Nickname}");
         }
 
         private void botCreated(BotOwner bot)
@@ -187,11 +276,21 @@ namespace SPT.SinglePlayer.Models.Progression
             }
 
             // Check if the bot is Zryachiy or one of his followers
-            if (bot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || bot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
+            if (isZryachiyOrFollower(bot))
             {
                 // Subscribe to bots OnDeath event
-                bot.GetPlayer.OnPlayerDeadOrUnspawn += OnLightkeeperFriendlyPlayerDead;
+                bot.GetPlayer.OnPlayerDead += OnLightkeeperFriendlyPlayerDead;
             }
+        }
+
+        private static bool isZryachiyOrFollower(IPlayer player)
+        {
+            if (player == null || !player.IsAI)
+            {
+                return false;
+            }
+
+            return player.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || player.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy);
         }
     }
 }
