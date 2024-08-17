@@ -8,123 +8,129 @@ namespace SPT.SinglePlayer.Models.Progression
 {
     public class LighthouseProgressionClass : MonoBehaviour
     {
+        public static bool MainPlayerControlsIslandAccessForEveryone {get; set;} = true;
+        public bool IsIslandOpenForEveryone { get; private set; } = false;
+
         private GameWorld _gameWorld;
-        private Player _player;
-        private float _timer;
-        private List<MineDirectional> _bridgeMines;
-        private RecodableItemClass _transmitter;
-        private readonly List<IPlayer> _zryachiyAndFollowers = new List<IPlayer>();
-        private bool _aggressor;
-        private bool _isDoorDisabled;
+        private List<Player> lightkeeperFriendlyPlayers = new List<Player>();
         private readonly string _transmitterId = "62e910aaf957f2915e0a5e36";
         private readonly string _lightKeeperTid = "638f541a29ffd1183d187f57";
 
         public void Start()
         {
             _gameWorld = Singleton<GameWorld>.Instance;
-            _player = _gameWorld?.MainPlayer;
 
-            if (_gameWorld == null || _player == null)
+            if (_gameWorld == null || _gameWorld.MainPlayer == null)
             {
-                Destroy(this);
-
                 return;
             }
 
-
-            // Get transmitter from players inventory
-            _transmitter = GetTransmitterFromInventory();
+            // Watch for Zryachiy and his followers to spawn
+            Singleton<IBotGame>.Instance.BotsController.BotSpawner.OnBotCreated += botCreated;
 
             // Exit if transmitter does not exist and isnt green
-            if (!PlayerHasActiveTransmitterInInventory())
+            if (MainPlayerControlsIslandAccessForEveryone && PlayerHasActiveTransmitterInInventory(_gameWorld.MainPlayer))
             {
-                Destroy(this);
-
-                return;
+                AddLightkeeperFriendlyPlayer(_gameWorld.MainPlayer);
+                AllowEveryoneAccessToIsland();
             }
-
-			var places = Singleton<IBotGame>.Instance.BotsController.CoversData.AIPlaceInfoHolder.Places;
-
-			places.First(x => x.name == "Attack").gameObject.SetActive(false);
-
-			// Zone was added in a newer version and the gameObject actually has a \
-			places.First(y => y.name == "CloseZone\\").gameObject.SetActive(false);
-
-			// Give access to Lightkeepers door
-			_gameWorld.BufferZoneController.SetPlayerAccessStatus(_player.ProfileId, true);
-
-			_bridgeMines = _gameWorld.MineManager.Mines;
-
-			// Set mines to be non-active
-			SetBridgeMinesStatus(false);
         }
 
-        public void Update()
+        public void AddLightkeeperFriendlyPlayer(Player player)
         {
-            IncrementLastUpdateTimer();
-
-            // Exit early if last update() run time was < 10 secs ago
-            if (_timer < 10f)
+            if ((player == null) || lightkeeperFriendlyPlayers.Contains(player))
             {
                 return;
             }
 
-            // Skip if:
-            // GameWorld missing
-            // Player not an enemy to Zryachiy
-            // Lk door not accessible
-            // Player has no transmitter on thier person
-            if (_gameWorld == null || _isDoorDisabled || _transmitter == null)
+            lightkeeperFriendlyPlayers.Add(player);
+
+            // Give access to Lightkeepers door
+            _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, true);
+        }
+
+        public void RemoveLightkeeperFriendlyPlayer(Player player)
+        {
+            if ((player == null) || !lightkeeperFriendlyPlayers.Contains(player))
             {
                 return;
             }
 
-            // Find Zryachiy and prep him
-            if (_zryachiyAndFollowers.Count == 0)
+            lightkeeperFriendlyPlayers.Remove(player);
+
+            // Revoke access to Lightkeepers door
+            _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, false);
+        }
+
+        /// <summary>
+        /// Disables brige mines, disables AI data to instruct Zryachiy to attack you, and watch for Zryachiy and his followers to spawn
+        /// </summary>
+        public void AllowEveryoneAccessToIsland()
+        {
+            if (IsIslandOpenForEveryone)
             {
-                SetupZryachiyAndFollowerHostility();
+                return;
             }
 
-            // If player becomes aggressor, block access to LK
-            if (_aggressor)
-            {
-                DisableAccessToLightKeeper();
-            }
+            DisableAIPlaceInfoForZryachiy();
+
+            // Set mines to be non-active
+            SetBridgeMinesStatus(false);
+
+            IsIslandOpenForEveryone = true;
+        }
+
+        public void DisableAIPlaceInfoForZryachiy()
+        {
+            var places = Singleton<IBotGame>.Instance.BotsController.CoversData.AIPlaceInfoHolder.Places;
+
+            places.First(x => x.name == "Attack").gameObject.SetActive(false);
+
+            // Zone was added in a newer version and the gameObject actually has a \
+            places.First(y => y.name == "CloseZone\\").gameObject.SetActive(false);
         }
 
         /// <summary>
         /// Gets transmitter from players inventory
         /// </summary>
-        private RecodableItemClass GetTransmitterFromInventory()
+        public RecodableItemClass GetTransmitterFromInventory(Player player)
         {
-            return (RecodableItemClass) _player.Profile.Inventory.AllRealPlayerItems.FirstOrDefault(x => x.TemplateId == _transmitterId);
+            if (player == null)
+            {
+                return null;
+            }
+
+            return (RecodableItemClass)player.Profile.Inventory.AllRealPlayerItems.FirstOrDefault(x => x.TemplateId == _transmitterId);
         }
 
         /// <summary>
         /// Checks for transmitter status and exists in players inventory
         /// </summary>
-        private bool PlayerHasActiveTransmitterInInventory()
+        public bool PlayerHasActiveTransmitterInInventory(Player player)
         {
-            return _transmitter != null && 
-                   _transmitter?.RecodableComponent?.Status == RadioTransmitterStatus.Green;
+            RecodableItemClass transmitter = GetTransmitterFromInventory(player);
+            return IsTransmitterActive(transmitter);
         }
 
         /// <summary>
-        /// Update _time to diff from last run of update()
+        /// Check if the transmitter allows access to the island
         /// </summary>
-        private void IncrementLastUpdateTimer()
+        public bool IsTransmitterActive(RecodableItemClass transmitter)
         {
-            _timer += Time.deltaTime;
+            return transmitter != null && transmitter?.RecodableComponent?.Status == RadioTransmitterStatus.Green;
         }
 
         /// <summary>
         /// Set all brdige mines to desire state
         /// </summary>
         /// <param name="desiredMineState">What state should bridge mines be set to</param>
-        private void SetBridgeMinesStatus(bool desiredMineState)
+        public void SetBridgeMinesStatus(bool desiredMineState)
         {
-			// Find mines with opposite state of what we want
-            var mines = _bridgeMines.Where(mine => mine.gameObject.activeSelf == !desiredMineState && mine.transform.parent.gameObject.name == "Directional_mines_LHZONE");
+            // Find mines with opposite state of what we want
+            var mines = _gameWorld.MineManager.Mines
+                .Where(mine => mine.gameObject.activeSelf == !desiredMineState)
+                .Where(mine => mine.transform.parent.gameObject.name == "Directional_mines_LHZONE");
+            
             foreach (var mine in mines)
             {
 				mine.gameObject.SetActive(desiredMineState);
@@ -132,61 +138,60 @@ namespace SPT.SinglePlayer.Models.Progression
 		}
 
         /// <summary>
-        /// Put Zryachiy and followers into a list and sub to their death event
-        /// Make player agressor if player kills them.
+        /// Set aggression + standing loss when Zryachiy/follower or a Lightkeeper-friendly PMC is killed by the main player
         /// </summary>
-        private void SetupZryachiyAndFollowerHostility()
+        /// <param name="player">The player that was killed</param>
+        public void OnLightkeeperFriendlyPlayerDead(Player player)
         {
-            // Only process non-players (ai)
-            foreach (var aiBot in _gameWorld.AllAlivePlayersList.Where(x => !x.IsYourPlayer))
+            foreach (Player lightkeeperFriendlyPlayer in lightkeeperFriendlyPlayers)
             {
-                // Bots that die on mounted guns get stuck in AllAlivePlayersList, need to check health
-                if (!aiBot.HealthController.IsAlive)
+                if ((lightkeeperFriendlyPlayer != null) && (lightkeeperFriendlyPlayer.ProfileId == player?.KillerId))
                 {
-                    continue;
+                    // If player kills zryachiy or follower, force aggressor state
+                    // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
+                    lightkeeperFriendlyPlayer.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
+                    DisableAccessToLightKeeper(lightkeeperFriendlyPlayer);
+
+                    break;
                 }
-
-                // Edge case of bossZryachiy not being hostile to player
-                if (aiBot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || aiBot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
-                {
-                    // Subscribe to bots OnDeath event
-                    aiBot.OnPlayerDeadOrUnspawn += OnZryachiyOrFollowerDeath;
-
-                    // Save bot to list for later access
-                    if (!_zryachiyAndFollowers.Contains(aiBot))
-                    {
-                        _zryachiyAndFollowers.Add(aiBot);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Set aggression + standing loss when Zryachiy/follower is killed by player
-        /// </summary>
-        /// <param name="player">The player who killed Zryachiy/follower.</param>
-        private void OnZryachiyOrFollowerDeath(Player player)
-        {
-            // Check if zryachiy/follower was killed by player
-            if (player?.KillerId == _player?.ProfileId)
-            {
-                // If player kills zryachiy or follower, force aggressor state
-                // Also set players Lk standing to negative (allows access to quest chain (Making Amends))
-                _aggressor = true;
-                _player?.Profile.TradersInfo[_lightKeeperTid].SetStanding(-0.01);
             }
         }
 
         /// <summary>
         /// Disable door + set transmitter to 'red'
         /// </summary>
-        private void DisableAccessToLightKeeper()
+        private void DisableAccessToLightKeeper(Player player)
         {
+            if (player == null)
+            {
+                return;
+            }
+
             // Disable access to Lightkeepers door for the player
-            _gameWorld.BufferZoneController.SetPlayerAccessStatus(_gameWorld.MainPlayer.ProfileId, false);
-            _transmitter?.RecodableComponent?.SetStatus(RadioTransmitterStatus.Yellow);
-            _transmitter?.RecodableComponent?.SetEncoded(false);
-            _isDoorDisabled = true;
+            _gameWorld.BufferZoneController.SetPlayerAccessStatus(player.ProfileId, false);
+
+            RecodableItemClass transmitter = GetTransmitterFromInventory(player);
+            if ((transmitter != null) && IsTransmitterActive(transmitter))
+            {
+                transmitter.RecodableComponent.SetStatus(RadioTransmitterStatus.Yellow);
+                transmitter.RecodableComponent.SetEncoded(false);
+            }
+        }
+
+        private void botCreated(BotOwner bot)
+        {
+            // Make sure the bot is Zryachiy or one of his followers
+            if (bot.Side != EPlayerSide.Savage)
+            {
+                return;
+            }
+
+            // Check if the bot is Zryachiy or one of his followers
+            if (bot.AIData.BotOwner.IsRole(WildSpawnType.bossZryachiy) || bot.AIData.BotOwner.IsRole(WildSpawnType.followerZryachiy))
+            {
+                // Subscribe to bots OnDeath event
+                bot.GetPlayer.OnPlayerDeadOrUnspawn += OnLightkeeperFriendlyPlayerDead;
+            }
         }
     }
 }
