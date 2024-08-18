@@ -95,9 +95,12 @@ namespace SPT.Custom.Patches
                     path = BundleManager.GetBundlePath(bundleInfo);
 
                     // only download when connected externally
-                    if (await BundleManager.ShouldReaquire(bundleInfo))
+                    if (await BundleManager.ShouldAcquire(bundleInfo))
                     {
-                        VFS.DeleteFile(BundleManager.GetBundleFilePath(bundleInfo));
+                        if (VFS.Exists(BundleManager.GetBundleFilePath(bundleInfo)))
+                        {
+                            VFS.DeleteFile(BundleManager.GetBundleFilePath(bundleInfo));
+                        }
 
                         await BundleManager.DownloadBundle(bundleInfo);
                     }
