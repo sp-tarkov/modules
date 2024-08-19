@@ -22,6 +22,7 @@ git config --local user.name "USERNAME"
 git config --local user.email "USERNAME@SOMETHING.com"
 ```
 
+
 ## Requirements
 - Escape From Tarkov 30626
 - Visual Studio Code -OR- Visual Studio 2022
