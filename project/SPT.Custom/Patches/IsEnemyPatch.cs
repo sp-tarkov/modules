@@ -109,7 +109,7 @@ namespace SPT.Custom.Patches
                 return false;
             }
 
-            return requester.IsAI && requesterMind.DEFAULT_USEC_BEHAVIOUR == EWarnBehaviour.Attack && requester.Side == EPlayerSide.Usec;
+            return requester.IsAI && requesterMind.DEFAULT_USEC_BEHAVIOUR == EWarnBehaviour.AlwaysEnemies && requester.Side == EPlayerSide.Usec;
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace SPT.Custom.Patches
                 return false;
             }
 
-            return requester.IsAI && requesterMind.DEFAULT_BEAR_BEHAVIOUR == EWarnBehaviour.Attack && requester.Side == EPlayerSide.Bear;
+            return requester.IsAI && requesterMind.DEFAULT_BEAR_BEHAVIOUR == EWarnBehaviour.AlwaysEnemies && requester.Side == EPlayerSide.Bear;
         }
     }
 }

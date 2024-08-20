@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EFT;
+using EFT.InventoryLogic;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
@@ -17,7 +18,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(Profile profile, InventoryControllerClass inventoryController, ref AbstractQuestControllerClass ____questController, ref AbstractAchievementControllerClass ____achievementsController)
+        public static void PatchPostfix(Profile profile, InventoryController inventoryController, ref AbstractQuestControllerClass ____questController, ref AbstractAchievementControllerClass ____achievementsController)
         {
             var questController = new LocalQuestControllerClass(profile, inventoryController, PatchConstants.BackEndSession, true);
             questController.Init();
