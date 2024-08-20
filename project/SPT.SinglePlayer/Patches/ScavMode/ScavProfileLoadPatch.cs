@@ -76,11 +76,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 new CodeWithLabel(OpCodes.Stfld, brLabel, typeof(TarkovApplication).GetNestedTypes(BindingFlags.Public).SingleCustom(IsTargetNestedType), "profile")
             });
 
-            foreach (var code in newCodes)
-            {
-                Logger.LogInfo($"opcode: {code?.opcode} - operand: {code?.operand}");
-            }
-
             codes.RemoveRange(searchIndex, 4);
             codes.InsertRange(searchIndex, newCodes);
 
