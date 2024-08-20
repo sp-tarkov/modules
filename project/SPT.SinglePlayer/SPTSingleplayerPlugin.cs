@@ -30,6 +30,9 @@ namespace SPT.SinglePlayer
                 // new ScavSellAllPriceStorePatch().Enable();
                 // new ScavSellAllRequestPatch().Enable();
 
+                // new ArmorDamageCounterPatch().Enable();
+                // new AmmoUsedCounterPatch().Enable();
+
 
                 // Still need
                 // new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
@@ -41,8 +44,6 @@ namespace SPT.SinglePlayer
                 new DisableReadyLocationReadyPatch().Enable();
                 new BotTemplateLimitPatch().Enable();
                 new LoadOfflineRaidScreenPatch().Enable();
-                new AmmoUsedCounterPatch().Enable();
-                new ArmorDamageCounterPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
                 new LabsKeycardRemovalPatch().Enable();

@@ -20,9 +20,9 @@ namespace SPT.Custom.Patches
         /// Needed to ensure bot checks the enemy side, not just its botType
         /// </summary>
         [PatchPrefix]
-        public static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer requester)
+        public static bool PatchPrefix(ref bool __result, BotsGroup __instance, IPlayer player)
         {
-            if (requester == null)
+            if (player == null)
             {
                 __result = false;
 
@@ -44,7 +44,7 @@ namespace SPT.Custom.Patches
 
             // Check existing enemies list
             // Could also check x.Value.Player?.Id - BSG do it this way
-            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key.Id == requester.Id))
+            if (!__instance.Enemies.IsNullOrEmpty() && __instance.Enemies.Any(x => x.Key.Id == player.Id))
             {
                 __result = true;
                 return false; // Skip original
@@ -59,25 +59,25 @@ namespace SPT.Custom.Patches
 
             if (__instance.Side == EPlayerSide.Usec)
             {
-                if (requester.Side == EPlayerSide.Bear || requester.Side == EPlayerSide.Savage ||
-                    ShouldAttackUsec(requester))
+                if (player.Side == EPlayerSide.Bear || player.Side == EPlayerSide.Savage ||
+                    ShouldAttackUsec(player))
                 {
                     isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
+                    __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
                 }
             }
             else if (__instance.Side == EPlayerSide.Bear)
             {
-                if (requester.Side == EPlayerSide.Usec || requester.Side == EPlayerSide.Savage ||
-                    ShouldAttackBear(requester))
+                if (player.Side == EPlayerSide.Usec || player.Side == EPlayerSide.Savage ||
+                    ShouldAttackBear(player))
                 {
                     isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
+                    __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
                 }
             }
             else if (__instance.Side == EPlayerSide.Savage)
             {
-                if (requester.Side != EPlayerSide.Savage)
+                if (player.Side != EPlayerSide.Savage)
                 {
                     //Lets exUsec warn Usecs and fire at will at Bears
                     if (__instance.InitialBotType == WildSpawnType.exUsec)
@@ -86,7 +86,7 @@ namespace SPT.Custom.Patches
                     }
                     // everyone else is an enemy to savage (scavs)
                     isEnemy = true;
-                    __instance.AddEnemy(requester, EBotEnemyCause.checkAddTODO);
+                    __instance.AddEnemy(player, EBotEnemyCause.checkAddTODO);
                 }
             }
 

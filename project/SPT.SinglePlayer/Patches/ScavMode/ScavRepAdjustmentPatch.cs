@@ -40,7 +40,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 // Extra check to ensure we only set playerscavs to IsAI = false
                 if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Nickname.Contains("("))
                 {
-                    killedBot.AIData.IsAI = false;
+                    //killedBot.AIData.IsAI = false;
                 }
 
                 // If Victim is a PMC and has killed a Scav or Marksman.
@@ -63,7 +63,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
             if (__state.Item1 != null)
             {
-                __state.Item1.AIData.IsAI = __state.Item2;
+                //__state.Item1.AIData.IsAI = __state.Item2;
             }
         }
 

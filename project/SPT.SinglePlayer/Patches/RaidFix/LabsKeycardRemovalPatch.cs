@@ -4,6 +4,7 @@ using SPT.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using HarmonyLib;
+using EFT.InventoryLogic;
 
 namespace SPT.SinglePlayer.Patches.RaidFix
 {
@@ -42,8 +43,8 @@ namespace SPT.SinglePlayer.Patches.RaidFix
                 return;
             }
 
-            var inventoryController = Traverse.Create(player).Field<InventoryControllerClass>("_inventoryController").Value;
-            InteractionsHandlerClass.Remove(accessCardItem, inventoryController, false, true);
+            var inventoryController = Traverse.Create(player).Field<InventoryController>("_inventoryController").Value;
+            InteractionsHandlerClass.Remove(accessCardItem, inventoryController);
         }
     }
 }

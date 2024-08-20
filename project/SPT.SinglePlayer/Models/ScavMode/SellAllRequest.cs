@@ -1,4 +1,4 @@
-﻿using EFT.InventoryLogic.BackendInventoryInteraction;
+﻿using EFT;
 using Newtonsoft.Json;
 
 namespace SPT.SinglePlayer.Models.ScavMode

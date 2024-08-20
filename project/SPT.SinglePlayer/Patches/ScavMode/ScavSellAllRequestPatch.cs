@@ -1,13 +1,11 @@
 ﻿using SPT.Reflection.Patching;
 using SPT.SinglePlayer.Models.ScavMode;
 using Comfort.Common;
-using EFT.InventoryLogic.BackendInventoryInteraction;
 using EFT.InventoryLogic;
 using HarmonyLib;
 using System.Reflection;
 using System.Threading.Tasks;
-using System;
-using SPT.Reflection.Utils;
+using EFT;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -32,16 +30,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         public static bool PatchPrefix(ProfileEndpointFactoryAbstractClass __instance, ref Task<IResult> __result, string playerId, string petId)
         {
             // Build request with additional information
-            OwnerInfo fromOwner = new OwnerInfo
-            {
-                Id = petId,
-                Type = EOwnerType.Profile
-            };
-            OwnerInfo toOwner = new OwnerInfo
-            {
-                Id = playerId,
-                Type = EOwnerType.Profile
-            };
+            OwnerInfo fromOwner = new OwnerInfo(petId, EOwnerType.Profile);
+			OwnerInfo toOwner = new OwnerInfo(playerId, EOwnerType.Profile);
 
             SellAllRequest request = new SellAllRequest
             {

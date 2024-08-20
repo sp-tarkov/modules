@@ -25,7 +25,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 
             if (damageInfo.Weapon is Weapon)
             {
-                if (!Singleton<ItemFactory>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
+                if (!Singleton<ItemFactoryClass>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
                 {
                     return;
                 }

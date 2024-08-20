@@ -52,7 +52,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
                 profile
             };
-            session.ProfileOfPet.UncoverAll();
+            session.ProfileOfPet.LearnAll();
             
             // make a request to the server, so it knows of the items we might transfer
             RequestHandler.PutJson("/raid/profile/scavsave", new
