@@ -1,36 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFramework>net471</TargetFramework>
-    <AssemblyName>spt-core</AssemblyName>
-	<Configuration>Release</Configuration>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net471</TargetFramework>
+        <AssemblyName>spt-core</AssemblyName>
+        <Configuration>Release</Configuration>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <Company>SPT</Company>
-    <Copyright>Copyright @ SPT 2024</Copyright>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Company>SPT</Company>
+        <Copyright>Copyright @ SPT 2024</Copyright>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
-    <Reference Include="Assembly-CSharp-firstpass" HintPath="..\Shared\Managed\Assembly-CSharp-firstpass.dll" Private="False" />
-    <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />
-    <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
-    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
-    <Reference Include="UnityEngine.UnityWebRequestModule" HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestModule.dll" Private="False" />
-    <Reference Include="UnityEngine.UnityWebRequestTextureModule" HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestTextureModule.dll" Private="False" />
-  </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False"/>
+        <Reference Include="Assembly-CSharp-firstpass" HintPath="..\Shared\Managed\Assembly-CSharp-firstpass.dll" Private="False"/>
+        <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False"/>
+        <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False"/>
+        <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False"/>
+        <Reference Include="UnityEngine.UnityWebRequestModule" HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestModule.dll" Private="False"/>
+        <Reference Include="UnityEngine.UnityWebRequestTextureModule" HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestTextureModule.dll" Private="False"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
-    <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\SPT.Common\SPT.Common.csproj"/>
+        <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj"/>
+    </ItemGroup>
 
 </Project>
