@@ -75,7 +75,7 @@ namespace SPT.Common.Http
 
         public static byte[] GetData(string path)
         {
-            return Task.Run(() => GetData(path)).Result;
+            return Task.Run(() => GetDataAsync(path)).Result;
         }
 
         public static async Task<string> GetJsonAsync(string path)
