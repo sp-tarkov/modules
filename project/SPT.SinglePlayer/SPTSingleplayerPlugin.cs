@@ -46,7 +46,6 @@ namespace SPT.SinglePlayer
                 new LoadOfflineRaidScreenPatch().Enable();
                 new PluginErrorNotifierPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
-                new LabsKeycardRemovalPatch().Enable();
                 new MapReadyButtonPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
                 new ScavLateStartPatch().Enable();
