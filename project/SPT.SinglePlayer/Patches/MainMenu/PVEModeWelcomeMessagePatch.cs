@@ -8,7 +8,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass1924), nameof(GClass1924.GetBoolForProfile));
+            return AccessTools.Method(typeof(GClass1925), nameof(GClass1925.GetBoolForProfile));
         }
         
         [PatchPrefix]
