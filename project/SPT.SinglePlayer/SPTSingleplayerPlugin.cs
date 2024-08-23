@@ -61,6 +61,7 @@ namespace SPT.SinglePlayer
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
                 new FixQuestAchieveControllersPatch().Enable();
+                new RemoveStashUpgradeLabelPatch().Enable();
             }
             catch (Exception ex)
             {
