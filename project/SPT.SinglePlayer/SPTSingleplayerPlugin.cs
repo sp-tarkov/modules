@@ -27,8 +27,6 @@ namespace SPT.SinglePlayer
                 new SpawnProcessNegativeValuePatch().Enable();
                 new SpawnPmcPatch().Enable();
                 // new ScavRepAdjustmentPatch().Enable();
-                // new ScavSellAllPriceStorePatch().Enable();
-                // new ScavSellAllRequestPatch().Enable();
 
                 // new ArmorDamageCounterPatch().Enable();
                 // new AmmoUsedCounterPatch().Enable();
@@ -49,6 +47,8 @@ namespace SPT.SinglePlayer
                 new MapReadyButtonPatch().Enable();
                 new RemoveUsedBotProfilePatch().Enable();
                 new ScavLateStartPatch().Enable();
+                new ScavSellAllPriceStorePatch().Enable();
+                new ScavSellAllRequestPatch().Enable();
                 
                 // 3.10.0
                 new PVEModeWelcomeMessagePatch().Enable();
