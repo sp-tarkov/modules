@@ -13,13 +13,16 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        // InventoryScreen has 2 Show methods
-        return AccessTools.FirstMethod(typeof(InventoryScreen), info => info.Name == "Show");
+		return typeof(InventoryScreen).GetMethod(nameof(InventoryScreen.Awake));
     }
 
     [PatchPostfix]
     public static void Postfix(SimpleStashPanel __instance)
     {
-        Object.Destroy(__instance.transform.Find("Items Panel/Stash Panel/Simple Panel/Header/ExternalObtain").gameObject);
+		GameObject externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/Header/ExternalObtain").gameObject;
+		if (externalObtain != null)
+		{
+			Object.Destroy(externalObtain);
+		}		
     }
 }
