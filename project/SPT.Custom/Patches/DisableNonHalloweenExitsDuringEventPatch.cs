@@ -26,7 +26,6 @@ namespace SPT.Custom.Patches
 			List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass.Instance.EligiblePoints(gameWorld.MainPlayer.Profile).ToList();
 			List<ExfiltrationPoint> PointsToPickFrom = new List<ExfiltrationPoint>();
 
-
 			foreach (var ExfilPoint in EligiblePoints)
 			{
 				if (ExfilPoint.Status == EExfiltrationStatus.RegularMode)

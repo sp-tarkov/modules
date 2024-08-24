@@ -24,13 +24,11 @@ namespace SPT.Custom
                 // TODO: check if these patches are needed
 				new DisableNonHalloweenExitsDuringEventPatch().Enable();
                 // new AllScavsHostileHostileToPlayerScavPatch().Enable();
-                // new CopyPmcQuestsToPlayerScavPatch().Enable();
-				// new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
+                //new IsEnemyPatch().Enable(); // TODO: can probably remove, this is handled by server data sent to client on raid start
                 
                 // Still need
                 new SendFleaListingTaxAmountToServerPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
-                //new IsEnemyPatch().Enable(); // TODO: can probably remove, this is handled by server data sent to client on raid start
                 new CustomAiPatch().Enable();
                 new SaveSettingsToSptFolderPatch().Enable();
                 new QTEPatch().Enable();
@@ -43,6 +41,8 @@ namespace SPT.Custom
                 new BossSpawnChancePatch().Enable();
                 new VersionLabelPatch().Enable();
                 new FixBotgroupMarkofTheUnknown().Enable();
+				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
+                new CopyPmcQuestsToPlayerScavPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
