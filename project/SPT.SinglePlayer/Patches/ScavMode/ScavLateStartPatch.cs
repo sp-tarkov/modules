@@ -36,18 +36,19 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         private bool IsTargetMethod(MethodInfo arg)
         {
-            // method_47 as of 26535
+            // method_46 as of 32128
             var parameters = arg.GetParameters();
-            return parameters.Length == 4
-                && parameters[0]?.Name == "timeAndWeather"
-                && parameters[1]?.Name == "timeHasComeScreenController"
-                && parameters[2]?.Name == "metricsEvents"
-                && parameters[3]?.Name == "metricsConfig"
-                && arg.ReturnType == typeof(Task);
+            return parameters.Length == 5 
+                   && parameters[0]?.Name == "gameWorld"
+                   && parameters[1]?.Name == "timeAndWeather"
+                   && parameters[2]?.Name == "timeHasComeScreenController"
+                   && parameters[3]?.Name == "metricsEvents"
+                   && parameters[4]?.Name == "metricsConfig"
+                   && arg.ReturnType == typeof(Task);
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref RaidSettings ____raidSettings)
+        public static bool PatchPrefix(ref RaidSettings ____raidSettings)
         {
             var currentMapId = ____raidSettings.SelectedLocation.Id;
 

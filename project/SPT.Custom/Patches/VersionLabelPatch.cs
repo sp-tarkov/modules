@@ -22,7 +22,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        internal static void PatchPostfix(object __result)
+        public static void PatchPostfix(object __result)
         {
             if (string.IsNullOrEmpty(_versionLabel))
             {

@@ -61,7 +61,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(GClass1502 __instance, BotCreationDataClass data)
+        public static bool PatchPrefix(GClass1574 __instance, BotCreationDataClass data)
         {
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
             if (firstBotRole != WildSpawnType.pmcBEAR || firstBotRole != WildSpawnType.pmcUSEC)

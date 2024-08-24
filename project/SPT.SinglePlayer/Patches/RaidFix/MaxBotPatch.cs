@@ -35,7 +35,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        private static void PatchPreFix(ref int maxCount)
+        public static void PatchPreFix(ref int maxCount)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
             var location = gameWorld.MainPlayer.Location;

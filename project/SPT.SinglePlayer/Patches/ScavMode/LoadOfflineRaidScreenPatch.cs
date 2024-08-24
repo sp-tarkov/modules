@@ -50,7 +50,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchTranspiler]
-        private static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
         {
             /* The original msil looks something like this:
              *   0	0000	ldarg.0
@@ -118,13 +118,15 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
 
+            var offlineRaidSettings = Traverse.Create(menuController).Field("raidSettings_1").GetValue<RaidSettings>();
+
             // Find the private field of type `MatchmakerPlayerControllerClass`
             var matchmakerPlayersController = menuController.GetType()
                 .GetFields(AccessTools.all)
                 .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
                 ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
 
-            var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(profile?.Info, ref raidSettings, matchmakerPlayersController, ESessionMode.Regular);
+            var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(profile?.Info, ref raidSettings, ref offlineRaidSettings, matchmakerPlayersController, ESessionMode.Pve);
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 

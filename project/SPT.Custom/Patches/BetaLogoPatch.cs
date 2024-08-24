@@ -3,12 +3,12 @@ using EFT.UI;
 using EFT;
 using HarmonyLib;
 using System.Reflection;
-using SPT.SinglePlayer.Utils.MainMenu;
 using TMPro;
 using UnityEngine;
 using System.Threading.Tasks;
+using SPT.Custom.Utils;
 
-namespace SPT.SinglePlayer.Patches.MainMenu
+namespace SPT.Custom.Patches
 {
     public class BetaLogoPatch : ModulePatch
     {
@@ -28,7 +28,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(Profile profile)
+        public static void PatchPrefix(Profile profile)
         {
             MonoBehaviourSingleton<PreloaderUI>.Instance.SetWatermarkStatus(profile, true);
         }
@@ -42,7 +42,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
+        public static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
         {
             ____label.text = $"{MenuNotificationManager.commitHash}";
         }
@@ -57,7 +57,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 
         // Prefix so the logic isn't being duplicated.
         [PatchPrefix]
-        private static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
+        public static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
         {
             System.Random random = new System.Random();
 

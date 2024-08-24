@@ -22,7 +22,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ```
 
 ## Requirements
-- Escape From Tarkov 30626
+- Escape From Tarkov 32197
 - Visual Studio Code -OR- Visual Studio 2022
 - .NET 6 SDK
 - [PowerShell v7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
@@ -30,6 +30,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 
 ## Project Setup
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this project's `Project/Shared/Managed/` folder
+
 
 ## Build (VS Code)
 1. File > Open Workspace > Modules.code-workspace

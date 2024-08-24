@@ -21,7 +21,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchTranspiler]
-        private static IEnumerable<CodeInstruction> PatchTranspile(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspile(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
             var searchCode = new CodeInstruction(OpCodes.Ldstr, "6617beeaa9cfa777ca915b7c");
@@ -46,7 +46,6 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             var newCode = new CodeInstruction(OpCodes.Ldstr, "SPT-PVE");
 
             codes.RemoveAt(searchIndex);
-            searchIndex -= 1;
             codes.Insert(searchIndex, newCode);
             
             return codes.AsEnumerable();

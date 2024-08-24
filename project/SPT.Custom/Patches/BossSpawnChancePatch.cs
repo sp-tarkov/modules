@@ -35,13 +35,13 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(BossLocationSpawn[] bossLocationSpawn)
+        public static void PatchPrefix(BossLocationSpawn[] bossLocationSpawn)
         {
             _bossSpawnPercent = bossLocationSpawn.Select(s => s.BossChance).ToArray();
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(ref BossLocationSpawn[] __result)
+        public static void PatchPostfix(ref BossLocationSpawn[] __result)
         {
             if (__result.Length != _bossSpawnPercent.Length)
             {

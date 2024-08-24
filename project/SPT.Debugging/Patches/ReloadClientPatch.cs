@@ -16,7 +16,7 @@ namespace SPT.Debugging.Patches
 		}
 
 		[PatchPostfix]
-		private static void PatchPostfix()
+		public static void PatchPostfix()
 		{
 			ConsoleScreen.Processor.RegisterCommandGroup<ReloadClientPatch>();
 		}
@@ -26,7 +26,7 @@ namespace SPT.Debugging.Patches
 			"\nMay Cause Unexpected Behaviors inraid")]
 		public static void Reload()
 		{
-			Reflection.Utils.ClientAppUtils.GetMainApp().method_52().HandleExceptions();
+			Reflection.Utils.ClientAppUtils.GetMainApp().method_51().HandleExceptions();
 		}
 	}
 }

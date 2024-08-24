@@ -11,6 +11,13 @@ using SPT.Common.Http;
 
 namespace SPT.Custom.Patches
 {
+    /// <summary>
+    /// Kitchen sink patch:
+    /// Converts ai PMC role to random one using data supplied by server
+    /// Converts ai scav role to random one using data supplied by server
+    /// Configured AI PMC equipment to be FiR/not FiR to match live behaviour
+    /// Converts all AI scavs to bosses (if configured in server)
+    /// </summary>
     public class CustomAiPatch : ModulePatch
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
@@ -30,7 +37,7 @@ namespace SPT.Custom.Patches
         /// <param name="__instance">StandartBotBrain</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
-        private static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
+        public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
             __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
@@ -108,7 +115,7 @@ namespace SPT.Custom.Patches
 
         private static List<string> GetBossConvertFromServer()
         {
-            string json = RequestHandler.GetJson("/singleplayer/BossConvert");
+            string json = RequestHandler.GetJson("/singleplayer/bossconvert");
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
@@ -123,7 +130,7 @@ namespace SPT.Custom.Patches
         /// <param name="__state">Saved state from prefix patch</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPostfix]
-        private static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
+        public static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
         {
             if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
             {

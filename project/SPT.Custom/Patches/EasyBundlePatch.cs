@@ -25,7 +25,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(object __instance, string key, string rootPath, CompatibilityAssetBundleManifest manifest, IBundleLock bundleLock)
+        public static void PatchPostfix(object __instance, string key, string rootPath, CompatibilityAssetBundleManifest manifest, IBundleLock bundleLock)
         {
             var filepath = rootPath + key;
             var dependencies = manifest.GetDirectDependencies(key) ?? Array.Empty<string>();

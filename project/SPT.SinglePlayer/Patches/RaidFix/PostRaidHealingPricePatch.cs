@@ -14,7 +14,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        protected static void PatchPrefix(Profile.TraderInfo __instance)
+        public static void PatchPrefix(Profile.TraderInfo __instance)
         {
             if (__instance.Settings == null)
             {

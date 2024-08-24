@@ -18,7 +18,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPrefix]
-        private static void PatchPrefix(BaseLocalGame<EftGamePlayerOwner> __instance)
+        public static void PatchPrefix(BaseLocalGame<EftGamePlayerOwner> __instance)
         {
             if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
 

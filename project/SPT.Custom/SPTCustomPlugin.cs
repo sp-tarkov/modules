@@ -3,7 +3,6 @@ using SPT.Common;
 using SPT.Custom.Patches;
 using SPT.Custom.Utils;
 using SPT.Reflection.Utils;
-using SPT.SinglePlayer.Utils.MainMenu;
 using BepInEx;
 using UnityEngine;
 
@@ -23,43 +22,29 @@ namespace SPT.Custom
                 new EasyBundlePatch().Enable();
                 
                 // TODO: check if these patches are needed
-                new QTEPatch().Enable();
-                new IsEnemyPatch().Enable();
-                new BotCalledDataTryCallPatch().Enable();
-                new BotCallForHelpCallBotPatch().Enable();
-                new BotOwnerDisposePatch().Enable();
-                new CheckAndAddEnemyPatch().Enable();
-                new AddEnemyToAllGroupsInBotZonePatch().Enable();
-                new CustomAiPatch().Enable();
-                new AddTraitorScavsPatch().Enable();
-                new ExitWhileLootingPatch().Enable();
-                new PmcFirstAidPatch().Enable();
-                new SettingsLocationPatch().Enable();
-                new SetLocationIdOnRaidStartPatch().Enable();
-                new RagfairFeePatch().Enable();
-                new ScavQuestPatch().Enable();
-                new FixBrokenSpawnOnSandboxPatch().Enable();
-                new ResetTraderServicesPatch().Enable();
-				new ScavItemCheckmarkPatch().Enable();
-				new CultistAmuletRemovalPatch().Enable();
-				new HalloweenExtractPatch().Enable();
+				new DisableNonHalloweenExitsDuringEventPatch().Enable();
+                // new AllScavsHostileHostileToPlayerScavPatch().Enable();
+                // new CopyPmcQuestsToPlayerScavPatch().Enable();
+				// new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
                 
                 // Still need
-                new FileCachePatch().Enable();
-                new BotSelfEnemyPatch().Enable();
-                new DisablePvEPatch().Enable();
-                new ClampRagdollPatch().Enable();
-                new PMCSpawnParamPatch().Enable();
-                new InsurancePlaceItem().Enable();
-                new OfflineRaidMenuPatch().Enable();
+                new SendFleaListingTaxAmountToServerPatch().Enable();
+                new AddTraitorScavsPatch().Enable();
+                //new IsEnemyPatch().Enable(); // TODO: can probably remove, this is handled by server data sent to client on raid start
+                new CustomAiPatch().Enable();
+                new SaveSettingsToSptFolderPatch().Enable();
+                new QTEPatch().Enable();
+                new RedirectClientImageRequestsPatch().Enable();
+                new DisableGameModeAdjustButtonPatch().Enable();
+                new FixPmcSpawnParamsNullErrorPatch().Enable();
+                new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();
                 new BossSpawnChancePatch().Enable();
-                new LocationLootCacheBustingPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new FixBotgroupMarkofTheUnknown().Enable();
 
-                HookObject.AddOrGetComponent<MenuNotificationManager>();
+				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
             catch (Exception ex)
             {

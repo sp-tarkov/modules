@@ -13,7 +13,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPostfix]
-        private static void PatchPrefix(ref string __result)
+        public static void PatchPrefix(ref string __result)
         {
             Console.WriteLine($"response json: ${__result}");
         }

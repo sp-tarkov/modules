@@ -19,7 +19,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostFix(ref DefaultUIButton ____readyButton)
+        public static void PatchPostFix(ref DefaultUIButton ____readyButton)
         {
             ____readyButton?.GameObject?.SetActive(false);
         }

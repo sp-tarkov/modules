@@ -43,6 +43,7 @@ namespace SPT.Custom.CustomAI
 
         public void ConfigurePMCFindInRaidStatus(BotOwner ___botOwner_0)
         {
+            
             // Must run before the container loot code, otherwise backpack loot is not FiR
             MakeEquipmentNotFiR(___botOwner_0);
 
@@ -73,15 +74,18 @@ namespace SPT.Custom.CustomAI
                         continue;
                     }
 
-                    // Don't add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
-                    if (container.Name == "TacticalVest" && nonFiRItems.Any(item.Template._parent.Contains))
+                    string parentId = item.Template.Parent._id;
+					// item.Template._parent.Contains is what it use to be.
+
+					// Don't add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
+					if (container.Name == "TacticalVest" && nonFiRItems.Any(parentId.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
                     }
 
                     // Don't add FiR to weapons in backpack (server sometimes adds pre-made weapons to backpack to simulate PMCs looting bodies)
-                    if (container.Name == "Backpack" && weaponTypeIds.Any(item.Template._parent.Contains))
+                    if (container.Name == "Backpack" && weaponTypeIds.Any(parentId.Contains))
                     {
                         // Add weapon root to list for later use
                         nonFiRRootItems.Add(item);
@@ -90,7 +94,7 @@ namespace SPT.Custom.CustomAI
                     }
 
                     // Don't add FiR to grenades/mags/ammo/meds in pockets
-                    if (container.Name == "Pockets" && nonFiRPocketLoot.Exists(item.Template._parent.Contains))
+                    if (container.Name == "Pockets" && nonFiRPocketLoot.Exists(parentId.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;

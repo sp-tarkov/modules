@@ -44,7 +44,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         /// BotsPresets.GetNewProfile()
         /// </summary>
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, BotCreationDataClass data, ref bool withDelete)
+        public static bool PatchPrefix(ref Task<Profile> __result, BotsPresets __instance, List<Profile> ___list_0, BotCreationDataClass data, ref bool withDelete)
         {
             /*
                 When client wants new bot and GetNewProfile() return null (if not more available templates or they don't satisfy by Role and Difficulty condition)

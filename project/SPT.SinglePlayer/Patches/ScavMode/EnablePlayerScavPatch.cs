@@ -1,44 +1,38 @@
-﻿using EFT;
+﻿using Comfort.Common;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
-    internal class EnablePlayerScavPatch : ModulePatch
+    public class EnablePlayerScavPatch : ModulePatch
     {
-        public static ERaidMode storedRaidMode;
-        public static ESideType storedSide;
-        public static bool storedOnlineRaidInPVE;
-
-        /// <summary>
-        /// Temporarily trick client into thinking we are PMC and in offline mode to allow loading of scavs in PVE mode
-        /// </summary>
-        protected override MethodBase GetTargetMethod()
+		/// <summary>
+		/// Modifys the raidsettings to retain raidsettings options in menu and allows scav to load into raid
+		/// All these settings might not be needed but this allows pmc and scavs to load in as needed.
+		/// </summary>
+		protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_22));
         }
 
-        [PatchPrefix]
-        private static void PatchPrefix(ref MainMenuController __instance, ref RaidSettings ___raidSettings_0, ref ISession ___iSession)
-        {
-            // Store old settings to restore them later in postfix
-            storedRaidMode = ___raidSettings_0.RaidMode;
-            storedSide = ___raidSettings_0.Side;
-            storedOnlineRaidInPVE = ___raidSettings_0.SelectedLocation.ForceOnlineRaidInPVE;
+		[PatchPrefix]
+		public static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1, MainMenuController __instance)
+		{
+			___raidSettings_0.RaidMode = ERaidMode.Local;
+			___raidSettings_0.IsPveOffline = true;
+			___raidSettings_0.WavesSettings = ___raidSettings_1.WavesSettings;
+			___raidSettings_0.BotSettings = ___raidSettings_1.BotSettings;
+			___raidSettings_1.Apply(___raidSettings_0);
+		}
 
-
-            ___raidSettings_0.RaidMode = ERaidMode.Online;
-            ___raidSettings_0.Side = ESideType.Pmc;
-            ___raidSettings_0.SelectedLocation.ForceOnlineRaidInPVE = false;
-        }
-
-        [PatchPostfix]
-        private static void PatchPostfix(ref MainMenuController __instance, ref RaidSettings ___raidSettings_0, ref ISession ___iSession)
-        {
-            ___raidSettings_0.RaidMode = storedRaidMode;
-            ___raidSettings_0.Side = storedSide;
-            ___raidSettings_0.SelectedLocation.ForceOnlineRaidInPVE = storedOnlineRaidInPVE;
-        }
-    }
+		[PatchPostfix]
+		public static void PatchPostfix(ref RaidSettings ___raidSettings_0)
+		{
+			___raidSettings_0.RaidMode = ERaidMode.Local;
+			___raidSettings_0.IsPveOffline = true;
+		}
+	}
 }

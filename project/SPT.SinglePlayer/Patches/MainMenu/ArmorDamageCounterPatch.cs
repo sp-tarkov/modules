@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(DamageInfo damageInfo)
+        public static void PatchPostfix(DamageInfo damageInfo)
         {
             if (damageInfo.Player == null || damageInfo.Player.iPlayer == null || !damageInfo.Player.iPlayer.IsYourPlayer)
             {
@@ -25,7 +25,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 
             if (damageInfo.Weapon is Weapon)
             {
-                if (!Singleton<ItemFactory>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
+                if (!Singleton<ItemFactoryClass>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
                 {
                     return;
                 }

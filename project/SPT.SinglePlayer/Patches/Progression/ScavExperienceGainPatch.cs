@@ -38,7 +38,7 @@ namespace SPT.SinglePlayer.Patches.Progression
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Profile activeProfile,ref EPlayerSide side)
+        public static bool PatchPrefix(ref Profile activeProfile,ref EPlayerSide side)
         {
             if (activeProfile.Side == EPlayerSide.Savage)
             {

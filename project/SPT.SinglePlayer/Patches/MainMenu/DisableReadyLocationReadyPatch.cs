@@ -17,7 +17,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(DefaultUIButton ____readyButton)
+        public static void PatchPostfix(DefaultUIButton ____readyButton)
         {
             ____readyButton.Interactable = false;
         }

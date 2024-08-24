@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using SPT.Reflection.Patching;
-using SPT.SinglePlayer.Utils.MainMenu;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using EFT;
 using HarmonyLib;
+using SPT.Custom.Utils;
 
-namespace SPT.SinglePlayer.Patches.MainMenu
+namespace SPT.Custom.Patches
 {
     /// <summary>
     /// Prevents loading of non-whitelisted client mods to minimize the amount of false issue reports being made during the public BE phase
@@ -22,7 +22,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        private static void Prefix()
+        public static void PatchPrefix()
         {
             CheckForNonWhitelistedPlugins(Logger);
         }

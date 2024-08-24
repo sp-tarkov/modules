@@ -8,11 +8,11 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass1849), nameof(GClass1849.GetBoolForProfile));
+            return AccessTools.Method(typeof(GClass1925), nameof(GClass1925.GetBoolForProfile));
         }
         
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, string variable)
+        public static bool PatchPrefix(ref bool __result, string variable)
         {
             if (variable == "pve_first_time")
             {

@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchTranspiler]
-        private static IEnumerable<CodeInstruction> PatchTranspile(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspile(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
             var searchCode = new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(AudioClip), "get_length"));

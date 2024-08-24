@@ -17,7 +17,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 
         // checks on invoke whether the player is stunned before allowing tinnitus
         [PatchPrefix]
-        static bool PatchPrefix()
+        public static bool PatchPrefix()
         {
             var baseMethod = AccessTools.Method(typeof(ActiveHealthController), nameof(ActiveHealthController.FindActiveEffect));
 

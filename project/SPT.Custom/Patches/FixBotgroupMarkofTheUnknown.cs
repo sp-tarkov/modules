@@ -19,7 +19,7 @@ namespace SPT.Custom.Patches
             return AccessTools.Method(typeof(BotsGroupMarkOfUnknown), nameof(BotsGroupMarkOfUnknown.Dispose));
         }
         [PatchPrefix]
-        private static bool PatchPrefix(BotsGroup ____groups)
+        public static bool PatchPrefix(BotsGroup ____groups)
         {
             if (____groups == null)
             {

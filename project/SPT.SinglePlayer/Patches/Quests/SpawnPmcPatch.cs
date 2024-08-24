@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.Quests
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result, WildSpawnType ___wildSpawnType_0, BotDifficulty ___botDifficulty_0, Profile x)
+        public static bool PatchPrefix(ref bool __result, WildSpawnType ___wildSpawnType_0, BotDifficulty ___botDifficulty_0, Profile x)
         {
             if (x == null)
             {

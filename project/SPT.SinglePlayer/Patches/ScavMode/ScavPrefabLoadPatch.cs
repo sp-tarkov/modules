@@ -12,8 +12,15 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 {
     public class ScavPrefabLoadPatch : ModulePatch
     {
+        /// <summary>
+        /// Aim of this patch is to check what Side we are loading into the raid as.
+        /// then if we are Scav, the game will load the bundles for that
+        /// else it will load the bundles for PMC
+        /// </summary>
+        /// <returns></returns>
         protected override MethodBase GetTargetMethod()
         {
+            // Struct324 - 3.10.0
             var desiredType = typeof(TarkovApplication)
                 .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
                 .SingleCustom(x => x.GetField("timeAndWeather") != null
@@ -31,7 +38,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchTranspiler]
-        private static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
 

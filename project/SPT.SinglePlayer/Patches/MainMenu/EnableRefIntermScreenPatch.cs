@@ -12,11 +12,11 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(MerchantsList.Class2713), nameof(MerchantsList.Class2713.method_0));
+            return AccessTools.Method(typeof(MerchantsList.Class2759), nameof(MerchantsList.Class2759.method_0));
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref bool __result)
+        public static bool PatchPrefix(ref bool __result)
         {
             __result = false;
             return false; // Do not run original method
