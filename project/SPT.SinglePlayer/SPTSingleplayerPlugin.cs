@@ -62,7 +62,8 @@ namespace SPT.SinglePlayer
                 new InsuranceScreenPatch().Enable();
                 new FixQuestAchieveControllersPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
-            }
+				new RemoveClothingItemExternalObtainLabelPatch().Enable();
+			}
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
