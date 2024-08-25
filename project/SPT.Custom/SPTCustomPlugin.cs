@@ -38,7 +38,7 @@ namespace SPT.Custom
                 new SetPreRaidSettingsScreenDefaultsPatch().Enable();
                 new CoreDifficultyPatch().Enable();
                 new BotDifficultyPatch().Enable();
-                new BossSpawnChancePatch().Enable();
+                //new BossSpawnChancePatch().Enable(); // Tested factory, Tagilla does not spawn 100% of the time with patch disabled
                 new VersionLabelPatch().Enable();
                 new FixBotgroupMarkofTheUnknown().Enable();
 				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
