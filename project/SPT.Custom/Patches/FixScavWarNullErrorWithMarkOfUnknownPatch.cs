@@ -1,18 +1,13 @@
 ﻿using HarmonyLib;
 using SPT.Reflection.Patching;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SPT.Custom.Patches
 {
     /// <summary>
     /// If Scav war is turned on Botsgroup can be null for some reason if null return early to not softlock player.
     /// </summary>
-    public class FixBotgroupMarkofTheUnknown : ModulePatch
+    public class FixScavWarNullErrorWithMarkOfUnknownPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
