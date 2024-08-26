@@ -9,7 +9,7 @@ using UnityEngine;
 namespace SPT.Custom
 {
     [BepInPlugin("com.SPT.custom", "SPT.Custom", SPTPluginInfo.PLUGIN_VERSION)]
-    class SPTCustomPlugin : BaseUnityPlugin
+    public class SPTCustomPlugin : BaseUnityPlugin
     {
         public void Awake()
         {

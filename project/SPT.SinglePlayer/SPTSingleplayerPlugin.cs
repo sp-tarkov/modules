@@ -10,7 +10,7 @@ using BepInEx;
 namespace SPT.SinglePlayer
 {
     [BepInPlugin("com.SPT.singleplayer", "spt.Singleplayer", SPTPluginInfo.PLUGIN_VERSION)]
-    class SPTSingleplayerPlugin : BaseUnityPlugin
+    public class SPTSingleplayerPlugin : BaseUnityPlugin
     {
         public void Awake()
         {
