@@ -43,14 +43,12 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             if (!string.IsNullOrWhiteSpace(___string_0)) return;
 
             var spawnPoints = Resources.FindObjectsOfTypeAll<SpawnPointMarker>().ToList();
-
-            List<SpawnPointMarker> filtered = new List<SpawnPointMarker>();
-
+            var filteredSpawns = new List<SpawnPointMarker>();
             foreach (var spawn in spawnPoints)
             {
                 if (!string.IsNullOrEmpty(spawn?.SpawnPoint?.Infiltration?.Trim()))
                 {
-                    filtered.Add(spawn);
+                    filteredSpawns.Add(spawn);
                 }
             }
 
@@ -58,7 +56,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             SpawnPointMarker closestSpawn = null;
             var minDist = Mathf.Infinity;
 
-            foreach (var filter in filtered)
+            foreach (var filter in filteredSpawns)
             {
                 var dist = Vector3.Distance(filter.gameObject.transform.position, playerPos);
 

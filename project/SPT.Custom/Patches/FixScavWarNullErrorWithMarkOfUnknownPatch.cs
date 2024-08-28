@@ -20,7 +20,7 @@ namespace SPT.Custom.Patches
             {
                 return false;
             }
-            return true;
+            return true; // Do original method
         }
     }
 }

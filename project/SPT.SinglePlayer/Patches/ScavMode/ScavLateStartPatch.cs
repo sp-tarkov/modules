@@ -21,7 +21,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     public class ScavLateStartPatch : ModulePatch
     {
         // A cache of Location settings before any edits were made
-        private static readonly Dictionary<string, LocationSettingsClass.Location> originalLocationSettings = new Dictionary<string, LocationSettingsClass.Location>();
+        private static readonly Dictionary<string, LocationSettingsClass.Location> originalLocationSettings = new();
 
         protected override MethodBase GetTargetMethod()
         {
@@ -70,14 +70,9 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             ____raidSettings.SelectedLocation.EscapeTimeLimit = serverResult.RaidTimeMinutes;
 
             // Handle survival time changes
-            if (serverResult.NewSurviveTimeSeconds.HasValue)
-            {
-                AdjustSurviveTimeForExtraction(serverResult.NewSurviveTimeSeconds.Value);
-            }
-            else
-            {
-                AdjustSurviveTimeForExtraction(serverResult.OriginalSurvivalTimeSeconds);
-            }
+            AdjustSurviveTimeForExtraction(serverResult.NewSurviveTimeSeconds.HasValue
+                ? serverResult.NewSurviveTimeSeconds.Value
+                : serverResult.OriginalSurvivalTimeSeconds);
 
             // Handle exit changes
             ResetMapExits(____raidSettings.SelectedLocation, originalLocationSettings[currentMapId]);

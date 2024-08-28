@@ -82,7 +82,7 @@ namespace SPT.Custom.Patches
                     //Lets exUsec warn Usecs and fire at will at Bears
                     if (__instance.InitialBotType == WildSpawnType.exUsec)
                     {
-                        return true; // Let BSG handle things
+                        return true; // Do original method
                     }
                     // everyone else is an enemy to savage (scavs)
                     isEnemy = true;

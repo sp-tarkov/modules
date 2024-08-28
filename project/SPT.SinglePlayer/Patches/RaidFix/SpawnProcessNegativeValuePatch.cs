@@ -1,5 +1,4 @@
 using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
 using EFT;
 using System;
 using System.Reflection;
@@ -13,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
     /// int_0 = all bots alive
     /// int_1 = followers alive
     /// int_2 = bosses currently alive
-    /// int_3 = spawn process? - current guess is open spawn positions - bsg doesnt seem to handle negative vaues well
+    /// int_3 = spawn process? - current guess is open spawn positions - bsg doesn't seem to handle negative vaues well
     /// int_4 = max bots
     /// </summary>
     public class SpawnProcessNegativeValuePatch : ModulePatch

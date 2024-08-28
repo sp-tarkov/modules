@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using SPT.Reflection.Patching;
-using SPT.Core.Utils;
 using HarmonyLib;
 
 namespace SPT.Core.Patches

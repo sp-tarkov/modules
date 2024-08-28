@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
                 return false;
             }
 
-            return true;
+            return true; // Do original method
         }
     }
 }

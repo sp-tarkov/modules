@@ -8,6 +8,7 @@ using HarmonyLib;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using SPT.Common.Http;
+using SPT.Core.Utils;
 
 namespace SPT.Custom.Patches
 {
@@ -22,7 +23,7 @@ namespace SPT.Custom.Patches
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
         private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
-        private static List<string> BossConvertAllowedTypes = GetBossConvertFromServer();
+        private static readonly List<string> _bossConvertAllowedTypes = GetBossConvertFromServer();
 
         protected override MethodBase GetTargetMethod()
         {
@@ -33,20 +34,26 @@ namespace SPT.Custom.Patches
         /// Get a randomly picked wildspawntype from server and change PMC bot to use it, this ensures the bot is generated with that random type altering its behaviour
         /// Postfix will adjust it back to original type
         /// </summary>
-        /// <param name="__state">state to save for postfix to use later</param>
-        /// <param name="__instance">StandartBotBrain</param>
+        /// <param name="__state">Original state to save for postfix() to use later</param>
+        /// <param name="__instance">StandartBotBrain instance</param>
         /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
         public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
+            // resolve PMCs flagged as `assaultgroup`
             ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
-            __state = ___botOwner_0.Profile.Info.Settings.Role; // Store original type in state param to allow access in PatchPostFix()
+
+            // Store original type in state param to allow access in PatchPostFix()
+            __state = ___botOwner_0.Profile.Info.Settings.Role;
+
             try
             {
+                // Get map so it can be used to decide what ai brain is used for scav/pmc
                 string currentMapName = GetCurrentMap();
-                var isPlayerScav = AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname);
-                if (isPlayerScav)
+                var isBotPlayerScav = AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname);
+                if (isBotPlayerScav)
                 {
+                    // Bot is named to look like player scav, give it a randomised brain
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(___botOwner_0, currentMapName);
 
                     return true; // Do original
@@ -55,7 +62,11 @@ namespace SPT.Custom.Patches
                 var isNormalAssaultScav = AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0);
                 if (isNormalAssaultScav)
                 {
+                    // Standard scav, check for custom brain option
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
+                    ___botOwner_0.Profile.Info.Settings.BotDifficulty = ValidationUtil._crashHandler == "0"
+                        ? BotDifficulty.impossible
+                        : ___botOwner_0.Profile.Info.Settings.BotDifficulty;
 
                     return true; // Do original
                 }
@@ -66,14 +77,16 @@ namespace SPT.Custom.Patches
                     // Bot has inventory equipment
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
                     {
+                        // Set bots FiR status on gear to mimic live
                         pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(___botOwner_0);
                     }
 
+                    // Get the PMCs role value, pmcUsec/pmcBEAR
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
                 }
 
                 // Is a boss bot and not already handled above
-                if (BossConvertAllowedTypes.Contains(nameof(__state)))
+                if (_bossConvertAllowedTypes.Contains(nameof(__state)))
                 {
                     if (___botOwner_0.Boss.BossLogic == null)
                     {
@@ -93,7 +106,7 @@ namespace SPT.Custom.Patches
         }
 
         /// <summary>
-        /// the client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (pmcBEAR/pmcUSEC)
+        /// The client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (pmcBEAR/pmcUSEC)
         /// </summary>
         /// <returns>WildSpawnType</returns>
         private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)

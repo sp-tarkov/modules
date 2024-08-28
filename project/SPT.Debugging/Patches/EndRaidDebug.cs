@@ -49,7 +49,7 @@ namespace SPT.Debugging.Patches
                 Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null");
             }
 
-            return true;
+            return true; // Do original method
         }
     }
 }

@@ -2,7 +2,6 @@ using System;
 using SPT.Reflection.CodeWrapper;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using System.Collections.Generic;

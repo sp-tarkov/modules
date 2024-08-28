@@ -1,5 +1,3 @@
-using System;
-
 namespace SPT.Custom.Utils
 {
     public class Crc32

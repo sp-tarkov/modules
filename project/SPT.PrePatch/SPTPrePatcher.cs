@@ -11,7 +11,7 @@ namespace SPT.PrePatch
     public static class SPTPrePatcher
     {
         public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
-        private static readonly string _sptPluginFolder = "plugins/spt";
+        private const string _sptPluginFolder = "plugins/spt";
 
         public static void Patch(ref AssemblyDefinition assembly)
         {
@@ -81,7 +81,7 @@ namespace SPT.PrePatch
             if (args.Length > 1)
             {
                 message = "";
-                return true;
+                return true; 
             }
 
             message = "Please start SPT using SPT.Launcher.exe. Exiting.";

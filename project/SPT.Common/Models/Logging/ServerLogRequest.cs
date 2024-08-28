@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel;
-
-namespace SPT.Common.Models.Logging
+﻿namespace SPT.Common.Models.Logging
 {
     public class ServerLogRequest
     {

@@ -11,8 +11,8 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var methodName = "LoadDifficultyStringInternal";
-			var flags = BindingFlags.Public | BindingFlags.Static;
+            const string methodName = "LoadDifficultyStringInternal";
+			const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
 
 			return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
                 .GetMethod(methodName, flags);

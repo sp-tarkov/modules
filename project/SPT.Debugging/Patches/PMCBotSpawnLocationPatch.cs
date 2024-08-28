@@ -67,7 +67,7 @@ namespace SPT.Debugging.Patches
             if (firstBotRole != WildSpawnType.pmcBEAR || firstBotRole != WildSpawnType.pmcUSEC)
             {
                 ConsoleScreen.Log("[SPT PMC Bot spawn] Spawning a set of Scavs. Skipping...");
-                return true;
+                return true; // Do original method
             }
 
             var helper = new SptSpawnHelper();

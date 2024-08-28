@@ -45,7 +45,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPostfix]
         public static void PatchPostfix(ScavengerInventoryScreen __instance, IEnumerable<Item> items)
         {
-            ISession session = _sessionField.GetValue(__instance) as ISession;
+            var session = _sessionField.GetValue(__instance) as ISession;
             TraderClass traderClass = session.Traders.FirstOrDefault(x => x.Id == FENCE_ID);
 
             int totalPrice = 0;

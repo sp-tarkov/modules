@@ -1,6 +1,4 @@
 ﻿using SPT.Reflection.Patching;
-using Comfort.Common;
-using EFT;
 using EFT.Console.Core;
 using EFT.UI;
 using HarmonyLib;

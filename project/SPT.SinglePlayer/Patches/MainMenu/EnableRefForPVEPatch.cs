@@ -4,7 +4,6 @@ using System.Reflection;
 using EFT.UI;
 using HarmonyLib;
 using System.Reflection.Emit;
-using SPT.Reflection.CodeWrapper;
 using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
@@ -42,7 +41,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
                 return instructions;
             }
 
-            // this doesnt have to be anything perticular for the string - just cant be a trader ID
+            // this doesnt have to be anything particular for the string - just cant be a trader ID
             var newCode = new CodeInstruction(OpCodes.Ldstr, "SPT-PVE");
 
             codes.RemoveAt(searchIndex);

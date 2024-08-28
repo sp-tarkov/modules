@@ -54,7 +54,7 @@ namespace SPT.Debugging.Patches
                 {
                     ServerLog.Info("EFT Logging:", $"{logLevel} : {nlogFormat}");
                 }
-             } 
+            } 
            
             // I've opted to leave this disabled for now, it doesn't add much in
             // terms of value, its mostly the same stuff as the nlogFormat

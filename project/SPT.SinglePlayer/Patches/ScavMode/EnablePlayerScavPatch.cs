@@ -1,16 +1,14 @@
-﻿using Comfort.Common;
-using EFT;
+﻿using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     public class EnablePlayerScavPatch : ModulePatch
     {
 		/// <summary>
-		/// Modifys the raidsettings to retain raidsettings options in menu and allows scav to load into raid
+		/// Modifies raid settings to retain raidsettings options in menu and allows scav to load into raid
 		/// All these settings might not be needed but this allows pmc and scavs to load in as needed.
 		/// </summary>
 		protected override MethodBase GetTargetMethod()
