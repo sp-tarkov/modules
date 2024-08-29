@@ -2,7 +2,6 @@ using System;
 using SPT.Common;
 using SPT.SinglePlayer.Patches.MainMenu;
 using SPT.SinglePlayer.Patches.Progression;
-using SPT.SinglePlayer.Patches.Quests;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using BepInEx;
@@ -19,18 +18,14 @@ namespace SPT.SinglePlayer
             try
             {
                 // TODO: check if these patches are needed
-                new TinnitusFixPatch().Enable();
-                new EmptyInfilFixPatch().Enable();
-                new MaxBotPatch().Enable();
-                new PostRaidHealingPricePatch().Enable();
-                new HideoutQuestIgnorePatch().Enable();
-                new SpawnProcessNegativeValuePatch().Enable();
-                new SpawnPmcPatch().Enable();
-                // new ScavRepAdjustmentPatch().Enable();
-
-                // new ArmorDamageCounterPatch().Enable();
-                // new AmmoUsedCounterPatch().Enable();
-
+                new TinnitusFixPatch().Enable(); // Probably needed
+                //new EmptyInfilFixPatch().Enable();
+                new MaxBotPatch().Enable(); // Custom code, needed
+                //new PostRaidHealingPricePatch().Enable(); // Client handles this now
+                //new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues 
+                //new SpawnProcessNegativeValuePatch().Enable(); // Client handles this edge case, revisit if bot count keeps going up
+                //new SpawnPmcPatch().Enable(); // 2.5+ years old, PMC spawn system very different, likely not needed
+                //new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
 
                 // Still need
                 // new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
@@ -60,7 +55,6 @@ namespace SPT.SinglePlayer
                 new GetProfileAtEndOfRaidPatch().Enable();
                 new FixSavageInventoryScreenPatch().Enable();
                 new InsuranceScreenPatch().Enable();
-                new FixQuestAchieveControllersPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
 			}
