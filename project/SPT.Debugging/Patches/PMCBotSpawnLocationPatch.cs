@@ -14,7 +14,7 @@ namespace SPT.Debugging.Patches
     // TODO: Instantiation of this is fairly slow, need to find best way to cache it
     public class SptSpawnHelper
     {
-        private readonly List<ISpawnPoint> playerSpawnPoints;
+        private readonly List<ISpawnPoint> _playerSpawnPoints;
         private readonly Random _rnd = new Random();
         //private readonly GStruct381 _spawnSettings = new GStruct381();
 
@@ -23,12 +23,12 @@ namespace SPT.Debugging.Patches
             IEnumerable<ISpawnPoint> locationSpawnPoints = SpawnPointManagerClass.CreateFromScene();
 
             var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
-            this.playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
+            this._playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
         }
 
         public void PrintSpawnPoints()
         {
-            foreach (var spawnPoint in playerSpawnPoints)
+            foreach (var spawnPoint in _playerSpawnPoints)
             {
                 ConsoleScreen.Log("[SPT PMC Bot spawn] Spawn point " + spawnPoint.Id + " location is " + spawnPoint.Position.ToString());
             }
@@ -37,18 +37,18 @@ namespace SPT.Debugging.Patches
         public ISpawnPoint SelectSpawnPoint()
         {
             // TODO: Select spawn points more intelligently
-            return this.playerSpawnPoints[_rnd.Next(this.playerSpawnPoints.Count)];
+            return this._playerSpawnPoints[_rnd.Next(this._playerSpawnPoints.Count)];
         }
 
         public List<ISpawnPoint> SelectSpawnPoints(int count)
         {
             // TODO: Fine-grained spawn selection
-            if (count > this.playerSpawnPoints.Count())
+            if (count > this._playerSpawnPoints.Count())
             {
-                ConsoleScreen.Log($"[SPT PMC Bot spawn] Wanted ${count} but only {this.playerSpawnPoints.Count()} found, returning all");
-                return this.playerSpawnPoints;
+                ConsoleScreen.Log($"[SPT PMC Bot spawn] Wanted ${count} but only {this._playerSpawnPoints.Count()} found, returning all");
+                return this._playerSpawnPoints;
             }
-            return this.playerSpawnPoints.OrderBy(x => _rnd.Next()).Take(count).ToList();
+            return this._playerSpawnPoints.OrderBy(x => _rnd.Next()).Take(count).ToList();
         }
     }
 
@@ -61,7 +61,7 @@ namespace SPT.Debugging.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(GClass1574 __instance, BotCreationDataClass data)
+        public static bool PatchPrefix(GClass1575 __instance, BotCreationDataClass data)
         {
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
             if (firstBotRole != WildSpawnType.pmcBEAR || firstBotRole != WildSpawnType.pmcUSEC)
