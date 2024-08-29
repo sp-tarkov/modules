@@ -20,13 +20,9 @@ namespace SPT.Custom
                 // Bundle patches should always load first - DO NOT REMOVE
                 new EasyAssetsPatch().Enable();
                 new EasyBundlePatch().Enable();
-                
-                // TODO: check if these patches are needed
-				new DisableNonHalloweenExitsDuringEventPatch().Enable();
-                // new AllScavsHostileHostileToPlayerScavPatch().Enable();
-                //new IsEnemyPatch().Enable(); // TODO: can probably remove, this is handled by server data sent to client on raid start
-                
+
                 // Still need
+                new DisableNonHalloweenExitsDuringEventPatch().Enable();
                 new SendFleaListingTaxAmountToServerPatch().Enable();
                 new AddTraitorScavsPatch().Enable();
                 new CustomAiPatch().Enable();
