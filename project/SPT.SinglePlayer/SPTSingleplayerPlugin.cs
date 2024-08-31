@@ -28,7 +28,6 @@ namespace SPT.SinglePlayer
                 //new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
 
                 // Still need
-                // new SmokeGrenadeFuseSoundFixPatch().Enable(); TODO: refactor as it causes exceptions to be thrown when grenade is tossed by player
                 new ScavExperienceGainPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
                 new ScavExfilPatch().Enable();
