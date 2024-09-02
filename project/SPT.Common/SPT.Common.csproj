@@ -14,16 +14,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="System.Net.http"/>
-        <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False"/>
+        <Reference Include="System.Net.http" />
+        <Reference Include="bsg.componentace.compression.libs.zlib" HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll" Private="False" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
+        <PackageReference Include="BepInEx.Core" Version="5.4.21" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <!-- Modified version of the BepInEx.PluginInfoProps plugin info generator -->
@@ -45,10 +45,10 @@
             <GeneratedFilePath>.\SPTPluginInfo.cs</GeneratedFilePath>
         </PropertyGroup>
         <ItemGroup>
-            <Compile Include="$(GeneratedFilePath)"/>
-            <FileWrites Include="$(GeneratedFilePath)"/>
+            <Compile Include="$(GeneratedFilePath)" />
+            <FileWrites Include="$(GeneratedFilePath)" />
         </ItemGroup>
-        <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" Overwrite="true"/>
+        <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" Overwrite="true" />
     </Target>
 
 </Project>

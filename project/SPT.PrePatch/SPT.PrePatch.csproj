@@ -13,19 +13,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False"/>
+        <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
             <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.2"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SPT.Common\SPT.Common.csproj"/>
-        <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj"/>
+        <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
+        <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
     </ItemGroup>
 
 </Project>
