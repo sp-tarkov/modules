@@ -36,6 +36,7 @@ namespace SPT.SinglePlayer
                 new DisableReadyLocationReadyPatch().Enable();
                 new BotTemplateLimitPatch().Enable();
                 new LoadOfflineRaidScreenPatch().Enable();
+                new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
                 new PluginErrorNotifierPatch().Enable();
                 new GetNewBotTemplatesPatch().Enable();
                 new MapReadyButtonPatch().Enable();
