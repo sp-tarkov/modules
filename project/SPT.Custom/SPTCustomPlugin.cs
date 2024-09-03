@@ -38,6 +38,7 @@ namespace SPT.Custom
                 new FixScavWarNullErrorWithMarkOfUnknownPatch().Enable();
 				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
                 new CopyPmcQuestsToPlayerScavPatch().Enable();
+                new AllowAirdropsInPvEPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
