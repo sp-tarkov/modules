@@ -57,7 +57,7 @@ namespace SPT.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotSpawner), "TryToSpawnInZoneInner");
+            return AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.TryToSpawnInZoneInner));
         }
 
         [PatchPrefix]
