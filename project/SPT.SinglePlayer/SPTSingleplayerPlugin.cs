@@ -45,6 +45,7 @@ namespace SPT.SinglePlayer
                 new ScavLateStartPatch().Enable();
                 new ScavSellAllPriceStorePatch().Enable();
                 new ScavSellAllRequestPatch().Enable();
+                new ScavRepAdjustmentPatch().Enable();
                 
                 // 3.10.0
                 new PVEModeWelcomeMessagePatch().Enable();
