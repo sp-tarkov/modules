@@ -5,6 +5,7 @@ using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using BepInEx;
+using SPT.SinglePlayer.Utils.MainMenu;
 
 namespace SPT.SinglePlayer
 {
@@ -66,6 +67,11 @@ namespace SPT.SinglePlayer
             }
 
             Logger.LogInfo("Completed: SPT.SinglePlayer");
+        }
+
+        public void Start()
+        {
+            TraderServiceManager.GetModdedTraderData();
         }
     }
 }
