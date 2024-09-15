@@ -34,13 +34,15 @@ namespace SPT.Custom.CustomAI
 
         public static bool BotIsNormalAssaultScav(WildSpawnType role, BotOwner ___botOwner_0)
         {
-            // Is assault + no (
-            if (!___botOwner_0.Profile.Info.Nickname.Contains("(") && role == WildSpawnType.assault)
+            
+            // Assault and has ( character in name
+            var nicknameContainsPScvCharacter = ___botOwner_0.Profile.Info.Nickname?.Contains("(");
+            if (nicknameContainsPScvCharacter.HasValue && nicknameContainsPScvCharacter.Value && role == WildSpawnType.assault)
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
     }
 }
