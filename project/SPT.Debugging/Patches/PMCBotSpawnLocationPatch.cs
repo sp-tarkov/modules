@@ -45,7 +45,7 @@ namespace SPT.Debugging.Patches
             // TODO: Fine-grained spawn selection
             if (count > this._playerSpawnPoints.Count())
             {
-                ConsoleScreen.Log($"[SPT PMC Bot spawn] Wanted ${count} but only {this._playerSpawnPoints.Count()} found, returning all");
+                ConsoleScreen.Log($"[SPT PMC Bot spawn] Wanted: ${count} but only {this._playerSpawnPoints.Count()} spawn points found, returning all");
                 return this._playerSpawnPoints;
             }
             return this._playerSpawnPoints.OrderBy(x => _rnd.Next()).Take(count).ToList();
@@ -64,7 +64,7 @@ namespace SPT.Debugging.Patches
         public static bool PatchPrefix(GClass1575 __instance, BotCreationDataClass data)
         {
             var firstBotRole = data.Profiles[0].Info.Settings.Role;
-            if (firstBotRole != WildSpawnType.pmcBEAR || firstBotRole != WildSpawnType.pmcUSEC)
+            if (firstBotRole is not (WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC))
             {
                 ConsoleScreen.Log("[SPT PMC Bot spawn] Spawning a set of Scavs. Skipping...");
                 return true; // Do original method

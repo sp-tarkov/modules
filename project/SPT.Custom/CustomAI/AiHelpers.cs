@@ -15,7 +15,7 @@ namespace SPT.Custom.CustomAI
         {
             if (___botOwner_0.Profile.Info.IsStreamerModeAvailable)
             {
-                // PMCs can sometimes have thier role changed to 'assaultGroup' by the client, we need a alternate way to figure out if they're a spt pmc
+                // PMCs can sometimes have their role changed to 'assaultGroup' by the client, we need an alternate way to figure out if they're a spt pmc
                 return true;
             }
 

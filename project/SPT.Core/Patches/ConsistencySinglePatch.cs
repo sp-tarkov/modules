@@ -19,6 +19,7 @@ namespace SPT.Core.Patches
         private static bool PatchPrefix(ref object __result)
         {
             __result = Task.FromResult<ICheckResult>(new FakeFileCheckerResult());
+
             return false;
         }
     }

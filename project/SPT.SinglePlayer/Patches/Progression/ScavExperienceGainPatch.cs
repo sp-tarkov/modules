@@ -9,7 +9,7 @@ using HarmonyLib;
 namespace SPT.SinglePlayer.Patches.Progression
 {
     /// <summary>
-    /// Fix xp gained value being 0 after a scav raid
+    /// Fix XP gained value being 0 after a scav raid
     /// </summary>
     public class ScavExperienceGainPatch : ModulePatch
     {

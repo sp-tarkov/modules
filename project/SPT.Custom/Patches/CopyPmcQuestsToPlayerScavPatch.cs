@@ -28,8 +28,8 @@ namespace SPT.Custom.Patches
             // Iterate over all quests on pmc that are flagged as being for scavs
             foreach (var quest in pmcProfile.QuestsData.Where(x => x.Template?.PlayerGroup == EFT.EPlayerGroup.Scav))
             {
-                // If quest doesn't exist in scav, add it
-                bool any = false;
+                // If quest doesn't exist in scav but does in pmc, add it
+                var any = false;
                 foreach (var questInProfile in scavProfile.QuestsData)
                 {
                     if (questInProfile.Id == quest.Id)

@@ -20,8 +20,8 @@ namespace SPT.Custom.Patches
             {
                 return;
             }
-            
-            // Is a boss and follower and a pmc
+
+            // Is a boss and follower and a pmc - nullguard SpawnParams property
             if (bot.SpawnProfileData.SpawnParams == null)
             {
                 bot.SpawnProfileData.SpawnParams = new BotSpawnParams();

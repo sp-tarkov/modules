@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
     /// </summary>
     public class AddTraitorScavsPatch : ModulePatch
     {
-        private static int? TraitorChancePercent;
+        private static int? _traitorChancePercent;
 
         protected override MethodBase GetTargetMethod()
         {
@@ -28,14 +28,14 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         public static bool PatchPrefix(ref BotsGroup __result, IBotGame ____game, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone)
         {
-            if (!TraitorChancePercent.HasValue)
+            if (!_traitorChancePercent.HasValue)
             {
                 string json = RequestHandler.GetJson("/singleplayer/scav/traitorscavhostile");
-                TraitorChancePercent = JsonConvert.DeserializeObject<int>(json);
+                _traitorChancePercent = JsonConvert.DeserializeObject<int>(json);
             }
 
             WildSpawnType role = bot.Profile.Info.Settings.Role;
-            if (AiHelpers.BotIsPlayerScav(role, bot.Profile.Info.Nickname) && new Random().Next(1, 100) < TraitorChancePercent)
+            if (AiHelpers.BotIsPlayerScav(role, bot.Profile.Info.Nickname) && new Random().Next(1, 100) < _traitorChancePercent)
             {
                 Logger.LogInfo($"Making {bot.name} ({bot.Profile.Nickname}) hostile to player");
 

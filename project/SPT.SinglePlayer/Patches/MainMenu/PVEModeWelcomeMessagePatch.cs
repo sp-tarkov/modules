@@ -17,7 +17,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             if (variable == "pve_first_time")
             {
                 __result = true;
-                return false;
+                return false; // Skip original method
             }
 
             return true; // Do original method

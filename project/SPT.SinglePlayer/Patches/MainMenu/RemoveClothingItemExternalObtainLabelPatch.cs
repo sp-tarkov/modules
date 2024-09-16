@@ -5,7 +5,7 @@ using System.Reflection;
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
 	/// <summary>
-	/// Remove the label shown on some of ragmans clothing options to "buy from website"
+	/// Remove the label shown on some of Ragmans clothing options to "buy from website"
 	/// </summary>
 	internal class RemoveClothingItemExternalObtainLabelPatch : ModulePatch
 	{
