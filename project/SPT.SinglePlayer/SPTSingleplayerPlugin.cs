@@ -59,6 +59,7 @@ namespace SPT.SinglePlayer
                 //new InsuranceScreenPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
+				new FixLocalRaidPatch().Enable();
 			}
             catch (Exception ex)
             {
