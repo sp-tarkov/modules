@@ -1,4 +1,5 @@
 ﻿using EFT;
+using EFT.UI;
 
 namespace SPT.Custom.CustomAI
 {
@@ -32,17 +33,11 @@ namespace SPT.Custom.CustomAI
             return false;
         }
 
-        public static bool BotIsNormalAssaultScav(WildSpawnType role, BotOwner ___botOwner_0)
+        public static bool BotIsSimulatedPlayerScav(WildSpawnType role, BotOwner botOwner)
         {
-            
-            // Assault and has ( character in name
-            var nicknameContainsPScvCharacter = ___botOwner_0.Profile.Info.Nickname?.Contains("(");
-            if (nicknameContainsPScvCharacter.HasValue && nicknameContainsPScvCharacter.Value && role == WildSpawnType.assault)
-            {
-                return false;
-            }
-
-            return true;
+            // Assault and has "(" character in name = simulated p scav
+            var nicknameContainsPScvCharacter = botOwner.Profile.Info.Nickname?.Contains("(");
+            return nicknameContainsPScvCharacter.HasValue && nicknameContainsPScvCharacter.Value && role == WildSpawnType.assault;
         }
     }
 }

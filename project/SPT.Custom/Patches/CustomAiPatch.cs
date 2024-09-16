@@ -59,8 +59,8 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
                 
-                var isNormalAssaultScav = AiHelpers.BotIsNormalAssaultScav(__state, ___botOwner_0);
-                if (isNormalAssaultScav)
+                var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0);
+                if (isSimulatedPlayerScav)
                 {
                     // Standard scav, check for custom brain option
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
