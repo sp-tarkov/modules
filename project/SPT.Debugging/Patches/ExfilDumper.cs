@@ -57,17 +57,23 @@ namespace SPT.Debugging.Patches
         public class SPTExfilData
         {
             public float Chance = 0;
+            public float ChancePVE = 0;
             public int Count = 0;
+            public int CountPve = 0;
             public string EntryPoints = "";
             public bool EventAvailable = false;
             public float ExfiltrationTime = 0;
+            public float ExfiltrationTimePVE = 0;
             public EExfiltrationType ExfiltrationType;
             public string Id = "";
             public float MinTime = 0;
+            public float MinTimePVE = 0;
             public float MaxTime = 0;
+            public float MaxTimePVE = 0;
             public string Name = "";
             public ERequirementState PassageRequirement;
             public int PlayersCount = 0;
+            public int PlayersCountPVE = 0;
             public EquipmentSlot RequiredSlot;
             public string RequirementTip = "";
             public string Side = "";
@@ -81,13 +87,19 @@ namespace SPT.Debugging.Patches
                     {
                         EntryPoints = settings.EntryPoints;
                         Chance = settings.Chance;
+                        ChancePVE = settings.Chance;
                         EventAvailable = settings.EventAvailable;
                         ExfiltrationTime = settings.ExfiltrationTime;
+                        ExfiltrationTimePVE = settings.ExfiltrationTime;
                         ExfiltrationType = settings.ExfiltrationType;
                         MaxTime = settings.MaxTime;
+                        MaxTimePVE = settings.MaxTime;
                         MinTime = settings.MinTime;
+                        MinTimePVE = settings.MinTime;
                         Name = settings.Name;
                         PlayersCount = settings.PlayersCount;
+                        PlayersCountPVE = settings.PlayersCount;
+                        CountPve = 0;
                     }
                 }
                 // Scav extracts, and those without settings use the point settings
@@ -95,13 +107,16 @@ namespace SPT.Debugging.Patches
                 {
                     EntryPoints = String.Join(",", point.EligibleEntryPoints);
                     Chance = point.Settings.Chance;
+                    ChancePVE = point.Settings.Chance;
                     EventAvailable = point.Settings.EventAvailable;
                     ExfiltrationTime = point.Settings.ExfiltrationTime;
+                    ExfiltrationTimePVE = point.Settings.ExfiltrationTime;
                     ExfiltrationType = point.Settings.ExfiltrationType;
                     MaxTime = point.Settings.MaxTime;
                     MinTime = point.Settings.MinTime;
                     Name = point.Settings.Name;
                     PlayersCount = point.Settings.PlayersCount;
+                    PlayersCountPVE = point.Settings.PlayersCount;
                 }
 
                 // If there's settings, and the requirement is a reference, use that
