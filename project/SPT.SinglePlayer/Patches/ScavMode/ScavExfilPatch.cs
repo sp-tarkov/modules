@@ -22,11 +22,15 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 return true; // Not a scav - don't do anything and run original method
             }
 
-            // We are on a map with zero scav exfil points, enable all of them.
-            if (__instance.ScavExfiltrationPoints.Length == 0)
+            if (__instance.ScavExfiltrationPoints.Length > 0)
             {
-                __result = __instance.ExfiltrationPoints;
-                return false;
+                Logger.LogError($"ScavExfiltrationPoints has content, Do original");
+                foreach (var scavExit in __instance.ScavExfiltrationPoints)
+                {
+                    Logger.LogError($"{scavExit.name}, {scavExit.Id}, {scavExit.Description}");
+                }
+
+                return true; // do original
             }
             
             // Running this prepares all the data for getting scav exfil points

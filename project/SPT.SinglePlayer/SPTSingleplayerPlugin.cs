@@ -31,7 +31,7 @@ namespace SPT.SinglePlayer
                 // Still need
                 new ScavExperienceGainPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
-                new ScavExfilPatch().Enable();
+                //new ScavExfilPatch().Enable(); // Replaced with server side changes
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
                 new DisableReadyLocationReadyPatch().Enable();
