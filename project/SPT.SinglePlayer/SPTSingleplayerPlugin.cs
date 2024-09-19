@@ -60,6 +60,7 @@ namespace SPT.SinglePlayer
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
 				new FixLocalRaidPatch().Enable();
+				new ScavIsPlayerEnemyPatch().Enable();
 			}
             catch (Exception ex)
             {
