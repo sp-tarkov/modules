@@ -7,11 +7,14 @@ using HarmonyLib;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
+	/// <summary>
+	/// This patch return scav exfils if the player is playing as a scav by adding the player as eligible for the scav specific exfils
+	/// </summary>
     public class ScavExfilPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(ExfiltrationControllerClass), nameof(ExfiltrationControllerClass.EligiblePoints), new[] { typeof(Profile) });
+            return AccessTools.Method(typeof(ExfiltrationControllerClass), nameof(ExfiltrationControllerClass.EligiblePoints), [typeof(Profile)]);
         }
 
         [PatchPrefix]
@@ -20,17 +23,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             if (profile.Info.Side != EPlayerSide.Savage)
             {
                 return true; // Not a scav - don't do anything and run original method
-            }
-
-            if (__instance.ScavExfiltrationPoints.Length > 0)
-            {
-                Logger.LogError($"ScavExfiltrationPoints has content, Do original");
-                foreach (var scavExit in __instance.ScavExfiltrationPoints)
-                {
-                    Logger.LogError($"{scavExit.name}, {scavExit.Id}, {scavExit.Description}");
-                }
-
-                return true; // do original
             }
             
             // Running this prepares all the data for getting scav exfil points
