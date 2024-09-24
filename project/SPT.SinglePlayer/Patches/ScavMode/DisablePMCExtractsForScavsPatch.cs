@@ -41,6 +41,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                         // We are checking if player exists in list so we dont disable the wrong extract
                         if(!scavExfil.EligibleIds.Contains(player.ProfileId))
                         {
+                            Logger.LogError($"Disabled exfil: {exfil.name}");
                             exfil.Disable();
                         }
                     }

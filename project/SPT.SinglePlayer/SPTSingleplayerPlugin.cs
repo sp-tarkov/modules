@@ -30,7 +30,7 @@ namespace SPT.SinglePlayer
 
                 // Still need
                 new ScavExperienceGainPatch().Enable();
-                new DisablePMCExtractsForScavsPatch().Enable();
+                //new DisablePMCExtractsForScavsPatch().Enable(); // Scav spawns work without this, tested on factory
                 new ScavExfilPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
