@@ -9,7 +9,7 @@ using System.Linq;
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     /// <summary>
-    /// Disable PMC exfil points when playing as pscav
+    /// Disable PMC exfil points when playing as pscav, without this patch PMC extracts do not show in the side menu but can be extracted from
     /// </summary>
     public class DisablePMCExtractsForScavsPatch : ModulePatch
     {
