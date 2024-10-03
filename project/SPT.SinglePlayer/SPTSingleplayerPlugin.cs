@@ -21,7 +21,7 @@ namespace SPT.SinglePlayer
                 // TODO: check if these patches are needed
                 new TinnitusFixPatch().Enable(); // Probably needed
                 //new EmptyInfilFixPatch().Enable();
-                new MaxBotPatch().Enable(); // Custom code, needed
+                new OverrideMaxAiAliveInRaidValuePatch().Enable();
                 //new PostRaidHealingPricePatch().Enable(); // Client handles this now
                 //new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues 
                 //new SpawnProcessNegativeValuePatch().Enable(); // Client handles this edge case, revisit if bot count keeps going up
@@ -29,13 +29,13 @@ namespace SPT.SinglePlayer
                 //new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
 
                 // Still need
-                new ScavExperienceGainPatch().Enable();
+                new FixPostScavRaidXpShowingZeroPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
                 new ScavExfilPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
                 new ScavPrefabLoadPatch().Enable();
                 new DisableReadyLocationReadyPatch().Enable();
-                new BotTemplateLimitPatch().Enable();
+                //new BotTemplateLimitPatch().Enable(); // Not necessary, controls how many 'respawns' the wave has, different to what the original patches intent was when written
                 new LoadOfflineRaidScreenPatch().Enable();
                 new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
                 new PluginErrorNotifierPatch().Enable();
@@ -48,7 +48,7 @@ namespace SPT.SinglePlayer
                 new ScavRepAdjustmentPatch().Enable();
                 
                 // 3.10.0
-                new PVEModeWelcomeMessagePatch().Enable();
+                new DisableWelcomeToPVEModeMessagePatch().Enable();
                 new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
