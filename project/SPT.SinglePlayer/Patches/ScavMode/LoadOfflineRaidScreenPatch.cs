@@ -124,7 +124,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             var matchmakerPlayersController = menuController.GetType()
                 .GetFields(AccessTools.all)
                 .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
-                ?.GetValue(menuController) as MatchmakerPlayerControllerClass;
+                .GetValue(menuController) as MatchmakerPlayerControllerClass;
 
             var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(profile?.Info, ref raidSettings, ref offlineRaidSettings, matchmakerPlayersController, ESessionMode.Pve);
 

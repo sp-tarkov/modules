@@ -10,8 +10,8 @@ namespace SPT.Core.Patches
     {
         private const string PluginName = "SPT.Core";
         private const string ErrorMessage = "Validation failed";
-        private static BepInEx.Logging.ManualLogSource _logger = null;
-        private static bool _hasRun = false;
+        private static BepInEx.Logging.ManualLogSource _logger;
+        private static bool _hasRun;
         
         protected override MethodBase GetTargetMethod()
         {

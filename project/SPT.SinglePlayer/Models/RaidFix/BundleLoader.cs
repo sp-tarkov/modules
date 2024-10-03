@@ -8,23 +8,23 @@ namespace SPT.SinglePlayer.Models.RaidFix
 {
     public struct BundleLoader
     {
-        Profile Profile;
+        private Profile _profile;
         TaskScheduler TaskScheduler { get; }
 
         public BundleLoader(TaskScheduler taskScheduler)
         {
-            Profile = null;
+            _profile = null;
             TaskScheduler = taskScheduler;
         }
 
         public Task<Profile> LoadBundles(Task<Profile> task)
         {
-            Profile = task.Result;
+            _profile = task.Result;
 
             var loadTask = Singleton<PoolManager>.Instance.LoadBundlesAndCreatePools(
                 PoolManager.PoolsCategory.Raid,
                 PoolManager.AssemblyType.Local,
-                Profile.GetAllPrefabPaths(false).Where(x => !x.IsNullOrEmpty()).ToArray(),
+                _profile.GetAllPrefabPaths(false).Where(x => !x.IsNullOrEmpty()).ToArray(),
                 JobPriority.General,
                 null,
                 default(CancellationToken));
@@ -34,7 +34,7 @@ namespace SPT.SinglePlayer.Models.RaidFix
 
         private Profile GetProfile(Task task)
         {
-            return Profile;
+            return _profile;
         }
     }
 }

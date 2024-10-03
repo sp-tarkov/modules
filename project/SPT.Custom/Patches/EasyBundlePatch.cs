@@ -47,7 +47,7 @@ namespace SPT.Custom.Patches
                 Path = filepath,
                 KeyWithoutExtension = Path.GetFileNameWithoutExtension(key),
                 DependencyKeys = dependencies,
-                LoadState = new BindableState<ELoadState>(ELoadState.Unloaded, null),
+                LoadState = new BindableState<ELoadState>(ELoadState.Unloaded),
                 BundleLock = bundleLock
             };
         }
