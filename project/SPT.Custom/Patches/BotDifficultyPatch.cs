@@ -26,9 +26,11 @@ namespace SPT.Custom.Patches
             if (resultIsNullEmpty)
             {
                 ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
+
+                return true; // Do original method
             }
 
-            return resultIsNullEmpty; // Server data returned = false = skip original method
+            return false; // Skip original
         }
     }
 }

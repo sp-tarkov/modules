@@ -18,7 +18,7 @@ namespace SPT.Custom.Patches
         {
             if (____groups == null)
             {
-                return false;
+                return false; // Skip original
             }
             return true; // Do original method
         }
