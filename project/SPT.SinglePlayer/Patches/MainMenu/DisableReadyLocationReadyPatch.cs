@@ -7,7 +7,8 @@ using HarmonyLib;
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
     /// <summary>
-    /// Remove the ready button from select location screen
+    /// Remove the ready button from select location screen,
+    /// easier to remove button than fix problems caused by clicking it
     /// </summary>
     public class DisableReadyLocationReadyPatch : ModulePatch
     {
