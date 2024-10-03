@@ -21,7 +21,7 @@ namespace SPT.SinglePlayer
                 // TODO: check if these patches are needed
                 new TinnitusFixPatch().Enable(); // Probably needed
                 //new EmptyInfilFixPatch().Enable();
-                new MaxBotPatch().Enable(); // Custom code, needed
+                new OverrideMaxAiAliveInRaidValuePatch().Enable();
                 //new PostRaidHealingPricePatch().Enable(); // Client handles this now
                 //new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues 
                 //new SpawnProcessNegativeValuePatch().Enable(); // Client handles this edge case, revisit if bot count keeps going up
