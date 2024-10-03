@@ -29,7 +29,7 @@ namespace SPT.SinglePlayer
                 //new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
 
                 // Still need
-                new ScavExperienceGainPatch().Enable();
+                new FixPostScavRaidXpShowingZeroPatch().Enable();
                 new DisablePMCExtractsForScavsPatch().Enable();
                 new ScavExfilPatch().Enable();
                 new ScavProfileLoadPatch().Enable();
