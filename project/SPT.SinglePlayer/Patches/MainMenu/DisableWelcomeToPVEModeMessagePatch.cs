@@ -4,7 +4,7 @@ using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
-    public class PVEModeWelcomeMessagePatch : ModulePatch
+    public class DisableWelcomeToPVEModeMessagePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

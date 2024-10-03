@@ -48,7 +48,7 @@ namespace SPT.SinglePlayer
                 new ScavRepAdjustmentPatch().Enable();
                 
                 // 3.10.0
-                new PVEModeWelcomeMessagePatch().Enable();
+                new DisableWelcomeToPVEModeMessagePatch().Enable();
                 new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
                 new EnableRefForPVEPatch().Enable();
                 new EnableRefIntermScreenPatch().Enable();
