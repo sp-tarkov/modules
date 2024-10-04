@@ -18,7 +18,7 @@ namespace SPT.Core.Patches
         {
             ___bool_0 = ValidationUtil.Validate();
             __result = Task.CompletedTask;
-            return false;
+            return false; // Skip original
         }
     }
 }

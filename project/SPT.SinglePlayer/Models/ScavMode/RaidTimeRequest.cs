@@ -1,6 +1,6 @@
 ﻿using EFT;
 
-namespace SPT.SinglePlayer.Patches.ScavMode
+namespace SPT.SinglePlayer.Models.ScavMode
 {
     public class RaidTimeRequest
     {

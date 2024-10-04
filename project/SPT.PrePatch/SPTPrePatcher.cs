@@ -69,7 +69,6 @@ namespace SPT.PrePatch
                 string errorMessage = (!launcherUsed) ? launcherError : pluginErrorMessage;
                 MessageBoxHelper.Show(errorMessage, $"[SPT] {errorTitle}", MessageBoxHelper.MessageBoxType.OK);
                 Environment.Exit(0);
-                return;
             }
         }
 

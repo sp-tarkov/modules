@@ -28,7 +28,7 @@ namespace SPT.Custom.CustomAI
                 ResetCacheDate();
                 HydrateCacheWithServerData();
 
-                if (!_aiBrainsCache.playerScav.TryGetValue(currentMapName.ToLower(), out _))
+                if (!_aiBrainsCache!.playerScav.TryGetValue(currentMapName.ToLower(), out _))
                 {
                     throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
                 }
@@ -57,7 +57,7 @@ namespace SPT.Custom.CustomAI
                 ResetCacheDate();
                 HydrateCacheWithServerData();
 
-                if (!_aiBrainsCache.assault.TryGetValue(currentMapName.ToLower(), out _))
+                if (!_aiBrainsCache!.assault.TryGetValue(currentMapName.ToLower(), out _))
                 {
                     throw new Exception($"Bots were refreshed from the server but the assault cache still doesnt contain data");
                 }
@@ -85,7 +85,7 @@ namespace SPT.Custom.CustomAI
                 ResetCacheDate();
                 HydrateCacheWithServerData();
 
-                if (!_aiBrainsCache.pmc.TryGetValue(pmcType, out botSettings))
+                if (!_aiBrainsCache!.pmc.TryGetValue(pmcType, out botSettings))
                 {
                     throw new Exception($"Bots were refreshed from the server but the cache still doesnt contain an appropriate bot for type {botOwner_0.Profile.Info.Settings.Role}");
                 }

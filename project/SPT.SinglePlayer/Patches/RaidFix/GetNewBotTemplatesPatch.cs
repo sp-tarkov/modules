@@ -77,7 +77,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             var continuation = new BundleLoader(taskScheduler);
             __result = taskAwaiter.ContinueWith(continuation.LoadBundles, taskScheduler).Unwrap();
 
-            return false;
+            return false; // Skip original
         }
 
         private static Profile GetFirstResult(Task<Profile[]> task)

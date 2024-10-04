@@ -17,7 +17,7 @@ namespace SPT.Custom.Utils
     {
         public static string sptVersion;
         public static string commitHash;
-        internal static HashSet<string> whitelistedPlugins = new HashSet<string>
+        internal static HashSet<string> whitelistedPlugins = new()
         {
                 "com.SPT.core",
                 "com.SPT.custom",
@@ -36,12 +36,12 @@ namespace SPT.Custom.Utils
         
         public static string[] disallowedPlugins;
         internal static ReleaseResponse release;
-        private bool _isBetaDisclaimerOpen = false;
-        private ManualLogSource Logger;
+        private bool _isBetaDisclaimerOpen;
+        private ManualLogSource _logger;
 
         public void Start()
         {
-            Logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
+            _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
 
             var versionJson = RequestHandler.GetJson("/singleplayer/settings/version");
             sptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
@@ -72,7 +72,7 @@ namespace SPT.Custom.Utils
         
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
             {
-                Logger.LogInfo(release.betaDisclaimerAcceptText);
+                _logger.LogInfo(release.betaDisclaimerAcceptText);
                 ServerLog.Info("SPT.Custom", release.betaDisclaimerAcceptText);
             }
 
@@ -123,7 +123,7 @@ namespace SPT.Custom.Utils
         // User accepted the terms, allow to continue.
         private void OnMessageAccepted()
         {
-            Logger.LogInfo(release.betaDisclaimerAcceptText);
+            _logger.LogInfo(release.betaDisclaimerAcceptText);
             PlayerPrefs.SetInt("SPT_AcceptedBETerms", 1);
             _isBetaDisclaimerOpen = false;
         }
@@ -158,13 +158,13 @@ namespace SPT.Custom.Utils
         // Should we show the message, only show if first run or if build has changed
         private bool ShouldShowBetaMessage()
         {
-            return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0 && release.isBeta && !_isBetaDisclaimerOpen ? true : false;
+            return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0 && release.isBeta && !_isBetaDisclaimerOpen;
         }
 
         // Should we show the release notes, only show on first run or if build has changed
         private bool ShouldShowReleaseNotes()
         {
-            return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0 && !_isBetaDisclaimerOpen && release.releaseSummaryText != string.Empty ? true : false;
+            return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0 && !_isBetaDisclaimerOpen && release.releaseSummaryText != string.Empty;
         }
     }
 }

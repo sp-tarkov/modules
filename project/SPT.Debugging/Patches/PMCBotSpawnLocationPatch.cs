@@ -93,7 +93,7 @@ namespace SPT.Debugging.Patches
                 __instance.SpawnBotsInZoneOnPositions(newSpawns.GetRange(i, 1), currentZone, currentSpawnData);
             }
 
-            return false;
+            return false; // Skip original
         }
     }
 }

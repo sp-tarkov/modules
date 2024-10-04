@@ -1,5 +1,4 @@
 ﻿using EFT;
-using EFT.UI;
 
 namespace SPT.Custom.CustomAI
 {
@@ -19,18 +18,13 @@ namespace SPT.Custom.CustomAI
                 return true;
             }
 
-            return botRoleToCheck == WildSpawnType.pmcBEAR || botRoleToCheck == WildSpawnType.pmcUSEC;
+            return botRoleToCheck is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC;
         }
 
         public static bool BotIsPlayerScav(WildSpawnType role, string nickname)
         {
-            if (role == WildSpawnType.assault && nickname.Contains("("))
-            {
-                // Check bot is pscav by looking for the opening parentheses of their nickname e.g. scavname (pmc name)
-                return true;
-            }
-
-            return false;
+            // Check bot is pscav by looking for the opening parentheses of their nickname e.g. scavname (pmc name)
+            return role == WildSpawnType.assault && nickname.Contains("(");
         }
 
         public static bool BotIsSimulatedPlayerScav(WildSpawnType role, BotOwner botOwner)

@@ -46,7 +46,7 @@ namespace SPT.Custom.Patches
             var easyAsset = gameObject.AddComponent<EasyAssets>();
             __result = Init(easyAsset, bundleLock, defaultKey, rootPath, platformName, shouldExclude, bundleCheck);
 
-            return false;
+            return false; // Skip original
         }
 
         private static async Task<EasyAssets> Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath, string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using SPT.SinglePlayer.Models.ScavMode;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -28,7 +29,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             var desiredType = typeof(TarkovApplication);
             var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PublicDeclaredFlags), IsTargetMethod);
 
-            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
+            Logger.LogDebug($"{this.GetType().Name} Type: {desiredType.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
 
             return desiredMethod;
@@ -39,11 +40,11 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             // method_46 as of 32128
             var parameters = arg.GetParameters();
             return parameters.Length == 5 
-                   && parameters[0]?.Name == "gameWorld"
-                   && parameters[1]?.Name == "timeAndWeather"
-                   && parameters[2]?.Name == "timeHasComeScreenController"
-                   && parameters[3]?.Name == "metricsEvents"
-                   && parameters[4]?.Name == "metricsConfig"
+                   && parameters[0].Name == "gameWorld"
+                   && parameters[1].Name == "timeAndWeather"
+                   && parameters[2].Name == "timeHasComeScreenController"
+                   && parameters[3].Name == "metricsEvents"
+                   && parameters[4].Name == "metricsConfig"
                    && arg.ReturnType == typeof(Task);
         }
 

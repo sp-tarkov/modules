@@ -68,8 +68,7 @@ namespace SPT.Custom.Patches
 
             __result = new Vector2(newX, newY);
 
-            // Skip original
-            return false;
+            return false; // Skip original
         }
     }
 }

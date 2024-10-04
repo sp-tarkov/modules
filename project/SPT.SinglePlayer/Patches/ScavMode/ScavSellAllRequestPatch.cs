@@ -16,7 +16,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     public class ScavSellAllRequestPatch : ModulePatch
     {
         private static MethodInfo _sendOperationMethod;
-        private string TargetMethodName = "SellAllFromSavage";
 
         protected override MethodBase GetTargetMethod()
         {
