@@ -22,7 +22,7 @@ namespace SPT.Custom.Patches
             ParameterInfo[] parameters = method.GetParameters();
 
             return method.ReturnType == typeof(Task)
-                && parameters.Length == 5
+                && parameters.Length == 4
                 && parameters[0].ParameterType == typeof(Profile)
                 && parameters[1].ParameterType == typeof(ProfileStatusClass);
         }

@@ -58,7 +58,7 @@ namespace SPT.Custom.Utils
             {
                 new BetaLogoPatch().Enable();
                 new BetaLogoPatch2().Enable();
-                new BetaLogoPatch3().Enable();
+                //new BetaLogoPatch3().Enable();
             }
 
             disallowedPlugins = Chainloader.PluginInfos.Values
