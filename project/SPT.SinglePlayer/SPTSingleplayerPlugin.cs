@@ -61,6 +61,7 @@ namespace SPT.SinglePlayer
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
 				new FixLocalRaidPatch().Enable();
 				new ScavIsPlayerEnemyPatch().Enable();
+				new BotOwnerManualUpdatePatch().Enable();
 			}
             catch (Exception ex)
             {

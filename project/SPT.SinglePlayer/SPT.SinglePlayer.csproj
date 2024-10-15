@@ -19,6 +19,7 @@
         <Reference Include="ItemComponent.Types" HintPath="..\Shared\Managed\ItemComponent.Types.dll" Private="False" />
         <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
         <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
+        <Reference Include="UnityEngine.AIModule" HintPath="..\Shared\Managed\UnityEngine.AIModule.dll" Private="False" />
         <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
         <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
         <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
