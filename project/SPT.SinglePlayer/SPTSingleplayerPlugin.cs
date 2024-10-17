@@ -62,6 +62,7 @@ namespace SPT.SinglePlayer
 				new FixLocalRaidPatch().Enable();
 				new ScavIsPlayerEnemyPatch().Enable();
 				new BotOwnerManualUpdatePatch().Enable();
+				new FirearmControllerShowIncompatibleNotificationClass().Enable();
 			}
             catch (Exception ex)
             {
