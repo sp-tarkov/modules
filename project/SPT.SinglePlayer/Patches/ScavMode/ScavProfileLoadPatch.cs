@@ -16,11 +16,13 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // Struct348 - 32128
+            // Struct364 - 33374
             var desiredType = typeof(TarkovApplication)
                 .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
                 .SingleCustom(x => x.GetField("timeAndWeather") != null
-                              && x.GetField("timeHasComeScreenController") != null
-                              && x.Name.Contains("Struct"));
+                                   && x.GetField("gameWorld") != null
+                                   && x.GetField("metricsConfig") != null
+                                   && x.Name.Contains("Struct"));
 
             var desiredMethod = AccessTools.Method(desiredType, "MoveNext");
 
@@ -83,8 +85,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         private static bool IsTargetNestedType(Type nestedType)
         {
-            return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Count() > 0 &&
-                   nestedType.GetFields().Length == 6 &&
+            return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Any() &&
+                   nestedType.GetFields().Length == 5 &&
                    nestedType.GetField("savageProfile") != null &&
                    nestedType.GetField("profile") != null;
         }

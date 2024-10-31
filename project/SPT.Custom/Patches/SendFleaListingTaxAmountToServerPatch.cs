@@ -23,7 +23,7 @@ namespace SPT.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_1));
+            return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_5));
         }
 
         /// <summary>
