@@ -3,7 +3,9 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
 using System.Linq;
+using Newtonsoft.Json;
 using SPT.Common.Http;
+using System;
 
 
 namespace SPT.SinglePlayer.Patches.ScavMode
@@ -22,7 +24,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance)
         {
-            GetProfileAtEndOfRaidPatch.Profile = __instance.Profile_0.ToJson();
+            //var test = new GClass1962(__instance.Profile_0, GClass1971.Instance);
+            //Profile = test.ToUnparsedData([]);
         }
     }
     /// <summary>

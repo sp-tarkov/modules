@@ -44,7 +44,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 }
 
                 // If Victim is a PMC and has killed a Scav or Marksman.
-                if (killedPlayerSettings.Role == WildSpawnType.pmcBEAR || killedPlayerSettings.Role == WildSpawnType.pmcUSEC)
+                if (killedPlayerSettings.Role is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC)
                 {
                     if (HasBotKilledScav(killedBot))
                     {

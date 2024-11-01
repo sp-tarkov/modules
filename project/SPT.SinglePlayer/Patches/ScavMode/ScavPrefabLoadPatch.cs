@@ -25,7 +25,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
                 .SingleCustom(x => x.GetField("timeAndWeather") != null
                                    && x.GetField("tarkovApplication_0") != null
-                                   && x.GetField("timeHasComeScreenController") == null
+                                   && x.GetField("inTransition") != null
                                    && x.Name.Contains("Struct"));
 
             var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags)
