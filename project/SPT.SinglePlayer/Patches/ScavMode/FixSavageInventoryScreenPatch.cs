@@ -15,7 +15,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     /// </summary>
     public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
-        public static string Profile { get; private set; }
+        public static GClass1962 ProfileDescriptor { get; private set; }
+
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(LocalGame), nameof(LocalGame.Stop));
@@ -24,8 +25,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance)
         {
-            //var test = new GClass1962(__instance.Profile_0, GClass1971.Instance);
-            //Profile = test.ToUnparsedData([]);
+			ProfileDescriptor = new GClass1962(__instance.Profile_0, GClass1971.Instance);
         }
     }
     /// <summary>
@@ -42,7 +42,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(ref ISession ___iSession)
         {
-            var profile = GetProfileAtEndOfRaidPatch.Profile.ParseJsonTo<Profile>();
+			Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
             
             if (profile.Side != EPlayerSide.Savage)
             {
@@ -50,11 +50,11 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             }
             
             var session = (ProfileEndpointFactoryAbstractClass)___iSession;
-            session.AllProfiles = new Profile[]
-            {
-                session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
+            session.AllProfiles =
+			[
+				session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
                 profile
-            };
+            ];
             session.ProfileOfPet.LearnAll();
             
             // make a request to the server, so it knows of the items we might transfer
