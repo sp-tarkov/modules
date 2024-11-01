@@ -43,8 +43,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         public static void PatchPrefix(ref ISession ___iSession)
         {
 			Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
-            
-            if (profile.Side != EPlayerSide.Savage)
+
+			if (profile.Side != EPlayerSide.Savage)
             {
                 return;
             }
@@ -56,13 +56,10 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 profile
             ];
             session.ProfileOfPet.LearnAll();
-            
-            // make a request to the server, so it knows of the items we might transfer
-            RequestHandler.PutJson("/raid/profile/scavsave", new
-            {
-                profile = session.ProfileOfPet
-            }
-            .ToJson());
+
+			// make a request to the server, so it knows of the items we might transfer
+			RequestHandler.PutJson("/raid/profile/scavsave", 
+				GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
         }
     }
 }
