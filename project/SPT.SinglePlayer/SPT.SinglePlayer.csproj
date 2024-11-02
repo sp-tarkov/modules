@@ -37,8 +37,4 @@
         <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Patches\Quests\" />
-    </ItemGroup>
-
 </Project>
