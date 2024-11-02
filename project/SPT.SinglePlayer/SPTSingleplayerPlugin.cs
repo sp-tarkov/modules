@@ -54,8 +54,8 @@ namespace SPT.SinglePlayer
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
                 new ScavFoundInRaidPatch().Enable();
-                // new GetProfileAtEndOfRaidPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
-                //new FixSavageInventoryScreenPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
+                new GetProfileAtEndOfRaidPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
+                new FixSavageInventoryScreenPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
                 //new InsuranceScreenPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
