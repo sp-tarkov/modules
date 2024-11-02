@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(DamageInfo damageInfo)
+        public static void PatchPostfix(DamageInfoStruct damageInfo)
         {
             if (damageInfo.Player == null || damageInfo.Player.iPlayer == null || !damageInfo.Player.iPlayer.IsYourPlayer)
             {
