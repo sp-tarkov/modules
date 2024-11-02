@@ -25,8 +25,9 @@ namespace SPT.Debugging
                 // new StaticLootDumper().Enable();
                 // new ExfilDumper().Enable();
 
-                //new PMCBotSpawnLocationPatch().Enable();
+                // new PMCBotSpawnLocationPatch().Enable();
                 new ReloadClientPatch().Enable();
+                // new DumpyLibPatch().Enable();
 			}
             catch (Exception ex)
             {
