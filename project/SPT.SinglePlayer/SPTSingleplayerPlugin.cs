@@ -63,7 +63,9 @@ namespace SPT.SinglePlayer
 				new ScavIsPlayerEnemyPatch().Enable();
 				new BotOwnerManualUpdatePatch().Enable();
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();
-			}
+                new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
+
+            }
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
