@@ -9,7 +9,7 @@ using SPT.SinglePlayer.Utils.MainMenu;
 
 namespace SPT.SinglePlayer
 {
-    [BepInPlugin("com.SPT.singleplayer", "spt.Singleplayer", SPTPluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin("com.SPT.singleplayer", "SPT.Singleplayer", SPTPluginInfo.PLUGIN_VERSION)]
     public class SPTSingleplayerPlugin : BaseUnityPlugin
     {
         public void Awake()
