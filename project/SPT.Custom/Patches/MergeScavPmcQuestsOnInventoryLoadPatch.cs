@@ -28,7 +28,7 @@ namespace SPT.Custom.Patches
 			var gameWorld = Singleton<GameWorld>.Instance;
 			if (gameWorld != null)
 			{
-				if (gameWorld.MainPlayer.Location != "hideout" && gameWorld.MainPlayer.Fraction == ETagStatus.Scav)
+				if (gameWorld.MainPlayer?.Location != "hideout" && gameWorld.MainPlayer?.Fraction == ETagStatus.Scav)
 				{
 					var pmcQuests = PatchConstants.BackEndSession.Profile.QuestsData;
 					var scavQuests = PatchConstants.BackEndSession.ProfileOfPet.QuestsData;
