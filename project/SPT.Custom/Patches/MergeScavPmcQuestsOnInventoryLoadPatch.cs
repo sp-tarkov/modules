@@ -26,15 +26,17 @@ namespace SPT.Custom.Patches
 		public static void PatchPreFix(ref IEnumerable<QuestDataClass> quests)
 		{
 			var gameWorld = Singleton<GameWorld>.Instance;
-			if (gameWorld != null)
+			if (gameWorld?.MainPlayer?.Location != "hideout"
+                && gameWorld?.MainPlayer?.Fraction == ETagStatus.Scav)
 			{
-				if (gameWorld.MainPlayer?.Location != "hideout" && gameWorld.MainPlayer?.Fraction == ETagStatus.Scav)
-				{
-					var pmcQuests = PatchConstants.BackEndSession.Profile.QuestsData;
-					var scavQuests = PatchConstants.BackEndSession.ProfileOfPet.QuestsData;
-					quests = pmcQuests.Concat(scavQuests);
-				}
-			}	
+				var pmcQuests = PatchConstants.BackEndSession.Profile?.QuestsData;
+				var scavQuests = PatchConstants.BackEndSession.ProfileOfPet?.QuestsData;
+                if (pmcQuests != null && scavQuests != null)
+                {
+                    quests = pmcQuests.Concat(scavQuests);
+                }
+				
+			}
 		}
 	}
 }
