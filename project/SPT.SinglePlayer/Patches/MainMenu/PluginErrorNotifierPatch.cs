@@ -42,7 +42,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             NotificationManagerClass.DisplayMessageNotification(toastMessage, ENotificationDurationType.Infinite, ENotificationIconType.Alert, Color.red);
 
             // Build the error message we'll put in the BepInEx and in-game consoles
-            var stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder(60);
             stringBuilder.AppendLine($"{consoleHeaderMessage}:");
             foreach (string error in Chainloader.DependencyErrors)
             {
