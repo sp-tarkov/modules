@@ -1,5 +1,4 @@
-﻿using SPT.SinglePlayer.Patches.ScavMode;
-using EFT;
+﻿using EFT;
 using System;
 using SPT.SinglePlayer.Models.ScavMode;
 

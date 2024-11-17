@@ -3,9 +3,7 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
 using System.Linq;
-using Newtonsoft.Json;
 using SPT.Common.Http;
-using System;
 
 
 namespace SPT.SinglePlayer.Patches.ScavMode
