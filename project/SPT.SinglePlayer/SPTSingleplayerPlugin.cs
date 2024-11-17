@@ -55,7 +55,7 @@ namespace SPT.SinglePlayer
                 new EnablePlayerScavPatch().Enable();
                 new ScavFoundInRaidPatch().Enable();
                 new GetProfileAtEndOfRaidPatch().Enable();
-                new FixSavageInventoryScreenPatch().Enable();
+                new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
                 //new InsuranceScreenPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();

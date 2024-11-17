@@ -9,7 +9,7 @@ using SPT.Common.Http;
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     /// <summary>
-    /// Get Profile at LocalGame End to use in FixSavageInventoryScreenPatch
+    /// Get Profile at LocalGame End to use in SendPlayerScavProfileToServerAfterRaidPatch
     /// </summary>
     public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
@@ -30,7 +30,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     /// Get profile from other patch (GetProfileAtEndOfRaidPatch)
     /// If our profile is savage Create new Session.AllProfiles and pass in our own profile to allow us to use the ScavengerInventoryScreen
     /// </summary>
-    public class FixSavageInventoryScreenPatch : ModulePatch
+    public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
