@@ -30,7 +30,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     }
     /// <summary>
     /// Get profile from other patch (GetProfileAtEndOfRaidPatch)
-    /// if our profile is savage Create new Session.AllProfiles and pass in our own profile to allow us to use the ScavengerInventoryScreen
+    /// If our profile is savage Create new Session.AllProfiles and pass in our own profile to allow us to use the ScavengerInventoryScreen
     /// </summary>
     public class FixSavageInventoryScreenPatch : ModulePatch
     {
@@ -44,11 +44,13 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
 			Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
 
+            // Player is PMC, skip patch
 			if (profile.Side != EPlayerSide.Savage)
             {
                 return;
             }
-            
+
+            // Only do below when player is a scav
             var session = (ProfileEndpointFactoryAbstractClass)___iSession;
             session.AllProfiles =
 			[
@@ -57,7 +59,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             ];
             session.ProfileOfPet.LearnAll();
 
-			// make a request to the server, so it knows of the items we might transfer
+			// Send scav profile to server so it knows of the items we might transfer
 			RequestHandler.PutJson("/raid/profile/scavsave", 
 				GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
         }
