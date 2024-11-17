@@ -54,12 +54,12 @@ namespace SPT.SinglePlayer
                 new EnableRefIntermScreenPatch().Enable();
                 new EnablePlayerScavPatch().Enable();
                 new ScavFoundInRaidPatch().Enable();
-                new GetProfileAtEndOfRaidPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
-                new FixSavageInventoryScreenPatch().Enable(); //TODO BROKEN IN 15.5 - FIX OR REMOVE
+                new GetProfileAtEndOfRaidPatch().Enable();
+                new FixSavageInventoryScreenPatch().Enable();
                 //new InsuranceScreenPatch().Enable();
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
-				new FixLocalRaidPatch().Enable();
+				new ForceRaidModeToLocalPatch().Enable();
 				new ScavIsPlayerEnemyPatch().Enable();
 				new BotOwnerManualUpdatePatch().Enable();
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();

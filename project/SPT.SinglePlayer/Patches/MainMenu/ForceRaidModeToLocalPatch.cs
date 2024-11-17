@@ -9,7 +9,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 	/// This patch ensures that the gamemode is always <see cref="ERaidMode.Local"/> and that IsPveOffline is always true when starting a game<br/>
 	/// This prevents a bug where the gameworld is instantiated as an online world
 	/// </summary>
-	public class FixLocalRaidPatch : ModulePatch
+	public class ForceRaidModeToLocalPatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
 		{
