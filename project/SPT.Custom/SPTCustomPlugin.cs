@@ -40,7 +40,8 @@ namespace SPT.Custom
 				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
                 new CopyPmcQuestsToPlayerScavPatch().Enable();
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
-                //new AllowAirdropsInPvEPatch().Enable();
+                new FixAirdropCrashPatch().Enable();
+				//new AllowAirdropsInPvEPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
