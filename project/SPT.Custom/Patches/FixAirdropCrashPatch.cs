@@ -10,7 +10,7 @@ namespace SPT.Custom.Patches
 {
 	/// <summary>
 	/// This patch prevents the crashing that was caused by the airdrop since the mortar event, it fully unloads whatever synchronized objects
-	/// That are still loaded before unused resources are cleaned up (Which causes this crash)
+	/// Are still loaded before unused resources are cleaned up (Which causes this crash)
 	/// </summary>
 	public class FixAirdropCrashPatch : ModulePatch
 	{
