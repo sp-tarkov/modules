@@ -29,7 +29,7 @@ public class MemoryManager : MonoBehaviour
     private Task CollectMemory()
     {
         GarbageCollector.GCMode = GarbageCollector.Mode.Enabled;
-        GC.Collect(2, GCCollectionMode.Optimized, false, false);
+        GC.Collect(2, GCCollectionMode.Optimized, false, true);
 
         return Task.CompletedTask;
     }
