@@ -20,7 +20,7 @@ namespace SPT.SinglePlayer
             {
                 // TODO: check if these patches are needed
                 new TinnitusFixPatch().Enable(); // Probably needed
-                //new EmptyInfilFixPatch().Enable();
+                new EmptyInfilFixPatch().Enable();
                 new OverrideMaxAiAliveInRaidValuePatch().Enable();
                 //new PostRaidHealingPricePatch().Enable(); // Client handles this now
                 //new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues 
