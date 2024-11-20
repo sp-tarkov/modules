@@ -5,15 +5,19 @@ using SPT.Custom.Utils;
 using SPT.Reflection.Utils;
 using BepInEx;
 using UnityEngine;
+using BepInEx.Logging;
 
 namespace SPT.Custom
 {
     [BepInPlugin("com.SPT.custom", "SPT.Custom", SPTPluginInfo.PLUGIN_VERSION)]
     public class SPTCustomPlugin : BaseUnityPlugin
     {
+        internal static ManualLogSource Log;
+
         public void Awake()
         {
             Logger.LogInfo("Loading: SPT.Custom");
+            Log = Logger;
 
             try
             {
@@ -44,6 +48,7 @@ namespace SPT.Custom
 				//new AllowAirdropsInPvEPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
+                HookObject.AddOrGetComponent<MemoryManager>();
             }
             catch (Exception ex)
             {
