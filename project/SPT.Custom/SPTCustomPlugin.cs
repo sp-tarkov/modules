@@ -12,12 +12,9 @@ namespace SPT.Custom
     [BepInPlugin("com.SPT.custom", "SPT.Custom", SPTPluginInfo.PLUGIN_VERSION)]
     public class SPTCustomPlugin : BaseUnityPlugin
     {
-        internal static ManualLogSource Log;
-
         public void Awake()
         {
             Logger.LogInfo("Loading: SPT.Custom");
-            Log = Logger;
 
             try
             {
@@ -46,9 +43,9 @@ namespace SPT.Custom
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
 				//new AllowAirdropsInPvEPatch().Enable();
+                new MemoryCollectionPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
-                HookObject.AddOrGetComponent<MemoryManager>();
             }
             catch (Exception ex)
             {
