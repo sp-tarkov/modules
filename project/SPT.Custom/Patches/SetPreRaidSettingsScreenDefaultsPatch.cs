@@ -30,25 +30,25 @@ namespace SPT.Custom.Patches
 
             // Get settings from server
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
-            var settings = Json.Deserialize<DefaultRaidSettings>(json);
+            var defaultSettings = Json.Deserialize<DefaultRaidSettings>(json);
 
             // TODO: Not all settings are used and they also don't cover all the new settings that are available client-side
-            if (settings == null)
+            if (defaultSettings == null)
             {
                 return;
             }
 
             // We use PVE mode from Tarkov now we need to modify PVE MODE instead of ONLINE Mode
 
-			offlineRaidSettings.BotSettings.BotAmount = settings.AiAmount;
-			offlineRaidSettings.WavesSettings.BotAmount = settings.AiAmount;
-			offlineRaidSettings.WavesSettings.BotDifficulty = settings.AiDifficulty;
-			offlineRaidSettings.WavesSettings.IsBosses = settings.BossEnabled;
+			offlineRaidSettings.BotSettings.BotAmount = defaultSettings.AiAmount;
+			offlineRaidSettings.WavesSettings.BotAmount = defaultSettings.AiAmount;
+			offlineRaidSettings.WavesSettings.BotDifficulty = defaultSettings.AiDifficulty;
+			offlineRaidSettings.WavesSettings.IsBosses = defaultSettings.BossEnabled;
 			offlineRaidSettings.BotSettings.IsScavWars = false;
-			offlineRaidSettings.WavesSettings.IsTaggedAndCursed = settings.TaggedAndCursed;
-			offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = settings.RandomWeather;
-			offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = settings.RandomTime;
-		}
+			offlineRaidSettings.WavesSettings.IsTaggedAndCursed = defaultSettings.TaggedAndCursed;
+			offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = defaultSettings.RandomWeather;
+			offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = defaultSettings.RandomTime;
+        }
 
         [PatchPostfix]
         public static void PatchPostfix(MatchmakerOfflineRaidScreen __instance, DefaultUIButton ____changeSettingsButton, UiElementBlocker ____onlineBlocker)
