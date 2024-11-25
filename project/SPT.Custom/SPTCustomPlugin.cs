@@ -42,8 +42,9 @@ namespace SPT.Custom
                 new CopyPmcQuestsToPlayerScavPatch().Enable();
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
+                new FixAirdropFlareDisposePatch().Enable();
 				//new AllowAirdropsInPvEPatch().Enable();
-                new MemoryCollectionPatch().Enable();
+				new MemoryCollectionPatch().Enable();
 
 				HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
