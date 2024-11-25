@@ -45,10 +45,15 @@ namespace SPT.Custom.Patches
                 obj.ReturnToPool();
             }
 
-            // Without this check can cause black screen when backing out of raid prior to airdrop manager being init
-            if (gameWorld.SynchronizableObjectLogicProcessor.AirdropManager is not null)
+			// Without this check can cause black screen when backing out of raid prior to airdrop manager being init
+			if (gameWorld.SynchronizableObjectLogicProcessor.AirdropManager is not null)
             {
-                gameWorld.SynchronizableObjectLogicProcessor.Dispose();
+				if (gameWorld.SynchronizableObjectLogicProcessor is SynchronizableObjectLogicProcessorClass synchronizableObjectLogicProcessorClass)
+				{
+					synchronizableObjectLogicProcessorClass.ServerAirdropManager.Dispose();
+				}
+
+				gameWorld.SynchronizableObjectLogicProcessor.Dispose();
             }
         }
 	}
