@@ -8,19 +8,19 @@ using Comfort.Common;
 
 namespace SPT.Custom.Patches
 {
-	/// <summary>
-	/// This patch prevents the crashing that was caused by the airdrop since the mortar event, it fully unloads whatever synchronized objects
-	/// Are still loaded before unused resources are cleaned up (Which causes this crash)
-	/// </summary>
-	public class FixAirdropCrashPatch : ModulePatch
-	{
-		protected override MethodBase GetTargetMethod()
-		{
-			return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.method_48));
-		}
+    /// <summary>
+    /// This patch prevents the crashing that was caused by the airdrop since the mortar event, it fully unloads whatever synchronized objects
+    /// Are still loaded before unused resources are cleaned up (Which causes this crash)
+    /// </summary>
+    public class FixAirdropCrashPatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.method_48));
+        }
 
-		[PatchPrefix]
-		public static void Prefix()
+        [PatchPrefix]
+        public static void Prefix()
         {
             if (!Singleton<GameWorld>.Instantiated)
             {
@@ -45,16 +45,16 @@ namespace SPT.Custom.Patches
                 obj.ReturnToPool();
             }
 
-			// Without this check can cause black screen when backing out of raid prior to airdrop manager being init
-			if (gameWorld.SynchronizableObjectLogicProcessor.AirdropManager is not null)
+            // Without this check can cause black screen when backing out of raid prior to airdrop manager being init
+            if (gameWorld.SynchronizableObjectLogicProcessor.AirdropManager is not null)
             {
-				if (gameWorld.SynchronizableObjectLogicProcessor is SynchronizableObjectLogicProcessorClass synchronizableObjectLogicProcessorClass)
-				{
-					synchronizableObjectLogicProcessorClass.ServerAirdropManager.Dispose();
-				}
+                if (gameWorld.SynchronizableObjectLogicProcessor is SynchronizableObjectLogicProcessorClass synchronizableObjectLogicProcessorClass)
+                {
+                    synchronizableObjectLogicProcessorClass.ServerAirdropManager.Dispose();
+                }
 
-				gameWorld.SynchronizableObjectLogicProcessor.Dispose();
+                gameWorld.SynchronizableObjectLogicProcessor.Dispose();
             }
         }
-	}
+    }
 }

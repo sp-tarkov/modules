@@ -38,15 +38,15 @@ namespace SPT.Custom
                 new BotDifficultyPatch().Enable();
                 new VersionLabelPatch().Enable();
                 new FixScavWarNullErrorWithMarkOfUnknownPatch().Enable();
-				new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
+                new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
                 new CopyPmcQuestsToPlayerScavPatch().Enable();
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
                 new FixAirdropFlareDisposePatch().Enable();
-				//new AllowAirdropsInPvEPatch().Enable();
-				new MemoryCollectionPatch().Enable();
+                //new AllowAirdropsInPvEPatch().Enable();
+                new MemoryCollectionPatch().Enable();
 
-				HookObject.AddOrGetComponent<MenuNotificationManager>();
+                HookObject.AddOrGetComponent<MenuNotificationManager>();
             }
             catch (Exception ex)
             {
