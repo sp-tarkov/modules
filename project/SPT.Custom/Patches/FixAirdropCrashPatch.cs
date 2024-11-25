@@ -21,22 +21,35 @@ namespace SPT.Custom.Patches
 
 		[PatchPrefix]
 		public static void Prefix()
-		{
-			if (Singleton<GameWorld>.Instantiated)
-			{
-				GameWorld gameWorld = Singleton<GameWorld>.Instance;
+        {
+            if (!Singleton<GameWorld>.Instantiated)
+            {
+                return;
+            }
 
-				List<SynchronizableObject> synchronizableObjectList = Traverse.Create(gameWorld.SynchronizableObjectLogicProcessor).Field<List<SynchronizableObject>>("list_0").Value;
+            GameWorld gameWorld = Singleton<GameWorld>.Instance;
+            if (gameWorld.SynchronizableObjectLogicProcessor is null)
+            {
+                return;
+            }
 
-				foreach (SynchronizableObject obj in synchronizableObjectList)
-				{
-					obj.Logic.ReturnToPool();
-					obj.ReturnToPool();
-				}
+            List<SynchronizableObject> syncObjects = Traverse.Create(gameWorld.SynchronizableObjectLogicProcessor)?.Field<List<SynchronizableObject>>("list_0")?.Value;
+            if (syncObjects is null)
+            {
+                return;
+            }
 
-				gameWorld.SynchronizableObjectLogicProcessor.Dispose();
+            foreach (SynchronizableObject obj in syncObjects)
+            {
+                obj.Logic.ReturnToPool();
+                obj.ReturnToPool();
+            }
 
-			}
-		}
+            // Without this check can cause black screen when backing out of raid prior to airdrop manager being init
+            if (gameWorld.SynchronizableObjectLogicProcessor.AirdropManager is not null)
+            {
+                gameWorld.SynchronizableObjectLogicProcessor.Dispose();
+            }
+        }
 	}
 }
