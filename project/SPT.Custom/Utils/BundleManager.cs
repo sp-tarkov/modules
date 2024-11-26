@@ -51,7 +51,8 @@ namespace SPT.Custom.Utils
             await VFS.WriteFileAsync(filepath, data);
         }
 
-        public static async Task<bool> ShouldReaquire(BundleItem bundle)
+        // Handles both the check for initially acquiring and also re-acquiring a file.
+        public static async Task<bool> ShouldAcquire(BundleItem bundle)
         {
             // read cache
             var filepath = GetBundleFilePath(bundle);
