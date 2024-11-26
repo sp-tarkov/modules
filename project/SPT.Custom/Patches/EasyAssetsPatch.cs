@@ -29,7 +29,7 @@ namespace SPT.Custom.Patches
 
         public EasyAssetsPatch()
         {
-			_ = nameof(IEasyBundle.SameNameAsset);
+            _ = nameof(IEasyBundle.SameNameAsset);
             _ = nameof(IBundleLock.IsLocked);
             _ = nameof(BundleLock.MaxConcurrentOperations);
             _ = nameof(DependencyGraph.GetDefaultNode);
@@ -98,11 +98,11 @@ namespace SPT.Custom.Patches
                     // only download when connected externally
                     if (await BundleManager.ShouldReaquire(bundleInfo))
                     {
-						var filePath = BundleManager.GetBundleFilePath(bundleInfo);
-						if (File.Exists(filepath))
-						{
-							VFS.DeleteFile(filePath); 
-						}
+                        var filePath = BundleManager.GetBundleFilePath(bundleInfo);
+                        if (File.Exists(filepath))
+                        {
+                            VFS.DeleteFile(filePath); 
+                        }
 
                         await BundleManager.DownloadBundle(bundleInfo);
                     }
