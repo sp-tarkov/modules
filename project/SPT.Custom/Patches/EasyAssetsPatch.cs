@@ -14,6 +14,7 @@ using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
 using DependencyGraph = DependencyGraph<IEasyBundle>;
 using SPT.Reflection.Utils;
+using System.IO;
 
 namespace SPT.Custom.Patches
 {
@@ -28,7 +29,7 @@ namespace SPT.Custom.Patches
 
         public EasyAssetsPatch()
         {
-            _ = nameof(IEasyBundle.SameNameAsset);
+			_ = nameof(IEasyBundle.SameNameAsset);
             _ = nameof(IBundleLock.IsLocked);
             _ = nameof(BundleLock.MaxConcurrentOperations);
             _ = nameof(DependencyGraph.GetDefaultNode);
@@ -97,7 +98,11 @@ namespace SPT.Custom.Patches
                     // only download when connected externally
                     if (await BundleManager.ShouldReaquire(bundleInfo))
                     {
-                        VFS.DeleteFile(BundleManager.GetBundleFilePath(bundleInfo));
+						var filePath = BundleManager.GetBundleFilePath(bundleInfo);
+						if (File.Exists(filepath))
+						{
+							VFS.DeleteFile(filePath); 
+						}
 
                         await BundleManager.DownloadBundle(bundleInfo);
                     }
