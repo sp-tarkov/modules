@@ -50,7 +50,7 @@ namespace SPT.Custom.Patches
             {
                 if (gameWorld.SynchronizableObjectLogicProcessor is SynchronizableObjectLogicProcessorClass synchronizableObjectLogicProcessorClass)
                 {
-                    synchronizableObjectLogicProcessorClass.ServerAirdropManager.Dispose();
+                    synchronizableObjectLogicProcessorClass.ServerAirdropManager?.Dispose();
                 }
 
                 gameWorld.SynchronizableObjectLogicProcessor.Dispose();
