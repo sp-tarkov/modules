@@ -18,8 +18,7 @@ namespace SPT.Custom.Patches
         {
             RequestHandler.PutJson("/client/hideout/workout", new
             {
-                skills = __instance.HideoutPlayer.Skills,
-                effects = __instance.HideoutPlayer.HealthController.BodyPartEffects
+                skills = new GClass1956(__instance.HideoutPlayer.Skills)
             }
             .ToJson());
         }
