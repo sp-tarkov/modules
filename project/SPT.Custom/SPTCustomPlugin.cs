@@ -43,7 +43,7 @@ namespace SPT.Custom
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
                 new FixAirdropFlareDisposePatch().Enable();
-                //new AllowAirdropsInPvEPatch().Enable();
+                new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
 
                 HookObject.AddOrGetComponent<MenuNotificationManager>();
