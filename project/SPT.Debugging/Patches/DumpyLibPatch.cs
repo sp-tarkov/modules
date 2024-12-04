@@ -25,7 +25,7 @@ public class DumpyLibPatch : ModulePatch
     public static void PatchPostfix(MenuScreen __instance)
     {
         // attach Monobehaviour so we can interact with UE
-        HookObject._object.AddComponent<DumplyLibMono>();
+        SPTDebuggingPlugin.HookObject.AddComponent<DumplyLibMono>();
     }
 }
 
