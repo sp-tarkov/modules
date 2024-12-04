@@ -16,6 +16,7 @@ namespace SPT.Custom
         {
             Logger.LogInfo("Loading: SPT.Custom");
             HookObject = new GameObject();
+            DontDestroyOnLoad(HookObject);
 
             try
             {

@@ -20,6 +20,7 @@ namespace SPT.Debugging
         {
             Logger.LogInfo("Loading: SPT.Debugging");
             HookObject = new GameObject();
+            DontDestroyOnLoad(HookObject);
 
             try
             {
