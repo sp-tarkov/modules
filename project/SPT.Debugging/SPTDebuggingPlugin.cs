@@ -5,17 +5,22 @@ using SPT.Common.Utils;
 using SPT.Debugging.Patches;
 using BepInEx;
 using SPT.Custom.Models;
+using UnityEngine;
 
 namespace SPT.Debugging
 {
     [BepInPlugin("com.SPT.debugging", "SPT.Debugging", SPTPluginInfo.PLUGIN_VERSION)]
     public class SPTDebuggingPlugin : BaseUnityPlugin
     {
+        internal static GameObject HookObject;
+
         public static LoggingLevelResponse logLevel;
 
         public void Awake()
         {
             Logger.LogInfo("Loading: SPT.Debugging");
+            HookObject = new GameObject();
+            DontDestroyOnLoad(HookObject);
 
             try
             {

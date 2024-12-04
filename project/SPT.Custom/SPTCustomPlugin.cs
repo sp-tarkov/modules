@@ -2,19 +2,21 @@
 using SPT.Common;
 using SPT.Custom.Patches;
 using SPT.Custom.Utils;
-using SPT.Reflection.Utils;
 using BepInEx;
 using UnityEngine;
-using BepInEx.Logging;
 
 namespace SPT.Custom
 {
     [BepInPlugin("com.SPT.custom", "SPT.Custom", SPTPluginInfo.PLUGIN_VERSION)]
     public class SPTCustomPlugin : BaseUnityPlugin
     {
+        internal static GameObject HookObject;
+
         public void Awake()
         {
             Logger.LogInfo("Loading: SPT.Custom");
+            HookObject = new GameObject();
+            DontDestroyOnLoad(HookObject);
 
             try
             {
@@ -46,7 +48,7 @@ namespace SPT.Custom
                 new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
 
-                HookObject.AddOrGetComponent<MenuNotificationManager>();
+                HookObject.AddComponent<MenuNotificationManager>();
             }
             catch (Exception ex)
             {
