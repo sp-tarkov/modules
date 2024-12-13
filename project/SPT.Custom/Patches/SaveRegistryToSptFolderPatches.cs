@@ -4,6 +4,7 @@ using SPT.Reflection.Patching;
 using System;
 using System.IO;
 using System.Reflection;
+using EFT.UI;
 using UnityEngine;
 
 namespace SPT.Custom.Patches
@@ -45,10 +46,20 @@ namespace SPT.Custom.Patches
                 Directory.CreateDirectory(_sptRegistryPath);
             }
 
-            // Load the existing registry if found
-            if (File.Exists(_registryFilePath))
+            
+            if (!File.Exists(_registryFilePath))
             {
+                return;
+            }
+
+            try
+            {
+                // Load existing registry
                 _sptRegistry = JObject.Parse(File.ReadAllText(_registryFilePath));
+            }
+            catch (Exception e)
+            {
+                ConsoleScreen.LogError($"Unable to parse registry file, defaulting to empty: {e.Message}");
             }
         }
 
