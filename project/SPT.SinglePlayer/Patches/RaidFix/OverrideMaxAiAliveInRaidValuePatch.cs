@@ -37,7 +37,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 
             if (int.TryParse(RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location}"), out var parsedMaxCount))
             {
-                Logger.LogError($"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}");
+                Logger.LogInfo($"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}");
                 maxCount = parsedMaxCount;
             }
             else
