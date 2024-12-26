@@ -101,7 +101,7 @@ public class DumplyLibMono : MonoBehaviour
             inSession = true,
             favorite = false,
             playTime = 33,
-            InsuredItems = new GClass1321[] {},
+            InsuredItems = new InsuredItemClass[] {},
             ProfileId = ""
         };
         _completeProfile = new GClass1991(_session.Profile, GClass2000.Instance);
