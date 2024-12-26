@@ -105,7 +105,7 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage())
             {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay, new Action(OnMessageAccepted), new Action(OnTimeOut));
+                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
                 _isBetaDisclaimerOpen = true;
             }
         }
@@ -115,7 +115,7 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes())
             {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000, null, null);
+                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
                 PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 1);
             }
         }

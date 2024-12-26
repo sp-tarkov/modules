@@ -31,21 +31,21 @@ public class DumpyLibPatch : ModulePatch
 
 public class DumplyLibMono : MonoBehaviour
 {
-    public Class301 _session;
+    public Class304 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
     public WaveInfo _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
-    public GClass1924 _endRaidClass;
-    public GClass1962 _completeProfile;
-    public GClass814 _parsedDataProfile;
-    // Class references are as of assembly 33420 - 02/11/2024
+    public GClass1952 _endRaidClass;
+    public GClass1991 _completeProfile;
+    public GClass822 _parsedDataProfile;
+    // Class references are as of assembly 33420 - 26/12/2024
 
     private void Start()
     {
-        _session = ClientAppUtils.GetClientApp().Session as Class301;
+        _session = ClientAppUtils.GetClientApp().Session as Class304;
         _tarkovApplication = ClientAppUtils.GetMainApp();
         _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController"); // is null at this point so only get fieldinfo - TODO: fieldinfo came back as null
         _wavesSettings = new WaveInfo(2, WildSpawnType.assault, BotDifficulty.normal); // imitate loading json of wave settings
@@ -91,7 +91,7 @@ public class DumplyLibMono : MonoBehaviour
             PlayersSpawnPlace = EPlayersSpawnPlace.SamePlace
         };
         _locationSettings = _session.LocationSettings;
-        _endRaidClass = new GClass1924
+        _endRaidClass = new GClass1952
         {
             profile = null,
             result = ExitStatus.Left,
@@ -101,10 +101,10 @@ public class DumplyLibMono : MonoBehaviour
             inSession = true,
             favorite = false,
             playTime = 33,
-            InsuredItems = new GClass1308[] {},
+            InsuredItems = new GClass1321[] {},
             ProfileId = ""
         };
-        _completeProfile = new GClass1962(_session.Profile, GClass1971.Instance);
+        _completeProfile = new GClass1991(_session.Profile, GClass2000.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
