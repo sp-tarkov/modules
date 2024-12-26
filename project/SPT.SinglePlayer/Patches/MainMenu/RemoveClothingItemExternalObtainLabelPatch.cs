@@ -15,7 +15,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 		}
 
 		[PatchPrefix]
-		private static void Prefix(ref ClothingItem.GClass3461 offer)
+		private static void Prefix(ref ClothingItem.GClass3521 offer)
 		{
 			offer.Offer.ExternalObtain = false;
 		}
