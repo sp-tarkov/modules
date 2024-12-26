@@ -40,7 +40,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 					__instance.FriendChecker.ManualUpdate();
 					__instance.RecoilData.LosingRecoil();
 					__instance.Mover.ManualUpdate();
-					__instance.AimingData.PermanentUpdate();
+					__instance.AimingManager.ManualUpdate();
 					__instance.Medecine.ManualUpdate();
 					__instance.Boss.ManualUpdate();
 					__instance.BotTalk.ManualUpdate();
