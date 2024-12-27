@@ -65,6 +65,9 @@ namespace SPT.SinglePlayer
 				new BotOwnerManualUpdatePatch().Enable();
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();
                 new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
+                
+                // 4.0.0
+                new ScavPrestigeFixPatch().Enable();
 
             }
             catch (Exception ex)
