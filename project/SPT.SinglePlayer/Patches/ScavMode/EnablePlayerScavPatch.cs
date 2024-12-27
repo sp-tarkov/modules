@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 		/// </summary>
 		protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_23));
+            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_24));
         }
 
 		[PatchPrefix]
