@@ -68,7 +68,7 @@ namespace SPT.SinglePlayer
                 
                 // 4.0.0
                 new ScavPrestigeFixPatch().Enable();
-
+                new DisableDevMaskCheckPatch().Enable();
             }
             catch (Exception ex)
             {
