@@ -6,6 +6,8 @@ using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using BepInEx;
 using SPT.SinglePlayer.Utils.MainMenu;
+using SPT.SinglePlayer.Patches.Performance;
+using UnityEngine.Assertions.Must;
 
 namespace SPT.SinglePlayer
 {
@@ -61,15 +63,16 @@ namespace SPT.SinglePlayer
                 new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
 				new ForceRaidModeToLocalPatch().Enable();
-				new ScavIsPlayerEnemyPatch().Enable();
-				new BotOwnerManualUpdatePatch().Enable();
+				new ScavIsPlayerEnemyPatch().Enable();				
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();
                 new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
                 
                 // 4.0.0
                 new ScavPrestigeFixPatch().Enable();
                 new DisableDevMaskCheckPatch().Enable();
-            }
+				new BotOwner_ManualUpdate_Transpiler().Enable();
+				new CoverPointMaster_method_0_Transpiler().Enable();
+			}
             catch (Exception ex)
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
