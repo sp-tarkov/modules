@@ -34,6 +34,11 @@ namespace SPT.Custom.Patches
                 _traitorChancePercent = JsonConvert.DeserializeObject<int>(json);
             }
 
+            if (_traitorChancePercent == 0)
+            {
+                return true; // Do original method
+            }
+
             WildSpawnType role = bot.Profile.Info.Settings.Role;
             if (AiHelpers.BotIsPlayerScav(role, bot.Profile.Info.Nickname) && new Random().Next(1, 100) < _traitorChancePercent)
             {
