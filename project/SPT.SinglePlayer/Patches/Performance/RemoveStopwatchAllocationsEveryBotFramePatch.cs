@@ -16,7 +16,7 @@ namespace SPT.SinglePlayer.Patches.Performance
 	/// - <see cref="Stopwatch.Start"/> and <see cref="Stopwatch.Stop"/> <br/>
 	/// - Unnecessary run of <see cref="BotUnityEditorRunChecker.ManualLateUpdate"/>
 	/// </summary>
-	public class BotOwner_ManualUpdate_Transpiler : ModulePatch
+	public class RemoveStopwatchAllocationsEveryBotFramePatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
 		{

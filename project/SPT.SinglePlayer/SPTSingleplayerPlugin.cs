@@ -69,8 +69,8 @@ namespace SPT.SinglePlayer
 				// 4.0.0
 				new ScavPrestigeFixPatch().Enable();
 				new DisableDevMaskCheckPatch().Enable();
-				new BotOwner_ManualUpdate_Transpiler().Enable();
-				new CoverPointMaster_method_0_Transpiler().Enable();
+				new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
+				new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
 			}
 			catch (Exception ex)
 			{
