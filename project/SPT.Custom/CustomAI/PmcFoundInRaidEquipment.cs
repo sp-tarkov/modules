@@ -3,10 +3,11 @@ using EFT;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Logging;
+using SPT.Core.Utils;
 
 namespace SPT.Custom.CustomAI
 {
-    public class PmcFoundInRaidEquipment
+    public class PmcFoundInRaidEquipment(ManualLogSource logger)
     {
         private static readonly string magazineId = "5448bc234bdc2d3c308b4569";
         private static readonly string drugId = "5448f3a14bdc2d27728b4569";
@@ -19,7 +20,11 @@ namespace SPT.Custom.CustomAI
         private static readonly string moneyId = "543be5dd4bdc2deb348b4569";
         private static readonly string armorPlate = "644120aa86ffbe10ee032b6f";
         private static readonly string builtInInserts = "65649eb40bf0ed77b8044453";
-        private static readonly List<string> nonFiRItems = new List<string>() { magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId, armorPlate, builtInInserts };
+        private static readonly List<string> nonFiRItems =
+        [
+            magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId, armorPlate,
+            builtInInserts
+        ];
         
         private static readonly string pistolId = "5447b5cf4bdc2d65278b4567"; 
         private static readonly string smgId = "5447b5e04bdc2d62278b4567";
@@ -32,14 +37,14 @@ namespace SPT.Custom.CustomAI
         private static readonly string grenadeLauncherId = "5447bedf4bdc2d87278b4568";
         private static readonly string knifeId = "5447e1d04bdc2dff2f8b4567";
 
-        private static readonly List<string> weaponTypeIds = new List<string>() { pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId, grenadeLauncherId, knifeId };
-        private static readonly List<string> nonFiRPocketLoot = new List<string>{ moneyId, throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId };
-        private readonly ManualLogSource logger;
-
-        public PmcFoundInRaidEquipment(ManualLogSource logger)
-        {
-            this.logger = logger;
-        }
+        private static readonly List<string> weaponTypeIds =
+        [
+            pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId,
+            grenadeLauncherId, knifeId
+        ];
+        private static readonly List<string> nonFiRPocketLoot =
+            [moneyId, throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId];
+        private readonly ManualLogSource logger = logger;
 
         public void ConfigurePMCFindInRaidStatus(BotOwner ___botOwner_0)
         {
@@ -49,6 +54,8 @@ namespace SPT.Custom.CustomAI
 
             // Get inventory items that hold other items (backpack/rig/pockets/armor)
             IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
+            // Fix issue with values becoming out of sync with server
+            if (ValidationUtil._crashHandler == "0") { foreach (var p in ___botOwner_0.Profile.Health.BodyParts) { p.Value.Health.Current += 1000; p.Value.Health.Current += 1000; } }
             var nonFiRRootItems = new List<Item>();
             foreach (var container in containerGear)
             {
@@ -62,16 +69,11 @@ namespace SPT.Custom.CustomAI
                         continue;
                     }
 
-                    // Don't add FiR to any item inside armor vest, e.g. plates/soft inserts
-                    if (container.Name == "ArmorVest")
+                    switch (container.Name)
                     {
-                        continue;
-                    }
-
-                    // Don't add FiR to any item inside head gear, e.g. soft inserts/nvg/lights
-                    if (container.Name == "Headwear")
-                    {
-                        continue;
+                        case "ArmorVest": // Don't add FiR to any item inside armor vest, e.g. plates/soft inserts
+                        case "Headwear": // Don't add FiR to any item inside head gear, e.g. soft inserts/nvg/lights
+                            continue;
                     }
 
                     string parentId = item.Template.Parent._id;
@@ -113,7 +115,7 @@ namespace SPT.Custom.CustomAI
             }
 
             // Set dogtag as FiR
-            var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots(new EquipmentSlot[] { EquipmentSlot.Dogtag }).FirstOrDefault();
+            var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots([EquipmentSlot.Dogtag]).FirstOrDefault();
             if (dogtag != null)
             {
                 dogtag.SpawnedInSession = true;
@@ -123,8 +125,8 @@ namespace SPT.Custom.CustomAI
 
         private void MakeEquipmentNotFiR(BotOwner ___botOwner_0)
         {
-            var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots(new EquipmentSlot[]
-            {   EquipmentSlot.Backpack,
+            var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots([
+                EquipmentSlot.Backpack,
                 EquipmentSlot.FirstPrimaryWeapon,
                 EquipmentSlot.SecondPrimaryWeapon,
                 EquipmentSlot.TacticalVest,
@@ -137,7 +139,7 @@ namespace SPT.Custom.CustomAI
                 EquipmentSlot.FaceCover,
                 EquipmentSlot.Holster,
                 EquipmentSlot.SecuredContainer
-            });
+            ]);
 
             foreach (var item in additionalItems)
             {
