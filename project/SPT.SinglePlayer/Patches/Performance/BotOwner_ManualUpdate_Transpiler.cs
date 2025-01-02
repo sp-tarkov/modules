@@ -29,9 +29,9 @@ namespace SPT.SinglePlayer.Patches.Performance
 			List<CodeInstruction> codeList = instructions.ToList();
 
 			// These 3 lines remove BotUnityEditorRunChecker.ManualLateUpdate()
-			codeList[109] = new CodeInstruction(OpCodes.Nop);
-			codeList[108] = new CodeInstruction(OpCodes.Nop);
-			codeList[107].opcode = OpCodes.Nop;
+			codeList[112] = new CodeInstruction(OpCodes.Nop);
+			codeList[111] = new CodeInstruction(OpCodes.Nop);
+			codeList[110].opcode = OpCodes.Nop;
 
 			// These 4 remove the allocation of the Stopwatch and the Start() and Stop()
 			codeList[18] = new CodeInstruction(OpCodes.Nop);
