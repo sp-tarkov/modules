@@ -66,6 +66,9 @@ namespace SPT.SinglePlayer
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();
                 new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
 
+                // 3.10.x specific, should be removed for 4.0.x
+                new QuestLoadStatusChangePatch().Enable();
+
             }
             catch (Exception ex)
             {
