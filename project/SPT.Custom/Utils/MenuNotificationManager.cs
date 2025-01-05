@@ -108,7 +108,7 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage())
             {
-                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, 5);
+                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
                 // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
                 _betaMessageContext.OnAccept += OnBetaMessageTimeOut;
                 _betaMessageContext.OnDecline += OnBetaMessageAccepted;
