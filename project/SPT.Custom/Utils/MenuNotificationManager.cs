@@ -39,6 +39,9 @@ namespace SPT.Custom.Utils
         private bool _isBetaDisclaimerOpen;
         private ManualLogSource _logger;
 
+        // This GClass can be found by looking at ErrorScreen.cs and seeing what the ErrorClass class inherits from: `Window<GClass####>`
+        private GClass3540 _betaMessageContext;
+
         public void Start()
         {
             _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
@@ -105,7 +108,11 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage())
             {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
+                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
+                // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
+                _betaMessageContext.OnAccept += OnBetaMessageTimeOut;
+                _betaMessageContext.OnDecline += OnBetaMessageAccepted;
+                _betaMessageContext.OnClose += OnBetaMessageClosed;
                 _isBetaDisclaimerOpen = true;
             }
         }
@@ -120,18 +127,27 @@ namespace SPT.Custom.Utils
             }
         }
 
-        // User accepted the terms, allow to continue.
-        private void OnMessageAccepted()
+        // User accepted the BE terms, allow to continue.
+        private void OnBetaMessageAccepted()
         {
             _logger.LogInfo(release.betaDisclaimerAcceptText);
             PlayerPrefs.SetInt("SPT_AcceptedBETerms", 1);
             _isBetaDisclaimerOpen = false;
         }
 
-        // If the user doesnt accept the message "Ok" then the game will close.
-        private void OnTimeOut()
+        // User didn't accept the BE terms, exit the game
+        private void OnBetaMessageTimeOut()
         {
             Application.Quit();
+        }
+
+        // Unhook events once the beta message is closed
+        private void OnBetaMessageClosed()
+        {
+            // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
+            _betaMessageContext.OnAccept -= OnBetaMessageTimeOut;
+            _betaMessageContext.OnDecline -= OnBetaMessageAccepted;
+            _betaMessageContext.OnClose -= OnBetaMessageClosed;
         }
 
         // Stores the current build in the registry to check later
