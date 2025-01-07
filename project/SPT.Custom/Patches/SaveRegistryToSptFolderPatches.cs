@@ -75,6 +75,7 @@ namespace SPT.Custom.Patches
             private static bool PatchPrefix(string key, int value)
             {
                 _sptRegistry[key] = value;
+                PlayerPrefs.Save();
                 return false;
             }
         }
@@ -91,6 +92,7 @@ namespace SPT.Custom.Patches
             private static bool PatchPrefix(string key, float value)
             {
                 _sptRegistry[key] = value;
+                PlayerPrefs.Save();
                 return false;
             }
         }
@@ -107,6 +109,7 @@ namespace SPT.Custom.Patches
             private static bool PatchPrefix(string key, string value)
             {
                 _sptRegistry[key] = value;
+                PlayerPrefs.Save();
                 return false;
             }
         }
