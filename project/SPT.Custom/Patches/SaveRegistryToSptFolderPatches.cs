@@ -61,6 +61,9 @@ namespace SPT.Custom.Patches
             {
                 ConsoleScreen.LogError($"Unable to parse registry file, defaulting to empty: {e.Message}");
             }
+
+            // Make sure we save the registry on exit, for some reason this isn't triggering by Unity itself
+            Application.quitting += PlayerPrefs.Save;
         }
 
         public class PatchPlayerPrefsSetInt : ModulePatch

@@ -15,6 +15,7 @@ namespace SPT.Custom.Utils
 {
     public class MenuNotificationManager : MonoBehaviour
     {
+        private static bool _seenBetaMessage = false;
         public static string sptVersion;
         public static string commitHash;
         internal static HashSet<string> whitelistedPlugins = new()
@@ -98,8 +99,15 @@ namespace SPT.Custom.Utils
                 return;
             }
 
+            if (_seenBetaMessage)
+            {
+                return;
+            }
+
             ShowBetaMessage();
             ShowReleaseNotes();
+
+            _seenBetaMessage = true;
         }
 
         // Show the beta message
