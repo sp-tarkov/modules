@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         static BotTemplateLimitPatch()
         {
             _ = nameof(BotsPresets.CreateProfile);
-            _ = nameof(WaveInfo.Difficulty);
+            _ = nameof(WaveInfoClass.Difficulty);
         }
 
         protected override MethodBase GetTargetMethod()
@@ -21,7 +21,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(List<WaveInfo> __result, List<WaveInfo> wavesProfiles, List<WaveInfo> delayed)
+        public static void PatchPostfix(List<WaveInfoClass> __result, List<WaveInfoClass> wavesProfiles, List<WaveInfoClass> delayed)
         {
             /*
                 Method sums Limits by grouping wavesPropfiles collection by Role and Difficulty
@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 
             delayed?.Clear();
             
-            foreach (WaveInfo wave in __result)
+            foreach (WaveInfoClass wave in __result)
             {
                 var json = RequestHandler.GetJson($"/singleplayer/settings/bot/limit/{wave.Role}");
                 wave.Limit = (string.IsNullOrWhiteSpace(json))

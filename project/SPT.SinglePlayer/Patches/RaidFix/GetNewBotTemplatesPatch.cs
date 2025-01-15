@@ -17,8 +17,8 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         {
             _ = nameof(IGetProfileData.PrepareToLoadBackend);
             _ = nameof(BotsPresets.GetNewProfile);
-            _ = nameof(PoolManager.LoadBundlesAndCreatePools);
-            _ = nameof(JobPriority.General);
+            _ = nameof(PoolManagerClass.LoadBundlesAndCreatePools);
+            _ = nameof(JobPriorityClass.General);
         }
 
         /// <summary>

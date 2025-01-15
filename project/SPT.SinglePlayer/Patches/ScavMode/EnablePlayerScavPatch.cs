@@ -13,11 +13,11 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 		/// </summary>
 		protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_24));
+            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_24));
         }
 
 		[PatchPrefix]
-		public static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1, MainMenuController __instance)
+		public static void PatchPrefix(ref RaidSettings ___raidSettings_0, ref RaidSettings ___raidSettings_1, MainMenuControllerClass __instance)
 		{
             if (___raidSettings_0.Side == ESideType.Pmc)
             {

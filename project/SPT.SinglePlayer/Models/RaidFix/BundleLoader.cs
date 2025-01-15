@@ -21,11 +21,11 @@ namespace SPT.SinglePlayer.Models.RaidFix
         {
             _profile = task.Result;
 
-            var loadTask = Singleton<PoolManager>.Instance.LoadBundlesAndCreatePools(
-                PoolManager.PoolsCategory.Raid,
-                PoolManager.AssemblyType.Local,
+            var loadTask = Singleton<PoolManagerClass>.Instance.LoadBundlesAndCreatePools(
+                PoolManagerClass.PoolsCategory.Raid,
+                PoolManagerClass.AssemblyType.Local,
                 _profile.GetAllPrefabPaths(false).Where(x => !x.IsNullOrEmpty()).ToArray(),
-                JobPriority.General,
+                JobPriorityClass.General,
                 null,
                 default(CancellationToken));
 

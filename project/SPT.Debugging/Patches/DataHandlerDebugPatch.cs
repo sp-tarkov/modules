@@ -9,7 +9,7 @@ namespace SPT.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(DataHandler), nameof(DataHandler.method_5));
+            return AccessTools.Method(typeof(DataHandlerClass), nameof(DataHandlerClass.method_5));
         }
 
         [PatchPostfix]
