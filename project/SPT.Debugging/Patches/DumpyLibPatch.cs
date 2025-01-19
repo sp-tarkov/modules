@@ -34,7 +34,7 @@ public class DumplyLibMono : MonoBehaviour
     public Class304 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
-    public WaveInfo _wavesSettings;
+    public WaveInfoClass _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
@@ -48,7 +48,7 @@ public class DumplyLibMono : MonoBehaviour
         _session = ClientAppUtils.GetClientApp().Session as Class304;
         _tarkovApplication = ClientAppUtils.GetMainApp();
         _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController"); // is null at this point so only get fieldinfo - TODO: fieldinfo came back as null
-        _wavesSettings = new WaveInfo(2, WildSpawnType.assault, BotDifficulty.normal); // imitate loading json of wave settings
+        _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal); // imitate loading json of wave settings
         _localRaidSettings = new LocalRaidSettings // this has changed from current repo json TODO: check dumped data for changes here
         {
             serverId = null,

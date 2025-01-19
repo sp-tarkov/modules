@@ -16,7 +16,7 @@ namespace SPT.Custom.Patches
         {
             _ = nameof(IEasyBundle.SameNameAsset);
             _ = nameof(IBundleLock.IsLocked);
-            _ = nameof(BindableState<ELoadState>.Bind);
+            _ = nameof(BindableStateClass<ELoadState>.Bind);
         }
 
         protected override MethodBase GetTargetMethod()
@@ -47,7 +47,7 @@ namespace SPT.Custom.Patches
                 Path = filepath,
                 KeyWithoutExtension = Path.GetFileNameWithoutExtension(key),
                 DependencyKeys = dependencies,
-                LoadState = new BindableState<ELoadState>(ELoadState.Unloaded),
+                LoadState = new BindableStateClass<ELoadState>(ELoadState.Unloaded),
                 BundleLock = bundleLock
             };
         }

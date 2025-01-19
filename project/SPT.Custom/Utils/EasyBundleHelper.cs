@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using SPT.Reflection.Utils;
 using UnityEngine;
-using BindableState = BindableState<Diz.DependencyManager.ELoadState>;
+using BindableState = BindableStateClass<Diz.DependencyManager.ELoadState>;
 
 namespace SPT.Custom.Utils
 {

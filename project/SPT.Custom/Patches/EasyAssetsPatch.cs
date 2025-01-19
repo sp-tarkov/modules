@@ -12,7 +12,7 @@ using SPT.Common.Utils;
 using SPT.Custom.Models;
 using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
-using DependencyGraph = DependencyGraph<IEasyBundle>;
+using DependencyGraph = DependencyGraphClass<IEasyBundle>;
 using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches
@@ -30,7 +30,7 @@ namespace SPT.Custom.Patches
         {
             _ = nameof(IEasyBundle.SameNameAsset);
             _ = nameof(IBundleLock.IsLocked);
-            _ = nameof(BundleLock.MaxConcurrentOperations);
+            _ = nameof(BundleLockClass.MaxConcurrentOperations);
             _ = nameof(DependencyGraph.GetDefaultNode);
         }
 
@@ -73,7 +73,7 @@ namespace SPT.Custom.Patches
             // create bundle lock
             if (bundleLock == null)
             {
-                bundleLock = new BundleLock(int.MaxValue);
+                bundleLock = new BundleLockClass(int.MaxValue);
             }
 
             var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);

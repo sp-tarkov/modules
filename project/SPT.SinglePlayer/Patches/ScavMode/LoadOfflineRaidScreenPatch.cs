@@ -25,17 +25,17 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         static LoadOfflineRaidScreenPatch()
         {
-            _ = nameof(MainMenuController.InventoryController);
+            _ = nameof(MainMenuControllerClass.InventoryController);
             _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
             _ = nameof(BotControllerSettings.IsScavWars);
             _ = nameof(WavesSettings.IsBosses);
             _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_47));
+            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_47));
 
-            _isLocalField = AccessTools.Field(typeof(MainMenuController), "bool_0");
-            _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuController));
+            _isLocalField = AccessTools.Field(typeof(MainMenuControllerClass), "bool_0");
+            _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
 
             if (_menuControllerField == null)
             {
@@ -46,7 +46,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuController), nameof(MainMenuController.method_74));
+            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_74));
         }
 
         [PatchTranspiler]
@@ -82,7 +82,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
              *   call instruction and only then we remove it.
              */
             var codes = new List<CodeInstruction>(instructions);
-            var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuController), _onReadyScreenMethod.Name);
+            var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
 
             var callCodeIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
                                                         && (MethodInfo)code.operand == onReadyScreenMethodOperand);
@@ -131,7 +131,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuController.method_78));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_78));
             gclass.ShowScreen(EScreenState.Queued);
         }
 
@@ -152,9 +152,9 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             _onReadyScreenMethod.Invoke(menuController, null);
         }
 
-        private static MainMenuController GetMenuController()
+        private static MainMenuControllerClass GetMenuController()
         {
-            return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuController;
+            return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuControllerClass;
         }
     }
 }
