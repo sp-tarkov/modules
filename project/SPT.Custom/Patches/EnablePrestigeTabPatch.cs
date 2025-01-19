@@ -29,10 +29,10 @@ namespace SPT.Custom.Patches
             codeInstructions[260] = new(OpCodes.Nop);
             codeInstructions[261] = new(OpCodes.Nop);
             codeInstructions[262] = new(OpCodes.Nop);
-            codeInstructions[263] = new(OpCodes.Nop);
 
             // Force a true on the stack instead
-            codeInstructions[264] = new(OpCodes.Ldc_I4_1);
+            codeInstructions[263] = new(OpCodes.Ldc_I4_1);
+            codeInstructions[264] = new(OpCodes.Nop);
 
             return codeInstructions;
         }
