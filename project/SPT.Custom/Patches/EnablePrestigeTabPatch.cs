@@ -2,15 +2,12 @@
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace SPT.Custom.Patches
 {
     /// <summary>
-    /// This transpiler removes the call to <see cref="IBackEndSession.SessionMode"/> to determine if it's <see cref="ESessionMode.Regular"/> <br/>
-    /// and forces a true instead
+    /// This patch sets the Prestige Tab to be enabled in PvE mode
     /// </summary>
     internal class EnablePrestigeTabPatch : ModulePatch
     {
@@ -19,22 +16,13 @@ namespace SPT.Custom.Patches
             return AccessTools.Method(typeof(InventoryScreen.Class2754), nameof(InventoryScreen.Class2754.MoveNext));
         }
 
-        [PatchTranspiler]
-        public static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> instructions)
+        [PatchPostfix]
+        public static void Postfix(InventoryScreen.Class2754 __instance)
         {
-            CodeInstruction[] codeInstructions = instructions.ToArray();
-
-            // Remove all instructions that gets the gamemode from iSession
-            codeInstructions[259] = new(OpCodes.Nop);
-            codeInstructions[260] = new(OpCodes.Nop);
-            codeInstructions[261] = new(OpCodes.Nop);
-            codeInstructions[262] = new(OpCodes.Nop);
-
-            // Force a true on the stack instead
-            codeInstructions[263] = new(OpCodes.Ldc_I4_1);
-            codeInstructions[264] = new(OpCodes.Nop);
-
-            return codeInstructions;
+            var inventoryScreen = __instance.inventoryScreen_0;
+            var tabDictionary = Traverse.Create(inventoryScreen).Field<IReadOnlyDictionary<EInventoryTab, Tab>>("_tabDictionary").Value;
+            var prestigeTab = tabDictionary[EInventoryTab.Prestige];
+            prestigeTab.gameObject.SetActive(true);
         }
     }
 }
