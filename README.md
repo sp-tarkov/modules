@@ -24,7 +24,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 
 
 ## Requirements
-- Escape From Tarkov 34568
+- Escape From Tarkov 34644
 - Visual Studio Code -OR- Visual Studio 2022
 - .NET 6 SDK
 - [PowerShell v7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
