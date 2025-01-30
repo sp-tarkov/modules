@@ -5,7 +5,6 @@ using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT.UI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SPT.Custom.Patches;
@@ -41,7 +40,7 @@ namespace SPT.Custom.Utils
         private ManualLogSource _logger;
 
         // This GClass can be found by looking at ErrorScreen.cs and seeing what the ErrorClass class inherits from: `Window<GClass####>`
-        private GClass3540 _betaMessageContext;
+        private GClass3543 _betaMessageContext;
 
         public void Start()
         {

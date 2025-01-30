@@ -17,11 +17,11 @@ public class ScavPrestigeFixPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Constructor(typeof(GClass3690), new Type[] { typeof(Profile), typeof(InventoryController), typeof(GClass3865), typeof(ISession) }, false);
+        return AccessTools.Constructor(typeof(GClass3693), new Type[] { typeof(Profile), typeof(InventoryController), typeof(GClass3865), typeof(ISession) }, false);
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(GClass3690 __instance, ref Profile profile)
+    public static void PatchPrefix(GClass3693 __instance, ref Profile profile)
     {
         if (profile.Side == EPlayerSide.Savage)
         {
