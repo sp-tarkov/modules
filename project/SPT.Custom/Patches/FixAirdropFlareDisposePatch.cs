@@ -13,7 +13,7 @@ namespace SPT.Custom.Patches
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return typeof(GClass2456).GetMethod(nameof(GClass2456.Dispose));
+			return typeof(GClass2458).GetMethod(nameof(GClass2458.Dispose));
 		}
 
 		[PatchPrefix]

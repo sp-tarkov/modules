@@ -38,8 +38,8 @@ public class DumplyLibMono : MonoBehaviour
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
-    public GClass1952 _endRaidClass;
-    public GClass1991 _completeProfile;
+    public GClass1954 _endRaidClass;
+    public GClass1993 _completeProfile;
     public GClass822 _parsedDataProfile;
     // Class references are as of assembly 33420 - 26/12/2024
 
@@ -91,7 +91,7 @@ public class DumplyLibMono : MonoBehaviour
             PlayersSpawnPlace = EPlayersSpawnPlace.SamePlace
         };
         _locationSettings = _session.LocationSettings;
-        _endRaidClass = new GClass1952
+        _endRaidClass = new GClass1954
         {
             profile = null,
             result = ExitStatus.Left,
@@ -104,7 +104,7 @@ public class DumplyLibMono : MonoBehaviour
             InsuredItems = new InsuredItemClass[] {},
             ProfileId = ""
         };
-        _completeProfile = new GClass1991(_session.Profile, GClass2000.Instance);
+        _completeProfile = new GClass1993(_session.Profile, GClass2002.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
