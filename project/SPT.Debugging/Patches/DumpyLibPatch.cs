@@ -41,7 +41,7 @@ public class DumplyLibMono : MonoBehaviour
     public GClass1954 _endRaidClass;
     public GClass1993 _completeProfile;
     public GClass822 _parsedDataProfile;
-    // Class references are as of assembly 33420 - 26/12/2024
+    // Class references are as of assembly 34720 - 30/01/2025
 
     private void Start()
     {
