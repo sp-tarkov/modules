@@ -71,6 +71,7 @@ namespace SPT.SinglePlayer
 				new DisableDevMaskCheckPatch().Enable();
 				new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
 				new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
+				new DisableUseBSGServersCheckbox().Enable();
 			}
 			catch (Exception ex)
 			{

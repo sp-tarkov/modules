@@ -23,6 +23,7 @@
         <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
         <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
         <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
+        <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
     </ItemGroup>
 
     <ItemGroup>
