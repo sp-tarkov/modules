@@ -40,7 +40,7 @@ namespace SPT.Custom.Utils
         private ManualLogSource _logger;
 
         // This GClass can be found by looking at ErrorScreen.cs and seeing what the ErrorClass class inherits from: `Window<GClass####>`
-        private GClass3543 _betaMessageContext;
+        private GClass3542 _betaMessageContext;
 
         public void Start()
         {
