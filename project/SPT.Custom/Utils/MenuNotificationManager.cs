@@ -1,13 +1,13 @@
-﻿using SPT.Common.Http;
-using SPT.Common.Utils;
-using SPT.Custom.Models;
-using BepInEx.Bootstrap;
+﻿using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT.UI;
+using SPT.Common.Http;
+using SPT.Common.Utils;
+using SPT.Custom.Models;
+using SPT.Custom.Patches;
 using System.Collections.Generic;
 using System.Linq;
-using SPT.Custom.Patches;
 using UnityEngine;
 
 namespace SPT.Custom.Utils
@@ -15,10 +15,11 @@ namespace SPT.Custom.Utils
     public class MenuNotificationManager : MonoBehaviour
     {
         private static bool _seenBetaMessage = false;
-        public static string sptVersion;
-        public static string commitHash;
-        internal static HashSet<string> whitelistedPlugins = new()
-        {
+        public static string SptVersion;
+        public static string CommitHash;
+        public static string[] DisallowedPlugins;
+        internal static HashSet<string> WhitelistedPlugins =
+        [
                 "com.SPT.core",
                 "com.SPT.custom",
                 "com.SPT.debugging",
@@ -32,23 +33,62 @@ namespace SPT.Custom.Utils
                 "com.kobrakon.camunsnap",
                 "RuntimeUnityEditor",
                 "com.dirtbikercj.debugplus"
-        };
-        
-        public static string[] disallowedPlugins;
+        ];        
         internal static ReleaseResponse release;
         private bool _isBetaDisclaimerOpen;
         private ManualLogSource _logger;
 
-        // This GClass can be found by looking at ErrorScreen.cs and seeing what the ErrorClass class inherits from: `Window<GClass####>`
+        /// <summary>
+        /// This GClass can be found by looking at <see cref="ErrorScreen"/> and seeing what the ErrorScreen class inherits from: <see cref="Window{T}"/> <br/>
+        /// The constrained generic is the class to use
+        /// </summary>
         private GClass3542 _betaMessageContext;
+
+        /// <summary>
+        /// Retrieves the current build from the registry to check against the current build <br/>
+        /// If this is the first run and no entry exists returns an empty string
+        /// </summary>
+        private string VersionPref
+        {
+            get
+            {
+                return PlayerPrefs.GetString("SPT_Version", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Should we show the message, only show if first run or if build has changed
+        /// </summary>
+        private bool ShouldShowBetaMessage
+        {
+            get
+            {
+                return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0
+                    && release.isBeta
+                    && !_isBetaDisclaimerOpen;
+            }
+        }
+
+        /// <summary>
+        /// Should we show the release notes, only show on first run or if build has changed
+        /// </summary>
+        private bool ShouldShowReleaseNotes
+        {
+            get
+            {
+                return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0
+                    && !_isBetaDisclaimerOpen
+                    && release.releaseSummaryText != string.Empty;
+            }
+        }
 
         public void Start()
         {
             _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
 
             var versionJson = RequestHandler.GetJson("/singleplayer/settings/version");
-            sptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
-            commitHash = sptVersion?.Trim()?.Split(' ')?.Last() ?? "";
+            SptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
+            CommitHash = SptVersion?.Trim()?.Split(' ')?.Last() ?? "";
 
             var releaseJson = RequestHandler.GetJson("/singleplayer/release");
             release = Json.Deserialize<ReleaseResponse>(releaseJson);
@@ -64,15 +104,15 @@ namespace SPT.Custom.Utils
                 //new BetaLogoPatch3().Enable();
             }
 
-            disallowedPlugins = Chainloader.PluginInfos.Values
-                .Select(pi => pi.Metadata.GUID).Except(whitelistedPlugins).ToArray();
+            DisallowedPlugins = Chainloader.PluginInfos.Values
+                .Select(pi => pi.Metadata.GUID).Except(WhitelistedPlugins).ToArray();
 
             // Prevent client mods if the server is built with mods disabled
             if (!release.isModdable)
             {
                 new PreventClientModsPatch().Enable();
             }
-        
+
             if (release.isBeta && PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 1)
             {
                 _logger.LogInfo(release.betaDisclaimerAcceptText);
@@ -81,19 +121,19 @@ namespace SPT.Custom.Utils
 
             if (release.isModded && release.isBeta && release.isModdable)
             {
-                commitHash += $"\n {release.serverModsLoadedDebugText}";
+                CommitHash += $"\n {release.serverModsLoadedDebugText}";
                 ServerLog.Warn("SPT.Custom", release.serverModsLoadedText);
             }
 
-            if (disallowedPlugins.Any() && release.isBeta && release.isModdable)
+            if (DisallowedPlugins.Any() && release.isBeta && release.isModdable)
             {
-                commitHash += $"\n {release.clientModsLoadedDebugText}";
-                ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", disallowedPlugins)}");
+                CommitHash += $"\n {release.clientModsLoadedDebugText}";
+                ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}");
             }
         }
         public void Update()
         {
-            if (sptVersion == null)
+            if (SptVersion == null)
             {
                 return;
             }
@@ -107,15 +147,18 @@ namespace SPT.Custom.Utils
             ShowReleaseNotes();
 
             _seenBetaMessage = true;
+
+            // This mono has served its purpose
+            Destroy(this);
         }
 
         // Show the beta message
         // if mods are enabled show that mods are loaded in the message.
         private void ShowBetaMessage()
         {
-            if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage())
+            if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage)
             {
-                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
+                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
                 // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
                 _betaMessageContext.OnAccept += OnBetaMessageTimeOut;
                 _betaMessageContext.OnDecline += OnBetaMessageAccepted;
@@ -127,9 +170,9 @@ namespace SPT.Custom.Utils
         // Show the release notes.
         private void ShowReleaseNotes()
         {
-            if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes())
+            if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes)
             {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
+                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
                 PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 1);
             }
         }
@@ -161,33 +204,14 @@ namespace SPT.Custom.Utils
         // Return true if changed, false if not
         private void SetVersionPref()
         {
-            if (GetVersionPref() == string.Empty || GetVersionPref() != sptVersion)
+            if (VersionPref == string.Empty || VersionPref != SptVersion)
             {
-                PlayerPrefs.SetString("SPT_Version", sptVersion);
+                PlayerPrefs.SetString("SPT_Version", SptVersion);
 
                 // 0 val used to indicate false, 1 val used to indicate true
                 PlayerPrefs.SetInt("SPT_AcceptedBETerms", 0);
                 PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 0);
             }
-        }
-
-        // Retrieves the current build from the registry to check against the current build
-        // If this is the first run and no entry exists returns an empty string
-        private string GetVersionPref()
-        {
-            return PlayerPrefs.GetString("SPT_Version", string.Empty);
-        }
-
-        // Should we show the message, only show if first run or if build has changed
-        private bool ShouldShowBetaMessage()
-        {
-            return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0 && release.isBeta && !_isBetaDisclaimerOpen;
-        }
-
-        // Should we show the release notes, only show on first run or if build has changed
-        private bool ShouldShowReleaseNotes()
-        {
-            return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0 && !_isBetaDisclaimerOpen && release.releaseSummaryText != string.Empty;
-        }
+        }        
     }
 }
