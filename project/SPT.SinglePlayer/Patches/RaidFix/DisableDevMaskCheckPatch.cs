@@ -43,8 +43,8 @@ public class DisableDevMaskCheckPatch : ModulePatch
 
         if (developerCheckIndex == -1 || branchIndex == -1)
         {
-			Logger.LogError($"Patch {MethodBase.GetCurrentMethod().Name} Failed: Could not find reference Code");
-			return codeInstructions;
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod().Name} Failed: Could not find reference Code");
+            return codeInstructions;
         }
 
         // Modify the branchIndex to an unconditional jump (br) to entirely skip the if block
