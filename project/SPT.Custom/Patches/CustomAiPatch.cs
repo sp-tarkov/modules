@@ -47,7 +47,7 @@ namespace SPT.Custom.Patches
             {
                 // Get map so it can be used to decide what ai brain is used for scav/pmc
                 string currentMapName = GetCurrentMap();
-                var isBotPlayerScav = AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname);
+                var isBotPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname);
                 if (isBotPlayerScav)
                 {
                     // Bot is named to look like player scav, give it a randomised brain
@@ -58,7 +58,7 @@ namespace SPT.Custom.Patches
                 
                 // TODO: This doesn't actually do anything, as it's an identical condition to the above if condition
                 //       From what I can tell, this is meant to apply to _non player_ scavs, but the previous condition was broken, and so is this one
-                var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0);
+                var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname);
                 if (isSimulatedPlayerScav)
                 {
                     // Standard scav, check for custom brain option
@@ -128,7 +128,7 @@ namespace SPT.Custom.Patches
                 // Set spt pmc bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
-            else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
+            else if (AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname))
             {
                 // Set pscav back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
