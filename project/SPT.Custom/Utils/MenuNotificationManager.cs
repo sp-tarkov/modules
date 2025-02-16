@@ -15,10 +15,11 @@ namespace SPT.Custom.Utils
     public class MenuNotificationManager : MonoBehaviour
     {
         private static bool _seenBetaMessage = false;
-        public static string sptVersion;
-        public static string commitHash;
-        internal static HashSet<string> whitelistedPlugins = new()
-        {
+        public static string SptVersion;
+        public static string CommitHash;
+        public static string[] DisallowedPlugins;
+        internal static HashSet<string> WhitelistedPlugins =
+        [
                 "com.SPT.core",
                 "com.SPT.custom",
                 "com.SPT.debugging",
@@ -32,9 +33,7 @@ namespace SPT.Custom.Utils
                 "com.kobrakon.camunsnap",
                 "RuntimeUnityEditor",
                 "com.dirtbikercj.debugplus"
-        };
-
-        public static string[] disallowedPlugins;
+        ];        
         internal static ReleaseResponse release;
         private bool _isBetaDisclaimerOpen;
         private ManualLogSource _logger;
@@ -88,8 +87,8 @@ namespace SPT.Custom.Utils
             _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
 
             var versionJson = RequestHandler.GetJson("/singleplayer/settings/version");
-            sptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
-            commitHash = sptVersion?.Trim()?.Split(' ')?.Last() ?? "";
+            SptVersion = Json.Deserialize<VersionResponse>(versionJson).Version;
+            CommitHash = SptVersion?.Trim()?.Split(' ')?.Last() ?? "";
 
             var releaseJson = RequestHandler.GetJson("/singleplayer/release");
             release = Json.Deserialize<ReleaseResponse>(releaseJson);
@@ -105,8 +104,8 @@ namespace SPT.Custom.Utils
                 //new BetaLogoPatch3().Enable();
             }
 
-            disallowedPlugins = Chainloader.PluginInfos.Values
-                .Select(pi => pi.Metadata.GUID).Except(whitelistedPlugins).ToArray();
+            DisallowedPlugins = Chainloader.PluginInfos.Values
+                .Select(pi => pi.Metadata.GUID).Except(WhitelistedPlugins).ToArray();
 
             // Prevent client mods if the server is built with mods disabled
             if (!release.isModdable)
@@ -122,19 +121,19 @@ namespace SPT.Custom.Utils
 
             if (release.isModded && release.isBeta && release.isModdable)
             {
-                commitHash += $"\n {release.serverModsLoadedDebugText}";
+                CommitHash += $"\n {release.serverModsLoadedDebugText}";
                 ServerLog.Warn("SPT.Custom", release.serverModsLoadedText);
             }
 
-            if (disallowedPlugins.Any() && release.isBeta && release.isModdable)
+            if (DisallowedPlugins.Any() && release.isBeta && release.isModdable)
             {
-                commitHash += $"\n {release.clientModsLoadedDebugText}";
-                ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", disallowedPlugins)}");
+                CommitHash += $"\n {release.clientModsLoadedDebugText}";
+                ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}");
             }
         }
         public void Update()
         {
-            if (sptVersion == null)
+            if (SptVersion == null)
             {
                 return;
             }
@@ -159,7 +158,7 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage)
             {
-                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
+                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
                 // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
                 _betaMessageContext.OnAccept += OnBetaMessageTimeOut;
                 _betaMessageContext.OnDecline += OnBetaMessageAccepted;
@@ -173,7 +172,7 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes)
             {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(sptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
+                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
                 PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 1);
             }
         }
@@ -205,9 +204,9 @@ namespace SPT.Custom.Utils
         // Return true if changed, false if not
         private void SetVersionPref()
         {
-            if (VersionPref == string.Empty || VersionPref != sptVersion)
+            if (VersionPref == string.Empty || VersionPref != SptVersion)
             {
-                PlayerPrefs.SetString("SPT_Version", sptVersion);
+                PlayerPrefs.SetString("SPT_Version", SptVersion);
 
                 // 0 val used to indicate false, 1 val used to indicate true
                 PlayerPrefs.SetInt("SPT_AcceptedBETerms", 0);
