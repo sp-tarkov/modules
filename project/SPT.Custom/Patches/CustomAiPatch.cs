@@ -23,7 +23,7 @@ namespace SPT.Custom.Patches
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
         private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
-        private static readonly List<string> _bossConvertAllowedTypes = GetBossConvertFromServer();
+        private static readonly List<string> _bossTypes = GetBossTypesFromServer();
 
         protected override MethodBase GetTargetMethod()
         {
@@ -59,6 +59,8 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
                 
+                // TODO: This doesn't actually do anything, as it's an identical condition to the above if condition
+                //       From what I can tell, this is meant to apply to _non player_ scavs, but the previous condition was broken, and so is this one
                 var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0);
                 if (isSimulatedPlayerScav)
                 {
@@ -86,7 +88,7 @@ namespace SPT.Custom.Patches
                 }
 
                 // Is a boss bot and not already handled above
-                if (_bossConvertAllowedTypes.Contains(nameof(__state)))
+                if (_bossTypes.Contains(nameof(__state)))
                 {
                     if (___botOwner_0.Boss.BossLogic == null)
                     {
@@ -126,9 +128,9 @@ namespace SPT.Custom.Patches
             return botOwner.Profile.Info.Settings.Role;
         }
 
-        private static List<string> GetBossConvertFromServer()
+        private static List<string> GetBossTypesFromServer()
         {
-            string json = RequestHandler.GetJson("/singleplayer/bossconvert");
+            string json = RequestHandler.GetJson("/singleplayer/bosstypes");
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
