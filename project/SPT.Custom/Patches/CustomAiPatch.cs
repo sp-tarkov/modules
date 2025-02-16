@@ -40,9 +40,6 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            // resolve PMCs flagged as `assaultgroup`
-            ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
-
             // Store original type in state param to allow access in PatchPostFix()
             __state = ___botOwner_0.Profile.Info.Settings.Role;
 
@@ -105,27 +102,6 @@ namespace SPT.Custom.Patches
             }
 
             return true; // Do original 
-        }
-
-        /// <summary>
-        /// The client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (pmcBEAR/pmcUSEC)
-        /// </summary>
-        /// <returns>WildSpawnType</returns>
-        private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
-        {
-            // Is PMC + set to assaultGroup
-            if (botOwner.Profile.Info.IsStreamerModeAvailable && BotHasAssaultGroupRole(botOwner))
-            {
-                Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
-
-                // Its a PMC, figure out what the bot originally was and return it
-                return botOwner.Profile.Info.Side == EPlayerSide.Bear
-                    ? WildSpawnType.pmcBEAR
-                    : WildSpawnType.pmcUSEC;
-            }
-
-            // Not broken pmc, return original role
-            return botOwner.Profile.Info.Settings.Role;
         }
 
         private static List<string> GetBossTypesFromServer()
