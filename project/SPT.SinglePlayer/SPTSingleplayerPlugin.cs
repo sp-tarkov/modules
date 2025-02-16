@@ -46,7 +46,6 @@ namespace SPT.SinglePlayer
 				new ScavSellAllPriceStorePatch().Enable();
 				new ScavSellAllRequestPatch().Enable();
 				new ScavRepAdjustmentPatch().Enable();
-				new QuestAddedAutoSelectPatch().Enable();
 
 				// 3.10.0
 				new DisableWelcomeToPVEModeMessagePatch().Enable();
