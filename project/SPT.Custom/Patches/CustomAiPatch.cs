@@ -56,10 +56,8 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
                 
-                // TODO: This doesn't actually do anything, as it's an identical condition to the above if condition
-                //       From what I can tell, this is meant to apply to _non player_ scavs, but the previous condition was broken, and so is this one
-                var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname);
-                if (isSimulatedPlayerScav)
+                // Normal, non-player-scav
+                if (!isBotPlayerScav && __state == WildSpawnType.assault)
                 {
                     // Standard scav, check for custom brain option
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
