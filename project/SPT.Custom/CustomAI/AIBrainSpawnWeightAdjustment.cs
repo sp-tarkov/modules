@@ -41,12 +41,10 @@ namespace SPT.Custom.CustomAI
                 _logger.LogWarning($"Updated player scav bot to use: {newAiType} brain");
                 return newAiType;
             }
-            else
-            {
-                _logger.LogWarning($"Updated player scav bot {botOwner.Profile.Info.Nickname}: {botOwner.Profile.Info.Settings.Role} to use: {newAiType} brain");
 
-                return newAiType;
-            }
+            _logger.LogWarning($"Unable to update bot: {botOwner.Profile.Info.Nickname} {botOwner.Profile.Info.Settings.Role} to use: {newAiType}, using default");
+
+            return WildSpawnType.assault;
         }
 
         public WildSpawnType GetAssaultScavWildSpawnType(BotOwner botOwner, string currentMapName)
