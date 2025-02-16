@@ -66,7 +66,7 @@ namespace SPT.SinglePlayer
 				new FirearmControllerShowIncompatibleNotificationClass().Enable();
 				new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
 
-				// 4.0.0
+				// 3.11.0
 				new ScavPrestigeFixPatch().Enable();
 				new DisableDevMaskCheckPatch().Enable();
 				new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
