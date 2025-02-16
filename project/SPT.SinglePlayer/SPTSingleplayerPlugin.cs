@@ -36,7 +36,6 @@ namespace SPT.SinglePlayer
 				new ScavProfileLoadPatch().Enable();
 				new ScavPrefabLoadPatch().Enable();
 				new DisableReadyLocationReadyPatch().Enable();
-				//new BotTemplateLimitPatch().Enable(); // Not necessary, controls how many 'respawns' the wave has, different to what the original patches intent was when written
 				new LoadOfflineRaidScreenPatch().Enable();
 				new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
 				new PluginErrorNotifierPatch().Enable();
@@ -58,7 +57,6 @@ namespace SPT.SinglePlayer
 				new ScavFoundInRaidPatch().Enable();
 				new GetProfileAtEndOfRaidPatch().Enable();
 				new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
-				//new InsuranceScreenPatch().Enable();
 				new RemoveStashUpgradeLabelPatch().Enable();
 				new RemoveClothingItemExternalObtainLabelPatch().Enable();
 				new ForceRaidModeToLocalPatch().Enable();
