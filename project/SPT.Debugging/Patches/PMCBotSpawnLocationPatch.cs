@@ -43,7 +43,7 @@ namespace SPT.Debugging.Patches
         public List<ISpawnPoint> SelectSpawnPoints(int count)
         {
             // TODO: Fine-grained spawn selection
-            if (count > this._playerSpawnPoints.Count())
+            if (count > this._playerSpawnPoints.Count)
             {
                 ConsoleScreen.Log($"[SPT PMC Bot spawn] Wanted: ${count} but only {this._playerSpawnPoints.Count()} spawn points found, returning all");
                 return this._playerSpawnPoints;
