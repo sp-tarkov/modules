@@ -1,10 +1,7 @@
-﻿using SPT.Reflection.CodeWrapper;
-using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
+﻿using SPT.Reflection.Patching;
 using EFT;
 using HarmonyLib;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -12,9 +9,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix;
 
 /// <summary>
 /// BSG now block the use of the DevBalaclava on anything but a Dev Profile
-/// this will replace the string it checks for to a bogus string,
-/// allowing us entry.
-/// TODO: change to remove the whole check as its expensive for no reason. Thanks BSG
+/// this skips the entire check and allows us to use the dev balaclava on normal accounts
 /// </summary>
 public class DisableDevMaskCheckPatch : ModulePatch
 {
@@ -26,31 +21,35 @@ public class DisableDevMaskCheckPatch : ModulePatch
     [PatchTranspiler]
     private static IEnumerable<CodeInstruction> Transpiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
     {
-        var codes = new List<CodeInstruction>(instructions);
-        
-        // Search for the code where the string "58ac60eb86f77401897560ff Name" is
-        var searchCode = new CodeInstruction(OpCodes.Ldstr, "58ac60eb86f77401897560ff Name");
-        var searchIndex = -1;
+        List<CodeInstruction> codeInstructions = new(instructions);
 
-        for (int i = 0; i < codes.Count; i++)
+        int developerCheckIndex = -1;
+        int branchIndex = -1;
+
+        // Loop through instructions to find the developer check
+        for (int i = 0; i < codeInstructions.Count; i++)
         {
-            if (codes[i].opcode == searchCode.opcode && codes[i].operand == searchCode.operand)
+            // Look for the developer check (Is method call)
+            if (codeInstructions[i].opcode == OpCodes.Call && codeInstructions[i].operand is MethodInfo methodInfo && methodInfo.Name == "Is")
             {
-                searchIndex = i;
-                break;
+                // Check if the next opcode checks for the true condition
+                if (i + 1 < codeInstructions.Count && codeInstructions[i + 1].opcode == OpCodes.Brtrue)
+                {
+                    developerCheckIndex = i;
+                    branchIndex = i + 1;
+                }
             }
         }
-        
-        // Patch Failed
-        if (searchIndex == -1)
+
+        if (developerCheckIndex == -1 || branchIndex == -1)
         {
             Logger.LogError($"Patch {MethodBase.GetCurrentMethod().Name} Failed: Could not find reference Code");
-            return instructions;
+            return codeInstructions;
         }
-        
-        var newCodeToUse = new CodeInstruction(OpCodes.Ldstr, "FuCkOfFbSg");
-        codes[searchIndex] = newCodeToUse;
-        
-        return codes.AsEnumerable();
+
+        // Modify the branchIndex to an unconditional jump (br) to entirely skip the if block
+        codeInstructions[branchIndex] = new CodeInstruction(OpCodes.Br, codeInstructions[branchIndex].operand);
+
+        return codeInstructions;
     }
-}
+}	

@@ -48,7 +48,7 @@ namespace SPT.Custom
                 new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
 
-                // 4.0
+                // 3.11
                 new EnablePrestigeTabPatch().Enable();
 
                 HookObject.AddComponent<MenuNotificationManager>();
