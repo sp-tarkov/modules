@@ -27,9 +27,9 @@ namespace SPT.Custom.Patches
 
         private static void CheckForNonWhitelistedPlugins(ManualLogSource logger)
         {
-            if (MenuNotificationManager.disallowedPlugins.Any())
+            if (MenuNotificationManager.DisallowedPlugins.Any())
             {
-                logger.LogError($"{MenuNotificationManager.release.illegalPluginsLoadedText}\n{string.Join("\n", MenuNotificationManager.disallowedPlugins)}");
+                logger.LogError($"{MenuNotificationManager.release.illegalPluginsLoadedText}\n{string.Join("\n", MenuNotificationManager.DisallowedPlugins)}");
                 throw new Exception(MenuNotificationManager.release.illegalPluginsExceptionText);
             }
         }
