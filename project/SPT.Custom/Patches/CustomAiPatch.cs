@@ -68,8 +68,7 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
 
-                var isSptPmc = AiHelpers.BotIsSptPmc(__state, ___botOwner_0);
-                if (isSptPmc)
+                if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
                 {
                     // Bot has inventory equipment
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
@@ -80,6 +79,9 @@ namespace SPT.Custom.Patches
 
                     // Get the PMCs role value, pmcUsec/pmcBEAR
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
+
+
+                    return true; // Do original
                 }
 
                 // Is a boss bot and not already handled above
