@@ -1,6 +1,5 @@
 ﻿using EFT;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace SPT.Custom.CustomAI
 {
@@ -30,14 +29,16 @@ namespace SPT.Custom.CustomAI
 
         public static List<BotOwner> GetAllMembers(this BotsGroup group)
         {
-            List<BotOwner> members = new List<BotOwner>();
+            List<BotOwner> members = [];
 
-            if (group != null)
+            if (group == null)
             {
-                for (int m = 0; m < group.MembersCount; m++)
-                {
-                    members.Add(group.Member(m));
-                }
+                return members;
+            }
+
+            for (int m = 0; m < group.MembersCount; m++)
+            {
+                members.Add(group.Member(m));
             }
 
             return members;
@@ -56,7 +57,7 @@ namespace SPT.Custom.CustomAI
                 return false;
             }
 
-            foreach (IPlayer player in players)
+            foreach (var player in players)
             {
                 if (player != null && player.Id == playerToCheck.Id)
                 {
