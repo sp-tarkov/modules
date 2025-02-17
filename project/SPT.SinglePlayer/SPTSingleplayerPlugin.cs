@@ -68,6 +68,7 @@ namespace SPT.SinglePlayer
 				new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
 				new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
 				new DisableUseBSGServersCheckbox().Enable();
+				new PmcBotSidePatch().Enable();
 			}
 			catch (Exception ex)
 			{
