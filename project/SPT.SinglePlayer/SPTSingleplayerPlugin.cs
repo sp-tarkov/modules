@@ -39,8 +39,7 @@ namespace SPT.SinglePlayer
 				new LoadOfflineRaidScreenPatch().Enable();
 				new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
 				new PluginErrorNotifierPatch().Enable();
-				new GetNewBotTemplatesPatch().Enable();
-				new MapReadyButtonPatch().Enable();
+                new MapReadyButtonPatch().Enable();
 				new RemoveUsedBotProfilePatch().Enable();
 				new ScavLateStartPatch().Enable();
 				new ScavSellAllPriceStorePatch().Enable();
@@ -69,6 +68,7 @@ namespace SPT.SinglePlayer
 				new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
 				new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
 				new DisableUseBSGServersCheckbox().Enable();
+				new PmcBotSidePatch().Enable();
 			}
 			catch (Exception ex)
 			{

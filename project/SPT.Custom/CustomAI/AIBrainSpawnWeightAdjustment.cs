@@ -41,12 +41,10 @@ namespace SPT.Custom.CustomAI
                 _logger.LogWarning($"Updated player scav bot to use: {newAiType} brain");
                 return newAiType;
             }
-            else
-            {
-                _logger.LogWarning($"Updated player scav bot {botOwner.Profile.Info.Nickname}: {botOwner.Profile.Info.Settings.Role} to use: {newAiType} brain");
 
-                return newAiType;
-            }
+            _logger.LogWarning($"Unable to update bot: {botOwner.Profile.Info.Nickname} {botOwner.Profile.Info.Settings.Role} to use: {newAiType}, using default");
+
+            return WildSpawnType.assault;
         }
 
         public WildSpawnType GetAssaultScavWildSpawnType(BotOwner botOwner, string currentMapName)
@@ -59,7 +57,7 @@ namespace SPT.Custom.CustomAI
 
                 if (!_aiBrainsCache!.assault.TryGetValue(currentMapName.ToLower(), out _))
                 {
-                    throw new Exception($"Bots were refreshed from the server but the assault cache still doesnt contain data");
+                    throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
                 }
             }
 
@@ -67,15 +65,13 @@ namespace SPT.Custom.CustomAI
             var randomType = WeightedRandom(_aiBrainsCache.assault[currentMapName.ToLower()].Keys.ToArray(), _aiBrainsCache.assault[currentMapName.ToLower()].Values.ToArray());
             if (Enum.TryParse(randomType, out WildSpawnType newAiType))
             {
-                _logger.LogWarning($"Updated assault bot to use: {newAiType} brain");
+                _logger.LogWarning($"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain");
                 return newAiType;
             }
-            else
-            {
-                _logger.LogWarning($"Updated assault bot {botOwner.Profile.Info.Nickname}: {botOwner.Profile.Info.Settings.Role} to use: {newAiType} brain");
 
-                return newAiType;
-            }
+            _logger.LogWarning($"Unable to parse brain type: {randomType} for {botOwner.Profile.Info.Nickname}, using default");
+
+            return WildSpawnType.assault;
         }
 
         public WildSpawnType GetPmcWildSpawnType(BotOwner botOwner_0, WildSpawnType pmcType, string currentMapName)
@@ -100,7 +96,7 @@ namespace SPT.Custom.CustomAI
                 return newAiType;
             }
 
-            _logger.LogError($"Couldnt not update spt bot {botOwner_0.Profile.Info.Nickname} to random type {randomType}, does not exist for WildSpawnType enum, defaulting to 'assault'");
+            _logger.LogError($"Couldn't update spt bot: {botOwner_0.Profile.Info.Nickname} to random type: {randomType}, does not exist for WildSpawnType enum, defaulting to 'assault'");
 
             return WildSpawnType.assault;
         }

@@ -50,6 +50,7 @@ namespace SPT.Custom
 
                 // 3.11
                 new EnablePrestigeTabPatch().Enable();
+                new MatchStartServerLocationPatch().Enable();
 
                 HookObject.AddComponent<MenuNotificationManager>();
             }

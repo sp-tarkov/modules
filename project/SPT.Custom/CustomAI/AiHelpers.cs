@@ -22,29 +22,23 @@ namespace SPT.Custom.CustomAI
             return botRoleToCheck is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC;
         }
 
-        public static bool BotIsPlayerScav(WildSpawnType role, string nickname)
+        public static bool BotIsSimulatedPlayerScav(WildSpawnType role, string mainProfileNickname)
         {
-            // Check bot is pscav by looking for the opening parentheses of their nickname e.g. scavname (pmc name)
-            return role == WildSpawnType.assault && nickname.Contains("(");
-        }
-
-        public static bool BotIsSimulatedPlayerScav(WildSpawnType role, BotOwner botOwner)
-        {
-            // Assault and has "(" character in name = simulated p scav
-            var nicknameContainsPScvCharacter = botOwner.Profile.Info.Nickname?.Contains("(");
-            return nicknameContainsPScvCharacter.HasValue && nicknameContainsPScvCharacter.Value && role == WildSpawnType.assault;
+            return role == WildSpawnType.assault && !string.IsNullOrEmpty(mainProfileNickname);
         }
 
         public static List<BotOwner> GetAllMembers(this BotsGroup group)
         {
-            List<BotOwner> members = new List<BotOwner>();
+            List<BotOwner> members = [];
 
-            if (group != null)
+            if (group == null)
             {
-                for (int m = 0; m < group.MembersCount; m++)
-                {
-                    members.Add(group.Member(m));
-                }
+                return members;
+            }
+
+            for (int m = 0; m < group.MembersCount; m++)
+            {
+                members.Add(group.Member(m));
             }
 
             return members;
@@ -63,7 +57,7 @@ namespace SPT.Custom.CustomAI
                 return false;
             }
 
-            foreach (IPlayer player in players)
+            foreach (var player in players)
             {
                 if (player != null && player.Id == playerToCheck.Id)
                 {
