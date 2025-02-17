@@ -15,7 +15,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
      * the user. This is done via a toast in the bottom right, with a more detailed console message, as
      * well as having the errors forwarded to the server console
      **/
-    internal class PluginErrorNotifierPatch : ModulePatch
+    public class PluginErrorNotifierPatch : ModulePatch
     {
         private static bool _messageShown = false;
 

@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
      * This is required, as the data coming back from the server needs to have the Side set to Savage, which
      * breaks certain things like armband slots, and non-lootable melee weapons
      */
-    internal class PmcBotSidePatch : ModulePatch
+    public class PmcBotSidePatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

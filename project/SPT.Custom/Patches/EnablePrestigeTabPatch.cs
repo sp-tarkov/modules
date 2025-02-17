@@ -9,7 +9,7 @@ namespace SPT.Custom.Patches
     /// <summary>
     /// This patch sets the Prestige Tab to be enabled in PvE mode
     /// </summary>
-    internal class EnablePrestigeTabPatch : ModulePatch
+    public class EnablePrestigeTabPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
