@@ -41,7 +41,7 @@ namespace SPT.Custom
                 new VersionLabelPatch().Enable();
                 new FixScavWarNullErrorWithMarkOfUnknownPatch().Enable();
                 new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
-                new CopyPmcQuestsToPlayerScavPatch().Enable();
+                new CopyPmcQuestsAndWishlistToPlayerScavPatch().Enable();
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
                 new FixAirdropFlareDisposePatch().Enable();

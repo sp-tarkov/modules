@@ -8,10 +8,10 @@ using HarmonyLib;
 namespace SPT.Custom.Patches
 {
     /// <summary>
-    /// Copy over scav-only quests from PMC profile to scav profile on pre-raid screen
-    /// Allows scavs to see and complete quests
+    /// Copy over scav-only quests and wishlist from PMC profile to scav profile on pre-raid screen
+    /// Allows scavs to see and complete quests and see favourited items
     /// </summary>
-    public class CopyPmcQuestsToPlayerScavPatch : ModulePatch
+    public class CopyPmcQuestsAndWishlistToPlayerScavPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
@@ -43,6 +43,15 @@ namespace SPT.Custom.Patches
                 {
                     scavProfile.QuestsData.Add(quest);
                 }
+            }
+            
+            // Copy over all wishlist items from pmc to scav
+            foreach (var KvP in pmcProfile.WishlistManager.GetWishlist())
+            {
+                if (scavProfile.WishlistManager.GetWishlist().ContainsKey(KvP.Key))
+                    continue;
+
+                scavProfile.WishlistManager.AddToWishlist(KvP.Key, KvP.Value, true);
             }
         }
     }
