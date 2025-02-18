@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using SPT.Common.Utils;
@@ -25,7 +27,10 @@ namespace SPT.Common.Http
             var handler = new HttpClientHandler
             {
                 // set cookies in header instead
-                UseCookies = false
+                UseCookies = false,
+
+                // Bypass Cert validation in the httpServer - discard arguments as we dont use them
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
             };
 
             _httpv = new HttpClient(handler);
