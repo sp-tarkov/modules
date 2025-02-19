@@ -30,7 +30,7 @@ namespace SPT.Reflection.CodeWrapper
                 return new CodeInstruction(code.OpCode) { labels = GetLabelList(code) };
             }
 
-            if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Stfld)
+            if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Ldflda || code.OpCode == OpCodes.Stfld)
             {
                 return new CodeInstruction(code.OpCode, AccessTools.Field(code.CallerType, code.OperandTarget as string)) { labels = GetLabelList(code) };
             }
