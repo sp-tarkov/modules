@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
 
@@ -29,7 +30,7 @@ namespace SPT.Reflection.CodeWrapper
                 return new CodeInstruction(code.OpCode) { labels = GetLabelList(code) };
             }
 
-            if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Stfld)
+            if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Ldflda || code.OpCode == OpCodes.Stfld)
             {
                 return new CodeInstruction(code.OpCode, AccessTools.Field(code.CallerType, code.OperandTarget as string)) { labels = GetLabelList(code) };
             }
@@ -50,7 +51,17 @@ namespace SPT.Reflection.CodeWrapper
                 return new CodeInstruction(code.OpCode, code.OperandTarget) { labels = GetLabelList(code) };
             }
 
-            throw new ArgumentException($"Code with OpCode {nameof(code.OpCode)} is not supported.");
+            if (code.OpCode == OpCodes.Ldftn)
+            {
+                return new CodeInstruction(code.OpCode, AccessTools.Method(code.CallerType, code.OperandTarget as string, code.Parameters)) { labels = GetLabelList(code) };
+            }
+
+            if (code.OpCode == OpCodes.Newobj)
+            {
+                return new CodeInstruction(code.OpCode, code.CallerType.GetConstructors().FirstOrDefault(x => x.GetParameters().Length == code.Parameters.Length)) { labels = GetLabelList(code) };
+            }
+
+            throw new ArgumentException($"Code with OpCode {code.OpCode.ToString()} is not supported.");
         }
 
         private static List<Label> GetLabelList(Code code)
