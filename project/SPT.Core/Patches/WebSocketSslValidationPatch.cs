@@ -84,7 +84,7 @@ namespace SPT.Core.Patches
             return true;
         }
 
-        public static void ConfigureClientWebSocket(ref ClientWebSocket webSocket)
+        public static void ConfigureClientWebSocket(ClientWebSocket webSocket)
         {
             webSocket.Options.RemoteCertificateValidationCallback = new RemoteCertificateValidationCallback(ValidateFunc);
         }
