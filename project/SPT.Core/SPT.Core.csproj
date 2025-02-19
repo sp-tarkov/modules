@@ -16,7 +16,6 @@
         <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
         <Reference Include="Assembly-CSharp-firstpass" HintPath="..\Shared\Managed\Assembly-CSharp-firstpass.dll" Private="False" />
         <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />
-		<Reference Include="System" HintPath="..\Shared\Managed\System.dll" Private="False" />
         <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
         <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
         <Reference Include="UnityEngine.UnityWebRequestModule" HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestModule.dll" Private="False" />
