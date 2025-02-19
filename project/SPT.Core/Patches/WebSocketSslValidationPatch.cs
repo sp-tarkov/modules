@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SPT.Core.Patches
 {
@@ -18,20 +19,12 @@ namespace SPT.Core.Patches
         protected override MethodBase GetTargetMethod()
         {
             var desiredType = AccessTools.TypeByName("Mono.Net.Security.MobileTlsContext");
-            var desiredMethod = AccessTools.FirstMethod(desiredType, IsTargetMethod);
+            var desiredMethod = AccessTools.Method(desiredType, "ValidateCertificate", [typeof(X509Certificate2), typeof(X509Chain)]);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
             Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
 
             return desiredMethod;
-        }
-
-        private bool IsTargetMethod(MethodInfo method)
-        {
-            ParameterInfo[] parameters = method.GetParameters();
-
-            return method.Name == "ValidateCertificate" &&
-                parameters.Length == 2;
         }
 
         [PatchPrefix]
