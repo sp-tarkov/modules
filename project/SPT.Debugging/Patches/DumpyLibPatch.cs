@@ -31,7 +31,7 @@ public class DumpyLibPatch : ModulePatch
 
 public class DumplyLibMono : MonoBehaviour
 {
-    public Class304 _session;
+    public Class303 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
     public WaveInfoClass _wavesSettings;
@@ -45,7 +45,7 @@ public class DumplyLibMono : MonoBehaviour
 
     private void Start()
     {
-        _session = ClientAppUtils.GetClientApp().Session as Class304;
+        _session = ClientAppUtils.GetClientApp().Session as Class303;
         _tarkovApplication = ClientAppUtils.GetMainApp();
         _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController"); // is null at this point so only get fieldinfo - TODO: fieldinfo came back as null
         _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal); // imitate loading json of wave settings
