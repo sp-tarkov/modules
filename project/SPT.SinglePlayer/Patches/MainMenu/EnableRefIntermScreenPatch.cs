@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(MerchantsList.Class2907), nameof(MerchantsList.Class2907.method_0));
+            return AccessTools.Method(typeof(MerchantsList.Class2906), nameof(MerchantsList.Class2906.method_0));
         }
 
         [PatchPrefix]
