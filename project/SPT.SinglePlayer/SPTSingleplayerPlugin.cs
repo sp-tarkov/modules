@@ -69,7 +69,9 @@ namespace SPT.SinglePlayer
 				new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
 				new DisableUseBSGServersCheckbox().Enable();
 				new PmcBotSidePatch().Enable();
-			}
+				new QuestAchievementRewardInRaidPatch().Enable();
+
+            }
 			catch (Exception ex)
 			{
 				Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
