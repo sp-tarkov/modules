@@ -33,7 +33,7 @@ namespace SPT.Debugging
                 // new PMCBotSpawnLocationPatch().Enable();
                 new ReloadClientPatch().Enable();
                 // new DumpyLibPatch().Enable();
-                new TraderDialogDebugCommandPatch().Enable();
+                new EnableDebugCommandsPatch().Enable();
 
             }
             catch (Exception ex)
