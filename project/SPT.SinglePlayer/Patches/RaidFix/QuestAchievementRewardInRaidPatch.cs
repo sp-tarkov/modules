@@ -23,7 +23,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             await __result;
 
             // If this isn't an AI, properly setup the achievement unlocked handler
-            if (!aiControlled)
+            if (!aiControlled && questController != null && achievementsController != null)
             {
                 // This should be called rarely enough that the memory overhead isn't a concern
                 questController.AchievementUnlocked += (achId) => achievementsController.UnlockAchievementForced(achId);
