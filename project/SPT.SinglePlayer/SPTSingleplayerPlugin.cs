@@ -71,9 +71,6 @@ namespace SPT.SinglePlayer
 				new PmcBotSidePatch().Enable();
 				new QuestAchievementRewardInRaidPatch().Enable();
 
-                // 3.10.x specific, should be removed for 4.0.x
-                new QuestLoadStatusChangePatch().Enable();
-
             }
 			catch (Exception ex)
 			{
