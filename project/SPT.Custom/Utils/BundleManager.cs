@@ -54,6 +54,13 @@ namespace SPT.Custom.Utils
         // Handles both the check for initially acquiring and also re-acquiring a file.
         public static async Task<bool> ShouldAcquire(BundleItem bundle)
         {
+            // If this is a local bundle, we never want to re-acquire it, otherwise we risk deleting it from the server
+            if (RequestHandler.IsLocal)
+            {
+                _logger.LogInfo($"MOD: Loading locally {bundle.FileName}");
+                return false;
+            }
+
             // read cache
             var filepath = GetBundleFilePath(bundle);
 
@@ -66,11 +73,7 @@ namespace SPT.Custom.Utils
                 if (crc == bundle.Crc)
                 {
                     // file is up-to-date
-                    var location = RequestHandler.IsLocal
-                        ? "MOD"
-                        : "CACHE";
-
-                    _logger.LogInfo($"{location}: Loading locally {bundle.FileName}");
+                    _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
                     return false;
                 }
                 else

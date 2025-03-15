@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using BepInEx.Logging;
 using EFT;
 using EFT.Bots;
 using EFT.UI;
@@ -8,6 +12,7 @@ using JsonType;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 using UnityEngine;
+using Logger = BepInEx.Logging.Logger;
 
 namespace SPT.Debugging.Patches;
 
@@ -31,25 +36,35 @@ public class DumpyLibPatch : ModulePatch
 
 public class DumplyLibMono : MonoBehaviour
 {
-    public Class301 _session;
+    public Class303 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
-    public WaveInfo _wavesSettings;
+    public WaveInfoClass _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
-    public GClass1924 _endRaidClass;
-    public GClass1962 _completeProfile;
-    public GClass814 _parsedDataProfile;
-    // Class references are as of assembly 33420 - 02/11/2024
+    public List<LocationSettingsClass.Location> _locationSettingsDict;
+    public GClass1959 _endRaidClass;
+    public GClass1998 _completeProfile;
+    public GClass825 _parsedDataProfile;
+    public ManualLogSource _dumpLogger;
+    // Class references are as of assembly 35328 - 28/02/2025
 
     private void Start()
     {
-        _session = ClientAppUtils.GetClientApp().Session as Class301;
+        _dumpLogger = Logger.CreateLogSource(nameof(DumplyLibMono));
+        Task.Factory.StartNew(() => StartTask(), TaskCreationOptions.LongRunning);
+    }
+
+    private async Task StartTask()
+    {
+        await Task.Delay(5000);
+
+        _session = ClientAppUtils.GetClientApp().Session as Class303;
         _tarkovApplication = ClientAppUtils.GetMainApp();
-        _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController"); // is null at this point so only get fieldinfo - TODO: fieldinfo came back as null
-        _wavesSettings = new WaveInfo(2, WildSpawnType.assault, BotDifficulty.normal); // imitate loading json of wave settings
-        _localRaidSettings = new LocalRaidSettings // this has changed from current repo json TODO: check dumped data for changes here
+        _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
+        _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal);
+        _localRaidSettings = new LocalRaidSettings
         {
             serverId = null,
             location = "Interchange",
@@ -57,7 +72,7 @@ public class DumplyLibMono : MonoBehaviour
             mode = ELocalMode.TRAINING,
             playerSide = ESideType.Pmc,
         };
-        _raidSettings = new RaidSettings // this has changed from current repo json TODO: check dumped data for changes here
+        _raidSettings = new RaidSettings
         {
             KeyId = null,
             LocationId = "Interchange",
@@ -88,10 +103,16 @@ public class DumplyLibMono : MonoBehaviour
             },
             Side = ESideType.Pmc,
             RaidMode = ERaidMode.Online,
-            PlayersSpawnPlace = EPlayersSpawnPlace.SamePlace
+            PlayersSpawnPlace = EPlayersSpawnPlace.SamePlace,
+            OnlinePveRaid = false
         };
+        _locationSettingsDict = _session.LocationSettings.locations.Values.ToList();
         _locationSettings = _session.LocationSettings;
-        _endRaidClass = new GClass1924
+        _raidSettings.GetType()
+            .GetField("_locationSettings", BindingFlags.NonPublic | BindingFlags.Instance)
+            .SetValue(_raidSettings, _locationSettings);
+
+        _endRaidClass = new GClass1959
         {
             profile = null,
             result = ExitStatus.Left,
@@ -101,12 +122,17 @@ public class DumplyLibMono : MonoBehaviour
             inSession = true,
             favorite = false,
             playTime = 33,
-            InsuredItems = new GClass1308[] {},
+            InsuredItems = [],
             ProfileId = ""
         };
-        _completeProfile = new GClass1962(_session.Profile, GClass1971.Instance);
+        _completeProfile = new GClass1998(_session.Profile, GClass2007.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
+    }
+
+    private void TestMethod()
+    {
+        _raidSettings.UpdateOnlinePveRaidStates();
     }
 }

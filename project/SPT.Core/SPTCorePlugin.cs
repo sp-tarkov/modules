@@ -25,8 +25,11 @@ namespace SPT.Core
                 new BattlEyePatch().Enable();
                 new SslCertificatePatch().Enable();
                 new UnityWebRequestPatch().Enable();
-                new WebSocketPatch().Enable();
-                new TransportPrefixPatch().Enable();
+                new WebSocketSslValidationPatch().Enable();
+
+                // No longer needed with us moving back to Https
+                // new WebSocketPatch().Enable();
+                // new TransportPrefixPatch().Enable();
             }
             catch (Exception ex)
             {

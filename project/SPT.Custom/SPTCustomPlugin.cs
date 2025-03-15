@@ -41,12 +41,16 @@ namespace SPT.Custom
                 new VersionLabelPatch().Enable();
                 new FixScavWarNullErrorWithMarkOfUnknownPatch().Enable();
                 new MergeScavPmcQuestsOnInventoryLoadPatch().Enable();
-                new CopyPmcQuestsToPlayerScavPatch().Enable();
+                new CopyPmcQuestsAndWishlistToPlayerScavPatch().Enable();
                 new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
                 new FixAirdropCrashPatch().Enable();
                 new FixAirdropFlareDisposePatch().Enable();
                 new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
+
+                // 3.11
+                new EnablePrestigeTabPatch().Enable();
+                new MatchStartServerLocationPatch().Enable();
 
                 HookObject.AddComponent<MenuNotificationManager>();
             }
@@ -54,7 +58,7 @@ namespace SPT.Custom
             {
                 Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
                 Logger.LogError($"{GetType().Name}: {ex}");
-                MessageBoxHelper.Show($"A patch in {GetType().Name} FAILED. {ex.Message}. SUBSEQUENT PATCHES HAVE NOT LOADED, CHECK LOG FOR MORE DETAILS", "ERROR", MessageBoxHelper.MessageBoxType.OK);
+                MessageBoxHelper.Show($"A patch in {GetType().Name} FAILED. {ex.Message}. SUBSEQUENT PATCHES HAVE NOT LOADED, CHECK LOG (/bepinex/LogOutput.log) FOR MORE DETAILS", "ERROR", MessageBoxHelper.MessageBoxType.OK);
                 Application.Quit();
 
                 throw;

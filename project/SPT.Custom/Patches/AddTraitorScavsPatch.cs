@@ -26,7 +26,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ref BotsGroup __result, IBotGame ____game, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone)
+        public static bool PatchPrefix(ref BotsGroup __result, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone, BotSpawner __instance)
         {
             if (!_traitorChancePercent.HasValue)
             {
@@ -34,8 +34,13 @@ namespace SPT.Custom.Patches
                 _traitorChancePercent = JsonConvert.DeserializeObject<int>(json);
             }
 
+            if (_traitorChancePercent == 0)
+            {
+                return true; // Do original method
+            }
+
             WildSpawnType role = bot.Profile.Info.Settings.Role;
-            if (AiHelpers.BotIsPlayerScav(role, bot.Profile.Info.Nickname) && new Random().Next(1, 100) < _traitorChancePercent)
+            if (AiHelpers.BotIsSimulatedPlayerScav(role, bot.Profile.Info.MainProfileNickname) && new Random().Next(1, 100) < _traitorChancePercent)
             {
                 Logger.LogInfo($"Making {bot.name} ({bot.Profile.Nickname}) hostile to player");
 
@@ -43,7 +48,7 @@ namespace SPT.Custom.Patches
                 var player = Singleton<GameWorld>.Instance.MainPlayer;
                 var enemies = new List<BotOwner>();
                 var players = new List<Player>() { player };
-                var botsGroup = new BotsGroup(zone, ____game, bot, enemies, ____deadBodiesController, players, false);
+                var botsGroup = new BotsGroup(zone, __instance.BotGame, bot, enemies, ____deadBodiesController, players, false);
 
                 // Because we don't want to use the zone-specific group, we add the new group with no key. This is similar to free for all
                 Singleton<IBotGame>.Instance.BotsController.BotSpawner.Groups.AddNoKey(botsGroup, zone);

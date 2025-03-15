@@ -11,7 +11,7 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GClass2404).GetProperty(nameof(GClass2404.Int32_0)).GetGetMethod();
+            return typeof(GClass2459).GetProperty(nameof(GClass2459.Int32_0)).GetGetMethod();
         }
 
         [PatchPrefix]

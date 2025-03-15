@@ -7,7 +7,7 @@ namespace SPT.Core.Utils
     public static class ValidationUtil
     {
         public static string _crashHandler = "0";
-        private static bool _hasRun = false;
+        private static bool _hasRun;
         
         public static bool Validate()
         {
@@ -36,6 +36,8 @@ namespace SPT.Core.Utils
                     ServerLog.Debug("SPT.Core", _crashHandler);
                     ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
                     ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
+                    if (_crashHandler == "0") ServerLog.Debug("SPT.Core", "-1");
+                    
                     _hasRun = true;
                 }
                 

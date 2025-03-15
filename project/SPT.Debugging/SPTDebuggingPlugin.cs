@@ -33,7 +33,9 @@ namespace SPT.Debugging
                 // new PMCBotSpawnLocationPatch().Enable();
                 new ReloadClientPatch().Enable();
                 // new DumpyLibPatch().Enable();
-			}
+                new EnableDebugCommandsPatch().Enable();
+
+            }
             catch (Exception ex)
             {
                 Logger.LogError($"{GetType().Name}: {ex}");

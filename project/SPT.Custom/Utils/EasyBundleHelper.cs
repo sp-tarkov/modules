@@ -5,13 +5,14 @@ using System.Reflection;
 using System.Threading.Tasks;
 using SPT.Reflection.Utils;
 using UnityEngine;
-using BindableState = BindableState<Diz.DependencyManager.ELoadState>;
+using BindableState = BindableStateClass<Diz.DependencyManager.ELoadState>;
 
 namespace SPT.Custom.Utils
 {
     public class EasyBundleHelper
     {
         private const BindingFlags NonPublicInstanceFlags = BindingFlags.Instance | BindingFlags.NonPublic;
+        private const BindingFlags PublicInstanceFlags = BindingFlags.Instance | BindingFlags.Public;
         private static readonly FieldInfo _pathField;
         private static readonly FieldInfo _keyWithoutExtensionField;
         private static readonly FieldInfo _bundleLockField;
@@ -29,9 +30,9 @@ namespace SPT.Custom.Utils
 
             Type = PatchConstants.EftTypes.SingleCustom(x => !x.IsInterface && x.GetProperty("SameNameAsset", PatchConstants.PublicDeclaredFlags) != null);
             
-            _pathField = Type.GetField("string_1", NonPublicInstanceFlags);
-            _keyWithoutExtensionField = Type.GetField("string_0", NonPublicInstanceFlags);
-            _bundleLockField = Type.GetFields(NonPublicInstanceFlags).FirstOrDefault(x => x.FieldType == typeof(IBundleLock));
+            _pathField = Type.GetField("string_1", PublicInstanceFlags);
+            _keyWithoutExtensionField = Type.GetField("string_0", PublicInstanceFlags);
+            _bundleLockField = Type.GetFields(PublicInstanceFlags).FirstOrDefault(x => x.FieldType == typeof(IBundleLock));
             _dependencyKeysProperty = Type.GetProperty("DependencyKeys");
             _keyProperty = Type.GetProperty("Key");
             _loadStateProperty = Type.GetProperty("LoadState");

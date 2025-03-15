@@ -4,10 +4,10 @@ using System.Reflection;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
-	/// <summary>
-	/// Remove the label shown on some of Ragmans clothing options to "buy from website"
-	/// </summary>
-	internal class RemoveClothingItemExternalObtainLabelPatch : ModulePatch
+    /// <summary>
+    /// Remove the label shown on some of Ragmans clothing options to "buy from website"
+    /// </summary>
+    public class RemoveClothingItemExternalObtainLabelPatch : ModulePatch
 	{
 		protected override MethodBase GetTargetMethod()
 		{
@@ -15,7 +15,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 		}
 
 		[PatchPrefix]
-		private static void Prefix(ref ClothingItem.GClass3461 offer)
+		private static void Prefix(ref ClothingItem.GClass3528 offer)
 		{
 			offer.Offer.ExternalObtain = false;
 		}

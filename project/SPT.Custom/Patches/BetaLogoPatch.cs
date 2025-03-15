@@ -44,7 +44,7 @@ namespace SPT.Custom.Patches
         [PatchPostfix]
         public static void PatchPostfix(ref TextMeshProUGUI ____label, Profile ___profile_0)
         {
-            ____label.text = $"{MenuNotificationManager.commitHash}";
+            ____label.text = $"{MenuNotificationManager.CommitHash}";
         }
     }
 

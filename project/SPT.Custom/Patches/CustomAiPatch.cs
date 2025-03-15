@@ -23,7 +23,7 @@ namespace SPT.Custom.Patches
     {
         private static readonly PmcFoundInRaidEquipment pmcFoundInRaidEquipment = new PmcFoundInRaidEquipment(Logger);
         private static readonly AIBrainSpawnWeightAdjustment aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
-        private static readonly List<string> _bossConvertAllowedTypes = GetBossConvertFromServer();
+        private static readonly List<string> _bossTypes = GetBossTypesFromServer();
 
         protected override MethodBase GetTargetMethod()
         {
@@ -40,9 +40,6 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
         {
-            // resolve PMCs flagged as `assaultgroup`
-            ___botOwner_0.Profile.Info.Settings.Role = FixAssaultGroupPmcsRole(___botOwner_0);
-
             // Store original type in state param to allow access in PatchPostFix()
             __state = ___botOwner_0.Profile.Info.Settings.Role;
 
@@ -50,7 +47,7 @@ namespace SPT.Custom.Patches
             {
                 // Get map so it can be used to decide what ai brain is used for scav/pmc
                 string currentMapName = GetCurrentMap();
-                var isBotPlayerScav = AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname);
+                var isBotPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname);
                 if (isBotPlayerScav)
                 {
                     // Bot is named to look like player scav, give it a randomised brain
@@ -59,8 +56,8 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
                 
-                var isSimulatedPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0);
-                if (isSimulatedPlayerScav)
+                // Normal, non-player-scav
+                if (!isBotPlayerScav && __state == WildSpawnType.assault)
                 {
                     // Standard scav, check for custom brain option
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
@@ -71,8 +68,7 @@ namespace SPT.Custom.Patches
                     return true; // Do original
                 }
 
-                var isSptPmc = AiHelpers.BotIsSptPmc(__state, ___botOwner_0);
-                if (isSptPmc)
+                if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
                 {
                     // Bot has inventory equipment
                     if (___botOwner_0.Profile?.Inventory?.Equipment != null)
@@ -83,10 +79,13 @@ namespace SPT.Custom.Patches
 
                     // Get the PMCs role value, pmcUsec/pmcBEAR
                     ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
+
+
+                    return true; // Do original
                 }
 
                 // Is a boss bot and not already handled above
-                if (_bossConvertAllowedTypes.Contains(nameof(__state)))
+                if (_bossTypes.Contains(nameof(__state)))
                 {
                     if (___botOwner_0.Boss.BossLogic == null)
                     {
@@ -105,30 +104,9 @@ namespace SPT.Custom.Patches
             return true; // Do original 
         }
 
-        /// <summary>
-        /// The client sometimes replaces PMC roles with 'assaultGroup', give PMCs their original role back (pmcBEAR/pmcUSEC)
-        /// </summary>
-        /// <returns>WildSpawnType</returns>
-        private static WildSpawnType FixAssaultGroupPmcsRole(BotOwner botOwner)
+        private static List<string> GetBossTypesFromServer()
         {
-            // Is PMC + set to assaultGroup
-            if (botOwner.Profile.Info.IsStreamerModeAvailable && BotHasAssaultGroupRole(botOwner))
-            {
-                Logger.LogError($"Broken PMC found: {botOwner.Profile.Nickname}, was {botOwner.Profile.Info.Settings.Role}");
-
-                // Its a PMC, figure out what the bot originally was and return it
-                return botOwner.Profile.Info.Side == EPlayerSide.Bear
-                    ? WildSpawnType.pmcBEAR
-                    : WildSpawnType.pmcUSEC;
-            }
-
-            // Not broken pmc, return original role
-            return botOwner.Profile.Info.Settings.Role;
-        }
-
-        private static List<string> GetBossConvertFromServer()
-        {
-            string json = RequestHandler.GetJson("/singleplayer/bossconvert");
+            string json = RequestHandler.GetJson("/singleplayer/bosstypes");
             return JsonConvert.DeserializeObject<List<string>>(json);
         }
 
@@ -150,7 +128,7 @@ namespace SPT.Custom.Patches
                 // Set spt pmc bot back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;
             }
-            else if (AiHelpers.BotIsPlayerScav(__state, ___botOwner_0.Profile.Info.Nickname))
+            else if (AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname))
             {
                 // Set pscav back to original type
                 ___botOwner_0.Profile.Info.Settings.Role = __state;

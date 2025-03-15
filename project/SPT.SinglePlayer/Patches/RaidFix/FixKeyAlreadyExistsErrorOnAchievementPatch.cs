@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPrefix]
-        public static bool Prefix(GClass1368 achievement, bool notify, AbstractAchievementControllerClass __instance)
+        public static bool Prefix(GClass3692 achievement, bool notify, AbstractAchievementControllerClass __instance)
         {
             if (achievement.IsDone() && __instance.Profile.AchievementsData.ContainsKey(achievement.Id))
             {
