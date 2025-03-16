@@ -70,6 +70,7 @@ namespace SPT.SinglePlayer
 				new DisableUseBSGServersCheckbox().Enable();
 				new PmcBotSidePatch().Enable();
 				new QuestAchievementRewardInRaidPatch().Enable();
+				new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
             }
 			catch (Exception ex)
