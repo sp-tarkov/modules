@@ -20,9 +20,8 @@ namespace SPT.Custom
 
             try
             {
-                // Bundle patches should always load first - DO NOT REMOVE
+                // Bundle patch should always load first - DO NOT REMOVE
                 new EasyAssetsPatch().Enable();
-                new EasyBundlePatch().Enable();
 
                 // Still need
                 new DisableNonHalloweenExitsDuringEventPatch().Enable();
