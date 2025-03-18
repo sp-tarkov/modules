@@ -76,7 +76,7 @@ namespace SPT.Custom.Patches
                 bundleLock = new BundleLockClass(int.MaxValue);
             }
 
-            var bundles = (IEasyBundle[])Array.CreateInstance(EasyBundleHelper.Type, bundleNames.Length);
+            var bundles = new EasyAssetHelperClass[bundleNames.Length];
 
             var bundleUtils = BundleUtils.Create();
             bundleUtils.Init(bundleNames.Length);
@@ -107,14 +107,12 @@ namespace SPT.Custom.Patches
                 }
 
                 // create bundle of obfuscated type
-                bundles[i] = (IEasyBundle)Activator.CreateInstance(EasyBundleHelper.Type, new object[]
-                {
+                bundles[i] = new EasyAssetHelperClass(
                     key,
                     path,
                     manifest,
                     bundleLock,
-                    bundleCheck
-                });
+                    bundleCheck);
             }
 
             bundleUtils.Dispose();
