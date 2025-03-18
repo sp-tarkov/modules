@@ -44,9 +44,9 @@ public class DumplyLibMono : MonoBehaviour
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
     public List<LocationSettingsClass.Location> _locationSettingsDict;
-    public GClass1959 _endRaidClass;
-    public GClass1998 _completeProfile;
-    public GClass825 _parsedDataProfile;
+    public GClass1960 _endRaidClass;
+    public GClass1999 _completeProfile;
+    public GClass826 _parsedDataProfile;
     public ManualLogSource _dumpLogger;
     // Class references are as of assembly 35328 - 28/02/2025
 
@@ -112,7 +112,7 @@ public class DumplyLibMono : MonoBehaviour
             .GetField("_locationSettings", BindingFlags.NonPublic | BindingFlags.Instance)
             .SetValue(_raidSettings, _locationSettings);
 
-        _endRaidClass = new GClass1959
+        _endRaidClass = new GClass1960
         {
             profile = null,
             result = ExitStatus.Left,
@@ -125,7 +125,7 @@ public class DumplyLibMono : MonoBehaviour
             InsuredItems = [],
             ProfileId = ""
         };
-        _completeProfile = new GClass1998(_session.Profile, GClass2007.Instance);
+        _completeProfile = new GClass1999(_session.Profile, GClass2008.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
