@@ -13,7 +13,7 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(InventoryScreen.Class2748), nameof(InventoryScreen.Class2748.MoveNext));
+            return AccessTools.Method(typeof(InventoryScreen.Class2749), nameof(InventoryScreen.Class2749.MoveNext));
         }
 
         [PatchPostfix]

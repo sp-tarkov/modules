@@ -22,7 +22,7 @@ namespace SPT.SinglePlayer.Patches.Progression
             return AccessTools.Method(
                 typeof(SessionResultExitStatus),
                 nameof(SessionResultExitStatus.Show),
-                [typeof(Profile), typeof(GClass1953), typeof(ESideType), typeof(ExitStatus), typeof(TimeSpan), typeof(ISession), typeof(bool)
+                [typeof(Profile), typeof(LastPlayerStateClass), typeof(ESideType), typeof(ExitStatus), typeof(TimeSpan), typeof(ISession), typeof(bool)
                 ]);
         }
 

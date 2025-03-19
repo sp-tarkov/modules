@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     /// </summary>
     public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
-        public static GClass1999 ProfileDescriptor { get; private set; }
+        public static CompleteProfileDescriptorClass ProfileDescriptor { get; private set; }
 
         protected override MethodBase GetTargetMethod()
         {
@@ -23,7 +23,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance)
         {
-			ProfileDescriptor = new GClass1999(__instance.Profile_0, GClass2008.Instance);
+			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2012.Instance /* Has 2 methods */);
         }
     }
     /// <summary>
