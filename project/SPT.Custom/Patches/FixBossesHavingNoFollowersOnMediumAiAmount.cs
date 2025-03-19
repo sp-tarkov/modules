@@ -17,9 +17,12 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(LocalGame __instance, WavesSettings wavesSettings, ref BossLocationSpawn[] bossLocationSpawn)
+        public static void PatchPrefix(LocalGame __instance, WavesSettings wavesSettings, ref BossLocationSpawn[] bossLocationSpawn, ref bool isPVEOffline)
         {
-            // Not a boss and set to medium, skip
+            // Flag as false to allow player to disable bosses in pre-raid screen
+            isPVEOffline = false;
+
+            // Not a boss and not set to medium, skip
             if (wavesSettings is not { IsBosses: true, BotAmount: EBotAmount.Medium })
             {
                 return;
