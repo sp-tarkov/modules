@@ -1,6 +1,7 @@
 ﻿using SPT.Reflection.Patching;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
 using UnityEngine;
 
 namespace SPT.Custom.Patches
@@ -13,7 +14,7 @@ namespace SPT.Custom.Patches
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return typeof(GClass2464).GetMethod(nameof(GClass2464.Dispose));
+			return AccessTools.Method(typeof(GClass2468), nameof(GClass2468.Dispose));
 		}
 
 		[PatchPrefix]

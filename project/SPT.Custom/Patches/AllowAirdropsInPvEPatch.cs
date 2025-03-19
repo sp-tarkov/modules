@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using HarmonyLib;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
@@ -11,7 +12,7 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(GClass2460).GetProperty(nameof(GClass2460.Int32_0)).GetGetMethod();
+            return AccessTools.PropertyGetter(typeof(AirdropEventClass), nameof(AirdropEventClass.Int32_0));
         }
 
         [PatchPrefix]
