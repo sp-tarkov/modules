@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,10 +103,8 @@ namespace SPT.Common.Http
 
         protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
         {
-            var error = new Exception("Internal error");
-
             // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
-            for (var i = 0; i <= _retries; ++i)
+            for (var i = 0; i <= _retries; i++)
             {
                 try
                 {
@@ -113,11 +112,14 @@ namespace SPT.Common.Http
                 }
                 catch (Exception ex)
                 {
-                    error = ex;
+                    if (i > _retries)
+                    {
+                        throw ex;
+                    }
                 }
             }
 
-            throw error;
+            return null;
         }
 
         public async Task<byte[]> GetAsync(string path)
