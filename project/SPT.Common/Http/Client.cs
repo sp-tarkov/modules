@@ -1,12 +1,9 @@
+using SPT.Common.Utils;
 using System;
 using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
-using SPT.Common.Utils;
 
 namespace SPT.Common.Http
 {
