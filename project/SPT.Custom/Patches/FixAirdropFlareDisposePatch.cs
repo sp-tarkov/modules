@@ -14,7 +14,7 @@ namespace SPT.Custom.Patches
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return AccessTools.Method(typeof(GClass2468), nameof(GClass2468.Dispose));
+			return AccessTools.Method(typeof(GClass2493), nameof(GClass2493.Dispose));
 		}
 
 		[PatchPrefix]

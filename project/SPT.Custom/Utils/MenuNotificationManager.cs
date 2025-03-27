@@ -42,7 +42,7 @@ namespace SPT.Custom.Utils
         /// This GClass can be found by looking at <see cref="ErrorScreen"/> and seeing what the ErrorScreen class inherits from: <see cref="Window{T}"/> <br/>
         /// The constrained generic is the class to use
         /// </summary>
-        private GClass3556 _betaMessageContext;
+        private GClass3581 _betaMessageContext;
 
         /// <summary>
         /// Retrieves the current build from the registry to check against the current build <br/>

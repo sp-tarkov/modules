@@ -23,7 +23,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance)
         {
-			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2012.Instance /* Has 2 methods */);
+			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2037.Instance /* Has 2 methods */);
         }
     }
     /// <summary>

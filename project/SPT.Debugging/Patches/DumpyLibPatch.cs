@@ -46,7 +46,7 @@ public class DumplyLibMono : MonoBehaviour
     public List<LocationSettingsClass.Location> _locationSettingsDict;
     public RaidEndDescriptorClass _endRaidClass;
     public CompleteProfileDescriptorClass _completeProfile;
-    public GClass828 _parsedDataProfile;
+    public GClass840 _parsedDataProfile;
     public ManualLogSource _dumpLogger;
     // Class references are as of assembly 35328 - 28/02/2025
 
@@ -125,7 +125,7 @@ public class DumplyLibMono : MonoBehaviour
             InsuredItems = [],
             ProfileId = ""
         };
-        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2011.Instance /* Has 3 methods */);
+        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2036.Instance /* Has 3 methods */);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
