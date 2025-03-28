@@ -17,7 +17,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPostfix]
-        public static void Postfix(InventoryScreen.Class2768 __instance)
+        public static void Postfix(InventoryScreen.Class2769 __instance)
         {
             var inventoryScreen = __instance.inventoryScreen_0;
             var tabDictionary = Traverse.Create(inventoryScreen).Field<IReadOnlyDictionary<EInventoryTab, Tab>>("_tabDictionary").Value;
