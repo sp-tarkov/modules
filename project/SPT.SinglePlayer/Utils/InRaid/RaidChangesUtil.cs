@@ -94,10 +94,10 @@ namespace SPT.SinglePlayer.Utils.InRaid
             LocationId = raidSettings.SelectedLocation.Id;
 
             OriginalEscapeTimeMinutes = raidSettings.SelectedLocation.EscapeTimeLimit;
-            NewEscapeTimeMinutes = raidChanges.RaidTimeMinutes;
+            NewEscapeTimeMinutes = raidChanges.raidTimeMinutes;
 
-            OriginalSurvivalTimeSeconds = raidChanges.OriginalSurvivalTimeSeconds;
-            NewSurvivalTimeSeconds = raidChanges.NewSurviveTimeSeconds ?? OriginalSurvivalTimeSeconds;
+            OriginalSurvivalTimeSeconds = raidChanges.originalSurvivalTimeSeconds;
+            NewSurvivalTimeSeconds = raidChanges.newSurviveTimeSeconds ?? OriginalSurvivalTimeSeconds;
         }
 
         /// <summary>

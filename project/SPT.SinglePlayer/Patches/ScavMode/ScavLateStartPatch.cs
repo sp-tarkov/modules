@@ -5,8 +5,6 @@ using SPT.Reflection.Utils;
 using Comfort.Common;
 using EFT;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using SPT.SinglePlayer.Models.ScavMode;
@@ -14,7 +12,7 @@ using SPT.SinglePlayer.Models.ScavMode;
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     /// <summary>
-    /// Make alterations to the the suurvive time requirement prior to it being used to create a local game
+    /// Make alterations to the survive time requirement prior to it being used to create a local game
     /// Singleton<BackendConfigSettingsClass>.Instance.Experience.MatchEnd.SurvivedTimeRequirement
     /// </summary>
     public class ScavLateStartPatch : ModulePatch
@@ -57,9 +55,9 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             Utils.InRaid.RaidChangesUtil.UpdateRaidChanges(____raidSettings, serverResult);
 
             // Handle survival time changes
-            AdjustSurviveTimeForExtraction(serverResult.NewSurviveTimeSeconds.HasValue
-                ? serverResult.NewSurviveTimeSeconds.Value
-                : serverResult.OriginalSurvivalTimeSeconds);
+            AdjustSurviveTimeForExtraction(serverResult.newSurviveTimeSeconds.HasValue
+                ? serverResult.newSurviveTimeSeconds.Value
+                : serverResult.originalSurvivalTimeSeconds);
 
             // Confirm that all raid changes are complete
             Utils.InRaid.RaidChangesUtil.ConfirmRaidChanges();
