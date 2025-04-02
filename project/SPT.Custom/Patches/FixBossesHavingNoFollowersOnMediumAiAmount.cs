@@ -21,11 +21,12 @@ namespace SPT.Custom.Patches
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance, WavesSettings wavesSettings, ref BossLocationSpawn[] bossLocationSpawn)
         {
-            // Player has disabled bosses, filter to only PMCs
+            // Player disabled bosses, filter to just PMCs
             if (!wavesSettings.IsBosses)
             {
-                bossLocationSpawn =
-                    Array.FindAll(bossLocationSpawn, x => x.BossType is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC);
+                // DO NOT filter by 'BossType', for some reason its ALWAYS 'marksman'
+                bossLocationSpawn = 
+                    Array.FindAll(bossLocationSpawn, x => x.BossName is "pmcBEAR" or "pmcUSEC");
 
                 return;
             }
