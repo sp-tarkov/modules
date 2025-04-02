@@ -57,4 +57,3 @@ namespace SPT.Custom.Patches
         }
     }
 }
-}
