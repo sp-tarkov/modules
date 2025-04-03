@@ -55,6 +55,8 @@ namespace SPT.Custom
                 // 3.11
                 new EnablePrestigeTabPatch().Enable();
                 new MatchStartServerLocationPatch().Enable();
+                new SpawnPointAIPlayerBotLimitPatch().Enable();
+                new SpawnPointNearestPlayerAIPatch().Enable();
 
                 HookObject.AddComponent<MenuNotificationManager>();
             }
