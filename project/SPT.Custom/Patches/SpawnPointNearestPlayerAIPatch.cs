@@ -40,7 +40,7 @@ namespace SPT.Custom.Patches
                     if (player.IsAI && !AiHelpers.BotIsSptPmc(player.Profile.Info.Settings.Role, player.AIData.BotOwner)) continue;
                     if (!player.HealthController.IsAlive) continue;
 
-                    float dist = ___Position.SqrDistance(player.Position);
+                    float dist = ___Position.SqrDistance(((IPlayer)player).Position);
                     if (dist < minDistance)
                     {
                         minDistance = dist;
