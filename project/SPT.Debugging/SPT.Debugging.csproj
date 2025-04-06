@@ -19,8 +19,10 @@
         <Reference Include="Unity.TextMeshPro" HintPath="..\Shared\Managed\Unity.TextMeshPro.dll" Private="False"/>
         <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False"/>
         <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False"/>
+        <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" Private="False"/>
         <Reference Include="UnityEngine.InputLegacyModule" HintPath="..\Shared\Managed\UnityEngine.InputLegacyModule.dll" Private="False"/>
         <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False"/>
+        <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" Private="False"/>
         <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False"/>
         <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False"/>
         <Reference Include="Comfort.Common" HintPath="..\Shared\Managed\Comfort.dll" Private="False"/>
