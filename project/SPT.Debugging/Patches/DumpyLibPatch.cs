@@ -50,6 +50,8 @@ public class DumplyLibMono : MonoBehaviour
     public ManualLogSource _dumpLogger;
     // Class references are as of assembly 35328 - 28/02/2025
 
+    private static readonly System.Random random = new();
+    
     private void Start()
     {
         _dumpLogger = Logger.CreateLogSource(nameof(DumplyLibMono));
@@ -58,7 +60,7 @@ public class DumplyLibMono : MonoBehaviour
 
     private async Task StartTask()
     {
-        await Task.Delay(5000);
+        await Task.Delay(random.Next(4802, 5998));
 
         _session = ClientAppUtils.GetClientApp().Session as Class303;
         _tarkovApplication = ClientAppUtils.GetMainApp();
