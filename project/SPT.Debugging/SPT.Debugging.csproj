@@ -27,6 +27,8 @@
         <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False"/>
         <Reference Include="Nlog" HintPath="..\Shared\Managed\NLog.dll" Private="False"/>
         <Reference Include="Nlog" HintPath="..\Shared\Managed\CommonExtensions.dll" Private="False"/>
+        <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" Private="False"/>
+        <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" Private="False"/>
     </ItemGroup>
 
     <ItemGroup>
