@@ -27,7 +27,7 @@ public class BotsControllerInitPatch : ModulePatch
             __instance.BotGame.GameDateTime,
             __instance.Bots,
             __instance.ZonesLeaveController,
-            __instance._botSpawner,
+            __instance.BotSpawner,
             __instance.CoversData.AIPlaceInfoHolder,
             events,
             __instance.CoversData);
@@ -50,14 +50,14 @@ public class BotsEventsControllerActivatePatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(BotsEventsController __instance)
     {
-        if (__instance.BotHalloweenEvent._spawner == null)
+        if (__instance.BotHalloweenEvent.Spawner == null)
         {
-            Logger.LogWarning("__instance.BotHalloweenEvent._spawner is null skip Activate");
+            Logger.LogWarning("__instance.BotHalloweenEvent.Spawner is null skip Activate");
             
             return false;
         }
         
-        Logger.LogInfo("__instance.BotHalloweenEvent._spawner is not null run Activate");
+        Logger.LogInfo("__instance.BotHalloweenEvent.Spawner is not null run Activate");
         return true;
     }
 }
