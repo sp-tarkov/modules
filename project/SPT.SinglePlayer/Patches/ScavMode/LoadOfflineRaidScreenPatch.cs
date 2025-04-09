@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_49));
+            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_50));
 
             _isLocalField = AccessTools.Field(typeof(MainMenuControllerClass), "bool_0");
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
@@ -46,7 +46,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_76));
+            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_77));
         }
 
         [PatchTranspiler]
@@ -59,12 +59,12 @@ namespace SPT.SinglePlayer.Patches.ScavMode
              *   3	0007	call        instance void MainMenuController::method_41()
              *   4	000C	ldarg.0
              *   5	000D	call        instance bool MainMenuController::method_46()
-             *   6	0012	brtrue.s    8 (0015) ldarg.0 
+             *   6	0012	brtrue.s    8 (0015) ldarg.0
              *   7	0014	ret
              *   8	0015	ldarg.0
              *   9	0016	ldfld       class EFT.RaidSettings MainMenuController::raidSettings_0
              *   10	001B	callvirt    instance bool EFT.RaidSettings::get_IsPmc()
-             *   11	0020	brfalse.s   15 (0029) ldarg.0 
+             *   11	0020	brfalse.s   15 (0029) ldarg.0
              *   12	0022	ldarg.0
              *   13	0023	call        instance void MainMenuController::method_42()
              *   14	0028	ret
@@ -99,7 +99,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             }
 
             // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
-            codes[callCodeIndex] = new CodeInstruction(OpCodes.Call, 
+            codes[callCodeIndex] = new CodeInstruction(OpCodes.Call,
                 AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) {
                 labels = codes[loadThisIndex].labels
             };
