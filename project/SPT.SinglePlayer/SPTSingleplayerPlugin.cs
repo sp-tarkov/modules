@@ -24,7 +24,7 @@ namespace SPT.SinglePlayer
 				new EmptyInfilFixPatch().Enable();
 				new OverrideMaxAiAliveInRaidValuePatch().Enable();
 				//new PostRaidHealingPricePatch().Enable(); // Client handles this now
-				//new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues 
+				//new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues
 				//new SpawnProcessNegativeValuePatch().Enable(); // Client handles this edge case, revisit if bot count keeps going up
 				//new SpawnPmcPatch().Enable(); // 2.5+ years old, PMC spawn system very different, likely not needed
 				//new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
@@ -70,6 +70,7 @@ namespace SPT.SinglePlayer
 				new DisableUseBSGServersCheckbox().Enable();
 				new PmcBotSidePatch().Enable();
 				new QuestAchievementRewardInRaidPatch().Enable();
+				new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
             }
 			catch (Exception ex)
