@@ -12,7 +12,7 @@ namespace SPT.Custom.Patches
     /// <summary>
     /// Redirect registry reads/writes to a folder in the SPT directory, instead of sharing
     /// registry entries with live.
-    /// 
+    ///
     /// Note this is a multi-patch to keep these patches grouped together, as we need to patch
     /// many methods to properly implement this
     /// </summary>
@@ -46,7 +46,6 @@ namespace SPT.Custom.Patches
                 Directory.CreateDirectory(_sptRegistryPath);
             }
 
-            
             if (!File.Exists(_registryFilePath))
             {
                 return;

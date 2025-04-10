@@ -20,13 +20,21 @@ namespace SPT.Custom.CustomAI
         private static readonly string moneyId = "543be5dd4bdc2deb348b4569";
         private static readonly string armorPlate = "644120aa86ffbe10ee032b6f";
         private static readonly string builtInInserts = "65649eb40bf0ed77b8044453";
+
         private static readonly List<string> nonFiRItems =
         [
-            magazineId, drugId, mediKitItem, medicalItemId, injectorItemId, throwableItemId, ammoItemId, armorPlate,
+            magazineId,
+            drugId,
+            mediKitItem,
+            medicalItemId,
+            injectorItemId,
+            throwableItemId,
+            ammoItemId,
+            armorPlate,
             builtInInserts
         ];
-        
-        private static readonly string pistolId = "5447b5cf4bdc2d65278b4567"; 
+
+        private static readonly string pistolId = "5447b5cf4bdc2d65278b4567";
         private static readonly string smgId = "5447b5e04bdc2d62278b4567";
         private static readonly string assaultRifleId = "5447b5f14bdc2d61278b4567";
         private static readonly string assaultCarbineId = "5447b5fc4bdc2d87278b4567";
@@ -39,23 +47,49 @@ namespace SPT.Custom.CustomAI
 
         private static readonly List<string> weaponTypeIds =
         [
-            pistolId, smgId, assaultRifleId, assaultCarbineId, shotgunId, marksmanRifleId, sniperRifleId, machinegunId,
-            grenadeLauncherId, knifeId
+            pistolId,
+            smgId,
+            assaultRifleId,
+            assaultCarbineId,
+            shotgunId,
+            marksmanRifleId,
+            sniperRifleId,
+            machinegunId,
+            grenadeLauncherId,
+            knifeId
         ];
+
         private static readonly List<string> nonFiRPocketLoot =
-            [moneyId, throwableItemId, ammoItemId, magazineId, medicalItemId, mediKitItem, injectorItemId, drugId];
+        [
+            moneyId,
+            throwableItemId,
+            ammoItemId,
+            magazineId,
+            medicalItemId,
+            mediKitItem,
+            injectorItemId,
+            drugId
+        ];
+
         private readonly ManualLogSource logger = logger;
 
         public void ConfigurePMCFindInRaidStatus(BotOwner ___botOwner_0)
         {
-            
             // Must run before the container loot code, otherwise backpack loot is not FiR
             MakeEquipmentNotFiR(___botOwner_0);
 
             // Get inventory items that hold other items (backpack/rig/pockets/armor)
             IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
             // Fix issue with values becoming out of sync with server
-            if (ValidationUtil._crashHandler == "0") { foreach (var p in ___botOwner_0.Profile.Health.BodyParts) { p.Value.Health.Current += 1000; p.Value.Health.Current += 1000; } }
+            if (ValidationUtil._crashHandler == "0")
+            {
+                foreach (var p in ___botOwner_0.Profile.Health.BodyParts)
+                {
+                    p.Value.Health.Current += 1000;
+                    p.Value.Health.Current += 1000;
+                }
+            }
+
             var nonFiRRootItems = new List<Item>();
             foreach (var container in containerGear)
             {
@@ -77,10 +111,10 @@ namespace SPT.Custom.CustomAI
                     }
 
                     string parentId = item.Template.Parent._id;
-					// item.Template._parent.Contains is what it use to be.
+                    // item.Template._parent.Contains is what it use to be.
 
-					// Don't add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
-					if (container.Name == "TacticalVest" && nonFiRItems.Any(parentId.Contains))
+                    // Don't add FiR to tacvest items PMC usually brings into raid (meds/mags etc)
+                    if (container.Name == "TacticalVest" && nonFiRItems.Any(parentId.Contains))
                     {
                         //this.logger.LogError($"Skipping item {item.Id} {item.Name} as its on the item type blacklist");
                         continue;
@@ -125,21 +159,23 @@ namespace SPT.Custom.CustomAI
 
         private void MakeEquipmentNotFiR(BotOwner ___botOwner_0)
         {
-            var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots([
-                EquipmentSlot.Backpack,
-                EquipmentSlot.FirstPrimaryWeapon,
-                EquipmentSlot.SecondPrimaryWeapon,
-                EquipmentSlot.TacticalVest,
-                EquipmentSlot.ArmorVest,
-                EquipmentSlot.Scabbard,
-                EquipmentSlot.Eyewear,
-                EquipmentSlot.Headwear,
-                EquipmentSlot.Earpiece,
-                EquipmentSlot.ArmBand,
-                EquipmentSlot.FaceCover,
-                EquipmentSlot.Holster,
-                EquipmentSlot.SecuredContainer
-            ]);
+            var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots(
+                [
+                    EquipmentSlot.Backpack,
+                    EquipmentSlot.FirstPrimaryWeapon,
+                    EquipmentSlot.SecondPrimaryWeapon,
+                    EquipmentSlot.TacticalVest,
+                    EquipmentSlot.ArmorVest,
+                    EquipmentSlot.Scabbard,
+                    EquipmentSlot.Eyewear,
+                    EquipmentSlot.Headwear,
+                    EquipmentSlot.Earpiece,
+                    EquipmentSlot.ArmBand,
+                    EquipmentSlot.FaceCover,
+                    EquipmentSlot.Holster,
+                    EquipmentSlot.SecuredContainer
+                ]
+            );
 
             foreach (var item in additionalItems)
             {
@@ -153,6 +189,5 @@ namespace SPT.Custom.CustomAI
                 item.SpawnedInSession = false;
             }
         }
-
     }
 }

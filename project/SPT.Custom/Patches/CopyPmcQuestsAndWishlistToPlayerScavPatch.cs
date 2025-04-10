@@ -44,12 +44,14 @@ namespace SPT.Custom.Patches
                     scavProfile.QuestsData.Add(quest);
                 }
             }
-            
+
             // Copy over all wishlist items from pmc to scav
             foreach (var KvP in pmcProfile.WishlistManager.GetWishlist())
             {
                 if (scavProfile.WishlistManager.GetWishlist().ContainsKey(KvP.Key))
+                {
                     continue;
+                }
 
                 scavProfile.WishlistManager.AddToWishlist(KvP.Key, KvP.Value, true);
             }

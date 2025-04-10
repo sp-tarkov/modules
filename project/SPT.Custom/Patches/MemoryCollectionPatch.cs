@@ -19,7 +19,10 @@ public class MemoryCollectionPatch : ModulePatch
     [PatchPostfix]
     public static void PatchPostfix(EEftScreenType eftScreenType)
     {
-        if (eftScreenType != EEftScreenType.Inventory || !Singleton<GameWorld>.Instantiated) return;
+        if (eftScreenType != EEftScreenType.Inventory || !Singleton<GameWorld>.Instantiated)
+        {
+            return;
+        }
 
         GarbageCollector.GCMode = GarbageCollector.Mode.Enabled;
 

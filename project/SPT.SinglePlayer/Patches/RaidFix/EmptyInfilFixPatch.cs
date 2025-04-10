@@ -40,7 +40,10 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         [PatchPrefix]
         public static void PatchPrefix(ref string ___string_0)
         {
-            if (!string.IsNullOrWhiteSpace(___string_0)) return;
+            if (!string.IsNullOrWhiteSpace(___string_0))
+            {
+                return;
+            }
 
             var spawnPoints = Resources.FindObjectsOfTypeAll<SpawnPointMarker>().ToList();
 
