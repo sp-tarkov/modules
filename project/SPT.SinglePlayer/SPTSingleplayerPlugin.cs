@@ -74,6 +74,7 @@ namespace SPT.SinglePlayer
 
 				// 4.0.0
 				new DisableDiscardLimitsPatch().Enable();
+				new DisableBuffLoggingPatch().Enable();
 
             }
 			catch (Exception ex)
