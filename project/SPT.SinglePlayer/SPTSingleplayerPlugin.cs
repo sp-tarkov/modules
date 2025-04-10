@@ -72,6 +72,9 @@ namespace SPT.SinglePlayer
 				new QuestAchievementRewardInRaidPatch().Enable();
 				new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
+				// 4.0.0
+				new DisableDiscardLimitsPatch().Enable();
+
             }
 			catch (Exception ex)
 			{
