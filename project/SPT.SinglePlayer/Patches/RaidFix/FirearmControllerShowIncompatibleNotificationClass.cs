@@ -15,9 +15,9 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 		}
 
 		[PatchPrefix]
-		public static bool Prefix(Player ___player_0)
+		public static bool Prefix(Player.FirearmController.GClass1810 __instance)
 		{
-			return ___player_0.IsYourPlayer;
+			return __instance.Player_0.IsYourPlayer;
 		}
 	}
 }

@@ -14,9 +14,9 @@ namespace SPT.Core.Patches
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ref Task __result, ref bool ___bool_0)
+        private static bool PatchPrefix(BattleeyePatchClass __instance, ref Task __result)
         {
-            ___bool_0 = ValidationUtil.Validate();
+            __instance.Bool_0 = ValidationUtil.Validate();
             __result = Task.CompletedTask;
             return false; // Skip original
         }

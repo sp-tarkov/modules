@@ -20,7 +20,6 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     public class LoadOfflineRaidScreenPatch : ModulePatch
     {
         private static readonly MethodInfo _onReadyScreenMethod;
-        private static readonly FieldInfo _isLocalField;
         private static readonly FieldInfo _menuControllerField;
 
         static LoadOfflineRaidScreenPatch()
@@ -33,8 +32,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
             _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_50));
-
-            _isLocalField = AccessTools.Field(typeof(MainMenuControllerClass), "bool_0");
+            
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
 
             if (_menuControllerField == null)
@@ -146,8 +144,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             }
 
             // Set offline raid values
-            _isLocalField.SetValue(menuController, raidSettings.Local);
-
+            menuController.Bool_0 = raidSettings.Local;
+            
             // Load ready screen method
             _onReadyScreenMethod.Invoke(menuController, null);
         }

@@ -19,15 +19,15 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(ref string ___string_0, ref string ___string_1)
+        public static void PatchPrefix()
         {
             if (!Directory.Exists(_sptPath))
             {
                 Directory.CreateDirectory(_sptPath);
             }
 
-            ___string_0 = _sptPath;
-            ___string_1 = _sptPath;
+            SharedGameSettingsClass.String_0 = _sptPath;
+            SharedGameSettingsClass.String_1 = _sptPath;
         }
     }
 }

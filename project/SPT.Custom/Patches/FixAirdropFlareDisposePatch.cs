@@ -18,14 +18,14 @@ namespace SPT.Custom.Patches
 		}
 
 		[PatchPrefix]
-		public static void Prefix(Dictionary<GameObject, float> ___dictionary_0)
+		public static void Prefix(GClass2494 __instance)
 		{
-			if (___dictionary_0 == null)
+			if (__instance.Dictionary_0 == null)
 			{
 				return;
 			}
 
-			foreach (KeyValuePair<GameObject, float> keyValuePair in ___dictionary_0)
+			foreach (KeyValuePair<GameObject, float> keyValuePair in __instance.Dictionary_0)
 			{
 				Object.Destroy(keyValuePair.Key);
 			}
