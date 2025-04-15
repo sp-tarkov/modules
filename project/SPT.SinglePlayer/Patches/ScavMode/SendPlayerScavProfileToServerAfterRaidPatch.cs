@@ -38,7 +38,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(ref ISession ___iSession)
+        public static void PatchPrefix(PostRaidHealthScreenClass __instance)
         {
 			Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
 
@@ -49,7 +49,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             }
 
             // Only do below when player is a scav
-            var session = (ProfileEndpointFactoryAbstractClass)___iSession;
+            var session = (ProfileEndpointFactoryAbstractClass)__instance.ISession;
             session.AllProfiles =
 			[
 				session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),

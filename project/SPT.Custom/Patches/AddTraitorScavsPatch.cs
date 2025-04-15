@@ -26,7 +26,7 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ref BotsGroup __result, DeadBodiesController ____deadBodiesController, BotOwner bot, BotZone zone, BotSpawner __instance)
+        public static bool PatchPrefix(ref BotsGroup __result, BotOwner bot, BotZone zone, BotSpawner __instance)
         {
             if (!_traitorChancePercent.HasValue)
             {
@@ -48,7 +48,7 @@ namespace SPT.Custom.Patches
                 var player = Singleton<GameWorld>.Instance.MainPlayer;
                 var enemies = new List<BotOwner>();
                 var players = new List<Player>() { player };
-                var botsGroup = new BotsGroup(zone, __instance.BotGame, bot, enemies, ____deadBodiesController, players, false);
+                var botsGroup = new BotsGroup(zone, __instance.BotGame, bot, enemies, __instance.DeadBodiesController, players, false);
 
                 // Because we don't want to use the zone-specific group, we add the new group with no key. This is similar to free for all
                 Singleton<IBotGame>.Instance.BotsController.BotSpawner.Groups.AddNoKey(botsGroup, zone);

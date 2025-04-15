@@ -36,22 +36,21 @@ namespace SPT.Custom.Patches
         /// </summary>
         /// <param name="__state">Original state to save for postfix() to use later</param>
         /// <param name="__instance">StandartBotBrain instance</param>
-        /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPrefix]
-        public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance, BotOwner ___botOwner_0)
+        public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance)
         {
             // Store original type in state param to allow access in PatchPostFix()
-            __state = ___botOwner_0.Profile.Info.Settings.Role;
+            __state = __instance.BotOwner_0.Profile.Info.Settings.Role;
 
             try
             {
                 // Get map so it can be used to decide what ai brain is used for scav/pmc
                 string currentMapName = GetCurrentMap();
-                var isBotPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname);
+                var isBotPlayerScav = AiHelpers.BotIsSimulatedPlayerScav(__state, __instance.BotOwner_0.Profile.Info.MainProfileNickname);
                 if (isBotPlayerScav)
                 {
                     // Bot is named to look like player scav, give it a randomised brain
-                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(___botOwner_0, currentMapName);
+                    __instance.BotOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(__instance.BotOwner_0, currentMapName);
 
                     return true; // Do original
                 }
@@ -60,25 +59,28 @@ namespace SPT.Custom.Patches
                 if (!isBotPlayerScav && __state == WildSpawnType.assault)
                 {
                     // Standard scav, check for custom brain option
-                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(___botOwner_0, currentMapName);
-                    ___botOwner_0.Profile.Info.Settings.BotDifficulty = ValidationUtil._crashHandler == "0"
+                    __instance.BotOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(__instance.BotOwner_0, currentMapName);
+                    __instance.BotOwner_0.Profile.Info.Settings.BotDifficulty = ValidationUtil._crashHandler == "0"
                         ? BotDifficulty.impossible
-                        : ___botOwner_0.Profile.Info.Settings.BotDifficulty;
+                        : __instance.BotOwner_0.Profile.Info.Settings.BotDifficulty;
 
                     return true; // Do original
                 }
 
-                if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+                if (AiHelpers.BotIsSptPmc(__state, __instance.BotOwner_0))
                 {
                     // Bot has inventory equipment
-                    if (___botOwner_0.Profile?.Inventory?.Equipment != null)
+                    if (__instance.BotOwner_0.Profile?.Inventory?.Equipment != null)
                     {
                         // Set bots FiR status on gear to mimic live
-                        pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(___botOwner_0);
+                        pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(__instance.BotOwner_0);
                     }
 
                     // Get the PMCs role value, pmcUsec/pmcBEAR
-                    ___botOwner_0.Profile.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(___botOwner_0, ___botOwner_0.Profile.Info.Settings.Role, currentMapName);
+                    __instance.BotOwner_0.Profile!.Info.Settings.Role = aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(
+                        __instance.BotOwner_0, 
+                        __instance.BotOwner_0.Profile.Info.Settings.Role, 
+                        currentMapName);
 
 
                     return true; // Do original
@@ -87,11 +89,11 @@ namespace SPT.Custom.Patches
                 // Is a boss bot and not already handled above
                 if (_bossTypes.Contains(nameof(__state)))
                 {
-                    if (___botOwner_0.Boss.BossLogic == null)
+                    if (__instance.BotOwner_0.Boss.BossLogic == null)
                     {
                         // Ensure boss has AI init
-                        Logger.LogError($"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {___botOwner_0.Profile.Nickname} type: {___botOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating");
-                        ___botOwner_0.Boss.SetBoss(0);
+                        Logger.LogError($"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {__instance.BotOwner_0.Profile.Nickname} type: {__instance.BotOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating");
+                        __instance.BotOwner_0.Boss.SetBoss(0);
                     }
                 }
             }
@@ -119,19 +121,18 @@ namespace SPT.Custom.Patches
         /// Revert prefix change, get bots type back to what it was before changes
         /// </summary>
         /// <param name="__state">Saved state from prefix patch</param>
-        /// <param name="___botOwner_0">botOwner_0 property</param>
         [PatchPostfix]
-        public static void PatchPostFix(WildSpawnType __state, BotOwner ___botOwner_0)
+        public static void PatchPostFix(WildSpawnType __state, StandartBotBrain __instance)
         {
-            if (AiHelpers.BotIsSptPmc(__state, ___botOwner_0))
+            if (AiHelpers.BotIsSptPmc(__state, __instance.BotOwner_0))
             {
                 // Set spt pmc bot back to original type
-                ___botOwner_0.Profile.Info.Settings.Role = __state;
+                __instance.BotOwner_0.Profile.Info.Settings.Role = __state;
             }
-            else if (AiHelpers.BotIsSimulatedPlayerScav(__state, ___botOwner_0.Profile.Info.MainProfileNickname))
+            else if (AiHelpers.BotIsSimulatedPlayerScav(__state, __instance.BotOwner_0.Profile.Info.MainProfileNickname))
             {
                 // Set pscav back to original type
-                ___botOwner_0.Profile.Info.Settings.Role = __state;
+                __instance.BotOwner_0.Profile.Info.Settings.Role = __state;
             }
         }
 

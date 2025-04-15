@@ -18,8 +18,8 @@ public class DisableBuffLoggingPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(ref bool ___bool_0)
+    public static void PatchPrefix(BuffComponent __instance)
     {
-        ___bool_0 = true;
+        __instance.Bool_0 = true;
     }
 }
