@@ -27,6 +27,8 @@ public class DumpylibScript : MonoBehaviour
     public CompleteProfileDescriptorClass _completeProfile;
     public GClass840 _parsedDataProfile;
     public ManualLogSource _dumpLogger;
+    public GClass1358 _weather;
+
     // Class references are as of assembly 35328 - 28/02/2025
 
     private static readonly System.Random random = new();
@@ -92,6 +94,8 @@ public class DumpylibScript : MonoBehaviour
         _raidSettings.GetType()
             .GetField("_locationSettings", BindingFlags.NonPublic | BindingFlags.Instance)
             .SetValue(_raidSettings, _locationSettings);
+
+        _weather = await _session.WeatherRequest();
 
         _endRaidClass = new RaidEndDescriptorClass
         {
