@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
             _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_50));
-            
+
             _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
 
             if (_menuControllerField == null)
@@ -108,15 +108,18 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             return codes.AsEnumerable();
         }
 
+        /// <summary>
+        /// TODO: Update references as most things are no longer private
+        /// </summary>
         private static void LoadOfflineRaidScreenForScav()
         {
             var profile = PatchConstants.BackEndSession.Profile;
             var menuController = (object)GetMenuController();
 
             // Get fields from MainMenuController.cs
-            var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
+            var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
 
-            var offlineRaidSettings = Traverse.Create(menuController).Field("raidSettings_1").GetValue<RaidSettings>();
+            var offlineRaidSettings = Traverse.Create(menuController).Field("RaidSettings_1").GetValue<RaidSettings>();
 
             // Find the private field of type `MatchmakerPlayerControllerClass`
             var matchmakerPlayersController = menuController.GetType()
@@ -137,7 +140,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
             var menuController = GetMenuController();
 
-            var raidSettings = Traverse.Create(menuController).Field("raidSettings_0").GetValue<RaidSettings>();
+            var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
             if (raidSettings.SelectedLocation.Id == "laboratory")
             {
                 raidSettings.WavesSettings.IsBosses = true;
@@ -145,7 +148,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             // Set offline raid values
             menuController.Bool_0 = raidSettings.Local;
-            
+
             // Load ready screen method
             _onReadyScreenMethod.Invoke(menuController, null);
         }
