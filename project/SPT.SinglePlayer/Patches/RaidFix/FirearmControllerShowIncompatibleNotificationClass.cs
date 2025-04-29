@@ -11,11 +11,11 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return typeof(Player.FirearmController.GClass1810).GetMethod(nameof(Player.FirearmController.GClass1810.ShowIncompatibleNotification));
+			return typeof(Player.FirearmController.GClass1840).GetMethod(nameof(Player.FirearmController.GClass1840.ShowIncompatibleNotification));
 		}
 
 		[PatchPrefix]
-		public static bool Prefix(Player.FirearmController.GClass1810 __instance)
+		public static bool Prefix(Player.FirearmController.GClass1840 __instance)
 		{
 			return __instance.Player_0.IsYourPlayer;
 		}

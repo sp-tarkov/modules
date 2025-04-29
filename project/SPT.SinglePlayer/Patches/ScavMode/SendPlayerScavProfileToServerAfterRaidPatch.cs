@@ -23,7 +23,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(LocalGame __instance)
         {
-			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2037.Instance /* Has 2 methods */);
+			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2042.Instance /* Has 2 methods */);
         }
     }
     /// <summary>
@@ -58,7 +58,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             session.ProfileOfPet.LearnAll();
 
 			// Send scav profile to server so it knows of the items we might transfer
-			RequestHandler.PutJson("/raid/profile/scavsave", 
+			RequestHandler.PutJson("/raid/profile/scavsave",
 				GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
         }
     }

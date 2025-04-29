@@ -13,11 +13,11 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(InventoryScreen.Class2767), nameof(InventoryScreen.Class2767.MoveNext));
+            return AccessTools.Method(typeof(InventoryScreen.Class2772), nameof(InventoryScreen.Class2772.MoveNext));
         }
 
         [PatchPostfix]
-        public static void Postfix(InventoryScreen.Class2767 __instance)
+        public static void Postfix(InventoryScreen.Class2772 __instance)
         {
             var inventoryScreen = __instance.inventoryScreen_0;
             var tabDictionary = Traverse.Create(inventoryScreen).Field<IReadOnlyDictionary<EInventoryTab, Tab>>("_tabDictionary").Value;

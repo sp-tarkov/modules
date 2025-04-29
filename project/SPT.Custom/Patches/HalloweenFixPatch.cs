@@ -10,17 +10,14 @@ namespace SPT.Custom.Patches;
 /// Fixes BotsEventsController being run without valid 'botSpawner' object, causing it to fail and prevent halloween events from occurring
 /// </summary>
 public class BotsControllerInitPatch : ModulePatch
-
-
 {
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Method(typeof(BotsController), nameof(BotsController.Init));
     }
 
-
     [PatchPostfix]
-    public static void PatchPostfix(BotsController __instance, LocationSettingsClass.Location.GClass1383 events)
+    public static void PatchPostfix(BotsController __instance, LocationSettingsClass.Location.GClass1390 events)
     {
         // Run it again with a non-null _botSpawner.
         __instance.EventsController = new BotsEventsController(
@@ -46,17 +43,17 @@ public class BotsEventsControllerActivatePatch : ModulePatch
     {
         return AccessTools.Method(typeof(BotsEventsController), nameof(BotsEventsController.Activate));
     }
-    
+
     [PatchPrefix]
     public static bool PatchPrefix(BotsEventsController __instance)
     {
         if (__instance.BotHalloweenEvent.Spawner == null)
         {
             Logger.LogWarning("__instance.BotHalloweenEvent.Spawner is null skip Activate");
-            
+
             return false;
         }
-        
+
         Logger.LogInfo("__instance.BotHalloweenEvent.Spawner is not null run Activate");
         return true;
     }

@@ -25,9 +25,9 @@ public class DumpylibScript : MonoBehaviour
     public List<LocationSettingsClass.Location> _locationSettingsDict;
     public RaidEndDescriptorClass _endRaidClass;
     public CompleteProfileDescriptorClass _completeProfile;
-    public GClass840 _parsedDataProfile;
+    public GClass843 _parsedDataProfile;
     public ManualLogSource _dumpLogger;
-    public GClass1358 _weather;
+    public GClass1365 _weather;
 
     // Class references are as of assembly 35328 - 28/02/2025
 
@@ -110,7 +110,7 @@ public class DumpylibScript : MonoBehaviour
             InsuredItems = [],
             ProfileId = ""
         };
-        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2036.Instance);
+        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2042.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();

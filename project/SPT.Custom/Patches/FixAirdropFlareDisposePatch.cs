@@ -14,11 +14,11 @@ namespace SPT.Custom.Patches
 	{
 		protected override MethodBase GetTargetMethod()
 		{
-			return AccessTools.Method(typeof(GClass2494), nameof(GClass2494.Dispose));
+			return AccessTools.Method(typeof(GClass2501), nameof(GClass2501.Dispose));
 		}
 
 		[PatchPrefix]
-		public static void Prefix(GClass2494 __instance)
+		public static void Prefix(GClass2501 __instance)
 		{
 			if (__instance.Dictionary_0 == null)
 			{

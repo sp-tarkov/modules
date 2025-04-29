@@ -33,7 +33,7 @@ namespace SPT.Custom.Utils
                 "com.kobrakon.camunsnap",
                 "RuntimeUnityEditor",
                 "com.dirtbikercj.debugplus"
-        ];        
+        ];
         internal static ReleaseResponse release;
         private bool _isBetaDisclaimerOpen;
         private ManualLogSource _logger;
@@ -42,7 +42,7 @@ namespace SPT.Custom.Utils
         /// This GClass can be found by looking at <see cref="ErrorScreen"/> and seeing what the ErrorScreen class inherits from: <see cref="Window{T}"/> <br/>
         /// The constrained generic is the class to use
         /// </summary>
-        private GClass3581 _betaMessageContext;
+        private GClass3595 _betaMessageContext;
 
         /// <summary>
         /// Retrieves the current build from the registry to check against the current build <br/>
@@ -212,6 +212,6 @@ namespace SPT.Custom.Utils
                 PlayerPrefs.SetInt("SPT_AcceptedBETerms", 0);
                 PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 0);
             }
-        }        
+        }
     }
 }
