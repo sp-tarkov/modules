@@ -27,7 +27,7 @@ public class DumpylibScript : MonoBehaviour
     public CompleteProfileDescriptorClass _completeProfile;
     public GClass843 _parsedDataProfile;
     public ManualLogSource _dumpLogger;
-    public GClass1365 _weather;
+    public WeatherRequestClass _weather;
 
     // Class references are as of assembly 35328 - 28/02/2025
 
