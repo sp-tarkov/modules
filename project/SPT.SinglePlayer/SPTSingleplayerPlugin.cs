@@ -70,8 +70,8 @@ namespace SPT.SinglePlayer
 				new QuestAchievementRewardInRaidPatch().Enable();
 				new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
-				// 4.0.0
-				DisableReadyButtonPatches.Patch();
+                // 4.0.0
+                ReadyButtonPatches.Patch();
 				new DisableDiscardLimitsPatch().Enable();
 				new DisableBuffLoggingPatch().Enable();
 

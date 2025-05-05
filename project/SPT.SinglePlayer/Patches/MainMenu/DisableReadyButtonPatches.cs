@@ -11,7 +11,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 	/// Clicking the ready button has various weird effects
 	/// Such as the insurance screen when playing as a scav coming up or making calls to the back-end that we dont want.
 	/// </summary>
-	public class ReadyButtonPatches
+	public static class ReadyButtonPatches
 	{
 		public static void Patch()
 		{
