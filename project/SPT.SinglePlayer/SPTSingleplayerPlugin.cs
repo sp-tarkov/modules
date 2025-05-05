@@ -35,11 +35,9 @@ namespace SPT.SinglePlayer
 				new ScavExfilPatch().Enable();
 				new ScavProfileLoadPatch().Enable();
 				new ScavPrefabLoadPatch().Enable();
-				new DisableReadyLocationReadyPatch().Enable();
 				new LoadOfflineRaidScreenPatch().Enable();
 				new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
 				new PluginErrorNotifierPatch().Enable();
-                new MapReadyButtonPatch().Enable();
 				new RemoveUsedBotProfilePatch().Enable();
 				new ScavLateStartPatch().Enable();
 				new ScavSellAllPriceStorePatch().Enable();
@@ -73,6 +71,7 @@ namespace SPT.SinglePlayer
 				new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
 				// 4.0.0
+				DisableReadyButtonPatches.Patch();
 				new DisableDiscardLimitsPatch().Enable();
 				new DisableBuffLoggingPatch().Enable();
 
