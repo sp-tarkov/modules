@@ -6,62 +6,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using SPT.Reflection.CodeWrapper;
 
-namespace SPT.SinglePlayer.Patches.ScavMode
+namespace SPT.SinglePlayer.Patches.ScavMode;
+
+/**
+ * When the user clicks "Sell All" after a scav raid, we need to calculate
+ * the total "Sell All" value, and store it for retrieval in the ScavSellAllRequestPatch
+ */
+public class ScavSellAllPriceStorePatch : ModulePatch
 {
-    /**
-     * After fetching the list of items for the post-raid scav inventory screen, calculate
-     * the total "Sell All" value, and store it for retrieval if the user hits "Sell All"
-     */
-    public class ScavSellAllPriceStorePatch : ModulePatch
+    private static string _fenceID = "579dc571d53a0658a154fbec";
+    private static string _roubleTid = "5449016a4bdc2d6f028b456f";
+
+    private static FieldInfo _sessionField;
+
+    public static int StoredPrice;
+
+    protected override MethodBase GetTargetMethod()
     {
-        private static string FENCE_ID = "579dc571d53a0658a154fbec";
-        private static string ROUBLE_TID = "5449016a4bdc2d6f028b456f";
+        var scavInventoryScreenType = typeof(ScavengerInventoryScreen);
+        _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(ISession));
 
-        private static FieldInfo _sessionField;
+        return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.method_4));
+    }
+    
+    [PatchPrefix]
+    public async static void PatchPrefix(ScavengerInventoryScreen __instance)
+    {
+        var session = _sessionField.GetValue(__instance) as ISession;
+        var traderClass = session.Traders.FirstOrDefault(x => x.Id == _fenceID);
 
-        public static int StoredPrice;
+        await traderClass.RefreshAssortment(true, true);
 
-        protected override MethodBase GetTargetMethod()
+        // gets the list of items in the inventory screen
+        if (!__instance.method_3(out var items))
         {
-            Type scavInventoryScreenType = typeof(ScavengerInventoryScreen);
-            _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(ISession));
-
-            return AccessTools.FirstMethod(scavInventoryScreenType, IsTargetMethod);
+            Logger.LogError("ScavSellAllPriceStorePatch - Could not get items from inventory screen");
         }
 
-        private bool IsTargetMethod(MethodBase method)
+        var totalPrice = 0;
+        foreach (var item in items)
         {
-            // Look for a method with one parameter named `items`
-            //   method_3(out IEnumerable<Item> items)
-            if (method.GetParameters().Length == 1 && method.GetParameters()[0].Name == "items")
+            if (item.TemplateId == _roubleTid)
             {
-                return true;
+                totalPrice += item.StackObjectsCount;
             }
-
-            return false;
-        }
-
-        [PatchPostfix]
-        public static void PatchPostfix(ScavengerInventoryScreen __instance, IEnumerable<Item> items)
-        {
-            var session = _sessionField.GetValue(__instance) as ISession;
-            TraderClass traderClass = session.Traders.FirstOrDefault(x => x.Id == FENCE_ID);
-
-            int totalPrice = 0;
-            foreach (Item item in items)
+            else
             {
-                if (item.TemplateId == ROUBLE_TID)
-                {
-                    totalPrice += item.StackObjectsCount;
-                }
-                else
-                {
-                    totalPrice += traderClass.GetItemPriceOnScavSell(item, true);
-                }
+                totalPrice += traderClass.GetItemPriceOnScavSell(item, true);
             }
-
-            StoredPrice = totalPrice;
         }
+
+        StoredPrice = totalPrice;
     }
 }
