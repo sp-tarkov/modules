@@ -1,8 +1,10 @@
-﻿using EFT.SynchronizableObjects;
+﻿using System;
+using EFT.SynchronizableObjects;
 using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Comfort.Common;
 
@@ -16,7 +18,8 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.method_48));
+            return AccessTools.FirstMethod(typeof(TarkovApplication), (method) => 
+                method.GetParameters().Any(p => p.ParameterType == typeof(Result<ExitStatus, TimeSpan, MetricsClass>)));
         }
 
         [PatchPrefix]
