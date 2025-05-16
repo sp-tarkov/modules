@@ -1,4 +1,5 @@
-﻿using EFT.SynchronizableObjects;
+﻿using System;
+using EFT.SynchronizableObjects;
 using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
@@ -16,7 +17,17 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(TarkovApplication).GetMethod(nameof(TarkovApplication.method_48));
+            return AccessTools.FirstMethod(typeof(TarkovApplication), IsTargetMethod);
+        }
+        
+        private static bool IsTargetMethod(MethodInfo method)
+        {
+            var parameters = method.GetParameters();
+            return parameters.Length == 4
+                   && parameters[0].Name == "profileId" && parameters[0].ParameterType == typeof(string)
+                   && parameters[1].Name == "savageProfile" && parameters[1].ParameterType == typeof(Profile)
+                   && parameters[2].Name == "location" && parameters[2].ParameterType == typeof(LocationSettingsClass.Location)
+                   && parameters[3].Name == "result" && parameters[3].ParameterType == typeof(Result<ExitStatus, TimeSpan, MetricsClass>);
         }
 
         [PatchPrefix]
@@ -33,7 +44,7 @@ namespace SPT.Custom.Patches
                 return;
             }
 
-            List<SynchronizableObject> syncObjects = Traverse.Create(gameWorld.SynchronizableObjectLogicProcessor)?.Field<List<SynchronizableObject>>("list_0")?.Value;
+            List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor.List_0;
             if (syncObjects is null)
             {
                 return;
