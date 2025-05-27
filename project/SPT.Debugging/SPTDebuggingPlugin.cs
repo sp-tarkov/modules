@@ -20,6 +20,7 @@ namespace SPT.Debugging
         {
             Logger.LogInfo("Loading: SPT.Debugging");
             HookObject = new GameObject();
+            HookObject.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(HookObject);
 
             try

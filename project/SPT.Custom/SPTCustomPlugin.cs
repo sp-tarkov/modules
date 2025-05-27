@@ -16,6 +16,7 @@ namespace SPT.Custom
         {
             Logger.LogInfo("Loading: SPT.Custom");
             HookObject = new GameObject();
+            HookObject.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(HookObject);
 
             try
