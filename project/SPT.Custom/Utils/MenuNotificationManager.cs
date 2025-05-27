@@ -69,19 +69,6 @@ namespace SPT.Custom.Utils
             }
         }
 
-        /// <summary>
-        /// Should we show the release notes, only show on first run or if build has changed
-        /// </summary>
-        private bool ShouldShowReleaseNotes
-        {
-            get
-            {
-                return PlayerPrefs.GetInt("SPT_ShownReleaseNotes") == 0
-                    && !_isBetaDisclaimerOpen
-                    && release.releaseSummaryText != string.Empty;
-            }
-        }
-
         public void Start()
         {
             _logger = BepInEx.Logging.Logger.CreateLogSource(nameof(MenuNotificationManager));
@@ -101,7 +88,7 @@ namespace SPT.Custom.Utils
             {
                 new BetaLogoPatch().Enable();
                 new BetaLogoPatch2().Enable();
-                //new BetaLogoPatch3().Enable();
+                new BetaLogoPatch3().Enable();
             }
 
             DisallowedPlugins = Chainloader.PluginInfos.Values
@@ -143,8 +130,12 @@ namespace SPT.Custom.Utils
                 return;
             }
 
+            if (!Singleton<PreloaderUI>.Instantiated)
+            {
+                return;
+            }
+
             ShowBetaMessage();
-            ShowReleaseNotes();
 
             _seenBetaMessage = true;
 
@@ -167,20 +158,9 @@ namespace SPT.Custom.Utils
             }
         }
 
-        // Show the release notes.
-        private void ShowReleaseNotes()
-        {
-            if (Singleton<PreloaderUI>.Instantiated && ShouldShowReleaseNotes)
-            {
-                Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.releaseSummaryText, ErrorScreen.EButtonType.OkButton, 36000);
-                PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 1);
-            }
-        }
-
         // User accepted the BE terms, allow to continue.
         private void OnBetaMessageAccepted()
         {
-            _logger.LogInfo(release.betaDisclaimerAcceptText);
             PlayerPrefs.SetInt("SPT_AcceptedBETerms", 1);
             _isBetaDisclaimerOpen = false;
         }
@@ -210,7 +190,6 @@ namespace SPT.Custom.Utils
 
                 // 0 val used to indicate false, 1 val used to indicate true
                 PlayerPrefs.SetInt("SPT_AcceptedBETerms", 0);
-                PlayerPrefs.SetInt("SPT_ShownReleaseNotes", 0);
             }
         }
     }
