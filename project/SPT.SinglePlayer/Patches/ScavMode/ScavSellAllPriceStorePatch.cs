@@ -1,13 +1,8 @@
 ﻿using SPT.Reflection.Patching;
-using EFT.InventoryLogic;
 using EFT.UI;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using SPT.Reflection.CodeWrapper;
 
 namespace SPT.SinglePlayer.Patches.ScavMode;
 
@@ -17,8 +12,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode;
  */
 public class ScavSellAllPriceStorePatch : ModulePatch
 {
-    private static string _fenceID = "579dc571d53a0658a154fbec";
-    private static string _roubleTid = "5449016a4bdc2d6f028b456f";
+    private static readonly string _fenceID = "579dc571d53a0658a154fbec";
+    private static readonly string _roubleTid = "5449016a4bdc2d6f028b456f";
 
     private static FieldInfo _sessionField;
 

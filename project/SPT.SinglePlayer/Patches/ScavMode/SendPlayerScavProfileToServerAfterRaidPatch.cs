@@ -21,8 +21,12 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(LocalGame __instance)
+        public static void PatchPrefix(LocalGame __instance, ExitStatus exitStatus)
         {
+            if (exitStatus == ExitStatus.Runner)
+            {
+                __instance.Profile_0.SetSpawnedInSession(false);
+            }
 			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2042.Instance /* Has 2 methods */);
         }
     }

@@ -22,10 +22,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 return;
             }
 
-            foreach (var item in player.Profile.Inventory.AllRealPlayerItems)
-            {
-                item.SpawnedInSession = true;
-            }
+            player.Profile.SetSpawnedInSession(true);
         }
     }
 }
