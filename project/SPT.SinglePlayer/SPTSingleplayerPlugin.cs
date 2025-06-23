@@ -74,6 +74,7 @@ namespace SPT.SinglePlayer
                 ReadyButtonPatches.Patch();
 				new DisableDiscardLimitsPatch().Enable();
 				new DisableBuffLoggingPatch().Enable();
+				new RemoveStashUpgradeLabelPatch2().Enable();
 
             }
 			catch (Exception ex)

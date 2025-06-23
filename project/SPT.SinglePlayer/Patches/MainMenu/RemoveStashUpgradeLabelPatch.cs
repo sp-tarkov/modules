@@ -25,3 +25,24 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
 		}		
     }
 }
+
+/// <summary>
+/// Remove Tooltip and image from selling screen explaining to visit external site for more stash - EFT thing
+/// </summary>
+public class RemoveStashUpgradeLabelPatch2 : ModulePatch
+{
+	protected override MethodBase GetTargetMethod()
+	{
+		return typeof(MenuUI).GetMethod(nameof(MenuUI.Awake));
+	}
+
+	[PatchPostfix]
+	public static void Postfix(MenuUI __instance)
+	{
+		var externalObtain = __instance.transform.Find("UI/Trader Screens Group/TraderDealScreen/Right Person/SimpleStashPanel/TopPanel/ExternalObtain").gameObject;
+		if (externalObtain != null)
+		{
+			Object.Destroy(externalObtain);
+		}		
+	}
+}
