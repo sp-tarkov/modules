@@ -15,7 +15,7 @@ namespace SPT.Debugging.Scripts;
 
 public class DumpylibScript : MonoBehaviour
 {
-    public Class303 _session;
+    public Class310 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
     public WaveInfoClass _wavesSettings;
@@ -43,7 +43,7 @@ public class DumpylibScript : MonoBehaviour
     {
         await Task.Delay(random.Next(4802, 5998));
 
-        _session = ClientAppUtils.GetClientApp().Session as Class303;
+        _session = ClientAppUtils.GetClientApp().Session as Class310;
         _tarkovApplication = ClientAppUtils.GetMainApp();
         _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
         _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal);
@@ -110,7 +110,7 @@ public class DumpylibScript : MonoBehaviour
             InsuredItems = [],
             ProfileId = ""
         };
-        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2042.Instance);
+        _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2071.Instance);
 
         _parsedDataProfile = _completeProfile.ToUnparsedData();
         _endRaidClass.profile = _completeProfile.ToUnparsedData();
