@@ -16,9 +16,9 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void Postfix(SimpleStashPanel __instance)
+    public static void Postfix(InventoryScreen __instance)
     {
-		GameObject externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/Header/ExternalObtain").gameObject;
+		var externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/TopPanel/ExternalObtain").gameObject;
 		if (externalObtain != null)
 		{
 			Object.Destroy(externalObtain);
