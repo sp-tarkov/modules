@@ -3,7 +3,7 @@ using SPT.Reflection.Patching;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fika.Core.Coop.Patches
+namespace SPT.Core.Patches
 {
     internal class SendMetricsDisablePatch : ModulePatch
     {

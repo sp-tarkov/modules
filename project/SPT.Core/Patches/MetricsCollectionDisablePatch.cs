@@ -3,7 +3,7 @@ using SPT.Reflection.Patching;
 using System;
 using System.Reflection;
 
-namespace Fika.Core.Coop.Patches
+namespace SPT.Core.Patches
 {
     internal class MetricsCollectionDisablePatch : ModulePatch
     {
