@@ -1,0 +1,22 @@
+﻿using HarmonyLib;
+using SPT.Reflection.Patching;
+using System;
+using System.Reflection;
+
+namespace Fika.Core.Coop.Patches
+{
+    internal class MetricsCollectionDisablePatch : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod()
+        {
+            return AccessTools.Method(typeof(GClass911), nameof(GClass911.GetMetrics));
+        }
+
+        [PatchPrefix]
+        public static bool Prefix(ref ValueTuple<string, string> __result)
+        {
+            __result = new();
+            return false;
+        }
+    }
+}
