@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SPT.Core.Patches
 {
-    internal class MetricsCollectionDisablePatch : ModulePatch
+    internal class Patch4001 : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

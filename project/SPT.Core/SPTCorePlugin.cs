@@ -26,8 +26,8 @@ namespace SPT.Core
                 new SslCertificatePatch().Enable();
                 new UnityWebRequestPatch().Enable();
                 new WebSocketSslValidationPatch().Enable();
-                new MetricsCollectionDisablePatch().Enable();
-                new SendMetricsDisablePatch().Enable();
+                new Patch4001().Enable();
+                new Patch4002().Enable();
 
                 // No longer needed with us moving back to Https
                 // new WebSocketPatch().Enable();

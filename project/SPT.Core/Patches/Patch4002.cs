@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SPT.Core.Patches
 {
-    internal class SendMetricsDisablePatch : ModulePatch
+    internal class Patch4002 : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {
