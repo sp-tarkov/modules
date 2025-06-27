@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace SPT.Custom.Patches
 {
-    /**
-     * The purpose of this patch is to include AI PMCs in the individual limit checks for non-wave
-     * spawn caps. This is to better mimic live PvP spawn behaviour, while not drastically increasing
-     * the total spawn cap for each map
-     */
+    /// <summary>
+    /// Patch that includes AI PMCs in the individual limit checks for non-wave spawn caps <br/>
+    /// This change helps mimic live PvP spawn behavior more accurately <br/>
+    /// without significantly increasing the total spawn cap for each map
+    /// </summary>
     public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
@@ -21,9 +21,13 @@ namespace SPT.Custom.Patches
             return AccessTools.Method(typeof(SpawnPoint), nameof(SpawnPoint.IsInPlayersIndividualLimits));
         }
 
-        /**
-         * Re-implement the original `IsInPlayersIndividualLimits` but including AI PMCs
-         */
+        /// <summary>
+        /// Re-implement the original <see cref="SpawnPoint.IsInPlayersIndividualLimits"/> but including AI PMCs
+        /// </summary>
+        /// <param name="__result"></param>
+        /// <param name="creationData"></param>
+        /// <param name="___Position"></param>
+        /// <returns></returns>
         [PatchPrefix]
         public static bool PatchPrefix(ref bool __result, BotCreationDataClass creationData, Vector3 ___Position)
         {
