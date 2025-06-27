@@ -25,7 +25,7 @@ namespace SPT.Custom.Patches
         private static readonly AIBrainSpawnWeightAdjustment _aIBrainSpawnWeightAdjustment = new AIBrainSpawnWeightAdjustment(Logger);
         private static readonly List<string> _bossTypes = GetBossTypesFromServer();
 
-        private static string GetCurrentMap
+        private static string CurrentMapId
         {
             get
             {
@@ -58,7 +58,7 @@ namespace SPT.Custom.Patches
             try
             {
                 // Get map so it can be used to decide what ai brain is used for scav/pmc
-                string currentMapName = GetCurrentMap;
+                string currentMapName = CurrentMapId;
 
                 if (string.IsNullOrEmpty(currentMapName))
                 {
