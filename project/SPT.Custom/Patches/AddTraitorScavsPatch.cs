@@ -39,8 +39,7 @@ namespace SPT.Custom.Patches
                 return true; // Do original method
             }
 
-            WildSpawnType role = bot.Profile.Info.Settings.Role;
-            if (AiHelpers.BotIsSimulatedPlayerScav(role, bot.Profile.Info.MainProfileNickname) && new Random().Next(1, 100) < _traitorChancePercent)
+            if (bot.IsSimulatedPlayerScav() && new Random().Next(1, 100) < _traitorChancePercent)
             {
                 Logger.LogInfo($"Making {bot.name} ({bot.Profile.Nickname}) hostile to player");
 

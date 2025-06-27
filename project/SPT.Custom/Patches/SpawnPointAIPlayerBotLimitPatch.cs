@@ -49,7 +49,7 @@ namespace SPT.Custom.Patches
                 Player closestPlayer = null;
                 foreach (Player player in Singleton<GameWorld>.Instance.AllAlivePlayersList)
                 {
-                    if (!player.IsAI || AiHelpers.BotIsSptPmc(player.Profile.Info.Settings.Role, player.AIData.BotOwner))
+                    if (!player.IsAI || player.AIData.BotOwner.IsPMC())
                     {
                         float dist = ___Position.SqrDistance(((IPlayer)player).Position);
                         if (dist < minDistance)

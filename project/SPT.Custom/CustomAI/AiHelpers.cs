@@ -9,22 +9,16 @@ namespace SPT.Custom.CustomAI
         /// Bot is a PMC when it has IsStreamerModeAvailable flagged and has a wildspawn type of 'pmcBEAR' or 'pmcUSEC'
         /// </summary>
         /// <param name="botRoleToCheck">Bots role</param>
-        /// <param name="___botOwner_0">Bot details</param>
+        /// <param name="botOwner">Bot details</param>
         /// <returns></returns>
-        public static bool BotIsSptPmc(WildSpawnType botRoleToCheck, BotOwner ___botOwner_0)
+        public static bool IsPMC(this BotOwner botOwner)
         {
-            if (___botOwner_0.Profile.Info.IsStreamerModeAvailable)
-            {
-                // PMCs can sometimes have their role changed to 'assaultGroup' by the client, we need an alternate way to figure out if they're a spt pmc
-                return true;
-            }
-
-            return botRoleToCheck is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC;
+            return botOwner.Profile.Side != EPlayerSide.Savage;
         }
 
-        public static bool BotIsSimulatedPlayerScav(WildSpawnType role, string mainProfileNickname)
+        public static bool IsSimulatedPlayerScav(this BotOwner botOwner)
         {
-            return role == WildSpawnType.assault && !string.IsNullOrEmpty(mainProfileNickname);
+            return botOwner.Profile.Info.Settings.Role == WildSpawnType.assault && !string.IsNullOrEmpty(botOwner.Profile.Info.MainProfileNickname);
         }
 
         public static List<BotOwner> GetAllMembers(this BotsGroup group)
