@@ -1,5 +1,6 @@
 ﻿using EFT;
 using HarmonyLib;
+using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
 using System.Reflection;
 
@@ -16,7 +17,7 @@ namespace SPT.Custom.Patches
         public static void PatchPrefix(BotOwner bot)
         {
             // Is a boss and not a follower and not a PMC
-            if (!bot.Profile.Info.Settings.IsBoss() && !CustomAI.AiHelpers.BotIsSptPmc(bot.Profile.Info.Settings.Role, bot))
+            if (!bot.Profile.Info.Settings.IsBoss() && !bot.IsPMC())
             {
                 return;
             }

@@ -13,10 +13,10 @@ using System.Reflection.Emit;
 
 namespace SPT.Custom.Patches
 {
-    /**
-     * The purpose of this patch is to use the Location data returned from a `/client/match/local/start` call
-     * as the authoritative location data during match start, instead of the data cached at session start
-     */
+    /// <summary>
+    /// Patch that uses the location data returned from a <c>/client/match/local/start</c> call <br/>
+    /// as the authoritative location during match start, instead of using data cached at session start
+    /// </summary>
     public class MatchStartServerLocationPatch : ModulePatch
     {
         private static Type nestedType = typeof(TarkovApplication).GetNestedTypes(PatchConstants.PublicDeclaredFlags).SingleCustom(IsTargetNestedType);
