@@ -27,7 +27,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             {
                 __instance.Profile_0.SetSpawnedInSession(false);
             }
-			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2071.Instance /* Has 2 methods */);
+			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2073.Instance /* Has 2 methods */);
         }
     }
     /// <summary>

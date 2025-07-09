@@ -9,7 +9,7 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GClass911), nameof(GClass911.GetMetrics));
+            return AccessTools.Method(typeof(GClass912), nameof(GClass912.GetMetrics));
         }
 
         [PatchPrefix]
