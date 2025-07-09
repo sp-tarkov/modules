@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(ref GClass3532 contextInteractions)
+        public static void PatchPrefix(ref ContextInteractionsClass contextInteractions)
         {
             // clear with a null to stop "looking for group/create group" buttons
             // they handle nulls so don't worry
