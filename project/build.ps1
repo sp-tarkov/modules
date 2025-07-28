@@ -3,7 +3,7 @@ $bepinexFolder = "..\Build\BepInEx"
 $bepinexPatchFolder = "..\Build\BepInEx\patchers"
 $bepinexPluginFolder = "..\Build\BepInEx\plugins"
 $bepinexSptFolder = "..\Build\BepInEx\plugins\spt"
-$projReleaseFolder = ".\bin\Release\net471"
+$projReleaseFolder = ".\bin\Release\netstandard2.1"
 $licenseFile = "..\..\LICENSE.md"
 
 # Delete build folder and contents to make sure it's clean

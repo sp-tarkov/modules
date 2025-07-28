@@ -6,7 +6,7 @@ using System;
 namespace SPT.Core
 {
     [BepInPlugin("com.SPT.core", "SPT.Core", SPTPluginInfo.PLUGIN_VERSION)]
-    class SPTCorePlugin : BaseUnityPlugin
+    public class SPTCorePlugin : BaseUnityPlugin
     {
         // Temp static logger field, remove along with plugin whitelisting before release
         internal static BepInEx.Logging.ManualLogSource _logger;
@@ -28,10 +28,6 @@ namespace SPT.Core
                 new WebSocketSslValidationPatch().Enable();
                 new Patch4001().Enable();
                 new Patch4002().Enable();
-
-                // No longer needed with us moving back to Https
-                // new WebSocketPatch().Enable();
-                // new TransportPrefixPatch().Enable();
             }
             catch (Exception ex)
             {
