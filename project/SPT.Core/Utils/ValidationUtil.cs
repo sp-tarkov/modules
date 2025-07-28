@@ -11,7 +11,6 @@ namespace SPT.Core.Utils
         public static string _crashHandler = "0";
         private static bool _hasRun;
 
-        //Todo: Might break Linux? Lol
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
         private static extern int RegOpenKeyEx(IntPtr hKey, string subKey, int options, int samDesired, out IntPtr phkResult);
 
