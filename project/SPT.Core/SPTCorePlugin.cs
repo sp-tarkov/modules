@@ -6,7 +6,7 @@ using System;
 namespace SPT.Core
 {
     [BepInPlugin("com.SPT.core", "SPT.Core", SPTPluginInfo.PLUGIN_VERSION)]
-    class SPTCorePlugin : BaseUnityPlugin
+    public class SPTCorePlugin : BaseUnityPlugin
     {
         // Temp static logger field, remove along with plugin whitelisting before release
         internal static BepInEx.Logging.ManualLogSource _logger;
