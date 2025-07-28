@@ -14,17 +14,26 @@ namespace SPT.Custom.Patches
     ///
     public class RedirectClientImageRequestsPatch : ModulePatch
     {
-        private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptappdata");
+        private static readonly string _sptPath = Path.Combine(
+            Environment.CurrentDirectory,
+            "user",
+            "sptappdata"
+        );
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_28));
+            return AccessTools.Method(
+                typeof(ProfileEndpointFactoryAbstractClass),
+                nameof(ProfileEndpointFactoryAbstractClass.method_28)
+            );
         }
 
         [PatchPrefix]
         public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
         {
-            var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(url.ConvertToResourceLocation());
+            var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(
+                url.ConvertToResourceLocation()
+            );
 
             if (texture2D != null)
             {

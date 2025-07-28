@@ -21,7 +21,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.FirstMethod(typeof(SpawnPoint), (method) => method.ReturnType == typeof(Player));
+            return AccessTools.FirstMethod(
+                typeof(SpawnPoint),
+                (method) => method.ReturnType == typeof(Player)
+            );
         }
 
         /// <summary>
@@ -36,15 +39,20 @@ namespace SPT.Custom.Patches
             List<Player> allAlivePlayersList = Singleton<GameWorld>.Instance.AllAlivePlayersList;
             Player closestPlayer = null;
             float minDistance = float.MaxValue;
-            if (Singleton<IBotGame>.Instantiated && Singleton<IBotGame>.Instance.BotsController != null)
+            if (
+                Singleton<IBotGame>.Instantiated
+                && Singleton<IBotGame>.Instance.BotsController != null
+            )
             {
                 foreach (Player player in allAlivePlayersList)
                 {
                     // Skip if this is an AI bot who isn't a PMC
-                    if (player.IsAI && !player.AIData.BotOwner.IsPMC()) continue;
-                    if (!player.HealthController.IsAlive) continue;
+                    if (player.IsAI && !player.AIData.BotOwner.IsPMC())
+                        continue;
+                    if (!player.HealthController.IsAlive)
+                        continue;
 
-                    float dist = ___Position.SqrDistance(((IPlayer) player).Position);
+                    float dist = ___Position.SqrDistance(((IPlayer)player).Position);
                     if (dist < minDistance)
                     {
                         minDistance = dist;

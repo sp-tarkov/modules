@@ -30,38 +30,89 @@ namespace SPT.Reflection.CodeWrapper
                 return new CodeInstruction(code.OpCode) { labels = GetLabelList(code) };
             }
 
-            if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Ldflda || code.OpCode == OpCodes.Stfld)
+            if (
+                code.OpCode == OpCodes.Ldfld
+                || code.OpCode == OpCodes.Ldflda
+                || code.OpCode == OpCodes.Stfld
+            )
             {
-                return new CodeInstruction(code.OpCode, AccessTools.Field(code.CallerType, code.OperandTarget as string)) { labels = GetLabelList(code) };
+                return new CodeInstruction(
+                    code.OpCode,
+                    AccessTools.Field(code.CallerType, code.OperandTarget as string)
+                )
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
             if (code.OpCode == OpCodes.Call || code.OpCode == OpCodes.Callvirt)
             {
-                return new CodeInstruction(code.OpCode, AccessTools.Method(code.CallerType, code.OperandTarget as string, code.Parameters)) { labels = GetLabelList(code) };
+                return new CodeInstruction(
+                    code.OpCode,
+                    AccessTools.Method(
+                        code.CallerType,
+                        code.OperandTarget as string,
+                        code.Parameters
+                    )
+                )
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
             if (code.OpCode == OpCodes.Box)
             {
-                return new CodeInstruction(code.OpCode, code.CallerType) { labels = GetLabelList(code) };
+                return new CodeInstruction(code.OpCode, code.CallerType)
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
-            if (code.OpCode == OpCodes.Br || code.OpCode == OpCodes.Brfalse || code.OpCode == OpCodes.Brtrue || code.OpCode == OpCodes.Brtrue_S
-                || code.OpCode == OpCodes.Brfalse_S || code.OpCode == OpCodes.Br_S)
+            if (
+                code.OpCode == OpCodes.Br
+                || code.OpCode == OpCodes.Brfalse
+                || code.OpCode == OpCodes.Brtrue
+                || code.OpCode == OpCodes.Brtrue_S
+                || code.OpCode == OpCodes.Brfalse_S
+                || code.OpCode == OpCodes.Br_S
+            )
             {
-                return new CodeInstruction(code.OpCode, code.OperandTarget) { labels = GetLabelList(code) };
+                return new CodeInstruction(code.OpCode, code.OperandTarget)
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
             if (code.OpCode == OpCodes.Ldftn)
             {
-                return new CodeInstruction(code.OpCode, AccessTools.Method(code.CallerType, code.OperandTarget as string, code.Parameters)) { labels = GetLabelList(code) };
+                return new CodeInstruction(
+                    code.OpCode,
+                    AccessTools.Method(
+                        code.CallerType,
+                        code.OperandTarget as string,
+                        code.Parameters
+                    )
+                )
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
             if (code.OpCode == OpCodes.Newobj)
             {
-                return new CodeInstruction(code.OpCode, code.CallerType.GetConstructors().FirstOrDefault(x => x.GetParameters().Length == code.Parameters.Length)) { labels = GetLabelList(code) };
+                return new CodeInstruction(
+                    code.OpCode,
+                    code.CallerType.GetConstructors()
+                        .FirstOrDefault(x => x.GetParameters().Length == code.Parameters.Length)
+                )
+                {
+                    labels = GetLabelList(code),
+                };
             }
 
-            throw new ArgumentException($"Code with OpCode {code.OpCode.ToString()} is not supported.");
+            throw new ArgumentException(
+                $"Code with OpCode {code.OpCode.ToString()} is not supported."
+            );
         }
 
         private static List<Label> GetLabelList(Code code)
@@ -71,7 +122,7 @@ namespace SPT.Reflection.CodeWrapper
                 return new List<Label>();
             }
 
-            return new List<Label>() { (Label) code.GetLabel() };
+            return new List<Label>() { (Label)code.GetLabel() };
         }
     }
 }

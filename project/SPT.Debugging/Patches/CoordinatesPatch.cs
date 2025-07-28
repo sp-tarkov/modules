@@ -14,13 +14,17 @@ namespace SPT.Debugging.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.Update));
+            return AccessTools.Method(
+                typeof(BaseLocalGame<EftGamePlayerOwner>),
+                nameof(BaseLocalGame<EftGamePlayerOwner>.Update)
+            );
         }
 
         [PatchPrefix]
         public static void PatchPrefix(BaseLocalGame<EftGamePlayerOwner> __instance)
         {
-            if (!Input.GetKeyDown(KeyCode.LeftControl)) return;
+            if (!Input.GetKeyDown(KeyCode.LeftControl))
+                return;
 
             if (_alphaLabel == null)
             {
@@ -41,7 +45,9 @@ namespace SPT.Debugging.Patches
 
             var position = playerOwner.transform.position;
             var rotation = playerOwner.transform.rotation.eulerAngles;
-            Logger.LogInfo($"Character position: [{position.x},{position.y},{position.z}] | Rotation: [{rotation.x},{rotation.y},{rotation.z}]");
+            Logger.LogInfo(
+                $"Character position: [{position.x},{position.y},{position.z}] | Rotation: [{rotation.x},{rotation.y},{rotation.z}]"
+            );
         }
 
         public static Vector3 LookingRaycast(Player player)
@@ -53,7 +59,12 @@ namespace SPT.Debugging.Patches
                     return Vector3.zero;
                 }
 
-                Physics.Linecast(player.Fireport.position, player.Fireport.position - player.Fireport.up * 1000f, out var raycastHit, 331776);
+                Physics.Linecast(
+                    player.Fireport.position,
+                    player.Fireport.position - player.Fireport.up * 1000f,
+                    out var raycastHit,
+                    331776
+                );
                 return raycastHit.point;
             }
             catch (Exception e)

@@ -30,39 +30,52 @@ namespace SPT.Debugging.Patches
 
             var containersData = new SPTContainersData();
 
-            Resources.FindObjectsOfTypeAll(typeof(LootableContainersGroup)).ExecuteForEach(obj =>
-            {
-                var containersGroup = (LootableContainersGroup) obj;
-                var sptContainersGroup = new SPTContainersGroup { minContainers = containersGroup.Min, maxContainers = containersGroup.Max };
-                if (containersData.containersGroups.ContainsKey(containersGroup.Id))
+            Resources
+                .FindObjectsOfTypeAll(typeof(LootableContainersGroup))
+                .ExecuteForEach(obj =>
                 {
-                    Logger.LogError($"Container group ID {containersGroup.Id} already exists in dictionary!");
-                }
-                else
-                {
-                    containersData.containersGroups.Add(containersGroup.Id, sptContainersGroup);
-                }
-            });
+                    var containersGroup = (LootableContainersGroup)obj;
+                    var sptContainersGroup = new SPTContainersGroup
+                    {
+                        minContainers = containersGroup.Min,
+                        maxContainers = containersGroup.Max,
+                    };
+                    if (containersData.containersGroups.ContainsKey(containersGroup.Id))
+                    {
+                        Logger.LogError(
+                            $"Container group ID {containersGroup.Id} already exists in dictionary!"
+                        );
+                    }
+                    else
+                    {
+                        containersData.containersGroups.Add(containersGroup.Id, sptContainersGroup);
+                    }
+                });
 
-            Resources.FindObjectsOfTypeAll(typeof(LootableContainer)).ExecuteForEach(obj =>
-            {
-                var container = (LootableContainer) obj;
+            Resources
+                .FindObjectsOfTypeAll(typeof(LootableContainer))
+                .ExecuteForEach(obj =>
+                {
+                    var container = (LootableContainer)obj;
 
-                // Skip empty ID containers
-                if (container.Id.Length == 0)
-                {
-                    return;
-                }
+                    // Skip empty ID containers
+                    if (container.Id.Length == 0)
+                    {
+                        return;
+                    }
 
-                if (containersData.containers.ContainsKey(container.Id))
-                {
-                    Logger.LogError($"Container {container.Id} already exists in dictionary!");
-                }
-                else
-                {
-                    containersData.containers.Add(container.Id, new SPTContainer { groupId = container.LootableContainersGroupId });
-                }
-            });
+                    if (containersData.containers.ContainsKey(container.Id))
+                    {
+                        Logger.LogError($"Container {container.Id} already exists in dictionary!");
+                    }
+                    else
+                    {
+                        containersData.containers.Add(
+                            container.Id,
+                            new SPTContainer { groupId = container.LootableContainersGroupId }
+                        );
+                    }
+                });
 
             string jsonString = JsonConvert.SerializeObject(containersData, Formatting.Indented);
             string outputFile = Path.Combine(DumpFolder, $"{mapName}", $"statics.json");
@@ -97,8 +110,8 @@ namespace SPT.Debugging.Patches
 
     public class SPTContainersData
     {
-        public Dictionary<string, SPTContainersGroup> containersGroups = new Dictionary<string, SPTContainersGroup>();
+        public Dictionary<string, SPTContainersGroup> containersGroups =
+            new Dictionary<string, SPTContainersGroup>();
         public Dictionary<string, SPTContainer> containers = new Dictionary<string, SPTContainer>();
     }
-
 }

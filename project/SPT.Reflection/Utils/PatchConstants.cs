@@ -28,7 +28,9 @@ namespace SPT.Reflection.Utils
             {
                 if (_backEndSession == null)
                 {
-                    _backEndSession = Singleton<ClientApplication<ISession>>.Instance.GetClientBackEndSession();
+                    _backEndSession = Singleton<
+                        ClientApplication<ISession>
+                    >.Instance.GetClientBackEndSession();
                 }
 
                 return _backEndSession;
@@ -39,16 +41,28 @@ namespace SPT.Reflection.Utils
         {
             _ = nameof(ISession.GetPhpSessionId);
 
-            PrivateFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+            PrivateFlags =
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
             PublicFlags = BindingFlags.Public | BindingFlags.Instance;
-            PublicDeclaredFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+            PublicDeclaredFlags =
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
             EftTypes = typeof(AbstractGame).Assembly.GetTypes();
             FilesCheckerTypes = typeof(ICheckResult).Assembly.GetTypes();
             LocalGameType = EftTypes.SingleCustom(x => x.Name == "LocalGame");
-            ExfilPointManagerType = EftTypes.SingleCustom(x => x.GetMethod("InitAllExfiltrationPoints") != null);
-            SessionInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Select(y => y.Name).Contains("GetPhpSessionId") && x.IsInterface);
-            BackendSessionInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Select(y => y.Name).Contains("ChangeProfileStatus") && x.IsInterface);
-            BackendProfileInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Length == 2 && x.GetMethods().Select(y => y.Name).Contains("get_Profile") && x.IsInterface);
+            ExfilPointManagerType = EftTypes.SingleCustom(x =>
+                x.GetMethod("InitAllExfiltrationPoints") != null
+            );
+            SessionInterfaceType = EftTypes.SingleCustom(x =>
+                x.GetMethods().Select(y => y.Name).Contains("GetPhpSessionId") && x.IsInterface
+            );
+            BackendSessionInterfaceType = EftTypes.SingleCustom(x =>
+                x.GetMethods().Select(y => y.Name).Contains("ChangeProfileStatus") && x.IsInterface
+            );
+            BackendProfileInterfaceType = EftTypes.SingleCustom(x =>
+                x.GetMethods().Length == 2
+                && x.GetMethods().Select(y => y.Name).Contains("get_Profile")
+                && x.IsInterface
+            );
         }
 
         /// <summary>
@@ -57,7 +71,8 @@ namespace SPT.Reflection.Utils
         /// <returns>A single member of the input sequence that matches the given search pattern</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public static T SingleCustom<T>(this IEnumerable<T> types, Func<T, bool> predicate) where T : MemberInfo
+        public static T SingleCustom<T>(this IEnumerable<T> types, Func<T, bool> predicate)
+            where T : MemberInfo
         {
             if (types == null)
             {
@@ -73,12 +88,16 @@ namespace SPT.Reflection.Utils
 
             if (matchingTypes.Length > 1)
             {
-                throw new InvalidOperationException($"More than one member matches the specified search pattern: {string.Join(", ", matchingTypes.Select(t => t.Name))}");
+                throw new InvalidOperationException(
+                    $"More than one member matches the specified search pattern: {string.Join(", ", matchingTypes.Select(t => t.Name))}"
+                );
             }
 
             if (matchingTypes.Length == 0)
             {
-                throw new InvalidOperationException("No members match the specified search pattern");
+                throw new InvalidOperationException(
+                    "No members match the specified search pattern"
+                );
             }
 
             return matchingTypes[0];

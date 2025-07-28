@@ -13,7 +13,8 @@ namespace SPT.Custom.Patches
             var methodName = "LoadCoreByString";
             var flags = BindingFlags.Public | BindingFlags.Static;
 
-            return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
+            return PatchConstants
+                .EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
                 .GetMethod(methodName, flags);
         }
 

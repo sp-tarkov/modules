@@ -9,7 +9,8 @@ namespace SPT.Common.Utils
             string source,
             string message,
             EServerLogTextColor color = EServerLogTextColor.White,
-            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default)
+            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default
+        )
         {
             Log(source, message, EServerLogLevel.Custom, color, backgroundColor);
         }
@@ -44,7 +45,8 @@ namespace SPT.Common.Utils
             string message,
             EServerLogLevel level = EServerLogLevel.Info,
             EServerLogTextColor color = EServerLogTextColor.White,
-            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default)
+            EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default
+        )
         {
             ServerLogRequest request = new ServerLogRequest
             {
@@ -52,7 +54,7 @@ namespace SPT.Common.Utils
                 Message = message,
                 Level = level,
                 Color = color,
-                BackgroundColor = backgroundColor
+                BackgroundColor = backgroundColor,
             };
 
             RequestHandler.PostJson("/singleplayer/log", Json.Serialize(request));

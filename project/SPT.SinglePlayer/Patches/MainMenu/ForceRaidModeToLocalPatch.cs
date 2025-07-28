@@ -14,7 +14,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_34));
+            return AccessTools.Method(
+                typeof(TarkovApplication),
+                nameof(TarkovApplication.method_34)
+            );
         }
 
         [PatchPrefix]

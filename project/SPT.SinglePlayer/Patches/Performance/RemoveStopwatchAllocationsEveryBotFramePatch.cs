@@ -34,40 +34,62 @@ namespace SPT.SinglePlayer.Patches.Performance
         }
 
         [PatchTranspiler]
-        public static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        public static IEnumerable<CodeInstruction> Transpile(
+            IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator
+        )
         {
             Type stopWatchType = typeof(Stopwatch);
 
             CodeMatcher matcher = new(instructions, generator);
             matcher.Start();
 
-            CodeMatch[] inst1 = [
+            CodeMatch[] inst1 =
+            [
                 new(OpCodes.Newobj, stopWatchType.GetConstructor([])),
                 new(OpCodes.Dup),
-                new(OpCodes.Callvirt, stopWatchType.GetMethod(nameof(Stopwatch.Start)))
+                new(OpCodes.Callvirt, stopWatchType.GetMethod(nameof(Stopwatch.Start))),
             ];
 
-            matcher.MatchForward(false, inst1)
+            matcher
+                .MatchForward(false, inst1)
                 .ThrowIfInvalid("Could not find Stopwatch allocation in IL instructions");
 
             matcher.InstructionAt(inst1.Length).labels.AddRange(matcher.Instruction.labels);
             matcher.Instruction.labels.Clear();
             matcher.RemoveInstructions(inst1.Length);
 
-            matcher.MatchForward(false,
-                new CodeMatch(OpCodes.Callvirt, stopWatchType.GetMethod(nameof(Stopwatch.Stop))))
+            matcher
+                .MatchForward(
+                    false,
+                    new CodeMatch(OpCodes.Callvirt, stopWatchType.GetMethod(nameof(Stopwatch.Stop)))
+                )
                 .ThrowIfInvalid("Could not find Stopwatch.Stop method in IL instructions");
 
             matcher.RemoveInstruction();
 
-            CodeMatch[] inst2 = [
+            CodeMatch[] inst2 =
+            [
                 new(OpCodes.Ldarg_0),
-                new(OpCodes.Call, typeof(BotOwner).GetProperty(nameof(BotOwner.UnityEditorRunChecker)).GetGetMethod()),
-                new(OpCodes.Callvirt, typeof(BotUnityEditorRunChecker).GetMethod(nameof(BotUnityEditorRunChecker.ManualLateUpdate)))
+                new(
+                    OpCodes.Call,
+                    typeof(BotOwner)
+                        .GetProperty(nameof(BotOwner.UnityEditorRunChecker))
+                        .GetGetMethod()
+                ),
+                new(
+                    OpCodes.Callvirt,
+                    typeof(BotUnityEditorRunChecker).GetMethod(
+                        nameof(BotUnityEditorRunChecker.ManualLateUpdate)
+                    )
+                ),
             ];
 
-            matcher.MatchForward(false, inst2)
-                .ThrowIfInvalid("Could not find call to BotUnityEditorRunChecker.ManualLateUpdate in IL instructions");
+            matcher
+                .MatchForward(false, inst2)
+                .ThrowIfInvalid(
+                    "Could not find call to BotUnityEditorRunChecker.ManualLateUpdate in IL instructions"
+                );
 
             matcher.InstructionAt(inst2.Length).labels.AddRange(matcher.Instruction.labels);
             matcher.Instruction.labels.Clear();

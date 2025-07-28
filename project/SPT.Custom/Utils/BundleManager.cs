@@ -22,9 +22,7 @@ namespace SPT.Custom.Utils
 
         public static string GetBundlePath(BundleItem bundle)
         {
-            return RequestHandler.IsLocal
-                ? $"{bundle.ModPath}/bundles/"
-                : CachePath;
+            return RequestHandler.IsLocal ? $"{bundle.ModPath}/bundles/" : CachePath;
         }
 
         public static string GetBundleFilePath(BundleItem bundle)

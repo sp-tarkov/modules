@@ -17,7 +17,8 @@ namespace SPT.Reflection.Patching
 
         protected static ManualLogSource Logger { get; private set; }
 
-        protected ModulePatch() : this(null)
+        protected ModulePatch()
+            : this(null)
         {
             if (Logger == null)
             {
@@ -38,13 +39,17 @@ namespace SPT.Reflection.Patching
             _finalizerList = GetPatchMethods(typeof(PatchFinalizerAttribute));
             _ilmanipulatorList = GetPatchMethods(typeof(PatchILManipulatorAttribute));
 
-            if (_prefixList.Count == 0
+            if (
+                _prefixList.Count == 0
                 && _postfixList.Count == 0
                 && _transpilerList.Count == 0
                 && _finalizerList.Count == 0
-                && _ilmanipulatorList.Count == 0)
+                && _ilmanipulatorList.Count == 0
+            )
             {
-                throw new Exception($"{_harmony.Id}: At least one of the patch methods must be specified");
+                throw new Exception(
+                    $"{_harmony.Id}: At least one of the patch methods must be specified"
+                );
             }
         }
 
@@ -64,7 +69,14 @@ namespace SPT.Reflection.Patching
             var T = GetType();
             var methods = new List<HarmonyMethod>();
 
-            foreach (var method in T.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly))
+            foreach (
+                var method in T.GetMethods(
+                    BindingFlags.Static
+                        | BindingFlags.NonPublic
+                        | BindingFlags.Public
+                        | BindingFlags.DeclaredOnly
+                )
+            )
             {
                 if (method.GetCustomAttribute(attributeType) != null)
                 {

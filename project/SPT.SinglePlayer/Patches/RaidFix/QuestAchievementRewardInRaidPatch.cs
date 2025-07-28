@@ -17,7 +17,12 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         }
 
         [PatchPostfix]
-        private static async void PatchPostfix(Task __result, AbstractQuestControllerClass questController, AbstractAchievementControllerClass achievementsController, bool aiControlled)
+        private static async void PatchPostfix(
+            Task __result,
+            AbstractQuestControllerClass questController,
+            AbstractAchievementControllerClass achievementsController,
+            bool aiControlled
+        )
         {
             // Wait for original to finish
             await __result;
@@ -26,7 +31,8 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             if (!aiControlled && questController != null && achievementsController != null)
             {
                 // This should be called rarely enough that the memory overhead isn't a concern
-                questController.AchievementUnlocked += (achId) => achievementsController.UnlockAchievementForced(achId);
+                questController.AchievementUnlocked += (achId) =>
+                    achievementsController.UnlockAchievementForced(achId);
             }
         }
     }

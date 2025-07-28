@@ -1,16 +1,9 @@
 ﻿namespace SPT.Common.Http
 {
-    public class ServerConfig
+    public class ServerConfig(string backendUrl, string matchingVersion, string version)
     {
-        public string BackendUrl { get; }
-        public string MatchingVersion { get; }
-        public string Version { get; }
-
-        public ServerConfig(string backendUrl, string matchingVersion, string version)
-        {
-            BackendUrl = backendUrl;
-            MatchingVersion = matchingVersion;
-            Version = version;
-        }
+        public string BackendUrl { get; } = backendUrl;
+        public string MatchingVersion { get; } = matchingVersion;
+        public string Version { get; } = version;
     }
 }

@@ -18,7 +18,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(SpawnPoint), nameof(SpawnPoint.IsInPlayersIndividualLimits));
+            return AccessTools.Method(
+                typeof(SpawnPoint),
+                nameof(SpawnPoint.IsInPlayersIndividualLimits)
+            );
         }
 
         /// <summary>
@@ -29,7 +32,11 @@ namespace SPT.Custom.Patches
         /// <param name="___Position"></param>
         /// <returns></returns>
         [PatchPrefix]
-        public static bool PatchPrefix(ref bool __result, BotCreationDataClass creationData, Vector3 ___Position)
+        public static bool PatchPrefix(
+            ref bool __result,
+            BotCreationDataClass creationData,
+            Vector3 ___Position
+        )
         {
             if (creationData == null)
             {
@@ -39,7 +46,13 @@ namespace SPT.Custom.Patches
 
             foreach (Profile profile in creationData.Profiles)
             {
-                if ((profile.Info.Settings.Role.IsBossOrFollower() || profile.Info.Settings.Role == WildSpawnType.marksman) && profile.Info.Settings.Role != WildSpawnType.assaultGroup)
+                if (
+                    (
+                        profile.Info.Settings.Role.IsBossOrFollower()
+                        || profile.Info.Settings.Role == WildSpawnType.marksman
+                    )
+                    && profile.Info.Settings.Role != WildSpawnType.assaultGroup
+                )
                 {
                     __result = true;
                     return false;
@@ -55,7 +68,7 @@ namespace SPT.Custom.Patches
                 {
                     if (!player.IsAI || player.AIData.BotOwner.IsPMC())
                     {
-                        float dist = ___Position.SqrDistance(((IPlayer) player).Position);
+                        float dist = ___Position.SqrDistance(((IPlayer)player).Position);
                         if (dist < minDistance)
                         {
                             minDistance = dist;
@@ -66,7 +79,10 @@ namespace SPT.Custom.Patches
 
                 if (closestPlayer != null)
                 {
-                    __result = botsController.BotSpawnLimiter.IsInPlayerSpawnLimit(closestPlayer, creationData);
+                    __result = botsController.BotSpawnLimiter.IsInPlayerSpawnLimit(
+                        closestPlayer,
+                        creationData
+                    );
                     return false;
                 }
             }

@@ -10,17 +10,19 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(HideoutPlayerOwner), nameof(HideoutPlayerOwner.StopWorkout));
+            return AccessTools.Method(
+                typeof(HideoutPlayerOwner),
+                nameof(HideoutPlayerOwner.StopWorkout)
+            );
         }
 
         [PatchPostfix]
         public static void PatchPostfix(HideoutPlayerOwner __instance)
         {
-            RequestHandler.PutJson("/client/hideout/workout", new
-            {
-                skills = new SkillsDescriptorClass(__instance.HideoutPlayer.Skills)
-            }
-            .ToJson());
+            RequestHandler.PutJson(
+                "/client/hideout/workout",
+                new { skills = new SkillsDescriptorClass(__instance.HideoutPlayer.Skills) }.ToJson()
+            );
         }
     }
 }

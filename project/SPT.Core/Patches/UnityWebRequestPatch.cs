@@ -9,7 +9,10 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(UnityWebRequestTexture).GetMethod(nameof(UnityWebRequestTexture.GetTexture), new[] { typeof(string) });
+            return typeof(UnityWebRequestTexture).GetMethod(
+                nameof(UnityWebRequestTexture.GetTexture),
+                new[] { typeof(string) }
+            );
         }
 
         [PatchPostfix]

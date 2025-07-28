@@ -16,8 +16,10 @@ namespace SPT.Custom.Patches
 
         protected override MethodBase GetTargetMethod()
         {
-            return PatchConstants.EftTypes
-                .SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
+            return PatchConstants
+                .EftTypes.SingleCustom(x =>
+                    x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null
+                )
                 .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
         }
 
@@ -31,8 +33,15 @@ namespace SPT.Custom.Patches
                 Logger.LogInfo($"Server version: {_versionLabel}");
             }
 
-            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
-            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
+            Traverse
+                .Create(Singleton<PreloaderUI>.Instance)
+                .Field("_alphaVersionLabel")
+                .Property("LocalizationKey")
+                .SetValue("{0}");
+            Traverse
+                .Create(Singleton<PreloaderUI>.Instance)
+                .Field("string_2")
+                .SetValue(_versionLabel);
             var major = Traverse.Create(__result).Field("Major");
             var existingValue = major.GetValue();
             major.SetValue($"{existingValue} {_versionLabel}");

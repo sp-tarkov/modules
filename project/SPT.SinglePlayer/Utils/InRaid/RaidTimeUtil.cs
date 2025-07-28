@@ -35,7 +35,9 @@ namespace SPT.SinglePlayer.Utils.InRaid
         {
             if (!HasRaidLoaded())
             {
-                throw new InvalidOperationException("The raid-time remaining can only be calculated when a raid is in-progress");
+                throw new InvalidOperationException(
+                    "The raid-time remaining can only be calculated when a raid is in-progress"
+                );
             }
 
             if (!HasRaidStarted())
@@ -43,14 +45,15 @@ namespace SPT.SinglePlayer.Utils.InRaid
                 return RaidChangesUtil.NewEscapeTimeSeconds;
             }
 
-            float remainingTimeSeconds = Singleton<AbstractGame>.Instance.GameTimer.EscapeTimeSeconds();
+            float remainingTimeSeconds =
+                Singleton<AbstractGame>.Instance.GameTimer.EscapeTimeSeconds();
 
             // Until the raid starts, remainingTimeSeconds is TimeSpan.MaxValue, so it needs to be reduced to the actual starting raid time
             return Math.Min(remainingTimeSeconds, RaidChangesUtil.NewEscapeTimeSeconds);
         }
 
         /// <summary>
-        /// <para>Calculates the fraction of raid-time remaining relative to the original escape time for the map. 
+        /// <para>Calculates the fraction of raid-time remaining relative to the original escape time for the map.
         /// 1.0 = the raid just started, and 0.0 = the raid is over (and you're MIA).</para>
         /// <para>Please ensure <see cref="HasRaidLoaded"/> is <c>true</c>, or this will throw an exception.</para>
         /// </summary>

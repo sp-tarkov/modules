@@ -23,7 +23,9 @@ namespace SPT.Custom.Patches
 
         static EasyAssetsPatch()
         {
-            _bundlesField = typeof(EasyAssets).GetFields(PatchConstants.PrivateFlags).FirstOrDefault(field => field.FieldType == typeof(EasyAssetHelperClass[]));
+            _bundlesField = typeof(EasyAssets)
+                .GetFields(PatchConstants.PrivateFlags)
+                .FirstOrDefault(field => field.FieldType == typeof(EasyAssetHelperClass[]));
         }
 
         public EasyAssetsPatch()
@@ -40,19 +42,44 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ref Task<EasyAssets> __result, GameObject gameObject, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath,
-            string platformName, [CanBeNull] Func<string, bool> shouldExclude, [CanBeNull] Func<string, Task> bundleCheck)
+        public static bool PatchPrefix(
+            ref Task<EasyAssets> __result,
+            GameObject gameObject,
+            [CanBeNull] IBundleLock bundleLock,
+            string defaultKey,
+            string rootPath,
+            string platformName,
+            [CanBeNull] Func<string, bool> shouldExclude,
+            [CanBeNull] Func<string, Task> bundleCheck
+        )
         {
             var easyAsset = gameObject.AddComponent<EasyAssets>();
-            __result = Init(easyAsset, bundleLock, defaultKey, rootPath, platformName, shouldExclude, bundleCheck);
+            __result = Init(
+                easyAsset,
+                bundleLock,
+                defaultKey,
+                rootPath,
+                platformName,
+                shouldExclude,
+                bundleCheck
+            );
 
             return false; // Skip original
         }
 
-        private static async Task<EasyAssets> Init(EasyAssets instance, [CanBeNull] IBundleLock bundleLock, string defaultKey, string rootPath, string platformName, [CanBeNull] Func<string, bool> shouldExclude, Func<string, Task> bundleCheck)
+        private static async Task<EasyAssets> Init(
+            EasyAssets instance,
+            [CanBeNull] IBundleLock bundleLock,
+            string defaultKey,
+            string rootPath,
+            string platformName,
+            [CanBeNull] Func<string, bool> shouldExclude,
+            Func<string, Task> bundleCheck
+        )
         {
             // platform manifest
-            var eftBundlesPath = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
+            var eftBundlesPath =
+                $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
             var filepath = eftBundlesPath + platformName;
             var jsonfile = filepath + ".json";
             var manifest = VFS.Exists(jsonfile)
@@ -66,7 +93,8 @@ namespace SPT.Custom.Patches
             }
 
             // create bundles array from obfuscated type
-            var bundleNames = manifest.GetAllAssetBundles()
+            var bundleNames = manifest
+                .GetAllAssetBundles()
                 .Union(BundleManager.Bundles.Keys)
                 .ToArray();
 
@@ -107,12 +135,7 @@ namespace SPT.Custom.Patches
                 }
 
                 // create bundle of obfuscated type
-                bundles[i] = new EasyAssetHelperClass(
-                    key,
-                    path,
-                    manifest,
-                    bundleLock,
-                    bundleCheck);
+                bundles[i] = new EasyAssetHelperClass(key, path, manifest, bundleLock, bundleCheck);
             }
 
             bundleUtils.Dispose();
@@ -131,7 +154,9 @@ namespace SPT.Custom.Patches
         // - EscapeFromTarkov_Data/StreamingAssets/Windows/dissonancesetup
         // - EscapeFromTarkov_Data/StreamingAssets/Windows/Doge
         // - EscapeFromTarkov_Data/StreamingAssets/Windows/shaders
-        private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(string filepath)
+        private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(
+            string filepath
+        )
         {
             var manifestLoading = AssetBundle.LoadFromFileAsync(filepath);
             await manifestLoading.Await();
@@ -140,7 +165,7 @@ namespace SPT.Custom.Patches
             var assetLoading = assetBundle.LoadAllAssetsAsync();
             await assetLoading.Await();
 
-            return (CompatibilityAssetBundleManifest) assetLoading.allAssets[0];
+            return (CompatibilityAssetBundleManifest)assetLoading.allAssets[0];
         }
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestJson(string filepath)
@@ -172,7 +197,7 @@ namespace SPT.Custom.Patches
             {
                 FileName = x.Value.FileName,
                 Crc = x.Value.Crc,
-                Dependencies = x.Value.Dependencies
+                Dependencies = x.Value.Dependencies,
             };
         }
     }

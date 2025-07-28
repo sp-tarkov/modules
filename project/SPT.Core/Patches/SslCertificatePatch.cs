@@ -9,7 +9,11 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(SslCertPatchClass), nameof(SslCertPatchClass.ValidateCertificate), new[] { typeof(X509Certificate) });
+            return AccessTools.Method(
+                typeof(SslCertPatchClass),
+                nameof(SslCertPatchClass.ValidateCertificate),
+                new[] { typeof(X509Certificate) }
+            );
         }
 
         [PatchPrefix]

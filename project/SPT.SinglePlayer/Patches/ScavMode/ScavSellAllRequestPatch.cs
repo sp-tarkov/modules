@@ -19,14 +19,25 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         protected override MethodBase GetTargetMethod()
         {
-            _sendOperationMethod = AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SendOperationRightNow));
+            _sendOperationMethod = AccessTools.Method(
+                typeof(ProfileEndpointFactoryAbstractClass),
+                nameof(ProfileEndpointFactoryAbstractClass.SendOperationRightNow)
+            );
 
             // NEEDS FIXING
-            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SellAllFromSavage));
+            return AccessTools.Method(
+                typeof(ProfileEndpointFactoryAbstractClass),
+                nameof(ProfileEndpointFactoryAbstractClass.SellAllFromSavage)
+            );
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ProfileEndpointFactoryAbstractClass __instance, ref Task<IResult> __result, string playerId, string petId)
+        public static bool PatchPrefix(
+            ProfileEndpointFactoryAbstractClass __instance,
+            ref Task<IResult> __result,
+            string playerId,
+            string petId
+        )
         {
             // Build request with additional information
             OwnerInfo fromOwner = new OwnerInfo(petId, EOwnerType.Profile);
@@ -37,12 +48,16 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 Action = "SellAllFromSavage",
                 TotalValue = ScavSellAllPriceStorePatch.StoredPrice, // Retrieve value stored in earlier patch
                 FromOwner = fromOwner, // Scav
-                ToOwner = toOwner // PMC
+                ToOwner = toOwner, // PMC
             };
 
             // We'll re-use the same logic/methods that the base code used
-            TaskCompletionSource<IResult> taskCompletionSource = new TaskCompletionSource<IResult>();
-            _sendOperationMethod.Invoke(__instance, new object[] { request, new Callback(taskCompletionSource.SetResult) });
+            TaskCompletionSource<IResult> taskCompletionSource =
+                new TaskCompletionSource<IResult>();
+            _sendOperationMethod.Invoke(
+                __instance,
+                new object[] { request, new Callback(taskCompletionSource.SetResult) }
+            );
             __result = taskCompletionSource.Task;
 
             // Skip original

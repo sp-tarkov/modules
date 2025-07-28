@@ -13,12 +13,20 @@ namespace SPT.Debugging.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.GetDeclaredMethods(typeof(LoggerClass))
-                .SingleCustom(m => m.Name == nameof(LoggerClass.Log) && m.GetParameters().Length == 4);
+            return AccessTools
+                .GetDeclaredMethods(typeof(LoggerClass))
+                .SingleCustom(m =>
+                    m.Name == nameof(LoggerClass.Log) && m.GetParameters().Length == 4
+                );
         }
 
         [PatchPostfix]
-        public static void PatchPostfix(string nlogFormat, string unityFormat, LogLevel logLevel, object[] args)
+        public static void PatchPostfix(
+            string nlogFormat,
+            string unityFormat,
+            LogLevel logLevel,
+            object[] args
+        )
         {
             var bsgLevel = LogLevel.FromOrdinal(logLevel.Ordinal);
             var sptLevel = LogLevel.FromOrdinal(SPTDebuggingPlugin.logLevel.verbosity);
@@ -59,13 +67,13 @@ namespace SPT.Debugging.Patches
             // I've opted to leave this disabled for now, it doesn't add much in
             // terms of value, its mostly the same stuff as the nlogFormat
             // Deciced to keep it here incase we decide we want it later.
-            // After a 5 minute factory run at full verbosity, i ended up with a 20K 
+            // After a 5 minute factory run at full verbosity, i ended up with a 20K
             // line long player.log file.
 
             //unityFormat = Regex.Replace(unityFormat, @"\{[^{}]*[^\d{}][^{}]*\}", "");
             //unityFormat = string.Format(unityFormat, args);
             //Logger.LogDebug($"Verbosity: {logLevel}");
-            //Logger.LogDebug($"output unity: {unityFormat}");            
+            //Logger.LogDebug($"output unity: {unityFormat}");
         }
     }
 }

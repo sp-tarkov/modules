@@ -12,19 +12,28 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         protected override MethodBase GetTargetMethod()
         {
             // Correct Gclass has sessionCounters
-            return AccessTools.Method(typeof(LocationStatisticsCollectorAbstractClass), nameof(LocationStatisticsCollectorAbstractClass.OnEnemyKill));
+            return AccessTools.Method(
+                typeof(LocationStatisticsCollectorAbstractClass),
+                nameof(LocationStatisticsCollectorAbstractClass.OnEnemyKill)
+            );
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(DamageInfoStruct damage, string playerProfileId, out Tuple<Player, bool> __state)
+        public static void PatchPrefix(
+            DamageInfoStruct damage,
+            string playerProfileId,
+            out Tuple<Player, bool> __state
+        )
         {
             __state = new Tuple<Player, bool>(null, false);
-            var player = (Player) damage.Player.iPlayer;
+            var player = (Player)damage.Player.iPlayer;
 
             // Add safeguards to make sure no calculations happen from other bots
             if (!player.IsYourPlayer)
             {
-                Logger.LogError("This shouldn't be happening. Are you sure we are using the correct GClass?");
+                Logger.LogError(
+                    "This shouldn't be happening. Are you sure we are using the correct GClass?"
+                );
                 return;
             }
 
@@ -33,12 +42,18 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 return;
             }
 
-            if (Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId) is Player killedBot)
+            if (
+                Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId)
+                is Player killedBot
+            )
             {
                 __state = new Tuple<Player, bool>(killedBot, killedBot.AIData.IsAI);
                 var killedPlayerSettings = killedBot.Profile.Info.Settings;
                 // Extra check to ensure we only set playerscavs to IsAI = false
-                if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Nickname.Contains("("))
+                if (
+                    killedPlayerSettings.Role == WildSpawnType.assault
+                    && killedBot.Profile.Nickname.Contains("(")
+                )
                 {
                     //killedBot.AIData.IsAI = false;
                 }
@@ -48,7 +63,10 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                 {
                     if (HasBotKilledScav(killedBot))
                     {
-                        player.Profile.FenceInfo.AddStanding(killedPlayerSettings.StandingForKill, EFT.Counters.EFenceStandingSource.ScavHelp);
+                        player.Profile.FenceInfo.AddStanding(
+                            killedPlayerSettings.StandingForKill,
+                            EFT.Counters.EFenceStandingSource.ScavHelp
+                        );
                     }
                 }
                 else
@@ -73,7 +91,11 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             foreach (var Bot in killedBots)
             {
-                if (Bot.Role == WildSpawnType.assault || Bot.Role == WildSpawnType.marksman || Bot.Role == WildSpawnType.assaultGroup)
+                if (
+                    Bot.Role == WildSpawnType.assault
+                    || Bot.Role == WildSpawnType.marksman
+                    || Bot.Role == WildSpawnType.assaultGroup
+                )
                 {
                     return true;
                 }

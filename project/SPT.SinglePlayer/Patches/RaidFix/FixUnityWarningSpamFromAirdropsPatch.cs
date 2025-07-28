@@ -19,22 +19,32 @@ public class FixUnityWarningSpamFromAirdropsPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // Get the target type using this field to avoid requiring a GClass reference
-        var airdropOfflineServerLogicType = AccessTools.Field(typeof(AirdropLogicClass), nameof(AirdropLogicClass.OfflineServerLogic)).FieldType;
+        var airdropOfflineServerLogicType = AccessTools
+            .Field(typeof(AirdropLogicClass), nameof(AirdropLogicClass.OfflineServerLogic))
+            .FieldType;
 
         return AccessTools.Method(airdropOfflineServerLogicType, "ManualUpdate");
     }
 
     [PatchTranspiler]
-    protected static IEnumerable<CodeInstruction> PatchTranspiler(IEnumerable<CodeInstruction> originalInstructions)
+    protected static IEnumerable<CodeInstruction> PatchTranspiler(
+        IEnumerable<CodeInstruction> originalInstructions
+    )
     {
-        MethodInfo velocitySetter = AccessTools.PropertySetter(typeof(Rigidbody), nameof(Rigidbody.velocity));
+        MethodInfo velocitySetter = AccessTools.PropertySetter(
+            typeof(Rigidbody),
+            nameof(Rigidbody.velocity)
+        );
 
         List<CodeInstruction> modifiedInstructions = new(originalInstructions);
 
         for (int i = 0; i < modifiedInstructions.Count; i++)
         {
             // Search for the final instruction of the "this.Rigidbody_0.velocity = Vector3.zero;" line
-            if ((modifiedInstructions[i].opcode == OpCodes.Callvirt) && ((MethodInfo) modifiedInstructions[i].operand == velocitySetter))
+            if (
+                (modifiedInstructions[i].opcode == OpCodes.Callvirt)
+                && ((MethodInfo)modifiedInstructions[i].operand == velocitySetter)
+            )
             {
                 // Remove this instruction and all previous ones related to it (one ldarg.0 and two calls)
                 for (int j = i; j > i - 4; j--)

@@ -57,7 +57,13 @@ namespace SPT.Custom.Patches
 
         // Prefix so the logic isn't being duplicated.
         [PatchPrefix]
-        public static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
+        public static bool PatchPrefix(
+            int screenHeight,
+            int screenWidth,
+            int rectHeight,
+            int rectWidth,
+            ref Vector2 __result
+        )
         {
             System.Random random = new System.Random();
 

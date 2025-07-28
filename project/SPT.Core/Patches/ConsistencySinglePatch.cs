@@ -11,8 +11,13 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return PatchConstants.FilesCheckerTypes.SingleCustom(x => x.Name == "ConsistencyController")
-                .GetMethods().SingleCustom(x => x.Name == "EnsureConsistencySingle" && x.ReturnType == typeof(Task<ICheckResult>));
+            return PatchConstants
+                .FilesCheckerTypes.SingleCustom(x => x.Name == "ConsistencyController")
+                .GetMethods()
+                .SingleCustom(x =>
+                    x.Name == "EnsureConsistencySingle"
+                    && x.ReturnType == typeof(Task<ICheckResult>)
+                );
         }
 
         [PatchPrefix]

@@ -9,7 +9,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(MatchMakerPlayerPreview), nameof(MatchMakerPlayerPreview.Show));
+            return AccessTools.Method(
+                typeof(MatchMakerPlayerPreview),
+                nameof(MatchMakerPlayerPreview.Show)
+            );
         }
 
         [PatchPrefix]

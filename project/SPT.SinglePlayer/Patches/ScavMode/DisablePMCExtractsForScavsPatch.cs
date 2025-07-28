@@ -24,9 +24,15 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             var gameWorld = Singleton<GameWorld>.Instance;
 
             // checks nothing is null otherwise bad things happen
-            if (gameWorld == null || gameWorld.RegisteredPlayers == null || gameWorld.ExfiltrationController == null)
+            if (
+                gameWorld == null
+                || gameWorld.RegisteredPlayers == null
+                || gameWorld.ExfiltrationController == null
+            )
             {
-                Logger.LogError("Could not find GameWorld or RegisterPlayers... Unable to disable extracts for Scav raid");
+                Logger.LogError(
+                    "Could not find GameWorld or RegisterPlayers... Unable to disable extracts for Scav raid"
+                );
             }
 
             Player player = gameWorld.MainPlayer;
@@ -50,7 +56,11 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                         // Disabling extracts that aren't scav extracts
                         exfil.Disable();
                         // _authorityToChangeStatusExternally Changing this to false stop buttons from re-enabling extracts (d-2 extract, zb-013)
-                        exfil.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(x => x.Name == "_authorityToChangeStatusExternally").SetValue(exfil, false);
+                        exfil
+                            .GetType()
+                            .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                            .First(x => x.Name == "_authorityToChangeStatusExternally")
+                            .SetValue(exfil, false);
                     }
                 }
             }

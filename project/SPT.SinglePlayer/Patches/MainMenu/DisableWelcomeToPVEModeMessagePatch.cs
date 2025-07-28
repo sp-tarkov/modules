@@ -8,7 +8,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(PlayerPrefHelperClass), nameof(PlayerPrefHelperClass.GetBoolForProfile));
+            return AccessTools.Method(
+                typeof(PlayerPrefHelperClass),
+                nameof(PlayerPrefHelperClass.GetBoolForProfile)
+            );
         }
 
         [PatchPrefix]

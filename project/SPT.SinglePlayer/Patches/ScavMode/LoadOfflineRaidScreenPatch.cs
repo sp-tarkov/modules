@@ -31,25 +31,37 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
             // `MatchmakerInsuranceScreen` OnShowNextScreen
-            _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_51));
+            _onReadyScreenMethod = AccessTools.Method(
+                typeof(MainMenuControllerClass),
+                nameof(MainMenuControllerClass.method_51)
+            );
 
-            _menuControllerField = typeof(TarkovApplication).GetFields(PatchConstants.PrivateFlags)
+            _menuControllerField = typeof(TarkovApplication)
+                .GetFields(PatchConstants.PrivateFlags)
                 .FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
 
             if (_menuControllerField == null)
             {
-                Logger.LogError($"LoadOfflineRaidScreenPatch() menuControllerField is null and could not be found in {nameof(TarkovApplication)} class");
+                Logger.LogError(
+                    $"LoadOfflineRaidScreenPatch() menuControllerField is null and could not be found in {nameof(TarkovApplication)} class"
+                );
             }
         }
 
         protected override MethodBase GetTargetMethod()
         {
             // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-            return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_78));
+            return AccessTools.Method(
+                typeof(MainMenuControllerClass),
+                nameof(MainMenuControllerClass.method_78)
+            );
         }
 
         [PatchTranspiler]
-        public static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspiler(
+            ILGenerator generator,
+            IEnumerable<CodeInstruction> instructions
+        )
         {
             /* The original msil looks something like this:
              *   0	0000	ldarg.0
@@ -81,27 +93,41 @@ namespace SPT.SinglePlayer.Patches.ScavMode
              *   call instruction and only then we remove it.
              */
             var codes = new List<CodeInstruction>(instructions);
-            var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
+            var onReadyScreenMethodOperand = AccessTools.Method(
+                typeof(MainMenuControllerClass),
+                _onReadyScreenMethod.Name
+            );
 
-            var callCodeIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
-                                                        && (MethodInfo) code.operand == onReadyScreenMethodOperand);
+            var callCodeIndex = codes.FindLastIndex(code =>
+                code.opcode == OpCodes.Call
+                && (MethodInfo)code.operand == onReadyScreenMethodOperand
+            );
 
             if (callCodeIndex == -1)
             {
-                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find {nameof(_onReadyScreenMethod)} reference code.");
+                throw new Exception(
+                    $"{nameof(LoadOfflineRaidScreenPatch)} failed: Could not find {nameof(_onReadyScreenMethod)} reference code."
+                );
             }
 
             var loadThisIndex = callCodeIndex - 1;
             if (codes[loadThisIndex].opcode != OpCodes.Ldarg_0)
             {
-                throw new Exception($"{nameof(LoadOfflineRaidScreenPatch)} failed: Expected ldarg.0 before call instruction but found {codes[loadThisIndex]}");
+                throw new Exception(
+                    $"{nameof(LoadOfflineRaidScreenPatch)} failed: Expected ldarg.0 before call instruction but found {codes[loadThisIndex]}"
+                );
             }
 
             // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
-            codes[callCodeIndex] = new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav)))
+            codes[callCodeIndex] = new CodeInstruction(
+                OpCodes.Call,
+                AccessTools.Method(
+                    typeof(LoadOfflineRaidScreenPatch),
+                    nameof(LoadOfflineRaidScreenForScav)
+                )
+            )
             {
-                labels = codes[loadThisIndex].labels
+                labels = codes[loadThisIndex].labels,
             };
 
             // Remove the ldarg.0 instruction which we no longer need because LoadOfflineRaidScreenForScav is static
@@ -116,25 +142,44 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         private static void LoadOfflineRaidScreenForScav()
         {
             var profile = PatchConstants.BackEndSession.Profile;
-            var menuController = (object) GetMenuController();
+            var menuController = (object)GetMenuController();
 
             // Get fields from MainMenuController.cs
-            var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
+            var raidSettings = Traverse
+                .Create(menuController)
+                .Field("RaidSettings_0")
+                .GetValue<RaidSettings>();
 
-            var offlineRaidSettings = Traverse.Create(menuController).Field("RaidSettings_1").GetValue<RaidSettings>();
+            var offlineRaidSettings = Traverse
+                .Create(menuController)
+                .Field("RaidSettings_1")
+                .GetValue<RaidSettings>();
 
             // Find the private field of type `MatchmakerPlayerControllerClass`
-            var matchmakerPlayersController = menuController.GetType()
-                .GetFields(AccessTools.all)
-                .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
-                .GetValue(menuController) as MatchmakerPlayerControllerClass;
+            var matchmakerPlayersController =
+                menuController
+                    .GetType()
+                    .GetFields(AccessTools.all)
+                    .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
+                    .GetValue(menuController) as MatchmakerPlayerControllerClass;
 
-            var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(profile?.Info, ref raidSettings, ref offlineRaidSettings, matchmakerPlayersController, ESessionMode.Pve);
+            var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(
+                profile?.Info,
+                ref raidSettings,
+                ref offlineRaidSettings,
+                matchmakerPlayersController,
+                ESessionMode.Pve
+            );
 
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction) Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_82));
+            gclass.OnShowReadyScreen += (OfflineRaidAction)
+                Delegate.CreateDelegate(
+                    typeof(OfflineRaidAction),
+                    menuController,
+                    nameof(MainMenuControllerClass.method_82)
+                );
             gclass.ShowScreen(EScreenState.Queued);
         }
 
@@ -142,7 +187,10 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
             var menuController = GetMenuController();
 
-            var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
+            var raidSettings = Traverse
+                .Create(menuController)
+                .Field("RaidSettings_0")
+                .GetValue<RaidSettings>();
             if (raidSettings.SelectedLocation.Id == "laboratory")
             {
                 raidSettings.WavesSettings.IsBosses = true;
@@ -157,7 +205,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
         private static MainMenuControllerClass GetMenuController()
         {
-            return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuControllerClass;
+            return _menuControllerField.GetValue(ClientAppUtils.GetMainApp())
+                as MainMenuControllerClass;
         }
     }
 }

@@ -35,8 +35,7 @@ namespace SPT.Common.Http
                 }
             }
 
-            IsLocal = Host.Contains("127.0.0.1")
-                    || Host.Contains("localhost");
+            IsLocal = Host.Contains("127.0.0.1") || Host.Contains("localhost");
 
             // initialize http client
             HttpClient = new Client(Host, SessionId);

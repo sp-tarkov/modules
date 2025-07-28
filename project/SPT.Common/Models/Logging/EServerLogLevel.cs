@@ -9,6 +9,6 @@
         Info,
         Custom,
         Debug,
-        Trace
+        Trace,
     }
 }

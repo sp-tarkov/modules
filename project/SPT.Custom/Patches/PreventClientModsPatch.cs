@@ -16,7 +16,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_20));
+            return AccessTools.Method(
+                typeof(TarkovApplication),
+                nameof(TarkovApplication.method_20)
+            );
         }
 
         [PatchPrefix]
@@ -29,7 +32,9 @@ namespace SPT.Custom.Patches
         {
             if (MenuNotificationManager.DisallowedPlugins.Any())
             {
-                logger.LogError($"{MenuNotificationManager.release.illegalPluginsLoadedText}\n{string.Join("\n", MenuNotificationManager.DisallowedPlugins)}");
+                logger.LogError(
+                    $"{MenuNotificationManager.release.illegalPluginsLoadedText}\n{string.Join("\n", MenuNotificationManager.DisallowedPlugins)}"
+                );
                 throw new Exception(MenuNotificationManager.release.illegalPluginsExceptionText);
             }
         }

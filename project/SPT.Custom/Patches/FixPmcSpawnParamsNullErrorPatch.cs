@@ -30,7 +30,10 @@ namespace SPT.Custom.Patches
 
             if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
             {
-                bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
+                bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(
+                    false,
+                    false
+                );
             }
         }
     }

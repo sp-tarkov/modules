@@ -12,7 +12,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.PropertyGetter(typeof(AirdropEventClass), nameof(AirdropEventClass.Int32_0));
+            return AccessTools.PropertyGetter(
+                typeof(AirdropEventClass),
+                nameof(AirdropEventClass.Int32_0)
+            );
         }
 
         [PatchPrefix]

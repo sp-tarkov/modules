@@ -17,7 +17,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         {
             if (__instance.IsYourPlayer)
             {
-                __instance.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
+                __instance.Profile.EftStats.SessionCounters.AddLong(
+                    1L,
+                    SessionCounterTypesAbstractClass.AmmoUsed
+                );
             }
         }
     }

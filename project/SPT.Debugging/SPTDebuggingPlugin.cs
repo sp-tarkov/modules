@@ -35,7 +35,6 @@ namespace SPT.Debugging
                 new ReloadClientPatch().Enable();
                 // new DumpyLibPatch().Enable();
                 new EnableDebugCommandsPatch().Enable();
-
             }
             catch (Exception ex)
             {

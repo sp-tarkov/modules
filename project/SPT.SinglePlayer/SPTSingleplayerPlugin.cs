@@ -70,11 +70,12 @@ namespace SPT.SinglePlayer
                 new DisableDiscardLimitsPatch().Enable();
                 new DisableBuffLoggingPatch().Enable();
                 new RemoveStashUpgradeLabelPatch2().Enable();
-
             }
             catch (Exception ex)
             {
-                Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
+                Logger.LogError(
+                    $"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED"
+                );
                 Logger.LogError($"{GetType().Name}: {ex}");
                 throw;
             }

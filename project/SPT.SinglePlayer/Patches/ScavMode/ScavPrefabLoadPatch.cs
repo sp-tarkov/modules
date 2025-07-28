@@ -23,12 +23,15 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             // Struct324 - 3.10.0
             var desiredType = typeof(TarkovApplication)
                 .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
-                .SingleCustom(x => x.GetField("timeAndWeather") != null
-                                   && x.GetField("tarkovApplication_0") != null
-                                   && x.GetField("inTransition") != null
-                                   && x.Name.Contains("Struct"));
+                .SingleCustom(x =>
+                    x.GetField("timeAndWeather") != null
+                    && x.GetField("tarkovApplication_0") != null
+                    && x.GetField("inTransition") != null
+                    && x.Name.Contains("Struct")
+                );
 
-            var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags)
+            var desiredMethod = desiredType
+                .GetMethods(PatchConstants.PublicDeclaredFlags)
                 .FirstOrDefault(x => x.Name == "MoveNext");
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -38,12 +41,18 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         }
 
         [PatchTranspiler]
-        public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> PatchTranspile(
+            ILGenerator generator,
+            IEnumerable<CodeInstruction> instructions
+        )
         {
             var codes = new List<CodeInstruction>(instructions);
 
             // Search for code where backend.Session.getProfile() is called.
-            var searchCode = new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(PatchConstants.BackendProfileInterfaceType, "get_Profile"));
+            var searchCode = new CodeInstruction(
+                OpCodes.Callvirt,
+                AccessTools.Method(PatchConstants.BackendProfileInterfaceType, "get_Profile")
+            );
             var searchIndex = -1;
 
             for (var i = 0; i < codes.Count; i++)
@@ -58,7 +67,9 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             // Patch failed.
             if (searchIndex == -1)
             {
-                Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code.");
+                Logger.LogError(
+                    $"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code."
+                );
                 return instructions;
             }
 
@@ -68,19 +79,30 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             var brFalseLabel = generator.DefineLabel();
             var brLabel = generator.DefineLabel();
 
-            var newCodes = CodeGenerator.GenerateInstructions(new List<Code>()
-            {
-                new Code(OpCodes.Ldloc_1),
-                new Code(OpCodes.Call, typeof(ClientApplication<ISession>), "get_Session"),
-                new Code(OpCodes.Ldloc_1),
-                new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
-                new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),
-                new Code(OpCodes.Brfalse, brFalseLabel),
-                new Code(OpCodes.Callvirt, PatchConstants.BackendProfileInterfaceType, "get_Profile"),
-                new Code(OpCodes.Br, brLabel),
-                new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.BackendProfileInterfaceType, "get_ProfileOfPet"),
-                new CodeWithLabel(OpCodes.Ldc_I4_1, brLabel)
-            });
+            var newCodes = CodeGenerator.GenerateInstructions(
+                new List<Code>()
+                {
+                    new Code(OpCodes.Ldloc_1),
+                    new Code(OpCodes.Call, typeof(ClientApplication<ISession>), "get_Session"),
+                    new Code(OpCodes.Ldloc_1),
+                    new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
+                    new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),
+                    new Code(OpCodes.Brfalse, brFalseLabel),
+                    new Code(
+                        OpCodes.Callvirt,
+                        PatchConstants.BackendProfileInterfaceType,
+                        "get_Profile"
+                    ),
+                    new Code(OpCodes.Br, brLabel),
+                    new CodeWithLabel(
+                        OpCodes.Callvirt,
+                        brFalseLabel,
+                        PatchConstants.BackendProfileInterfaceType,
+                        "get_ProfileOfPet"
+                    ),
+                    new CodeWithLabel(OpCodes.Ldc_I4_1, brLabel),
+                }
+            );
 
             codes.RemoveRange(searchIndex, 4);
             codes.InsertRange(searchIndex, newCodes);

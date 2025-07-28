@@ -15,8 +15,12 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
-                .SingleCustom(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
+            return AccessTools
+                .GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
+                .SingleCustom(m =>
+                    m.Name == nameof(MatchmakerOfflineRaidScreen.Show)
+                    && m.GetParameters().Length == 1
+                );
         }
 
         [PatchPostfix]
@@ -26,7 +30,11 @@ namespace SPT.Custom.Patches
             var scavProfile = PatchConstants.BackEndSession.ProfileOfPet;
 
             // Iterate over all quests on pmc that are flagged as being for scavs
-            foreach (var quest in pmcProfile.QuestsData.Where(x => x.Template?.PlayerGroup == EFT.EPlayerGroup.Scav))
+            foreach (
+                var quest in pmcProfile.QuestsData.Where(x =>
+                    x.Template?.PlayerGroup == EFT.EPlayerGroup.Scav
+                )
+            )
             {
                 // If quest doesn't exist in scav but does in pmc, add it
                 var any = false;

@@ -28,7 +28,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         {
             protected override MethodBase GetTargetMethod()
             {
-                return AccessTools.Method(typeof(MatchMakerSelectionLocationScreen), nameof(MatchMakerSelectionLocationScreen.Awake));
+                return AccessTools.Method(
+                    typeof(MatchMakerSelectionLocationScreen),
+                    nameof(MatchMakerSelectionLocationScreen.Awake)
+                );
             }
 
             [PatchPostfix]
@@ -45,7 +48,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         {
             protected override MethodBase GetTargetMethod()
             {
-                return AccessTools.Method(typeof(MatchmakerOfflineRaidScreen), nameof(MatchmakerOfflineRaidScreen.Awake));
+                return AccessTools.Method(
+                    typeof(MatchmakerOfflineRaidScreen),
+                    nameof(MatchmakerOfflineRaidScreen.Awake)
+                );
             }
 
             [PatchPostfix]
@@ -62,7 +68,10 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         {
             protected override MethodBase GetTargetMethod()
             {
-                return AccessTools.Method(typeof(MatchmakerInsuranceScreen), nameof(MatchmakerInsuranceScreen.Awake));
+                return AccessTools.Method(
+                    typeof(MatchmakerInsuranceScreen),
+                    nameof(MatchmakerInsuranceScreen.Awake)
+                );
             }
 
             [PatchPostfix]

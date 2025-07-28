@@ -14,7 +14,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotHalloweenEvent), nameof(BotHalloweenEvent.RitualCompleted));
+            return AccessTools.Method(
+                typeof(BotHalloweenEvent),
+                nameof(BotHalloweenEvent.RitualCompleted)
+            );
         }
 
         [PatchPostfix]
@@ -23,7 +26,9 @@ namespace SPT.Custom.Patches
             GameWorld gameWorld = Singleton<GameWorld>.Instance;
             Random random = new Random();
             // Get all extracts the player has
-            List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass.Instance.EligiblePoints(gameWorld.MainPlayer.Profile).ToList();
+            List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass
+                .Instance.EligiblePoints(gameWorld.MainPlayer.Profile)
+                .ToList();
             List<ExfiltrationPoint> PointsToPickFrom = new List<ExfiltrationPoint>();
 
             foreach (var ExfilPoint in EligiblePoints)

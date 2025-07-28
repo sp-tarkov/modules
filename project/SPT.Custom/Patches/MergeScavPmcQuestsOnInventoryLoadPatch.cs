@@ -10,7 +10,6 @@ using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches
 {
-
     public class MergeScavPmcQuestsOnInventoryLoadPatch : ModulePatch
     {
         /// <summary>
@@ -19,15 +18,20 @@ namespace SPT.Custom.Patches
         /// </summary>
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(QuestItemViewPanel), nameof(QuestItemViewPanel.smethod_0));
+            return AccessTools.Method(
+                typeof(QuestItemViewPanel),
+                nameof(QuestItemViewPanel.smethod_0)
+            );
         }
 
         [PatchPrefix]
         public static void PatchPreFix(ref IEnumerable<QuestDataClass> quests)
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            if (gameWorld?.MainPlayer?.Location != "hideout"
-                && gameWorld?.MainPlayer?.Fraction == ETagStatus.Scav)
+            if (
+                gameWorld?.MainPlayer?.Location != "hideout"
+                && gameWorld?.MainPlayer?.Fraction == ETagStatus.Scav
+            )
             {
                 var pmcQuests = PatchConstants.BackEndSession.Profile?.QuestsData;
                 var scavQuests = PatchConstants.BackEndSession.ProfileOfPet?.QuestsData;
@@ -35,7 +39,6 @@ namespace SPT.Custom.Patches
                 {
                     quests = pmcQuests.Concat(scavQuests);
                 }
-
             }
         }
     }

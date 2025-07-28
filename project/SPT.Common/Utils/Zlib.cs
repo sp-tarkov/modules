@@ -10,7 +10,7 @@ namespace SPT.Common.Utils
         Fast = 3,
         Normal = 5,
         Ultra = 7,
-        Maximum = 9
+        Maximum = 9,
     }
 
     public static class Zlib
@@ -36,10 +36,10 @@ namespace SPT.Common.Utils
             // data[1]: Flags (FLG) Header; compression level.
             switch (data[1])
             {
-                case 0x01:  // [0x78 0x01] level 0-2: fastest
-                case 0x5E:  // [0x78 0x5E] level 3-4: low
-                case 0x9C:  // [0x78 0x9C] level 5-6: normal
-                case 0xDA:  // [0x78 0xDA] level 7-9: max
+                case 0x01: // [0x78 0x01] level 0-2: fastest
+                case 0x5E: // [0x78 0x5E] level 3-4: low
+                case 0x9C: // [0x78 0x9C] level 5-6: normal
+                case 0xDA: // [0x78 0xDA] level 7-9: max
                     return true;
             }
 
@@ -55,9 +55,12 @@ namespace SPT.Common.Utils
 
             using (var ms = new MemoryStream())
             {
-                using (var zs = (level > ZlibCompression.Store)
-                    ? new ZOutputStream(ms, (int) level)
-                    : new ZOutputStream(ms))
+                using (
+                    var zs =
+                        (level > ZlibCompression.Store)
+                            ? new ZOutputStream(ms, (int)level)
+                            : new ZOutputStream(ms)
+                )
                 {
                     zs.Write(data, 0, data.Length);
                 }

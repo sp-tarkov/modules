@@ -39,13 +39,16 @@ namespace SPT.Common.Http
             {
                 Method = method,
                 RequestUri = new Uri(_address + path),
-                Headers = {
-                    { "Cookie", $"PHPSESSID={_accountId}" }
-                }
+                Headers = { { "Cookie", $"PHPSESSID={_accountId}" } },
             };
         }
 
-        protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
+        protected async Task<byte[]> SendAsync(
+            HttpMethod method,
+            string path,
+            byte[] data,
+            bool zipped = true
+        )
         {
             using var request = GetNewRequest(method, path);
 
@@ -85,7 +88,12 @@ namespace SPT.Common.Http
             return body;
         }
 
-        protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
+        protected async Task<byte[]> SendWithRetriesAsync(
+            HttpMethod method,
+            string path,
+            byte[] data,
+            bool compress = true
+        )
         {
             // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
             for (var i = 0; i <= _retries; i++)
@@ -127,7 +135,7 @@ namespace SPT.Common.Http
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns>Returns status code as bytes</returns>
         public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
@@ -136,7 +144,7 @@ namespace SPT.Common.Http
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns>Returns status code as bytes</returns>
         public byte[] Put(string path, byte[] data, bool compress = true)

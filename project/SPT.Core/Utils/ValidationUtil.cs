@@ -12,17 +12,31 @@ namespace SPT.Core.Utils
         private static bool _hasRun;
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
-        private static extern int RegOpenKeyEx(IntPtr hKey, string subKey, int options, int samDesired, out IntPtr phkResult);
+        private static extern int RegOpenKeyEx(
+            IntPtr hKey,
+            string subKey,
+            int options,
+            int samDesired,
+            out IntPtr phkResult
+        );
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
-        private static extern int RegQueryValueEx(IntPtr hKey, string lpValueName, IntPtr lpReserved, out uint lpType, StringBuilder lpData, ref uint lpcbData);
+        private static extern int RegQueryValueEx(
+            IntPtr hKey,
+            string lpValueName,
+            IntPtr lpReserved,
+            out uint lpType,
+            StringBuilder lpData,
+            ref uint lpcbData
+        );
 
         [DllImport("advapi32.dll")]
         private static extern int RegCloseKey(IntPtr hKey);
 
         public static bool Validate()
         {
-            const string c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
+            const string c0 =
+                @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
             var v0 = 0;
 
             try
@@ -39,7 +53,7 @@ namespace SPT.Core.Utils
                     new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.exe")),
                     new FileInfo(Path.Combine(v2, "ConsistencyInfo")),
                     new FileInfo(Path.Combine(v2, "Uninstall.exe")),
-                    new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe"))
+                    new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe")),
                 };
 
                 if (!_hasRun)
@@ -48,7 +62,8 @@ namespace SPT.Core.Utils
                     ServerLog.Debug("SPT.Core", _crashHandler);
                     ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
                     ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
-                    if (_crashHandler == "0") ServerLog.Debug("SPT.Core", "-1");
+                    if (_crashHandler == "0")
+                        ServerLog.Debug("SPT.Core", "-1");
 
                     _hasRun = true;
                 }
@@ -83,7 +98,7 @@ namespace SPT.Core.Utils
                     int sr = RegQueryValueEx(k, b, IntPtr.Zero, out uint t, null, ref s);
                     if (sr == 0 && s > 0)
                     {
-                        var buf = new StringBuilder((int) s);
+                        var buf = new StringBuilder((int)s);
                         int vr = RegQueryValueEx(k, b, IntPtr.Zero, out _, buf, ref s);
                         if (vr == 0)
                         {
@@ -95,9 +110,7 @@ namespace SPT.Core.Utils
                     RegCloseKey(k);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 

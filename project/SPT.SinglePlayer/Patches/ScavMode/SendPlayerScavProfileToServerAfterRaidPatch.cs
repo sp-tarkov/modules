@@ -5,7 +5,6 @@ using HarmonyLib;
 using SPT.Common.Http;
 using SPT.Reflection.Patching;
 
-
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     /// <summary>
@@ -27,9 +26,13 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             {
                 __instance.Profile_0.SetSpawnedInSession(false);
             }
-            ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2073.Instance /* Has 2 methods */);
+            ProfileDescriptor = new CompleteProfileDescriptorClass(
+                __instance.Profile_0,
+                GClass2073.Instance /* Has 2 methods */
+            );
         }
     }
+
     /// <summary>
     /// Get profile from other patch (GetProfileAtEndOfRaidPatch)
     /// If our profile is savage Create new Session.AllProfiles and pass in our own profile to allow us to use the ScavengerInventoryScreen
@@ -38,7 +41,10 @@ namespace SPT.SinglePlayer.Patches.ScavMode
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(PostRaidHealthScreenClass), nameof(PostRaidHealthScreenClass.method_2));
+            return AccessTools.Method(
+                typeof(PostRaidHealthScreenClass),
+                nameof(PostRaidHealthScreenClass.method_2)
+            );
         }
 
         [PatchPrefix]
@@ -53,17 +59,19 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             }
 
             // Only do below when player is a scav
-            var session = (ProfileEndpointFactoryAbstractClass) __instance.ISession;
+            var session = (ProfileEndpointFactoryAbstractClass)__instance.ISession;
             session.AllProfiles =
             [
                 session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
-                profile
+                profile,
             ];
             session.ProfileOfPet.LearnAll();
 
             // Send scav profile to server so it knows of the items we might transfer
-            RequestHandler.PutJson("/raid/profile/scavsave",
-                GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
+            RequestHandler.PutJson(
+                "/raid/profile/scavsave",
+                GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString()
+            );
         }
     }
 }

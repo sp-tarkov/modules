@@ -8,7 +8,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
     /**
      * The purpose of this patch is to assign the correct `Side` to PMC bots after their profile has been
      * pulled from the server.
-     * 
+     *
      * This is required, as the data coming back from the server needs to have the Side set to Savage, which
      * breaks certain things like armband slots, and non-lootable melee weapons
      */
@@ -16,7 +16,10 @@ namespace SPT.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotCreationDataClass), nameof(BotCreationDataClass.ChooseProfile));
+            return AccessTools.Method(
+                typeof(BotCreationDataClass),
+                nameof(BotCreationDataClass.ChooseProfile)
+            );
         }
 
         [PatchPostfix]

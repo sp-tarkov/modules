@@ -30,19 +30,26 @@ namespace SPT.Custom.CustomAI
 
                 if (!_aiBrainsCache!.playerScav.TryGetValue(currentMapName.ToLower(), out _))
                 {
-                    throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
+                    throw new Exception(
+                        $"Bots were refreshed from the server but the assault cache still doesn't contain data"
+                    );
                 }
             }
 
             // Choose random weighted brain
-            var randomType = WeightedRandom(_aiBrainsCache.playerScav[currentMapName.ToLower()].Keys.ToArray(), _aiBrainsCache.playerScav[currentMapName.ToLower()].Values.ToArray());
+            var randomType = WeightedRandom(
+                _aiBrainsCache.playerScav[currentMapName.ToLower()].Keys.ToArray(),
+                _aiBrainsCache.playerScav[currentMapName.ToLower()].Values.ToArray()
+            );
             if (Enum.TryParse(randomType, out WildSpawnType newAiType))
             {
                 _logger.LogWarning($"Updated player scav bot to use: {newAiType} brain");
                 return newAiType;
             }
 
-            _logger.LogWarning($"Unable to update bot: {botOwner.Profile.Info.Nickname} {botOwner.Profile.Info.Settings.Role} to use: {newAiType}, using default");
+            _logger.LogWarning(
+                $"Unable to update bot: {botOwner.Profile.Info.Nickname} {botOwner.Profile.Info.Settings.Role} to use: {newAiType}, using default"
+            );
 
             return WildSpawnType.assault;
         }
@@ -57,46 +64,72 @@ namespace SPT.Custom.CustomAI
 
                 if (!_aiBrainsCache!.assault.TryGetValue(currentMapName.ToLower(), out _))
                 {
-                    throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
+                    throw new Exception(
+                        $"Bots were refreshed from the server but the assault cache still doesn't contain data"
+                    );
                 }
             }
 
             // Choose random weighted brain
-            var randomType = WeightedRandom(_aiBrainsCache.assault[currentMapName.ToLower()].Keys.ToArray(), _aiBrainsCache.assault[currentMapName.ToLower()].Values.ToArray());
+            var randomType = WeightedRandom(
+                _aiBrainsCache.assault[currentMapName.ToLower()].Keys.ToArray(),
+                _aiBrainsCache.assault[currentMapName.ToLower()].Values.ToArray()
+            );
             if (Enum.TryParse(randomType, out WildSpawnType newAiType))
             {
-                _logger.LogWarning($"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain");
+                _logger.LogWarning(
+                    $"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain"
+                );
                 return newAiType;
             }
 
-            _logger.LogWarning($"Unable to parse brain type: {randomType} for {botOwner.Profile.Info.Nickname}, using default");
+            _logger.LogWarning(
+                $"Unable to parse brain type: {randomType} for {botOwner.Profile.Info.Nickname}, using default"
+            );
 
             return WildSpawnType.assault;
         }
 
-        public WildSpawnType GetPmcWildSpawnType(BotOwner botOwner_0, WildSpawnType pmcType, string currentMapName)
+        public WildSpawnType GetPmcWildSpawnType(
+            BotOwner botOwner_0,
+            WildSpawnType pmcType,
+            string currentMapName
+        )
         {
-            if (_aiBrainsCache == null || !_aiBrainsCache.pmc.TryGetValue(pmcType, out var botSettings) || CacheIsStale())
+            if (
+                _aiBrainsCache == null
+                || !_aiBrainsCache.pmc.TryGetValue(pmcType, out var botSettings)
+                || CacheIsStale()
+            )
             {
                 ResetCacheDate();
                 HydrateCacheWithServerData();
 
                 if (!_aiBrainsCache!.pmc.TryGetValue(pmcType, out botSettings))
                 {
-                    throw new Exception($"Bots were refreshed from the server but the cache still doesnt contain an appropriate bot for type {botOwner_0.Profile.Info.Settings.Role}");
+                    throw new Exception(
+                        $"Bots were refreshed from the server but the cache still doesnt contain an appropriate bot for type {botOwner_0.Profile.Info.Settings.Role}"
+                    );
                 }
             }
 
             var mapSettings = botSettings[currentMapName.ToLower()];
-            var randomType = WeightedRandom(mapSettings.Keys.ToArray(), mapSettings.Values.ToArray());
+            var randomType = WeightedRandom(
+                mapSettings.Keys.ToArray(),
+                mapSettings.Values.ToArray()
+            );
             if (Enum.TryParse(randomType, out WildSpawnType newAiType))
             {
-                _logger.LogWarning($"Updated spt bot {botOwner_0.Profile.Info.Nickname}: {botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain");
+                _logger.LogWarning(
+                    $"Updated spt bot {botOwner_0.Profile.Info.Nickname}: {botOwner_0.Profile.Info.Settings.Role} to use: {newAiType} brain"
+                );
 
                 return newAiType;
             }
 
-            _logger.LogError($"Couldn't update spt bot: {botOwner_0.Profile.Info.Nickname} to random type: {randomType}, does not exist for WildSpawnType enum, defaulting to 'assault'");
+            _logger.LogError(
+                $"Couldn't update spt bot: {botOwner_0.Profile.Info.Nickname} to random type: {randomType}, does not exist for WildSpawnType enum, defaulting to 'assault'"
+            );
 
             return WildSpawnType.assault;
         }
@@ -133,7 +166,10 @@ namespace SPT.Custom.CustomAI
         /// </summary>
         public class AIBrains
         {
-            public Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> pmc { get; set; }
+            public Dictionary<
+                WildSpawnType,
+                Dictionary<string, Dictionary<string, int>>
+            > pmc { get; set; }
             public Dictionary<string, Dictionary<string, int>> assault { get; set; }
             public Dictionary<string, Dictionary<string, int>> playerScav { get; set; }
         }

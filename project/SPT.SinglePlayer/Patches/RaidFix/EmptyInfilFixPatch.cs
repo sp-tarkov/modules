@@ -20,7 +20,12 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         {
             var desiredType = PatchConstants.LocalGameType.BaseType;
             var desiredMethod = desiredType
-                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.CreateInstance)
+                .GetMethods(
+                    BindingFlags.Public
+                        | BindingFlags.Instance
+                        | BindingFlags.DeclaredOnly
+                        | BindingFlags.CreateInstance
+                )
                 .SingleCustom(IsTargetMethod);
 
             Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
@@ -31,10 +36,12 @@ namespace SPT.SinglePlayer.Patches.RaidFix
 
         private static bool IsTargetMethod(MethodInfo methodInfo)
         {
-            return (methodInfo.IsVirtual
-                    && methodInfo.GetParameters().Length == 0
-                    && methodInfo.ReturnType == typeof(void)
-                    && methodInfo.GetMethodBody().LocalVariables.Count > 0);
+            return (
+                methodInfo.IsVirtual
+                && methodInfo.GetParameters().Length == 0
+                && methodInfo.ReturnType == typeof(void)
+                && methodInfo.GetMethodBody().LocalVariables.Count > 0
+            );
         }
 
         [PatchPrefix]

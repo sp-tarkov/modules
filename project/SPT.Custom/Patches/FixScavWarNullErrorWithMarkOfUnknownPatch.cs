@@ -11,8 +11,12 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotsGroupMarkOfUnknown), nameof(BotsGroupMarkOfUnknown.Dispose));
+            return AccessTools.Method(
+                typeof(BotsGroupMarkOfUnknown),
+                nameof(BotsGroupMarkOfUnknown.Dispose)
+            );
         }
+
         [PatchPrefix]
         public static bool PatchPrefix(BotsGroupMarkOfUnknown __instance)
         {

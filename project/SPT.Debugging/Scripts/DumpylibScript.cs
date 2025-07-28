@@ -78,31 +78,32 @@ public class DumpylibScript : MonoBehaviour
                     WindType = EWindSpeed.Light,
                     FogType = EFogType.NoFog,
                     TimeFlowType = ETimeFlowType.x1,
-                    HourOfDay = -1
+                    HourOfDay = -1,
                 },
                 BotSettings = new BotControllerSettings
                 {
                     IsScavWars = false,
-                    BotAmount = EBotAmount.AsOnline
+                    BotAmount = EBotAmount.AsOnline,
                 },
                 WavesSettings = new WavesSettings
                 {
                     BotAmount = EBotAmount.AsOnline,
                     BotDifficulty = EBotDifficulty.AsOnline,
                     IsBosses = true,
-                    IsTaggedAndCursed = false
+                    IsTaggedAndCursed = false,
                 },
                 Side = ESideType.Pmc,
                 RaidMode = ERaidMode.Online,
                 PlayersSpawnPlace = EPlayersSpawnPlace.SamePlace,
-                OnlinePveRaid = false
+                OnlinePveRaid = false,
             };
             _locationSettingsDict = _session.LocationSettings.locations.Values.ToList();
             _locationSettings = _session.LocationSettings;
             _raidSettingsType = _raidSettings.GetType();
             _locationSettingsFields = _raidSettingsType.GetFields();
 
-            _raidSettingsField = _raidSettings.GetType()
+            _raidSettingsField = _raidSettings
+                .GetType()
                 .GetField("LocationSettings", BindingFlags.Public | BindingFlags.Instance);
 
             _raidSettingsField.SetValue(_raidSettings, _locationSettings);
@@ -120,9 +121,12 @@ public class DumpylibScript : MonoBehaviour
                 favorite = false,
                 playTime = 33,
                 InsuredItems = [],
-                ProfileId = ""
+                ProfileId = "",
             };
-            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2072.Instance);
+            _completeProfile = new CompleteProfileDescriptorClass(
+                _session.Profile,
+                GClass2072.Instance
+            );
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

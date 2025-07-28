@@ -9,7 +9,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(BotsController), nameof(BotsController.AddEnemyToAllGroupsInBotZone));
+            return AccessTools.Method(
+                typeof(BotsController),
+                nameof(BotsController.AddEnemyToAllGroupsInBotZone)
+            );
         }
 
         /// <summary>
@@ -19,7 +22,12 @@ namespace SPT.Custom.Patches
         /// This should fix that.
         /// </summary>
         [PatchPrefix]
-        public static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
+        public static bool PatchPrefix(
+            BotsController __instance,
+            IPlayer aggressor,
+            IPlayer groupOwner,
+            IPlayer target
+        )
         {
             if (!groupOwner.IsAI)
             {
@@ -45,14 +53,16 @@ namespace SPT.Custom.Patches
                     bool differentSide = aggressor.Side != group.Side;
                     bool sameSide = aggressor.Side == target.Side;
 
-                    if (!group.HaveFollowTarget(aggressor)
+                    if (
+                        !group.HaveFollowTarget(aggressor)
                         && !group.Enemies.ContainsKey(aggressor)
                         && (differentSide || !sameSide)
                         && !group.HaveMemberWithRole(WildSpawnType.gifter)
                         && !group.HaveMemberWithRole(WildSpawnType.sectantWarrior)
                         && !group.HaveMemberWithRole(WildSpawnType.sectantPriest)
                         && !group.InitialFileSettings.Boss.NOT_ADD_TO_ENEMY_ON_KILLS
-                        && group.ShallRevengeFor(target))
+                        && group.ShallRevengeFor(target)
+                    )
                     {
                         group.AddEnemy(aggressor, EBotEnemyCause.AddEnemyToAllGroupsInBotZone);
                     }

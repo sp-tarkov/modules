@@ -13,13 +13,15 @@ namespace SPT.SinglePlayer.Patches.MainMenu
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(LocationInfoPanel), nameof(LocationInfoPanel.method_1));
+            return AccessTools.Method(
+                typeof(LocationInfoPanel),
+                nameof(LocationInfoPanel.method_1)
+            );
         }
 
         [PatchPostfix]
         public static void PatchPostfix(ref UpdatableToggle ____onlineModeToggle)
         {
-
             ____onlineModeToggle.isOn = false;
             ____onlineModeToggle.transform.parent.gameObject.SetActive(false);
         }

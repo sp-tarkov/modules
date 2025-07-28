@@ -31,7 +31,7 @@ namespace SPT.Custom.CustomAI
             throwableItemId,
             ammoItemId,
             armorPlate,
-            builtInInserts
+            builtInInserts,
         ];
 
         private static readonly string pistolId = "5447b5cf4bdc2d65278b4567";
@@ -56,7 +56,7 @@ namespace SPT.Custom.CustomAI
             sniperRifleId,
             machinegunId,
             grenadeLauncherId,
-            knifeId
+            knifeId,
         ];
 
         private static readonly List<string> nonFiRPocketLoot =
@@ -68,7 +68,7 @@ namespace SPT.Custom.CustomAI
             medicalItemId,
             mediKitItem,
             injectorItemId,
-            drugId
+            drugId,
         ];
 
         private readonly ManualLogSource logger = logger;
@@ -79,7 +79,11 @@ namespace SPT.Custom.CustomAI
             MakeEquipmentNotFiR(___botOwner_0);
 
             // Get inventory items that hold other items (backpack/rig/pockets/armor)
-            IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
+            IReadOnlyList<Slot> containerGear = ___botOwner_0
+                .Profile
+                .Inventory
+                .Equipment
+                .ContainerSlots;
             // Fix issue with values becoming out of sync with server
             if (ValidationUtil._crashHandler == "0")
             {
@@ -137,7 +141,9 @@ namespace SPT.Custom.CustomAI
                     }
 
                     // Check for mods of weapons in backpacks
-                    var isChildOfEquippedNonFiRItem = nonFiRRootItems.Any(nonFiRRootItem => item.IsChildOf(nonFiRRootItem));
+                    var isChildOfEquippedNonFiRItem = nonFiRRootItems.Any(nonFiRRootItem =>
+                        item.IsChildOf(nonFiRRootItem)
+                    );
                     if (isChildOfEquippedNonFiRItem)
                     {
                         continue;
@@ -149,13 +155,14 @@ namespace SPT.Custom.CustomAI
             }
 
             // Set dogtag as FiR
-            var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots([EquipmentSlot.Dogtag]).FirstOrDefault();
+            var dogtag = ___botOwner_0
+                .Profile.Inventory.GetItemsInSlots([EquipmentSlot.Dogtag])
+                .FirstOrDefault();
             if (dogtag != null)
             {
                 dogtag.SpawnedInSession = true;
             }
         }
-
 
         private void MakeEquipmentNotFiR(BotOwner ___botOwner_0)
         {
@@ -173,7 +180,7 @@ namespace SPT.Custom.CustomAI
                     EquipmentSlot.ArmBand,
                     EquipmentSlot.FaceCover,
                     EquipmentSlot.Holster,
-                    EquipmentSlot.SecuredContainer
+                    EquipmentSlot.SecuredContainer,
                 ]
             );
 

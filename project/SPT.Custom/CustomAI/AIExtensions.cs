@@ -6,7 +6,7 @@ namespace SPT.Custom.CustomAI
     public static class AIExtensions
     {
         /// <summary>
-        /// Determines whether the bot is a PMC based on its <see cref="EPlayerSide"/>  
+        /// Determines whether the bot is a PMC based on its <see cref="EPlayerSide"/>
         /// </summary>
         /// <param name="botOwner">Bot details to evaluate</param>
         /// <returns>

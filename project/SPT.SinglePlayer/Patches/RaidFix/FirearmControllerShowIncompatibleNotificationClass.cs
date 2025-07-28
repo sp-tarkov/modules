@@ -11,7 +11,9 @@ namespace SPT.SinglePlayer.Patches.RaidFix
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(Player.FirearmController.GClass1870).GetMethod(nameof(Player.FirearmController.GClass1870.ShowIncompatibleNotification));
+            return typeof(Player.FirearmController.GClass1870).GetMethod(
+                nameof(Player.FirearmController.GClass1870.ShowIncompatibleNotification)
+            );
         }
 
         [PatchPrefix]

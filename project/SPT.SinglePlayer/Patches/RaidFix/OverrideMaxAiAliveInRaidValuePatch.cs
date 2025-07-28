@@ -35,14 +35,23 @@ namespace SPT.SinglePlayer.Patches.RaidFix
             var gameWorld = Singleton<GameWorld>.Instance;
             var location = gameWorld.MainPlayer?.Location ?? "default";
 
-            if (int.TryParse(RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location}"), out var parsedMaxCount))
+            if (
+                int.TryParse(
+                    RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location}"),
+                    out var parsedMaxCount
+                )
+            )
             {
-                Logger.LogInfo($"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}");
+                Logger.LogInfo(
+                    $"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}"
+                );
                 maxCount = parsedMaxCount;
             }
             else
             {
-                Logger.LogError($"Unable to parse data from singleplayer/settings/bot/maxCap, using existing: {location} max: {maxCount}");
+                Logger.LogError(
+                    $"Unable to parse data from singleplayer/settings/bot/maxCap, using existing: {location} max: {maxCount}"
+                );
             }
         }
     }

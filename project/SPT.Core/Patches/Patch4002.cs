@@ -9,7 +9,10 @@ namespace SPT.Core.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SendMetricsJson));
+            return AccessTools.Method(
+                typeof(ProfileEndpointFactoryAbstractClass),
+                nameof(ProfileEndpointFactoryAbstractClass.SendMetricsJson)
+            );
         }
 
         [PatchPrefix]

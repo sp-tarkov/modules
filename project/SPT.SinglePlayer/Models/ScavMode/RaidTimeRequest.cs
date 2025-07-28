@@ -2,15 +2,9 @@
 
 namespace SPT.SinglePlayer.Models.ScavMode
 {
-    public class RaidTimeRequest
+    public class RaidTimeRequest(ESideType side, string location)
     {
-        public RaidTimeRequest(ESideType side, string location)
-        {
-            Side = side;
-            Location = location;
-        }
-
-        public ESideType Side { get; set; }
-        public string Location { get; set; }
+        public ESideType Side { get; set; } = side;
+        public string Location { get; set; } = location;
     }
 }

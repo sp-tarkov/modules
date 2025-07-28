@@ -20,19 +20,19 @@ namespace SPT.Custom.Utils
         public static string[] DisallowedPlugins;
         internal static HashSet<string> WhitelistedPlugins =
         [
-                "com.SPT.core",
-                "com.SPT.custom",
-                "com.SPT.debugging",
-                "com.SPT.singleplayer",
-                "com.bepis.bepinex.configurationmanager",
-                "com.terkoiz.freecam",
-                "com.sinai.unityexplorer",
-                "com.cwx.debuggingtool-dxyz",
-                "com.cwx.debuggingtool",
-                "xyz.drakia.botdebug",
-                "com.kobrakon.camunsnap",
-                "RuntimeUnityEditor",
-                "com.dirtbikercj.debugplus"
+            "com.SPT.core",
+            "com.SPT.custom",
+            "com.SPT.debugging",
+            "com.SPT.singleplayer",
+            "com.bepis.bepinex.configurationmanager",
+            "com.terkoiz.freecam",
+            "com.sinai.unityexplorer",
+            "com.cwx.debuggingtool-dxyz",
+            "com.cwx.debuggingtool",
+            "xyz.drakia.botdebug",
+            "com.kobrakon.camunsnap",
+            "RuntimeUnityEditor",
+            "com.dirtbikercj.debugplus",
         ];
         internal static ReleaseResponse release;
         private bool _isBetaDisclaimerOpen;
@@ -50,10 +50,7 @@ namespace SPT.Custom.Utils
         /// </summary>
         private string VersionPref
         {
-            get
-            {
-                return PlayerPrefs.GetString("SPT_Version", string.Empty);
-            }
+            get { return PlayerPrefs.GetString("SPT_Version", string.Empty); }
         }
 
         /// <summary>
@@ -91,8 +88,10 @@ namespace SPT.Custom.Utils
                 new BetaLogoPatch3().Enable();
             }
 
-            DisallowedPlugins = Chainloader.PluginInfos.Values
-                .Select(pi => pi.Metadata.GUID).Except(WhitelistedPlugins).ToArray();
+            DisallowedPlugins = Chainloader
+                .PluginInfos.Values.Select(pi => pi.Metadata.GUID)
+                .Except(WhitelistedPlugins)
+                .ToArray();
 
             // Prevent client mods if the server is built with mods disabled
             if (!release.isModdable)
@@ -115,9 +114,13 @@ namespace SPT.Custom.Utils
             if (DisallowedPlugins.Any() && release.isBeta && release.isModdable)
             {
                 CommitHash += $"\n {release.clientModsLoadedDebugText}";
-                ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}");
+                ServerLog.Warn(
+                    "SPT.Custom",
+                    $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}"
+                );
             }
         }
+
         public void Update()
         {
             if (SptVersion == null)
@@ -149,7 +152,12 @@ namespace SPT.Custom.Utils
         {
             if (Singleton<PreloaderUI>.Instantiated && ShouldShowBetaMessage)
             {
-                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(SptVersion, release.betaDisclaimerText, ErrorScreen.EButtonType.OkButton, release.betaDisclaimerTimeoutDelay);
+                _betaMessageContext = Singleton<PreloaderUI>.Instance.ShowCriticalErrorScreen(
+                    SptVersion,
+                    release.betaDisclaimerText,
+                    ErrorScreen.EButtonType.OkButton,
+                    release.betaDisclaimerTimeoutDelay
+                );
                 // Note: This looks backwards, but a timeout counts as "Accept" and clicking the button counts as "Decline"
                 _betaMessageContext.OnAccept += OnBetaMessageTimeOut;
                 _betaMessageContext.OnDecline += OnBetaMessageAccepted;

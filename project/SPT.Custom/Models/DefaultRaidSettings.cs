@@ -13,7 +13,16 @@ namespace SPT.Custom.Models
         public bool RandomWeather;
         public bool RandomTime;
 
-        public DefaultRaidSettings(EBotAmount aiAmount, EBotDifficulty aiDifficulty, bool bossEnabled, bool scavWars, bool taggedAndCursed, bool enablePve, bool randomWeather, bool randomTime)
+        public DefaultRaidSettings(
+            EBotAmount aiAmount,
+            EBotDifficulty aiDifficulty,
+            bool bossEnabled,
+            bool scavWars,
+            bool taggedAndCursed,
+            bool enablePve,
+            bool randomWeather,
+            bool randomTime
+        )
         {
             AiAmount = aiAmount;
             AiDifficulty = aiDifficulty;

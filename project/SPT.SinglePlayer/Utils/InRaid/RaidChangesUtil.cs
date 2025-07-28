@@ -52,7 +52,8 @@ namespace SPT.SinglePlayer.Utils.InRaid
         /// <summary>
         /// The reduction in the escape time for the current (or most recent) raid, in minutes
         /// </summary>
-        public static int RaidTimeReductionMinutes => OriginalEscapeTimeMinutes - NewEscapeTimeMinutes;
+        public static int RaidTimeReductionMinutes =>
+            OriginalEscapeTimeMinutes - NewEscapeTimeMinutes;
 
         /// <summary>
         /// The reduction in the escape time for the current (or most recent) raid, in seconds
@@ -62,7 +63,8 @@ namespace SPT.SinglePlayer.Utils.InRaid
         /// <summary>
         /// The fraction of raid time that will be remaining when you spawn into the map
         /// </summary>
-        public static float RaidTimeRemainingFraction => (float) NewEscapeTimeMinutes / OriginalEscapeTimeMinutes;
+        public static float RaidTimeRemainingFraction =>
+            (float)NewEscapeTimeMinutes / OriginalEscapeTimeMinutes;
 
         /// <summary>
         /// The original minimum time (in seconds) you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid
@@ -75,16 +77,20 @@ namespace SPT.SinglePlayer.Utils.InRaid
         public static int NewSurvivalTimeSeconds { get; private set; } = int.MaxValue;
 
         /// <summary>
-        /// The reduction in the minimum time you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid 
+        /// The reduction in the minimum time you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid
         /// </summary>
-        public static int SurvivalTimeReductionSeconds => OriginalSurvivalTimeSeconds - NewSurvivalTimeSeconds;
+        public static int SurvivalTimeReductionSeconds =>
+            OriginalSurvivalTimeSeconds - NewSurvivalTimeSeconds;
 
         /// <summary>
-        /// Update the changes that will be made for the raid. This should be called just before applying changes. 
+        /// Update the changes that will be made for the raid. This should be called just before applying changes.
         /// </summary>
         /// <param name="raidSettings">The raid settings for the raid that will be altered</param>
         /// <param name="raidChanges">The changes that will be made to the raid</param>
-        internal static void UpdateRaidChanges(RaidSettings raidSettings, RaidTimeResponse raidChanges)
+        internal static void UpdateRaidChanges(
+            RaidSettings raidSettings,
+            RaidTimeResponse raidChanges
+        )
         {
             // Reset so HaveChangesBeenApplied=false while changes are being applied
             RaidChangesAppliedUtcTime = DateTime.MinValue;
@@ -97,7 +103,8 @@ namespace SPT.SinglePlayer.Utils.InRaid
             NewEscapeTimeMinutes = raidChanges.RaidTimeMinutes;
 
             OriginalSurvivalTimeSeconds = raidChanges.OriginalSurvivalTimeSeconds;
-            NewSurvivalTimeSeconds = raidChanges.NewSurviveTimeSeconds ?? OriginalSurvivalTimeSeconds;
+            NewSurvivalTimeSeconds =
+                raidChanges.NewSurviveTimeSeconds ?? OriginalSurvivalTimeSeconds;
         }
 
         /// <summary>

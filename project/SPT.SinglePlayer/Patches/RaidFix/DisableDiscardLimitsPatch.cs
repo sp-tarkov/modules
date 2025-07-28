@@ -9,7 +9,10 @@ public class DisableDiscardLimitsPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.PropertyGetter(typeof(Player.PlayerOwnerInventoryController), nameof(Player.PlayerOwnerInventoryController.HasDiscardLimits));
+        return AccessTools.PropertyGetter(
+            typeof(Player.PlayerOwnerInventoryController),
+            nameof(Player.PlayerOwnerInventoryController.HasDiscardLimits)
+        );
     }
 
     [PatchPrefix]
