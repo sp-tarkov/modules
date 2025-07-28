@@ -21,8 +21,10 @@ namespace SPT.Custom.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            var type = typeof(BackendAbstractClass<IBackEndSession>);
-            return AccessTools.Method(type, nameof(BackendAbstractClass<IBackEndSession>.RegenerateToken));
+            return AccessTools.Method(
+                typeof(BackendAbstractClass<IBackEndSession>),
+                nameof(BackendAbstractClass<IBackEndSession>.RegenerateToken)
+            );
         }
 
         [PatchPostfix]
