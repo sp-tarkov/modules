@@ -25,6 +25,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new EasyAssetsPatch().Enable();
 
             // Still need
+            new GameStartRequestPatch().Enable();
             new DisableNonHalloweenExitsDuringEventPatch().Enable();
             new SendFleaListingTaxAmountToServerPatch().Enable();
             new AddTraitorScavsPatch().Enable();
