@@ -14,6 +14,9 @@ using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {
+    /// <summary>
+    /// The goal of this patch is to send the currently running BepInEx mods to the server after /client/game/start has been called
+    /// </summary>
     internal class GameStartRequestPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
