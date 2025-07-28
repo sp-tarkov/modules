@@ -92,12 +92,12 @@ public static class RequestHandler
         return Task.Run(() => GetJsonAsync(path)).Result;
     }
 
-    public static string PostJsonAsync(string path, string json)
+    public static async Task<string> PostJsonAsync(string path, string json)
     {
         _logger.LogInfo($"[REQUEST]: {path}");
 
         var payload = Encoding.UTF8.GetBytes(json);
-        var data = HttpClient.Post(path, payload);
+        var data = await HttpClient.PostAsync(path, payload);
         var body = Encoding.UTF8.GetString(data);
 
         ValidateJson(path, body);
