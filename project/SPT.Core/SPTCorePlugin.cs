@@ -28,10 +28,6 @@ namespace SPT.Core
                 new WebSocketSslValidationPatch().Enable();
                 new Patch4001().Enable();
                 new Patch4002().Enable();
-
-                // No longer needed with us moving back to Https
-                // new WebSocketPatch().Enable();
-                // new TransportPrefixPatch().Enable();
             }
             catch (Exception ex)
             {
