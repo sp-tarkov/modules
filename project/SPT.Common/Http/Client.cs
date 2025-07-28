@@ -48,54 +48,42 @@ namespace SPT.Common.Http
 
         protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
         {
-            HttpResponseMessage response = null;
+            using var request = GetNewRequest(method, path);
 
-            using (var request = GetNewRequest(method, path))
+            if (data != null)
             {
-                if (data != null)
+                // Add payload to request
+                if (zipped)
                 {
-                    // add payload to request
-                    if (zipped)
-                    {
-                        data = Zlib.Compress(data, ZlibCompression.Maximum);
-                    }
-
-                    request.Content = new ByteArrayContent(data);
+                    data = Zlib.Compress(data, ZlibCompression.Maximum);
                 }
 
-                // send request
-                response = await _httpv.SendAsync(request);
+                request.Content = new ByteArrayContent(data);
             }
+
+            // Send request
+            using var response = await _httpv.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
-                // response error
-                throw new Exception($"Code {response.StatusCode}");
+                throw new Exception($"Http response status code: {response.StatusCode}");
             }
 
-            using (var ms = new MemoryStream())
+            var body = await response.Content.ReadAsByteArrayAsync();
+
+            if (Zlib.IsCompressed(body))
             {
-                using (var stream = await response.Content.ReadAsStreamAsync())
-                {
-                    // grap response payload
-                    await stream.CopyToAsync(ms);
-                    var body = ms.ToArray();
-
-                    if (Zlib.IsCompressed(body))
-                    {
-                        body = Zlib.Decompress(body);
-                    }
-
-                    if (body == null)
-                    {
-                        // payload doesn't contains data
-                        var code = response.StatusCode.ToString();
-                        body = Encoding.UTF8.GetBytes(code);
-                    }
-
-                    return body;
-                }
+                body = Zlib.Decompress(body);
             }
+
+            if (body == null)
+            {
+                // Payload doesn't contain data
+                var code = response.StatusCode.ToString();
+                body = Encoding.UTF8.GetBytes(code);
+            }
+
+            return body;
         }
 
         protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
@@ -139,13 +127,19 @@ namespace SPT.Common.Http
             return Task.Run(() => PostAsync(path, data, compress)).Result;
         }
 
-        // NOTE: returns status code as bytes
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Returns status code as bytes</returns>
         public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
         {
             return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
         }
 
-        // NOTE: returns status code as bytes
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Returns status code as bytes</returns>
         public byte[] Put(string path, byte[] data, bool compress = true)
         {
             return Task.Run(() => PutAsync(path, data, compress)).Result;
