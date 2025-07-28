@@ -1,10 +1,10 @@
-using SPT.Reflection.Patching;
-using EFT;
-using TMPro;
-using UnityEngine;
 using System;
 using System.Reflection;
+using EFT;
 using HarmonyLib;
+using SPT.Reflection.Patching;
+using TMPro;
+using UnityEngine;
 
 namespace SPT.Debugging.Patches
 {

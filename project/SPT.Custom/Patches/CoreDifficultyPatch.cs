@@ -1,8 +1,8 @@
+using System.Reflection;
+using SPT.Common.Http;
+using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using SPT.Common.Http;
-using System.Reflection;
-using SPT.Custom.Utils;
 
 namespace SPT.Custom.Patches
 {

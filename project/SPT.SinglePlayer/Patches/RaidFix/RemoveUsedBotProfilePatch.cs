@@ -1,5 +1,5 @@
-using SPT.Reflection.Patching;
 using System.Reflection;
+using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 
 namespace SPT.SinglePlayer.Patches.RaidFix
@@ -15,7 +15,7 @@ namespace SPT.SinglePlayer.Patches.RaidFix
         {
             return typeof(BotsPresets).BaseType.GetMethods().SingleCustom(m => m.Name == nameof(BotsPresets.GetNewProfile) && m.IsVirtual);
         }
-        
+
         /// <summary>
         /// BotsPresets.GetNewProfile()
         [PatchPrefix]

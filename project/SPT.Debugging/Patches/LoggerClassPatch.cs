@@ -1,11 +1,11 @@
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using HarmonyLib;
+using NLog;
 using SPT.Common.Utils;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using HarmonyLib;
-using NLog;
 
 namespace SPT.Debugging.Patches
 {
@@ -49,13 +49,13 @@ namespace SPT.Debugging.Patches
                 }
 
                 Logger.LogDebug($"output Nlog: {logLevel} : {nlogFormat}");
-                
+
                 if (SPTDebuggingPlugin.logLevel.sendToServer)
                 {
                     ServerLog.Info("EFT Logging:", $"{logLevel} : {nlogFormat}");
                 }
-            } 
-           
+            }
+
             // I've opted to leave this disabled for now, it doesn't add much in
             // terms of value, its mostly the same stuff as the nlogFormat
             // Deciced to keep it here incase we decide we want it later.

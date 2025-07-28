@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Diz.Resources;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using UnityEngine;
-using UnityEngine.Build.Pipeline;
 using SPT.Common.Utils;
 using SPT.Custom.Models;
 using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
-using DependencyGraph = DependencyGraphClass<IEasyBundle>;
 using SPT.Reflection.Utils;
+using UnityEngine;
+using UnityEngine.Build.Pipeline;
+using DependencyGraph = DependencyGraphClass<IEasyBundle>;
 
 namespace SPT.Custom.Patches
 {
@@ -140,7 +140,7 @@ namespace SPT.Custom.Patches
             var assetLoading = assetBundle.LoadAllAssetsAsync();
             await assetLoading.Await();
 
-            return (CompatibilityAssetBundleManifest)assetLoading.allAssets[0];
+            return (CompatibilityAssetBundleManifest) assetLoading.allAssets[0];
         }
 
         private static async Task<CompatibilityAssetBundleManifest> GetManifestJson(string filepath)

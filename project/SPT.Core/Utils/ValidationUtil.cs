@@ -1,8 +1,8 @@
-﻿using SPT.Common.Utils;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using SPT.Common.Utils;
 
 namespace SPT.Core.Utils
 {
@@ -83,7 +83,7 @@ namespace SPT.Core.Utils
                     int sr = RegQueryValueEx(k, b, IntPtr.Zero, out uint t, null, ref s);
                     if (sr == 0 && s > 0)
                     {
-                        var buf = new StringBuilder((int)s);
+                        var buf = new StringBuilder((int) s);
                         int vr = RegQueryValueEx(k, b, IntPtr.Zero, out _, buf, ref s);
                         if (vr == 0)
                         {

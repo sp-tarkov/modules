@@ -1,8 +1,8 @@
-﻿using EFT;
+﻿using System.Reflection;
+using EFT;
 using HarmonyLib;
 using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
-using System.Reflection;
 
 namespace SPT.Custom.Patches
 {
@@ -27,7 +27,7 @@ namespace SPT.Custom.Patches
             {
                 bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
             }
-            
+
             if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
             {
                 bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);

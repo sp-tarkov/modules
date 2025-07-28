@@ -32,7 +32,7 @@ namespace SPT.PrePatch
 
             // all this constructor does is set this static field up
             methodToEdit.Body.Instructions.Clear();
-            
+
             foreach (var ins in instructions)
             {
                 ilProc.Append(ins);
@@ -80,7 +80,7 @@ namespace SPT.PrePatch
             if (args.Length > 1)
             {
                 message = "";
-                return true; 
+                return true;
             }
 
             message = "Please start SPT using SPT.Launcher.exe. Exiting.";

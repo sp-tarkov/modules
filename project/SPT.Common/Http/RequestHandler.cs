@@ -17,7 +17,7 @@ namespace SPT.Common.Http
         static RequestHandler()
         {
             _logger = Logger.CreateLogSource(nameof(RequestHandler));
-            
+
             // grab required info from command args
             var args = Environment.GetCommandLineArgs();
 
@@ -65,7 +65,7 @@ namespace SPT.Common.Http
         public static async Task<byte[]> GetDataAsync(string path)
         {
             _logger.LogInfo($"[REQUEST]: {path}");
-            
+
             var data = await HttpClient.GetAsync(path);
 
             ValidateData(path, data);
@@ -80,7 +80,7 @@ namespace SPT.Common.Http
         public static async Task<string> GetJsonAsync(string path)
         {
             _logger.LogInfo($"[REQUEST]: {path}");
-            
+
             var payload = await HttpClient.GetAsync(path);
             var body = Encoding.UTF8.GetString(payload);
 
@@ -96,7 +96,7 @@ namespace SPT.Common.Http
         public static string PostJsonAsync(string path, string json)
         {
             _logger.LogInfo($"[REQUEST]: {path}");
-            
+
             var payload = Encoding.UTF8.GetBytes(json);
             var data = HttpClient.Post(path, payload);
             var body = Encoding.UTF8.GetString(data);

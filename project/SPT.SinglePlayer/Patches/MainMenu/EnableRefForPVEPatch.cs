@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using EFT.UI;
 using HarmonyLib;
-using System.Reflection.Emit;
 using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
@@ -25,7 +25,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
             var codes = new List<CodeInstruction>(instructions);
             var searchCode = new CodeInstruction(OpCodes.Ldstr, "6617beeaa9cfa777ca915b7c");
             var searchIndex = -1;
-            
+
             for (var i = 0; i < codes.Count; i++)
             {
                 if (codes[i].opcode == searchCode.opcode && codes[i]?.operand == searchCode?.operand)
@@ -46,7 +46,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 
             codes.RemoveAt(searchIndex);
             codes.Insert(searchIndex, newCode);
-            
+
             return codes.AsEnumerable();
         }
     }

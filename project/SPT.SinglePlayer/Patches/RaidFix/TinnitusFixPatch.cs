@@ -1,10 +1,10 @@
-﻿using EFT;
-using Comfort.Common;
+﻿using System.Collections;
 using System.Reflection;
-using SPT.Reflection.Patching;
-using System.Collections;
+using Comfort.Common;
+using EFT;
 using EFT.HealthSystem;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.RaidFix
 {

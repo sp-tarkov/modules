@@ -1,11 +1,11 @@
-﻿using Comfort.Common;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
 using HarmonyLib;
 using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace SPT.Custom.Patches
@@ -44,7 +44,7 @@ namespace SPT.Custom.Patches
                     if (player.IsAI && !player.AIData.BotOwner.IsPMC()) continue;
                     if (!player.HealthController.IsAlive) continue;
 
-                    float dist = ___Position.SqrDistance(((IPlayer)player).Position);
+                    float dist = ___Position.SqrDistance(((IPlayer) player).Position);
                     if (dist < minDistance)
                     {
                         minDistance = dist;

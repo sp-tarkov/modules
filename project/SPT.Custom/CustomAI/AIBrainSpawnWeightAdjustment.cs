@@ -1,10 +1,10 @@
-﻿using SPT.Common.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BepInEx.Logging;
 using EFT;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using SPT.Common.Http;
 
 namespace SPT.Custom.CustomAI
 {

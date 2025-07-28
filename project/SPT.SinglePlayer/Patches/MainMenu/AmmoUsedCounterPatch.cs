@@ -1,7 +1,7 @@
-﻿using SPT.Reflection.Patching;
+﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
 {

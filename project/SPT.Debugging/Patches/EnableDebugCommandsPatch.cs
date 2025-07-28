@@ -1,8 +1,8 @@
-﻿using SPT.Reflection.Patching;
+﻿using System.Reflection;
 using EFT.UI;
 using HarmonyLib;
-using System.Reflection;
 using SPT.Debugging.Commands;
+using SPT.Reflection.Patching;
 
 namespace SPT.Debugging.Patches
 {

@@ -1,8 +1,8 @@
-﻿using EFT;
+﻿using System.Reflection;
+using System.Threading.Tasks;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace SPT.SinglePlayer.Patches.RaidFix
 {

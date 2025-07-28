@@ -1,4 +1,6 @@
-﻿using BepInEx.Bootstrap;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT.UI;
@@ -6,8 +8,6 @@ using SPT.Common.Http;
 using SPT.Common.Utils;
 using SPT.Custom.Models;
 using SPT.Custom.Patches;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace SPT.Custom.Utils

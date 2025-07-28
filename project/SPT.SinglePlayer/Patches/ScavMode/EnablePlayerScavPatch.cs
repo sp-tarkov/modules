@@ -1,24 +1,24 @@
-﻿using EFT;
+﻿using System.Reflection;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
-using System.Reflection;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
     public class EnablePlayerScavPatch : ModulePatch
     {
-		/// <summary>
-		/// Fixes player loading into a 'practice' raid instead of a 'local' raid
-		/// Also fixes player not loading into raid as a scav
-		/// </summary>
-		protected override MethodBase GetTargetMethod()
+        /// <summary>
+        /// Fixes player loading into a 'practice' raid instead of a 'local' raid
+        /// Also fixes player not loading into raid as a scav
+        /// </summary>
+        protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_26));
         }
 
-		[PatchPrefix]
-		public static void PatchPrefix(MainMenuControllerClass __instance)
-		{
+        [PatchPrefix]
+        public static void PatchPrefix(MainMenuControllerClass __instance)
+        {
             if (__instance.RaidSettings_0.Side == ESideType.Pmc)
             {
                 // Client does some 'online' work before realising it should be pve
@@ -38,17 +38,17 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             __instance.RaidSettings_1 = __instance.RaidSettings_0.Clone();
         }
 
-		[PatchPostfix]
-		public static void PatchPostfix(MainMenuControllerClass __instance)
-		{
+        [PatchPostfix]
+        public static void PatchPostfix(MainMenuControllerClass __instance)
+        {
             // This ensures scav raids show as 'local' instead of 'training', works in conjunction with prefix patches' "RaidMode = local" line
             __instance.RaidSettings_0.IsPveOffline = true;
 
             // Bosses are never removed from pve raids, this forces the boss array to empty itself if the 'enable bosses' flag is unchecked
             if (!__instance.RaidSettings_0.WavesSettings.IsBosses)
             {
-	            __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = [];
+                __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = [];
             }
         }
-	}
+    }
 }

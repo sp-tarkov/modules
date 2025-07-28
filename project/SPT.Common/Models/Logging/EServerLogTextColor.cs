@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace SPT.Common.Models.Logging
+﻿namespace SPT.Common.Models.Logging
 {
     public enum EServerLogTextColor
     {

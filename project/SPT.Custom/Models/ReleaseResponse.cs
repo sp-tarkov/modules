@@ -14,6 +14,6 @@ namespace SPT.Custom.Models
         public string clientModsLoadedDebugText { get; set; }
         public string illegalPluginsLoadedText { get; set; }
         public string illegalPluginsExceptionText { get; set; }
-        public string releaseSummaryText { get; set; }       
+        public string releaseSummaryText { get; set; }
     }
 }

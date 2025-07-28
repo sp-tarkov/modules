@@ -4,7 +4,7 @@ using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.RaidFix
 {
-    public class FixKeyAlreadyExistsErrorOnAchievementPatch: ModulePatch
+    public class FixKeyAlreadyExistsErrorOnAchievementPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

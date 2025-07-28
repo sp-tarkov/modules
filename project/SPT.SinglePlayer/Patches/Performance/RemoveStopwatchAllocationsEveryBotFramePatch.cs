@@ -1,11 +1,11 @@
-﻿using EFT;
-using HarmonyLib;
-using SPT.Reflection.Patching;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.Performance
 {

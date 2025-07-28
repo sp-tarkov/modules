@@ -1,11 +1,11 @@
-using SPT.Common.Utils;
-using SPT.Reflection.Patching;
-using BepInEx.Bootstrap;
-using EFT.Communications;
-using EFT.UI;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using BepInEx.Bootstrap;
+using EFT.Communications;
+using EFT.UI;
+using SPT.Common.Utils;
+using SPT.Reflection.Patching;
 using UnityEngine;
 
 namespace SPT.SinglePlayer.Patches.MainMenu

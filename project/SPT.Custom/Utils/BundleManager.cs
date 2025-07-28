@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using BepInEx.Logging;
 using Newtonsoft.Json;
@@ -89,7 +88,7 @@ namespace SPT.Custom.Utils
                 // file doesn't exist in cache
                 _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
                 return true;
-            }            
+            }
         }
     }
 }

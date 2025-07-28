@@ -1,10 +1,10 @@
 using System;
-using SPT.Reflection.Patching;
+using System.Reflection;
 using EFT;
 using EFT.Counters;
 using EFT.UI.SessionEnd;
-using System.Reflection;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.Progression
 {
@@ -45,7 +45,7 @@ namespace SPT.SinglePlayer.Patches.Progression
             {
                 side = EPlayerSide.Savage; // Also set side to correct value (defaults to USEC/BEAR when playing as scav)
                 int xpGainedInSession = activeProfile.Stats.Eft.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
-                activeProfile.Stats.Eft.TotalSessionExperience = (int)(xpGainedInSession * activeProfile.Stats.Eft.SessionExperienceMult * activeProfile.Stats.Eft.ExperienceBonusMult);
+                activeProfile.Stats.Eft.TotalSessionExperience = (int) (xpGainedInSession * activeProfile.Stats.Eft.SessionExperienceMult * activeProfile.Stats.Eft.ExperienceBonusMult);
             }
 
             return true; // Do original method

@@ -56,7 +56,7 @@ namespace SPT.Common.Utils
             using (var ms = new MemoryStream())
             {
                 using (var zs = (level > ZlibCompression.Store)
-                    ? new ZOutputStream(ms, (int)level)
+                    ? new ZOutputStream(ms, (int) level)
                     : new ZOutputStream(ms))
                 {
                     zs.Write(data, 0, data.Length);

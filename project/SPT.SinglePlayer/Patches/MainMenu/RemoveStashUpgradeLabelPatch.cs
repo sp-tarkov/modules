@@ -1,6 +1,6 @@
-﻿using EFT.UI;
+﻿using System.Reflection;
+using EFT.UI;
 using SPT.Reflection.Patching;
-using System.Reflection;
 using UnityEngine;
 
 namespace SPT.SinglePlayer.Patches.MainMenu;
@@ -12,17 +12,17 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-		return typeof(InventoryScreen).GetMethod(nameof(InventoryScreen.Awake));
+        return typeof(InventoryScreen).GetMethod(nameof(InventoryScreen.Awake));
     }
 
     [PatchPostfix]
     public static void Postfix(InventoryScreen __instance)
     {
-		var externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/TopPanel/ExternalObtain").gameObject;
-		if (externalObtain != null)
-		{
-			Object.Destroy(externalObtain);
-		}		
+        var externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/TopPanel/ExternalObtain").gameObject;
+        if (externalObtain != null)
+        {
+            Object.Destroy(externalObtain);
+        }
     }
 }
 
@@ -31,18 +31,18 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
 /// </summary>
 public class RemoveStashUpgradeLabelPatch2 : ModulePatch
 {
-	protected override MethodBase GetTargetMethod()
-	{
-		return typeof(MenuUI).GetMethod(nameof(MenuUI.Awake));
-	}
+    protected override MethodBase GetTargetMethod()
+    {
+        return typeof(MenuUI).GetMethod(nameof(MenuUI.Awake));
+    }
 
-	[PatchPostfix]
-	public static void Postfix(MenuUI __instance)
-	{
-		var externalObtain = __instance.transform.Find("UI/Trader Screens Group/TraderDealScreen/Right Person/SimpleStashPanel/TopPanel/ExternalObtain").gameObject;
-		if (externalObtain != null)
-		{
-			Object.Destroy(externalObtain);
-		}		
-	}
+    [PatchPostfix]
+    public static void Postfix(MenuUI __instance)
+    {
+        var externalObtain = __instance.transform.Find("UI/Trader Screens Group/TraderDealScreen/Right Person/SimpleStashPanel/TopPanel/ExternalObtain").gameObject;
+        if (externalObtain != null)
+        {
+            Object.Destroy(externalObtain);
+        }
+    }
 }

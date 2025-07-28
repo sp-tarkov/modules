@@ -1,9 +1,9 @@
-﻿using EFT;
-using HarmonyLib;
-using SPT.Reflection.Patching;
+﻿using System.Linq;
 using System.Reflection;
-using System.Linq;
+using EFT;
+using HarmonyLib;
 using SPT.Common.Http;
+using SPT.Reflection.Patching;
 
 
 namespace SPT.SinglePlayer.Patches.ScavMode
@@ -27,7 +27,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             {
                 __instance.Profile_0.SetSpawnedInSession(false);
             }
-			ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2073.Instance /* Has 2 methods */);
+            ProfileDescriptor = new CompleteProfileDescriptorClass(__instance.Profile_0, GClass2073.Instance /* Has 2 methods */);
         }
     }
     /// <summary>
@@ -44,26 +44,26 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         [PatchPrefix]
         public static void PatchPrefix(PostRaidHealthScreenClass __instance)
         {
-			Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
+            Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
 
             // Player is PMC, skip patch
-			if (profile.Side != EPlayerSide.Savage)
+            if (profile.Side != EPlayerSide.Savage)
             {
                 return;
             }
 
             // Only do below when player is a scav
-            var session = (ProfileEndpointFactoryAbstractClass)__instance.ISession;
+            var session = (ProfileEndpointFactoryAbstractClass) __instance.ISession;
             session.AllProfiles =
-			[
-				session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
+            [
+                session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
                 profile
             ];
             session.ProfileOfPet.LearnAll();
 
-			// Send scav profile to server so it knows of the items we might transfer
-			RequestHandler.PutJson("/raid/profile/scavsave",
-				GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
+            // Send scav profile to server so it knows of the items we might transfer
+            RequestHandler.PutJson("/raid/profile/scavsave",
+                GetProfileAtEndOfRaidPatch.ProfileDescriptor.ToUnparsedData([]).JObject.ToString());
         }
     }
 }

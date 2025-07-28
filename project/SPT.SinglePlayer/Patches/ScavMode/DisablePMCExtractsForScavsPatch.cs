@@ -1,10 +1,10 @@
-using SPT.Reflection.Patching;
+using System.Linq;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
-using System.Reflection;
-using HarmonyLib;
 using EFT.Interactive;
-using System.Linq;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -39,7 +39,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
                     if (exfil is ScavExfiltrationPoint scavExfil)
                     {
                         // We are checking if player exists in list so we dont disable the wrong extract
-                        if(!scavExfil.EligibleIds.Contains(player.ProfileId))
+                        if (!scavExfil.EligibleIds.Contains(player.ProfileId))
                         {
                             Logger.LogError($"Disabled exfil: {exfil.name}");
                             exfil.Disable();

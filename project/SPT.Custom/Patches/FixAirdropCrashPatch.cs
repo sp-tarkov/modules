@@ -1,11 +1,11 @@
 ﻿using System;
-using EFT.SynchronizableObjects;
-using EFT;
-using HarmonyLib;
-using SPT.Reflection.Patching;
 using System.Collections.Generic;
 using System.Reflection;
 using Comfort.Common;
+using EFT;
+using EFT.SynchronizableObjects;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {
@@ -19,7 +19,7 @@ namespace SPT.Custom.Patches
         {
             return AccessTools.FirstMethod(typeof(TarkovApplication), IsTargetMethod);
         }
-        
+
         private static bool IsTargetMethod(MethodInfo method)
         {
             var parameters = method.GetParameters();

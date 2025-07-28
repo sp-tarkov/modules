@@ -1,8 +1,8 @@
 ﻿using System;
+using BepInEx;
 using SPT.Common;
 using SPT.Custom.Patches;
 using SPT.Custom.Utils;
-using BepInEx;
 using UnityEngine;
 
 namespace SPT.Custom
@@ -47,7 +47,7 @@ namespace SPT.Custom
                 new FixAirdropFlareDisposePatch().Enable();
                 new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
-                
+
                 // 3.11
                 new EnablePrestigeTabPatch().Enable();
                 new MatchStartServerLocationPatch().Enable();
@@ -57,7 +57,7 @@ namespace SPT.Custom
                 // Halloween event fixes
                 new BotsControllerInitPatch().Enable();
                 new BotsEventsControllerActivatePatch().Enable();
-                
+
                 HookObject.AddComponent<MenuNotificationManager>();
             }
             catch (Exception ex)

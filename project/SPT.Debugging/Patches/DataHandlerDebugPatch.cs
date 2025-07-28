@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using SPT.Reflection.Patching;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.Debugging.Patches
 {

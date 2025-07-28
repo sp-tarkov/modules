@@ -1,12 +1,12 @@
-﻿using SPT.Common.Http;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using Comfort.Common;
+using EFT;
+using SPT.Common.Http;
 using SPT.Common.Utils;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using Comfort.Common;
-using EFT;
-using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using SPT.SinglePlayer.Models.ScavMode;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
             // method_46 as of 32128
             var parameters = arg.GetParameters();
-            return parameters.Length == 5 
+            return parameters.Length == 5
                    && parameters[0].Name == "gameWorld"
                    && parameters[1].Name == "timeAndWeather"
                    && parameters[2].Name == "timeHasComeScreenController"

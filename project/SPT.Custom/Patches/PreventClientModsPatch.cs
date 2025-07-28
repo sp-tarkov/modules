@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SPT.Reflection.Patching;
 using BepInEx.Logging;
 using EFT;
 using HarmonyLib;
 using SPT.Custom.Utils;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {

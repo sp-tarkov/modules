@@ -1,9 +1,9 @@
-﻿using SPT.Reflection.Patching;
-using EFT;
-using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.RaidFix;
 
@@ -52,4 +52,4 @@ public class DisableDevMaskCheckPatch : ModulePatch
 
         return codeInstructions;
     }
-}	
+}

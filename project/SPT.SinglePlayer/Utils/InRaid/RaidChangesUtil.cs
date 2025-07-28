@@ -1,5 +1,5 @@
-﻿using EFT;
-using System;
+﻿using System;
+using EFT;
 using SPT.SinglePlayer.Models.ScavMode;
 
 namespace SPT.SinglePlayer.Utils.InRaid
@@ -62,7 +62,7 @@ namespace SPT.SinglePlayer.Utils.InRaid
         /// <summary>
         /// The fraction of raid time that will be remaining when you spawn into the map
         /// </summary>
-        public static float RaidTimeRemainingFraction => (float)NewEscapeTimeMinutes / OriginalEscapeTimeMinutes;
+        public static float RaidTimeRemainingFraction => (float) NewEscapeTimeMinutes / OriginalEscapeTimeMinutes;
 
         /// <summary>
         /// The original minimum time (in seconds) you must stay in the raid to get a "Survived" status (unless your XP is high enough) for the current (or most recent) raid

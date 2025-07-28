@@ -1,6 +1,6 @@
-﻿using Comfort.Common;
+﻿using System;
+using Comfort.Common;
 using EFT;
-using System;
 
 namespace SPT.SinglePlayer.Utils.InRaid
 {

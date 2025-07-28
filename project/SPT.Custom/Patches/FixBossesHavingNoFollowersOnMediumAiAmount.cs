@@ -1,9 +1,9 @@
 ﻿using System;
-using SPT.Reflection.Patching;
 using System.Reflection;
 using EFT;
 using EFT.Bots;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {
@@ -11,7 +11,7 @@ namespace SPT.Custom.Patches
     /// Fix bosses not spawning with any followers because BSG subtract the escort amount from itself
     /// Also fix 'enable bosses' checkbox not working
     /// </summary>
-    public class FixBossesHavingNoFollowersOnMediumAiAmount: ModulePatch
+    public class FixBossesHavingNoFollowersOnMediumAiAmount : ModulePatch
     {
         protected override MethodBase GetTargetMethod()
         {

@@ -1,8 +1,8 @@
-﻿using SPT.Reflection.Patching;
-using System.Reflection;
+﻿using System.Reflection;
 using EFT;
 using EFT.UI;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 using UnityEngine;
 
 namespace SPT.Custom.Patches

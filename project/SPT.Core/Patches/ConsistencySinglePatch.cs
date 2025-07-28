@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using FilesChecker;
+using SPT.Core.Models;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using SPT.Core.Models;
-using FilesChecker;
 
 namespace SPT.Core.Patches
 {

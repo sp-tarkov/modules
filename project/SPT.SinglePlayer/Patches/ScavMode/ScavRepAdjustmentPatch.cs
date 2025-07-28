@@ -1,9 +1,9 @@
-﻿using SPT.Reflection.Patching;
+﻿using System;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
 using HarmonyLib;
-using System;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -19,7 +19,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         public static void PatchPrefix(DamageInfoStruct damage, string playerProfileId, out Tuple<Player, bool> __state)
         {
             __state = new Tuple<Player, bool>(null, false);
-            var player = (Player)damage.Player.iPlayer;
+            var player = (Player) damage.Player.iPlayer;
 
             // Add safeguards to make sure no calculations happen from other bots
             if (!player.IsYourPlayer)

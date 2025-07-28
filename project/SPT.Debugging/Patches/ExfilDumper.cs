@@ -1,14 +1,14 @@
-﻿using SPT.Reflection.Patching;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
 using EFT.InventoryLogic;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
 namespace SPT.Debugging.Patches
 {

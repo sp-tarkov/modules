@@ -1,4 +1,4 @@
-using EFT;
+using System.Reflection;
 using EFT.UI;
 using EFT.UI.Matchmaker;
 using HarmonyLib;
@@ -7,7 +7,6 @@ using SPT.Common.Utils;
 using SPT.Custom.Models;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using System.Reflection;
 using static EFT.UI.Matchmaker.MatchmakerOfflineRaidScreen;
 
 namespace SPT.Custom.Patches
@@ -40,14 +39,14 @@ namespace SPT.Custom.Patches
 
             // We use PVE mode from Tarkov now we need to modify PVE MODE instead of ONLINE Mode
 
-			offlineRaidSettings.BotSettings.BotAmount = defaultSettings.AiAmount;
-			offlineRaidSettings.WavesSettings.BotAmount = defaultSettings.AiAmount;
-			offlineRaidSettings.WavesSettings.BotDifficulty = defaultSettings.AiDifficulty;
-			offlineRaidSettings.WavesSettings.IsBosses = defaultSettings.BossEnabled;
-			offlineRaidSettings.BotSettings.IsScavWars = false;
-			offlineRaidSettings.WavesSettings.IsTaggedAndCursed = defaultSettings.TaggedAndCursed;
-			offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = defaultSettings.RandomWeather;
-			offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = defaultSettings.RandomTime;
+            offlineRaidSettings.BotSettings.BotAmount = defaultSettings.AiAmount;
+            offlineRaidSettings.WavesSettings.BotAmount = defaultSettings.AiAmount;
+            offlineRaidSettings.WavesSettings.BotDifficulty = defaultSettings.AiDifficulty;
+            offlineRaidSettings.WavesSettings.IsBosses = defaultSettings.BossEnabled;
+            offlineRaidSettings.BotSettings.IsScavWars = false;
+            offlineRaidSettings.WavesSettings.IsTaggedAndCursed = defaultSettings.TaggedAndCursed;
+            offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = defaultSettings.RandomWeather;
+            offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = defaultSettings.RandomTime;
         }
 
         [PatchPostfix]

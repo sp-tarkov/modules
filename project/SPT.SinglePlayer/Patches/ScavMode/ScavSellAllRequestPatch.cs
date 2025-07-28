@@ -1,11 +1,11 @@
-﻿using SPT.Reflection.Patching;
-using SPT.SinglePlayer.Models.ScavMode;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using Comfort.Common;
+using EFT;
 using EFT.InventoryLogic;
 using HarmonyLib;
-using System.Reflection;
-using System.Threading.Tasks;
-using EFT;
+using SPT.Reflection.Patching;
+using SPT.SinglePlayer.Models.ScavMode;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -30,7 +30,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         {
             // Build request with additional information
             OwnerInfo fromOwner = new OwnerInfo(petId, EOwnerType.Profile);
-			OwnerInfo toOwner = new OwnerInfo(playerId, EOwnerType.Profile);
+            OwnerInfo toOwner = new OwnerInfo(playerId, EOwnerType.Profile);
 
             SellAllRequest request = new SellAllRequest
             {

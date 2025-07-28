@@ -1,7 +1,7 @@
-using SPT.Reflection.Patching;
-using EFT;
 using System.Reflection;
+using EFT;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {
@@ -26,11 +26,11 @@ namespace SPT.Custom.Patches
                 return false; // Skip original
             }
 
-			// If you damage yourself exit early as we dont want to try add ourself to our own enemy list
-			if (aggressor.IsYourPlayer && target.IsYourPlayer)
-			{
-				return false; // Skip original
-			}
+            // If you damage yourself exit early as we dont want to try add ourself to our own enemy list
+            if (aggressor.IsYourPlayer && target.IsYourPlayer)
+            {
+                return false; // Skip original
+            }
 
             BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
             foreach (var item in __instance.Groups())

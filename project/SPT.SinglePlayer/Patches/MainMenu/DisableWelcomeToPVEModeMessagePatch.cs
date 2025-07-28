@@ -10,7 +10,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
         {
             return AccessTools.Method(typeof(PlayerPrefHelperClass), nameof(PlayerPrefHelperClass.GetBoolForProfile));
         }
-        
+
         [PatchPrefix]
         public static bool PatchPrefix(ref bool __result, string variable)
         {

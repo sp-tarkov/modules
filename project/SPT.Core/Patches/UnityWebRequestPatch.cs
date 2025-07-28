@@ -1,7 +1,7 @@
 using System.Reflection;
-using UnityEngine.Networking;
-using SPT.Reflection.Patching;
 using SPT.Core.Models;
+using SPT.Reflection.Patching;
+using UnityEngine.Networking;
 
 namespace SPT.Core.Patches
 {

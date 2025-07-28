@@ -1,7 +1,7 @@
+using System;
 using BepInEx;
 using SPT.Common;
 using SPT.Core.Patches;
-using System;
 
 namespace SPT.Core
 {

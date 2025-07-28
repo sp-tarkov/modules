@@ -1,9 +1,9 @@
-﻿using SPT.Reflection.Patching;
-using System.Reflection;
+﻿using System.Reflection;
 using BepInEx.Logging;
 using EFT;
 using EFT.UI;
 using HarmonyLib;
+using SPT.Reflection.Patching;
 using TMPro;
 
 namespace SPT.Debugging.Patches

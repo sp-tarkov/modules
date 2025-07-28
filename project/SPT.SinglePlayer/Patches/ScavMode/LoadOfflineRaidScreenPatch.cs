@@ -1,15 +1,15 @@
-﻿using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using EFT;
 using EFT.Bots;
 using EFT.UI.Matchmaker;
 using EFT.UI.Screens;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
+using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 using OfflineRaidAction = System.Action;
 
 // DON'T FORGET TO UPDATE REFERENCES IN CONSTRUCTOR
@@ -84,7 +84,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
 
             var callCodeIndex = codes.FindLastIndex(code => code.opcode == OpCodes.Call
-                                                        && (MethodInfo)code.operand == onReadyScreenMethodOperand);
+                                                        && (MethodInfo) code.operand == onReadyScreenMethodOperand);
 
             if (callCodeIndex == -1)
             {
@@ -99,7 +99,8 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
             codes[callCodeIndex] = new CodeInstruction(OpCodes.Call,
-                AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))) {
+                AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav)))
+            {
                 labels = codes[loadThisIndex].labels
             };
 
@@ -115,7 +116,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
         private static void LoadOfflineRaidScreenForScav()
         {
             var profile = PatchConstants.BackEndSession.Profile;
-            var menuController = (object)GetMenuController();
+            var menuController = (object) GetMenuController();
 
             // Get fields from MainMenuController.cs
             var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
@@ -133,7 +134,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
             gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
             // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-            gclass.OnShowReadyScreen += (OfflineRaidAction)Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_82));
+            gclass.OnShowReadyScreen += (OfflineRaidAction) Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_82));
             gclass.ShowScreen(EScreenState.Queued);
         }
 

@@ -39,10 +39,10 @@ namespace SPT.Reflection.Patching
             _ilmanipulatorList = GetPatchMethods(typeof(PatchILManipulatorAttribute));
 
             if (_prefixList.Count == 0
-				&& _postfixList.Count == 0
-				&& _transpilerList.Count == 0
-				&& _finalizerList.Count == 0
-				&& _ilmanipulatorList.Count == 0)
+                && _postfixList.Count == 0
+                && _transpilerList.Count == 0
+                && _finalizerList.Count == 0
+                && _ilmanipulatorList.Count == 0)
             {
                 throw new Exception($"{_harmony.Id}: At least one of the patch methods must be specified");
             }
@@ -61,16 +61,16 @@ namespace SPT.Reflection.Patching
         /// <returns>Method</returns>
         private List<HarmonyMethod> GetPatchMethods(Type attributeType)
         {
-	        var T = GetType();
-	        var methods = new List<HarmonyMethod>();
+            var T = GetType();
+            var methods = new List<HarmonyMethod>();
 
-	        foreach (var method in T.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly))
-	        {
-		        if (method.GetCustomAttribute(attributeType) != null)
-		        {
-			        methods.Add(new HarmonyMethod(method));
+            foreach (var method in T.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly))
+            {
+                if (method.GetCustomAttribute(attributeType) != null)
+                {
+                    methods.Add(new HarmonyMethod(method));
                 }
-	        }
+            }
 
             return methods;
         }
@@ -96,22 +96,22 @@ namespace SPT.Reflection.Patching
 
                 foreach (var postfix in _postfixList)
                 {
-		            _harmony.Patch(target, postfix: postfix);
+                    _harmony.Patch(target, postfix: postfix);
                 }
 
-	            foreach (var transpiler in _transpilerList)
+                foreach (var transpiler in _transpilerList)
                 {
-		            _harmony.Patch(target, transpiler: transpiler);
+                    _harmony.Patch(target, transpiler: transpiler);
                 }
 
-	            foreach (var finalizer in _finalizerList)
+                foreach (var finalizer in _finalizerList)
                 {
-		            _harmony.Patch(target, finalizer: finalizer);
+                    _harmony.Patch(target, finalizer: finalizer);
                 }
 
-	            foreach (var ilmanipulator in _ilmanipulatorList)
+                foreach (var ilmanipulator in _ilmanipulatorList)
                 {
-		            _harmony.Patch(target, ilmanipulator: ilmanipulator);
+                    _harmony.Patch(target, ilmanipulator: ilmanipulator);
                 }
 
                 Logger.LogInfo($"Enabled patch {_harmony.Id}");

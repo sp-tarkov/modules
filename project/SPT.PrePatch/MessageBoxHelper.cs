@@ -7,15 +7,15 @@ namespace SPT.PrePatch
     {
         public enum MessageBoxType : uint
         {
-            ABORTRETRYIGNORE = (uint)(0x00000002L | 0x00000010L),
-            CANCELTRYCONTINUE = (uint)(0x00000006L | 0x00000030L),
-            HELP = (uint)(0x00004000L | 0x00000040L),
-            OK = (uint)(0x00000000L | 0x00000040L),
-            OKCANCEL = (uint)(0x00000001L | 0x00000040L),
-            RETRYCANCEL = (uint)0x00000005L,
-            YESNO = (uint)(0x00000004L | 0x00000040L),
-            YESNOCANCEL = (uint)(0x00000003L | 0x00000040L),
-            DEFAULT = (uint)(0x00000000L | 0x00000010L)
+            ABORTRETRYIGNORE = (uint) (0x00000002L | 0x00000010L),
+            CANCELTRYCONTINUE = (uint) (0x00000006L | 0x00000030L),
+            HELP = (uint) (0x00004000L | 0x00000040L),
+            OK = (uint) (0x00000000L | 0x00000040L),
+            OKCANCEL = (uint) (0x00000001L | 0x00000040L),
+            RETRYCANCEL = (uint) 0x00000005L,
+            YESNO = (uint) (0x00000004L | 0x00000040L),
+            YESNOCANCEL = (uint) (0x00000003L | 0x00000040L),
+            DEFAULT = (uint) (0x00000000L | 0x00000010L)
         }
 
         public enum MessageBoxResult
@@ -45,7 +45,7 @@ namespace SPT.PrePatch
         {
             try
             {
-                return (MessageBoxResult)MessageBox(GetWindowHandle(), text, caption, (uint)type); ;
+                return (MessageBoxResult) MessageBox(GetWindowHandle(), text, caption, (uint) type); ;
             }
             catch (Exception)
             {

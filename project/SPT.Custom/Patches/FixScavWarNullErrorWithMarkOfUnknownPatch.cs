@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Reflection;
+using HarmonyLib;
 using SPT.Reflection.Patching;
-using System.Reflection;
 
 namespace SPT.Custom.Patches
 {

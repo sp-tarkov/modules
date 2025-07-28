@@ -1,9 +1,9 @@
+using System.Reflection;
+using EFT;
+using EFT.UI;
 using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
-using EFT;
-using EFT.UI;
-using System.Reflection;
 
 namespace SPT.Custom.Patches
 {
@@ -12,9 +12,9 @@ namespace SPT.Custom.Patches
         protected override MethodBase GetTargetMethod()
         {
             const string methodName = "LoadDifficultyStringInternal";
-			const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
 
-			return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
+            return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
                 .GetMethod(methodName, flags);
         }
 

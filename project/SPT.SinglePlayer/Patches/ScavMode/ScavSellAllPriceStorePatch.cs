@@ -1,8 +1,8 @@
-﻿using SPT.Reflection.Patching;
+﻿using System.Linq;
+using System.Reflection;
 using EFT.UI;
 using HarmonyLib;
-using System.Linq;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.ScavMode;
 
@@ -26,7 +26,7 @@ public class ScavSellAllPriceStorePatch : ModulePatch
 
         return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.method_4));
     }
-    
+
     [PatchPrefix]
     public async static void PatchPrefix(ScavengerInventoryScreen __instance)
     {

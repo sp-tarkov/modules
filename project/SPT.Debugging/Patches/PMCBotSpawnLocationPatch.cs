@@ -1,12 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using SPT.Reflection.Patching;
 using EFT;
+using EFT.Game.Spawning;
 using EFT.UI;
 using HarmonyLib;
-using System.Collections.Generic;
-using EFT.Game.Spawning;
-using System;
+using SPT.Reflection.Patching;
 
 namespace SPT.Debugging.Patches
 {
@@ -86,7 +86,7 @@ namespace SPT.Debugging.Patches
 
                 // CorePointId of player spawns seems to always be 0. Bots will not activate properly if this ID is used
                 // TODO: Verify if CorePointId of 1 is acceptable in all cases
-                
+
                 ConsoleScreen.Log($"[SPT PMC Bot spawn] spawn point chosen: {spawnPointDetails.Name} Core point id was: {spawnPointDetails.CorePointId}");
                 currentSpawnData.AddPosition(spawnPointDetails.Position, spawnPointDetails.CorePointId);
 

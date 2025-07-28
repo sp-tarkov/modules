@@ -1,8 +1,8 @@
-﻿using Comfort.Common;
+﻿using System.Linq;
+using Comfort.Common;
 using EFT;
 using EFT.Console.Core;
 using EFT.UI;
-using System.Linq;
 using SPT.Debugging.Scripts;
 
 namespace SPT.Debugging.Commands

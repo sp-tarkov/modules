@@ -1,10 +1,10 @@
-﻿using SPT.Reflection.Patching;
+﻿using System;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
 using HarmonyLib;
-using System;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.MainMenu
 {
@@ -32,7 +32,7 @@ namespace SPT.SinglePlayer.Patches.MainMenu
 
                 if (template is AmmoTemplate bulletTemplate)
                 {
-                    float absorbedDamage = (float)Math.Round(bulletTemplate.Damage - damageInfo.Damage);
+                    float absorbedDamage = (float) Math.Round(bulletTemplate.Damage - damageInfo.Damage);
                     damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(absorbedDamage, SessionCounterTypesAbstractClass.CauseArmorDamage);
                 }
             }

@@ -1,12 +1,12 @@
-﻿using SPT.Reflection.Patching;
-using EFT.UI;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using EFT;
+using EFT.UI;
 using HarmonyLib;
-using System.Reflection;
+using SPT.Custom.Utils;
+using SPT.Reflection.Patching;
 using TMPro;
 using UnityEngine;
-using System.Threading.Tasks;
-using SPT.Custom.Utils;
 
 namespace SPT.Custom.Patches
 {

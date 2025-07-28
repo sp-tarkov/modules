@@ -71,7 +71,7 @@ namespace SPT.Reflection.CodeWrapper
                 return new List<Label>();
             }
 
-            return new List<Label>() { (Label)code.GetLabel() };
+            return new List<Label>() { (Label) code.GetLabel() };
         }
     }
 }

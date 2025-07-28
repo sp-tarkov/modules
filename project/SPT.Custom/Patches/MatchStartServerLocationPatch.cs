@@ -1,15 +1,14 @@
-﻿using EFT;
-using HarmonyLib;
-using JsonType;
-using MonoMod.Cil;
-using SPT.Reflection.CodeWrapper;
-using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
+using HarmonyLib;
+using JsonType;
+using SPT.Reflection.CodeWrapper;
+using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches
 {

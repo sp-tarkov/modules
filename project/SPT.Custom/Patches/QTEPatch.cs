@@ -1,8 +1,8 @@
-﻿using SPT.Common.Http;
-using SPT.Reflection.Patching;
-using System.Reflection;
+﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
+using SPT.Common.Http;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {

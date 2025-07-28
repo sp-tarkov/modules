@@ -104,7 +104,7 @@ public class DumpylibScript : MonoBehaviour
 
             _raidSettingsField = _raidSettings.GetType()
                 .GetField("LocationSettings", BindingFlags.Public | BindingFlags.Instance);
-            
+
             _raidSettingsField.SetValue(_raidSettings, _locationSettings);
 
             _weather = await _session.WeatherRequest();

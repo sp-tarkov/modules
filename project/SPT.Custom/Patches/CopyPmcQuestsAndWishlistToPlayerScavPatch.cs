@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
-using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
 using EFT.UI.Matchmaker;
 using HarmonyLib;
+using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches
 {

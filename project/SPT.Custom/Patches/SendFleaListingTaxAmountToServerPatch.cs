@@ -1,9 +1,9 @@
-﻿using SPT.Common.Http;
-using SPT.Reflection.Patching;
+﻿using System.Reflection;
 using EFT.InventoryLogic;
 using EFT.UI.Ragfair;
-using System.Reflection;
 using HarmonyLib;
+using SPT.Common.Http;
+using SPT.Reflection.Patching;
 using UnityEngine;
 
 namespace SPT.Custom.Patches
@@ -41,7 +41,7 @@ namespace SPT.Custom.Patches
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
                 count = ___ragfairOfferSellHelperClass.OfferItemCount,
-                fee = Mathf.CeilToInt((float)FleaTaxCalculatorAbstractClass.CalculateTaxPrice(___item_0, ___ragfairOfferSellHelperClass.OfferItemCount, ___double_0, ___bool_0))
+                fee = Mathf.CeilToInt((float) FleaTaxCalculatorAbstractClass.CalculateTaxPrice(___item_0, ___ragfairOfferSellHelperClass.OfferItemCount, ___double_0, ___bool_0))
             }.ToJson());
         }
     }

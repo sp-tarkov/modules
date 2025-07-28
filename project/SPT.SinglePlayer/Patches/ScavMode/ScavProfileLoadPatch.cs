@@ -1,13 +1,13 @@
 using System;
-using SPT.Reflection.CodeWrapper;
-using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
-using EFT;
-using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
+using HarmonyLib;
+using SPT.Reflection.CodeWrapper;
+using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 
 namespace SPT.SinglePlayer.Patches.ScavMode
 {
@@ -62,7 +62,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode
 
             var brFalseLabel = generator.DefineLabel();
             var brLabel = generator.DefineLabel();
-            
+
             var newCodes = CodeGenerator.GenerateInstructions(new List<Code>()
             {
                 new Code(OpCodes.Ldloc_1),

@@ -1,13 +1,13 @@
-﻿using SPT.Common.Http;
-using SPT.Custom.CustomAI;
-using SPT.Reflection.Patching;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Comfort.Common;
 using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using SPT.Common.Http;
+using SPT.Custom.CustomAI;
+using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches
 {
