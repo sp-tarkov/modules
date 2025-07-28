@@ -23,11 +23,6 @@ namespace SPT.SinglePlayer
 				new TinnitusFixPatch().Enable(); // Probably needed
 				new EmptyInfilFixPatch().Enable();
 				new OverrideMaxAiAliveInRaidValuePatch().Enable();
-				//new PostRaidHealingPricePatch().Enable(); // Client handles this now
-				//new HideoutQuestIgnorePatch().Enable(); // Was only needed because FixQuestAchieveControllersPatch was causing issues
-				//new SpawnProcessNegativeValuePatch().Enable(); // Client handles this edge case, revisit if bot count keeps going up
-				//new SpawnPmcPatch().Enable(); // 2.5+ years old, PMC spawn system very different, likely not needed
-				//new FixQuestAchieveControllersPatch().Enable(); // Likely not needed, if cheevos don't appear, revisit patch
 
 				// Still need
 				new FixPostScavRaidXpShowingZeroPatch().Enable();
