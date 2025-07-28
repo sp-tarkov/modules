@@ -7,12 +7,7 @@ namespace SPT.Common.Utils
 {
     public static class VFS
     {
-        public static string Cwd { get; private set; }
-
-        static VFS()
-        {
-            Cwd = Environment.CurrentDirectory;
-        }
+        public static string Cwd { get; private set; } = Environment.CurrentDirectory;
 
         /// <summary>
         /// Combine two filepaths.
@@ -103,15 +98,7 @@ namespace SPT.Common.Utils
         /// </summary>
         public static async Task<byte[]> ReadFileAsync(string filepath)
         {
-            byte[] result;
-
-            using (var fs = File.Open(filepath, FileMode.Open))
-            {
-                result = new byte[fs.Length];
-                await fs.ReadAsync(result, 0, (int)fs.Length);
-            }
-
-            return result;
+            return await File.ReadAllBytesAsync(filepath);
         }
 
         /// <summary>
@@ -127,13 +114,7 @@ namespace SPT.Common.Utils
         /// </summary>
         public static async Task<string> ReadTextFileAsync(string filepath)
         {
-            using (var fs = File.Open(filepath, FileMode.Open))
-            {
-                using (var sr = new StreamReader(fs))
-                {
-                    return await sr.ReadToEndAsync();
-                }
-            }
+            return await File.ReadAllTextAsync(filepath);
         }
 
         /// <summary>
@@ -159,10 +140,8 @@ namespace SPT.Common.Utils
                 CreateDirectory(filepath.GetDirectory());
             }
 
-            using (FileStream stream = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                await stream.WriteAsync(data, 0, data.Length);
-            }
+            await using FileStream stream = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write);
+            await stream.WriteAsync(data, 0, data.Length);
         }
 
         /// <summary>

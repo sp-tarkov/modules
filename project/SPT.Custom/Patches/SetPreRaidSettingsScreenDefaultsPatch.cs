@@ -1,13 +1,14 @@
-using SPT.Common.Http;
-using SPT.Common.Utils;
-using SPT.Reflection.Patching;
-using SPT.Custom.Models;
+using EFT;
 using EFT.UI;
 using EFT.UI.Matchmaker;
-using System.Reflection;
-using EFT;
 using HarmonyLib;
+using SPT.Common.Http;
+using SPT.Common.Utils;
+using SPT.Custom.Models;
+using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
+using System.Reflection;
+using static EFT.UI.Matchmaker.MatchmakerOfflineRaidScreen;
 
 namespace SPT.Custom.Patches
 {
@@ -20,13 +21,12 @@ namespace SPT.Custom.Patches
         }
 
         [PatchPrefix]
-        public static void PatchPrefix(object controller, UpdatableToggle ____offlineModeToggle)
+        public static void PatchPrefix(CreateRaidSettingsForProfileClass controller, UpdatableToggle ____offlineModeToggle)
         {
-            //var raidSettings = Traverse.Create(controller).Field<RaidSettings>("RaidSettings").Value;
-            var offlineRaidSettings = Traverse.Create(controller).Field<RaidSettings>("OfflineRaidSettings").Value;
+            var offlineRaidSettings = controller.OfflineRaidSettings;
 
-			// Default checkbox to be unchecked so we're in PvE
-			____offlineModeToggle.isOn = false;
+            // Default checkbox to be unchecked so we're in PvE
+            ____offlineModeToggle.isOn = false;
 
             // Get settings from server
             var json = RequestHandler.GetJson("/singleplayer/settings/raid/menu");
