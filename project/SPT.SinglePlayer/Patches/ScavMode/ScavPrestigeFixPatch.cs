@@ -17,7 +17,7 @@ public class ScavPrestigeFixPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Constructor(
-            typeof(GClass3795),
+            typeof(LocalPrestigeControllerClass),
             [
                 typeof(Profile),
                 typeof(InventoryController),
