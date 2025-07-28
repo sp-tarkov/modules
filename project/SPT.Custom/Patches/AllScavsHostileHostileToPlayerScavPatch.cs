@@ -3,73 +3,72 @@ using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+public class AllScavsHostileHostileToPlayerScavPatch : ModulePatch
 {
-    public class AllScavsHostileHostileToPlayerScavPatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
+        return AccessTools.Method(
+            typeof(BotsController),
+            nameof(BotsController.AddEnemyToAllGroupsInBotZone)
+        );
+    }
+
+    /// <summary>
+    /// AddEnemyToAllGroupsInBotZone()
+    /// Goal: by default, AddEnemyToAllGroupsInBotZone doesn't check if the bot group is on the same side as the player.
+    /// The effect of this is that when you are a Scav and kill a Usec, every bot group in the zone will aggro you including other Scavs.
+    /// This should fix that.
+    /// </summary>
+    [PatchPrefix]
+    public static bool PatchPrefix(
+        BotsController __instance,
+        IPlayer aggressor,
+        IPlayer groupOwner,
+        IPlayer target
+    )
+    {
+        if (!groupOwner.IsAI)
         {
-            return AccessTools.Method(
-                typeof(BotsController),
-                nameof(BotsController.AddEnemyToAllGroupsInBotZone)
-            );
-        }
-
-        /// <summary>
-        /// AddEnemyToAllGroupsInBotZone()
-        /// Goal: by default, AddEnemyToAllGroupsInBotZone doesn't check if the bot group is on the same side as the player.
-        /// The effect of this is that when you are a Scav and kill a Usec, every bot group in the zone will aggro you including other Scavs.
-        /// This should fix that.
-        /// </summary>
-        [PatchPrefix]
-        public static bool PatchPrefix(
-            BotsController __instance,
-            IPlayer aggressor,
-            IPlayer groupOwner,
-            IPlayer target
-        )
-        {
-            if (!groupOwner.IsAI)
-            {
-                return false; // Skip original
-            }
-
-            // If you damage yourself exit early as we dont want to try add ourself to our own enemy list
-            if (aggressor.IsYourPlayer && target.IsYourPlayer)
-            {
-                return false; // Skip original
-            }
-
-            BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
-            foreach (var item in __instance.Groups())
-            {
-                if (item.Key != botZone)
-                {
-                    continue;
-                }
-
-                foreach (var group in item.Value.GetGroups(notNull: true))
-                {
-                    bool differentSide = aggressor.Side != group.Side;
-                    bool sameSide = aggressor.Side == target.Side;
-
-                    if (
-                        !group.HaveFollowTarget(aggressor)
-                        && !group.Enemies.ContainsKey(aggressor)
-                        && (differentSide || !sameSide)
-                        && !group.HaveMemberWithRole(WildSpawnType.gifter)
-                        && !group.HaveMemberWithRole(WildSpawnType.sectantWarrior)
-                        && !group.HaveMemberWithRole(WildSpawnType.sectantPriest)
-                        && !group.InitialFileSettings.Boss.NOT_ADD_TO_ENEMY_ON_KILLS
-                        && group.ShallRevengeFor(target)
-                    )
-                    {
-                        group.AddEnemy(aggressor, EBotEnemyCause.AddEnemyToAllGroupsInBotZone);
-                    }
-                }
-            }
-
             return false; // Skip original
         }
+
+        // If you damage yourself exit early as we dont want to try add ourself to our own enemy list
+        if (aggressor.IsYourPlayer && target.IsYourPlayer)
+        {
+            return false; // Skip original
+        }
+
+        BotZone botZone = groupOwner.AIData.BotOwner.BotsGroup.BotZone;
+        foreach (var item in __instance.Groups())
+        {
+            if (item.Key != botZone)
+            {
+                continue;
+            }
+
+            foreach (var group in item.Value.GetGroups(notNull: true))
+            {
+                bool differentSide = aggressor.Side != group.Side;
+                bool sameSide = aggressor.Side == target.Side;
+
+                if (
+                    !group.HaveFollowTarget(aggressor)
+                    && !group.Enemies.ContainsKey(aggressor)
+                    && (differentSide || !sameSide)
+                    && !group.HaveMemberWithRole(WildSpawnType.gifter)
+                    && !group.HaveMemberWithRole(WildSpawnType.sectantWarrior)
+                    && !group.HaveMemberWithRole(WildSpawnType.sectantPriest)
+                    && !group.InitialFileSettings.Boss.NOT_ADD_TO_ENEMY_ON_KILLS
+                    && group.ShallRevengeFor(target)
+                )
+                {
+                    group.AddEnemy(aggressor, EBotEnemyCause.AddEnemyToAllGroupsInBotZone);
+                }
+            }
+        }
+
+        return false; // Skip original
     }
 }

@@ -5,64 +5,63 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+/// <summary>
+/// Copy over scav-only quests and wishlist from PMC profile to scav profile on pre-raid screen
+/// Allows scavs to see and complete quests and see favourited items
+/// </summary>
+public class CopyPmcQuestsAndWishlistToPlayerScavPatch : ModulePatch
 {
-    /// <summary>
-    /// Copy over scav-only quests and wishlist from PMC profile to scav profile on pre-raid screen
-    /// Allows scavs to see and complete quests and see favourited items
-    /// </summary>
-    public class CopyPmcQuestsAndWishlistToPlayerScavPatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
+        return AccessTools
+            .GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
+            .SingleCustom(m =>
+                m.Name == nameof(MatchmakerOfflineRaidScreen.Show)
+                && m.GetParameters().Length == 1
+            );
+    }
+
+    [PatchPostfix]
+    public static void PatchPostfix()
+    {
+        var pmcProfile = PatchConstants.BackEndSession.Profile;
+        var scavProfile = PatchConstants.BackEndSession.ProfileOfPet;
+
+        // Iterate over all quests on pmc that are flagged as being for scavs
+        foreach (
+            var quest in pmcProfile.QuestsData.Where(x =>
+                x.Template?.PlayerGroup == EFT.EPlayerGroup.Scav
+            )
+        )
         {
-            return AccessTools
-                .GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
-                .SingleCustom(m =>
-                    m.Name == nameof(MatchmakerOfflineRaidScreen.Show)
-                    && m.GetParameters().Length == 1
-                );
+            // If quest doesn't exist in scav but does in pmc, add it
+            var any = false;
+            foreach (var questInProfile in scavProfile.QuestsData)
+            {
+                if (questInProfile.Id == quest.Id)
+                {
+                    any = true;
+                    break;
+                }
+            }
+
+            if (!any)
+            {
+                scavProfile.QuestsData.Add(quest);
+            }
         }
 
-        [PatchPostfix]
-        public static void PatchPostfix()
+        // Copy over all wishlist items from pmc to scav
+        foreach (var KvP in pmcProfile.WishlistManager.GetWishlist())
         {
-            var pmcProfile = PatchConstants.BackEndSession.Profile;
-            var scavProfile = PatchConstants.BackEndSession.ProfileOfPet;
-
-            // Iterate over all quests on pmc that are flagged as being for scavs
-            foreach (
-                var quest in pmcProfile.QuestsData.Where(x =>
-                    x.Template?.PlayerGroup == EFT.EPlayerGroup.Scav
-                )
-            )
+            if (scavProfile.WishlistManager.GetWishlist().ContainsKey(KvP.Key))
             {
-                // If quest doesn't exist in scav but does in pmc, add it
-                var any = false;
-                foreach (var questInProfile in scavProfile.QuestsData)
-                {
-                    if (questInProfile.Id == quest.Id)
-                    {
-                        any = true;
-                        break;
-                    }
-                }
-
-                if (!any)
-                {
-                    scavProfile.QuestsData.Add(quest);
-                }
+                continue;
             }
 
-            // Copy over all wishlist items from pmc to scav
-            foreach (var KvP in pmcProfile.WishlistManager.GetWishlist())
-            {
-                if (scavProfile.WishlistManager.GetWishlist().ContainsKey(KvP.Key))
-                {
-                    continue;
-                }
-
-                scavProfile.WishlistManager.AddToWishlist(KvP.Key, KvP.Value, true);
-            }
+            scavProfile.WishlistManager.AddToWishlist(KvP.Key, KvP.Value, true);
         }
     }
 }

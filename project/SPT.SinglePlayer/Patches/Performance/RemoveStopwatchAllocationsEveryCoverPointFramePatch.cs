@@ -5,36 +5,35 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
-namespace SPT.SinglePlayer.Patches.Performance
+namespace SPT.SinglePlayer.Patches.Performance;
+
+/// <summary>
+/// Transpiler used to stop the allocation of a new <see cref="Stopwatch"/> during <see cref="CoverPointMaster.method_0(CoverSearchData)"/> <br/>
+/// To update transpiler, look for: <br/>
+/// - New allocation of <see cref="Stopwatch"/> <br/>
+/// - <see cref="Stopwatch.Start"/> and <see cref="Stopwatch.Stop"/> <br/>
+/// </summary>
+public class RemoveStopwatchAllocationsEveryCoverPointFramePatch : ModulePatch
 {
-    /// <summary>
-    /// Transpiler used to stop the allocation of a new <see cref="Stopwatch"/> during <see cref="CoverPointMaster.method_0(CoverSearchData)"/> <br/>
-    /// To update transpiler, look for: <br/>
-    /// - New allocation of <see cref="Stopwatch"/> <br/>
-    /// - <see cref="Stopwatch.Start"/> and <see cref="Stopwatch.Stop"/> <br/>
-    /// </summary>
-    public class RemoveStopwatchAllocationsEveryCoverPointFramePatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
-        {
-            return AccessTools.Method(typeof(CoverPointMaster), nameof(CoverPointMaster.method_0));
-        }
+        return AccessTools.Method(typeof(CoverPointMaster), nameof(CoverPointMaster.method_0));
+    }
 
-        [PatchTranspiler]
-        public static IEnumerable<CodeInstruction> Transpile(
-            IEnumerable<CodeInstruction> instructions
-        )
-        {
-            List<CodeInstruction> codeList = instructions.ToList();
-            // This is the line that stops the Stopwatch
-            codeList[69].opcode = OpCodes.Nop;
+    [PatchTranspiler]
+    public static IEnumerable<CodeInstruction> Transpile(
+        IEnumerable<CodeInstruction> instructions
+    )
+    {
+        List<CodeInstruction> codeList = instructions.ToList();
+        // This is the line that stops the Stopwatch
+        codeList[69].opcode = OpCodes.Nop;
 
-            // These lines stop the allocation and Start() of the Stopwatch
-            codeList[12].opcode = OpCodes.Nop;
-            codeList[11].opcode = OpCodes.Nop;
-            codeList[10].opcode = OpCodes.Nop;
+        // These lines stop the allocation and Start() of the Stopwatch
+        codeList[12].opcode = OpCodes.Nop;
+        codeList[11].opcode = OpCodes.Nop;
+        codeList[10].opcode = OpCodes.Nop;
 
-            return codeList;
-        }
+        return codeList;
     }
 }

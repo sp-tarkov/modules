@@ -1,7 +1,6 @@
-﻿namespace SPT.Custom.Models
+﻿namespace SPT.Custom.Models;
+
+public struct VersionResponse
 {
-    public struct VersionResponse
-    {
-        public string Version { get; set; }
-    }
+    public string Version { get; set; }
 }
