@@ -4,157 +4,156 @@ using System.Text;
 using System.Threading.Tasks;
 using SPT.Common.Utils;
 
-namespace SPT.Common.Http
+namespace SPT.Common.Http;
+
+// NOTE: Don't dispose this, keep a reference for the lifetime of the
+//       application.
+public class Client : IDisposable
 {
-    // NOTE: Don't dispose this, keep a reference for the lifetime of the
-    //       application.
-    public class Client : IDisposable
+    protected readonly HttpClient _httpv;
+    protected readonly string _address;
+    protected readonly string _accountId;
+    protected readonly int _retries;
+
+    public Client(string address, string accountId, int retries = 3)
     {
-        protected readonly HttpClient _httpv;
-        protected readonly string _address;
-        protected readonly string _accountId;
-        protected readonly int _retries;
+        _address = address;
+        _accountId = accountId;
+        _retries = retries;
 
-        public Client(string address, string accountId, int retries = 3)
+        var handler = new HttpClientHandler
         {
-            _address = address;
-            _accountId = accountId;
-            _retries = retries;
+            // set cookies in header instead
+            UseCookies = false,
 
-            var handler = new HttpClientHandler
+            // Bypass Cert validation in the httpServer - discard arguments as we dont use them
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+        };
+
+        _httpv = new HttpClient(handler);
+    }
+
+    private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+    {
+        return new HttpRequestMessage()
+        {
+            Method = method,
+            RequestUri = new Uri(_address + path),
+            Headers = { { "Cookie", $"PHPSESSID={_accountId}" } },
+        };
+    }
+
+    protected async Task<byte[]> SendAsync(
+        HttpMethod method,
+        string path,
+        byte[] data,
+        bool zipped = true
+    )
+    {
+        using var request = GetNewRequest(method, path);
+
+        if (data != null)
+        {
+            // Add payload to request
+            if (zipped)
             {
-                // set cookies in header instead
-                UseCookies = false,
+                data = Zlib.Compress(data, ZlibCompression.Maximum);
+            }
 
-                // Bypass Cert validation in the httpServer - discard arguments as we dont use them
-                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-            };
-
-            _httpv = new HttpClient(handler);
+            request.Content = new ByteArrayContent(data);
         }
 
-        private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+        // Send request
+        using var response = await _httpv.SendAsync(request);
+
+        if (!response.IsSuccessStatusCode)
         {
-            return new HttpRequestMessage()
-            {
-                Method = method,
-                RequestUri = new Uri(_address + path),
-                Headers = { { "Cookie", $"PHPSESSID={_accountId}" } },
-            };
+            throw new Exception($"Http response status code: {response.StatusCode}");
         }
 
-        protected async Task<byte[]> SendAsync(
-            HttpMethod method,
-            string path,
-            byte[] data,
-            bool zipped = true
-        )
+        var body = await response.Content.ReadAsByteArrayAsync();
+
+        if (Zlib.IsCompressed(body))
         {
-            using var request = GetNewRequest(method, path);
-
-            if (data != null)
-            {
-                // Add payload to request
-                if (zipped)
-                {
-                    data = Zlib.Compress(data, ZlibCompression.Maximum);
-                }
-
-                request.Content = new ByteArrayContent(data);
-            }
-
-            // Send request
-            using var response = await _httpv.SendAsync(request);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Http response status code: {response.StatusCode}");
-            }
-
-            var body = await response.Content.ReadAsByteArrayAsync();
-
-            if (Zlib.IsCompressed(body))
-            {
-                body = Zlib.Decompress(body);
-            }
-
-            if (body == null)
-            {
-                // Payload doesn't contain data
-                var code = response.StatusCode.ToString();
-                body = Encoding.UTF8.GetBytes(code);
-            }
-
-            return body;
+            body = Zlib.Decompress(body);
         }
 
-        protected async Task<byte[]> SendWithRetriesAsync(
-            HttpMethod method,
-            string path,
-            byte[] data,
-            bool compress = true
-        )
+        if (body == null)
         {
-            // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
-            for (var i = 0; i <= _retries; i++)
+            // Payload doesn't contain data
+            var code = response.StatusCode.ToString();
+            body = Encoding.UTF8.GetBytes(code);
+        }
+
+        return body;
+    }
+
+    protected async Task<byte[]> SendWithRetriesAsync(
+        HttpMethod method,
+        string path,
+        byte[] data,
+        bool compress = true
+    )
+    {
+        // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
+        for (var i = 0; i <= _retries; i++)
+        {
+            try
             {
-                try
+                return await SendAsync(method, path, data, compress);
+            }
+            catch (Exception ex)
+            {
+                if (i > _retries)
                 {
-                    return await SendAsync(method, path, data, compress);
-                }
-                catch (Exception ex)
-                {
-                    if (i > _retries)
-                    {
-                        throw ex;
-                    }
+                    throw ex;
                 }
             }
-
-            return null;
         }
 
-        public async Task<byte[]> GetAsync(string path)
-        {
-            return await SendWithRetriesAsync(HttpMethod.Get, path, null);
-        }
+        return null;
+    }
 
-        public byte[] Get(string path)
-        {
-            return Task.Run(() => GetAsync(path)).Result;
-        }
+    public async Task<byte[]> GetAsync(string path)
+    {
+        return await SendWithRetriesAsync(HttpMethod.Get, path, null);
+    }
 
-        public async Task<byte[]> PostAsync(string path, byte[] data, bool compress = true)
-        {
-            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
-        }
+    public byte[] Get(string path)
+    {
+        return Task.Run(() => GetAsync(path)).Result;
+    }
 
-        public byte[] Post(string path, byte[] data, bool compress = true)
-        {
-            return Task.Run(() => PostAsync(path, data, compress)).Result;
-        }
+    public async Task<byte[]> PostAsync(string path, byte[] data, bool compress = true)
+    {
+        return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
+    }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>Returns status code as bytes</returns>
-        public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
-        {
-            return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
-        }
+    public byte[] Post(string path, byte[] data, bool compress = true)
+    {
+        return Task.Run(() => PostAsync(path, data, compress)).Result;
+    }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns>Returns status code as bytes</returns>
-        public byte[] Put(string path, byte[] data, bool compress = true)
-        {
-            return Task.Run(() => PutAsync(path, data, compress)).Result;
-        }
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns>Returns status code as bytes</returns>
+    public async Task<byte[]> PutAsync(string path, byte[] data, bool compress = true)
+    {
+        return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
+    }
 
-        public void Dispose()
-        {
-            _httpv.Dispose();
-        }
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns>Returns status code as bytes</returns>
+    public byte[] Put(string path, byte[] data, bool compress = true)
+    {
+        return Task.Run(() => PutAsync(path, data, compress)).Result;
+    }
+
+    public void Dispose()
+    {
+        _httpv.Dispose();
     }
 }

@@ -8,84 +8,83 @@ using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using SPT.SinglePlayer.Utils.MainMenu;
 
-namespace SPT.SinglePlayer
+namespace SPT.SinglePlayer;
+
+[BepInPlugin("com.SPT.singleplayer", "SPT.Singleplayer", SPTPluginInfo.PLUGIN_VERSION)]
+public class SPTSingleplayerPlugin : BaseUnityPlugin
 {
-    [BepInPlugin("com.SPT.singleplayer", "SPT.Singleplayer", SPTPluginInfo.PLUGIN_VERSION)]
-    public class SPTSingleplayerPlugin : BaseUnityPlugin
+    public void Awake()
     {
-        public void Awake()
+        Logger.LogInfo("Loading: SPT.SinglePlayer");
+
+        try
         {
-            Logger.LogInfo("Loading: SPT.SinglePlayer");
+            // TODO: check if these patches are needed
+            new TinnitusFixPatch().Enable(); // Probably needed
+            new EmptyInfilFixPatch().Enable();
+            new OverrideMaxAiAliveInRaidValuePatch().Enable();
 
-            try
-            {
-                // TODO: check if these patches are needed
-                new TinnitusFixPatch().Enable(); // Probably needed
-                new EmptyInfilFixPatch().Enable();
-                new OverrideMaxAiAliveInRaidValuePatch().Enable();
+            // Still need
+            new FixPostScavRaidXpShowingZeroPatch().Enable();
+            new DisablePMCExtractsForScavsPatch().Enable();
+            new ScavExfilPatch().Enable();
+            new ScavProfileLoadPatch().Enable();
+            new ScavPrefabLoadPatch().Enable();
+            new LoadOfflineRaidScreenPatch().Enable();
+            new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
+            new PluginErrorNotifierPatch().Enable();
+            new RemoveUsedBotProfilePatch().Enable();
+            new ScavLateStartPatch().Enable();
+            new ScavSellAllPriceStorePatch().Enable();
+            new ScavSellAllRequestPatch().Enable();
+            new ScavRepAdjustmentPatch().Enable();
 
-                // Still need
-                new FixPostScavRaidXpShowingZeroPatch().Enable();
-                new DisablePMCExtractsForScavsPatch().Enable();
-                new ScavExfilPatch().Enable();
-                new ScavProfileLoadPatch().Enable();
-                new ScavPrefabLoadPatch().Enable();
-                new LoadOfflineRaidScreenPatch().Enable();
-                new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
-                new PluginErrorNotifierPatch().Enable();
-                new RemoveUsedBotProfilePatch().Enable();
-                new ScavLateStartPatch().Enable();
-                new ScavSellAllPriceStorePatch().Enable();
-                new ScavSellAllRequestPatch().Enable();
-                new ScavRepAdjustmentPatch().Enable();
+            // 3.10.0
+            new DisableWelcomeToPVEModeMessagePatch().Enable();
+            new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
+            new EnableRefForPVEPatch().Enable();
+            new EnableRefIntermScreenPatch().Enable();
+            new EnablePlayerScavPatch().Enable();
+            new ScavFoundInRaidPatch().Enable();
+            new GetProfileAtEndOfRaidPatch().Enable();
+            new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
+            new RemoveStashUpgradeLabelPatch().Enable();
+            new RemoveClothingItemExternalObtainLabelPatch().Enable();
+            new ForceRaidModeToLocalPatch().Enable();
+            new ScavIsPlayerEnemyPatch().Enable();
+            new FirearmControllerShowIncompatibleNotificationClass().Enable();
+            new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
 
-                // 3.10.0
-                new DisableWelcomeToPVEModeMessagePatch().Enable();
-                new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
-                new EnableRefForPVEPatch().Enable();
-                new EnableRefIntermScreenPatch().Enable();
-                new EnablePlayerScavPatch().Enable();
-                new ScavFoundInRaidPatch().Enable();
-                new GetProfileAtEndOfRaidPatch().Enable();
-                new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
-                new RemoveStashUpgradeLabelPatch().Enable();
-                new RemoveClothingItemExternalObtainLabelPatch().Enable();
-                new ForceRaidModeToLocalPatch().Enable();
-                new ScavIsPlayerEnemyPatch().Enable();
-                new FirearmControllerShowIncompatibleNotificationClass().Enable();
-                new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
+            // 3.11.0
+            new ScavPrestigeFixPatch().Enable();
+            new DisableDevMaskCheckPatch().Enable();
+            new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
+            new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
+            new DisableUseBSGServersCheckbox().Enable();
+            new PmcBotSidePatch().Enable();
+            new QuestAchievementRewardInRaidPatch().Enable();
+            new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
-                // 3.11.0
-                new ScavPrestigeFixPatch().Enable();
-                new DisableDevMaskCheckPatch().Enable();
-                new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
-                new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
-                new DisableUseBSGServersCheckbox().Enable();
-                new PmcBotSidePatch().Enable();
-                new QuestAchievementRewardInRaidPatch().Enable();
-                new FixUnityWarningSpamFromAirdropsPatch().Enable();
-
-                // 4.0.0
-                ReadyButtonPatches.Patch();
-                new DisableDiscardLimitsPatch().Enable();
-                new DisableBuffLoggingPatch().Enable();
-                new RemoveStashUpgradeLabelPatch2().Enable();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(
-                    $"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED"
-                );
-                Logger.LogError($"{GetType().Name}: {ex}");
-                throw;
-            }
-
-            Logger.LogInfo("Completed: SPT.SinglePlayer");
+            // 4.0.0
+            ReadyButtonPatches.Patch();
+            new DisableDiscardLimitsPatch().Enable();
+            new DisableBuffLoggingPatch().Enable();
+            new RemoveStashUpgradeLabelPatch2().Enable();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(
+                $"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED"
+            );
+            Logger.LogError($"{GetType().Name}: {ex}");
+            throw;
         }
 
-        public void Start()
-        {
-            TraderServiceManager.GetModdedTraderData();
-        }
+        Logger.LogInfo("Completed: SPT.SinglePlayer");
+    }
+
+    public void Start()
+    {
+        TraderServiceManager.GetModdedTraderData();
     }
 }

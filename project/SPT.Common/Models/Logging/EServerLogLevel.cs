@@ -1,14 +1,13 @@
-﻿namespace SPT.Common.Models.Logging
+﻿namespace SPT.Common.Models.Logging;
+
+public enum EServerLogLevel
 {
-    public enum EServerLogLevel
-    {
-        Fatal,
-        Error,
-        Warn,
-        Success,
-        Info,
-        Custom,
-        Debug,
-        Trace,
-    }
+    Fatal,
+    Error,
+    Warn,
+    Success,
+    Info,
+    Custom,
+    Debug,
+    Trace,
 }

@@ -5,27 +5,26 @@ using SPT.Core.Models;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 
-namespace SPT.Core.Patches
+namespace SPT.Core.Patches;
+
+public class ConsistencySinglePatch : ModulePatch
 {
-    public class ConsistencySinglePatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
-        {
-            return PatchConstants
-                .FilesCheckerTypes.SingleCustom(x => x.Name == "ConsistencyController")
-                .GetMethods()
-                .SingleCustom(x =>
-                    x.Name == "EnsureConsistencySingle"
-                    && x.ReturnType == typeof(Task<ICheckResult>)
-                );
-        }
+        return PatchConstants
+            .FilesCheckerTypes.SingleCustom(x => x.Name == "ConsistencyController")
+            .GetMethods()
+            .SingleCustom(x =>
+                x.Name == "EnsureConsistencySingle"
+                && x.ReturnType == typeof(Task<ICheckResult>)
+            );
+    }
 
-        [PatchPrefix]
-        private static bool PatchPrefix(ref object __result)
-        {
-            __result = Task.FromResult<ICheckResult>(new FakeFileCheckerResult());
+    [PatchPrefix]
+    private static bool PatchPrefix(ref object __result)
+    {
+        __result = Task.FromResult<ICheckResult>(new FakeFileCheckerResult());
 
-            return false; // Skip original
-        }
+        return false; // Skip original
     }
 }

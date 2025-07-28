@@ -1,9 +1,8 @@
 ﻿using UnityEngine.Networking;
 
-namespace SPT.Core.Models
+namespace SPT.Core.Models;
+
+public class FakeCertificateHandler : CertificateHandler
 {
-    public class FakeCertificateHandler : CertificateHandler
-    {
-        protected override bool ValidateCertificate(byte[] certificateData) => true;
-    }
+    protected override bool ValidateCertificate(byte[] certificateData) => true;
 }
