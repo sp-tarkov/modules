@@ -10,7 +10,8 @@ namespace SPT.Common.Http;
 //       application.
 public class Client : IDisposable
 {
-    protected readonly HttpClient _httpv;
+    public HttpClient HttpClient { get; private set; }
+
     protected readonly string _address;
     protected readonly string _accountId;
     protected readonly int _retries;
@@ -30,7 +31,7 @@ public class Client : IDisposable
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
         };
 
-        _httpv = new HttpClient(handler);
+        HttpClient = new HttpClient(handler);
     }
 
     private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
@@ -43,12 +44,7 @@ public class Client : IDisposable
         };
     }
 
-    protected async Task<byte[]> SendAsync(
-        HttpMethod method,
-        string path,
-        byte[] data,
-        bool zipped = true
-    )
+    protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
     {
         using var request = GetNewRequest(method, path);
 
@@ -64,7 +60,7 @@ public class Client : IDisposable
         }
 
         // Send request
-        using var response = await _httpv.SendAsync(request);
+        using var response = await HttpClient.SendAsync(request);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -88,12 +84,7 @@ public class Client : IDisposable
         return body;
     }
 
-    protected async Task<byte[]> SendWithRetriesAsync(
-        HttpMethod method,
-        string path,
-        byte[] data,
-        bool compress = true
-    )
+    protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
     {
         // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
         for (var i = 0; i <= _retries; i++)
@@ -154,6 +145,6 @@ public class Client : IDisposable
 
     public void Dispose()
     {
-        _httpv.Dispose();
+        HttpClient.Dispose();
     }
 }
