@@ -16,10 +16,7 @@ public class PmcBotSidePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BotCreationDataClass),
-            nameof(BotCreationDataClass.ChooseProfile)
-        );
+        return AccessTools.Method(typeof(BotCreationDataClass), nameof(BotCreationDataClass.ChooseProfile));
     }
 
     [PatchPostfix]

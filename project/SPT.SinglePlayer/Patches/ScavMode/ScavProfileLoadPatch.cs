@@ -35,10 +35,7 @@ public class ScavProfileLoadPatch : ModulePatch
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> PatchTranspile(
-        ILGenerator generator,
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
 
@@ -61,9 +58,7 @@ public class ScavProfileLoadPatch : ModulePatch
         // Patch failed.
         if (searchIndex == -1)
         {
-            Logger.LogError(
-                $"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code."
-            );
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code.");
             return instructions;
         }
 
@@ -82,24 +77,13 @@ public class ScavProfileLoadPatch : ModulePatch
                 new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
                 new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),
                 new Code(OpCodes.Brfalse, brFalseLabel),
-                new Code(
-                    OpCodes.Callvirt,
-                    PatchConstants.BackendProfileInterfaceType,
-                    "get_Profile"
-                ),
+                new Code(OpCodes.Callvirt, PatchConstants.BackendProfileInterfaceType, "get_Profile"),
                 new Code(OpCodes.Br, brLabel),
-                new CodeWithLabel(
-                    OpCodes.Callvirt,
-                    brFalseLabel,
-                    PatchConstants.BackendProfileInterfaceType,
-                    "get_ProfileOfPet"
-                ),
+                new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.BackendProfileInterfaceType, "get_ProfileOfPet"),
                 new CodeWithLabel(
                     OpCodes.Stfld,
                     brLabel,
-                    typeof(TarkovApplication)
-                        .GetNestedTypes(BindingFlags.Public)
-                        .SingleCustom(IsTargetNestedType),
+                    typeof(TarkovApplication).GetNestedTypes(BindingFlags.Public).SingleCustom(IsTargetNestedType),
                     "profile"
                 ),
             }
@@ -114,8 +98,8 @@ public class ScavProfileLoadPatch : ModulePatch
     private static bool IsTargetNestedType(Type nestedType)
     {
         return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Any()
-               && nestedType.GetFields().Length == 5
-               && nestedType.GetField("savageProfile") != null
-               && nestedType.GetField("profile") != null;
+            && nestedType.GetFields().Length == 5
+            && nestedType.GetField("savageProfile") != null
+            && nestedType.GetField("profile") != null;
     }
 }

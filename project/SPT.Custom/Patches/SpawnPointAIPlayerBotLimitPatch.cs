@@ -18,10 +18,7 @@ public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(SpawnPoint),
-            nameof(SpawnPoint.IsInPlayersIndividualLimits)
-        );
+        return AccessTools.Method(typeof(SpawnPoint), nameof(SpawnPoint.IsInPlayersIndividualLimits));
     }
 
     /// <summary>
@@ -32,11 +29,7 @@ public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
     /// <param name="___Position"></param>
     /// <returns></returns>
     [PatchPrefix]
-    public static bool PatchPrefix(
-        ref bool __result,
-        BotCreationDataClass creationData,
-        Vector3 ___Position
-    )
+    public static bool PatchPrefix(ref bool __result, BotCreationDataClass creationData, Vector3 ___Position)
     {
         if (creationData == null)
         {
@@ -47,10 +40,7 @@ public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
         foreach (Profile profile in creationData.Profiles)
         {
             if (
-                (
-                    profile.Info.Settings.Role.IsBossOrFollower()
-                    || profile.Info.Settings.Role == WildSpawnType.marksman
-                )
+                (profile.Info.Settings.Role.IsBossOrFollower() || profile.Info.Settings.Role == WildSpawnType.marksman)
                 && profile.Info.Settings.Role != WildSpawnType.assaultGroup
             )
             {
@@ -79,10 +69,7 @@ public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
 
             if (closestPlayer != null)
             {
-                __result = botsController.BotSpawnLimiter.IsInPlayerSpawnLimit(
-                    closestPlayer,
-                    creationData
-                );
+                __result = botsController.BotSpawnLimiter.IsInPlayerSpawnLimit(closestPlayer, creationData);
                 return false;
             }
         }

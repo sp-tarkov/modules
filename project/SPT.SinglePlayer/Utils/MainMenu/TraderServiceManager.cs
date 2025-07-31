@@ -10,21 +10,17 @@ namespace SPT.SinglePlayer.Utils.MainMenu;
 
 public static class TraderServiceManager
 {
-    private static Dictionary<string, Profile.ETraderServiceSource> _traderIdToTraderServiceDict =
-        new()
-        {
-            { "5ac3b934156ae10c4430e83c", Profile.ETraderServiceSource.Ragman },
-            { "6617beeaa9cfa777ca915b7c", Profile.ETraderServiceSource.ArenaManager },
-        };
+    private static Dictionary<string, Profile.ETraderServiceSource> _traderIdToTraderServiceDict = new()
+    {
+        { "5ac3b934156ae10c4430e83c", Profile.ETraderServiceSource.Ragman },
+        { "6617beeaa9cfa777ca915b7c", Profile.ETraderServiceSource.ArenaManager },
+    };
 
     private static FieldInfo _traderIdToTraderServiceField;
 
     static TraderServiceManager()
     {
-        _traderIdToTraderServiceField = AccessTools.Field(
-            typeof(Profile.TraderInfo),
-            "TraderIdToTraderService"
-        );
+        _traderIdToTraderServiceField = AccessTools.Field(typeof(Profile.TraderInfo), "TraderIdToTraderService");
     }
 
     public static void GetModdedTraderData()
@@ -42,9 +38,6 @@ public static class TraderServiceManager
             _traderIdToTraderServiceDict.Add(trader, Profile.ETraderServiceSource.Ragman);
         }
 
-        _traderIdToTraderServiceField.SetValue(
-            _traderIdToTraderServiceField,
-            _traderIdToTraderServiceDict
-        );
+        _traderIdToTraderServiceField.SetValue(_traderIdToTraderServiceField, _traderIdToTraderServiceDict);
     }
 }

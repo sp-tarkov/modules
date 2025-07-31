@@ -42,9 +42,7 @@ public class StaticLootDumper : ModulePatch
                 };
                 if (containersData.containersGroups.ContainsKey(containersGroup.Id))
                 {
-                    Logger.LogError(
-                        $"Container group ID {containersGroup.Id} already exists in dictionary!"
-                    );
+                    Logger.LogError($"Container group ID {containersGroup.Id} already exists in dictionary!");
                 }
                 else
                 {
@@ -70,10 +68,7 @@ public class StaticLootDumper : ModulePatch
                 }
                 else
                 {
-                    containersData.containers.Add(
-                        container.Id,
-                        new SPTContainer { groupId = container.LootableContainersGroupId }
-                    );
+                    containersData.containers.Add(container.Id, new SPTContainer { groupId = container.LootableContainersGroupId });
                 }
             });
 
@@ -110,7 +105,6 @@ public class SPTContainersGroup
 
 public class SPTContainersData
 {
-    public Dictionary<string, SPTContainersGroup> containersGroups =
-        new Dictionary<string, SPTContainersGroup>();
+    public Dictionary<string, SPTContainersGroup> containersGroups = new Dictionary<string, SPTContainersGroup>();
     public Dictionary<string, SPTContainer> containers = new Dictionary<string, SPTContainer>();
 }

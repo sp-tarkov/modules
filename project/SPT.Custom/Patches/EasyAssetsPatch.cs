@@ -54,15 +54,7 @@ public class EasyAssetsPatch : ModulePatch
     )
     {
         var easyAsset = gameObject.AddComponent<EasyAssets>();
-        __result = Init(
-            easyAsset,
-            bundleLock,
-            defaultKey,
-            rootPath,
-            platformName,
-            shouldExclude,
-            bundleCheck
-        );
+        __result = Init(easyAsset, bundleLock, defaultKey, rootPath, platformName, shouldExclude, bundleCheck);
 
         return false; // Skip original
     }
@@ -78,13 +70,10 @@ public class EasyAssetsPatch : ModulePatch
     )
     {
         // platform manifest
-        var eftBundlesPath =
-            $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
+        var eftBundlesPath = $"{rootPath.Replace("file:///", string.Empty).Replace("file://", string.Empty)}/{platformName}/";
         var filepath = eftBundlesPath + platformName;
         var jsonfile = filepath + ".json";
-        var manifest = VFS.Exists(jsonfile)
-            ? await GetManifestJson(jsonfile)
-            : await GetManifestBundle(filepath);
+        var manifest = VFS.Exists(jsonfile) ? await GetManifestJson(jsonfile) : await GetManifestBundle(filepath);
 
         // lazy-initialize SPT bundles
         if (BundleManager.Bundles.Keys.Count == 0)
@@ -93,10 +82,7 @@ public class EasyAssetsPatch : ModulePatch
         }
 
         // create bundles array from obfuscated type
-        var bundleNames = manifest
-            .GetAllAssetBundles()
-            .Union(BundleManager.Bundles.Keys)
-            .ToArray();
+        var bundleNames = manifest.GetAllAssetBundles().Union(BundleManager.Bundles.Keys).ToArray();
 
         // create bundle lock
         if (bundleLock == null)
@@ -154,9 +140,7 @@ public class EasyAssetsPatch : ModulePatch
     // - EscapeFromTarkov_Data/StreamingAssets/Windows/dissonancesetup
     // - EscapeFromTarkov_Data/StreamingAssets/Windows/Doge
     // - EscapeFromTarkov_Data/StreamingAssets/Windows/shaders
-    private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(
-        string filepath
-    )
+    private static async Task<CompatibilityAssetBundleManifest> GetManifestBundle(string filepath)
     {
         var manifestLoading = AssetBundle.LoadFromFileAsync(filepath);
         await manifestLoading.Await();

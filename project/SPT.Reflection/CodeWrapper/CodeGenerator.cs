@@ -30,16 +30,9 @@ public class CodeGenerator
             return new CodeInstruction(code.OpCode) { labels = GetLabelList(code) };
         }
 
-        if (
-            code.OpCode == OpCodes.Ldfld
-            || code.OpCode == OpCodes.Ldflda
-            || code.OpCode == OpCodes.Stfld
-        )
+        if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Ldflda || code.OpCode == OpCodes.Stfld)
         {
-            return new CodeInstruction(
-                code.OpCode,
-                AccessTools.Field(code.CallerType, code.OperandTarget as string)
-            )
+            return new CodeInstruction(code.OpCode, AccessTools.Field(code.CallerType, code.OperandTarget as string))
             {
                 labels = GetLabelList(code),
             };
@@ -47,14 +40,7 @@ public class CodeGenerator
 
         if (code.OpCode == OpCodes.Call || code.OpCode == OpCodes.Callvirt)
         {
-            return new CodeInstruction(
-                code.OpCode,
-                AccessTools.Method(
-                    code.CallerType,
-                    code.OperandTarget as string,
-                    code.Parameters
-                )
-            )
+            return new CodeInstruction(code.OpCode, AccessTools.Method(code.CallerType, code.OperandTarget as string, code.Parameters))
             {
                 labels = GetLabelList(code),
             };
@@ -62,10 +48,7 @@ public class CodeGenerator
 
         if (code.OpCode == OpCodes.Box)
         {
-            return new CodeInstruction(code.OpCode, code.CallerType)
-            {
-                labels = GetLabelList(code),
-            };
+            return new CodeInstruction(code.OpCode, code.CallerType) { labels = GetLabelList(code) };
         }
 
         if (
@@ -77,22 +60,12 @@ public class CodeGenerator
             || code.OpCode == OpCodes.Br_S
         )
         {
-            return new CodeInstruction(code.OpCode, code.OperandTarget)
-            {
-                labels = GetLabelList(code),
-            };
+            return new CodeInstruction(code.OpCode, code.OperandTarget) { labels = GetLabelList(code) };
         }
 
         if (code.OpCode == OpCodes.Ldftn)
         {
-            return new CodeInstruction(
-                code.OpCode,
-                AccessTools.Method(
-                    code.CallerType,
-                    code.OperandTarget as string,
-                    code.Parameters
-                )
-            )
+            return new CodeInstruction(code.OpCode, AccessTools.Method(code.CallerType, code.OperandTarget as string, code.Parameters))
             {
                 labels = GetLabelList(code),
             };
@@ -102,17 +75,14 @@ public class CodeGenerator
         {
             return new CodeInstruction(
                 code.OpCode,
-                code.CallerType.GetConstructors()
-                    .FirstOrDefault(x => x.GetParameters().Length == code.Parameters.Length)
+                code.CallerType.GetConstructors().FirstOrDefault(x => x.GetParameters().Length == code.Parameters.Length)
             )
             {
                 labels = GetLabelList(code),
             };
         }
 
-        throw new ArgumentException(
-            $"Code with OpCode {code.OpCode.ToString()} is not supported."
-        );
+        throw new ArgumentException($"Code with OpCode {code.OpCode.ToString()} is not supported.");
     }
 
     private static List<Label> GetLabelList(Code code)

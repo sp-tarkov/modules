@@ -8,10 +8,7 @@ public class DisableWelcomeToPVEModeMessagePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(PlayerPrefHelperClass),
-            nameof(PlayerPrefHelperClass.GetBoolForProfile)
-        );
+        return AccessTools.Method(typeof(PlayerPrefHelperClass), nameof(PlayerPrefHelperClass.GetBoolForProfile));
     }
 
     [PatchPrefix]

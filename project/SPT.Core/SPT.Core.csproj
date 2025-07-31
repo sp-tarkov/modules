@@ -10,27 +10,11 @@
     <Copyright>Copyright @ SPT 2025</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <Reference
-      Include="Assembly-CSharp"
-      HintPath="..\Shared\Hollowed\hollowed.dll"
-      Private="False"
-    />
-    <Reference
-      Include="Assembly-CSharp-firstpass"
-      HintPath="..\Shared\Managed\Assembly-CSharp-firstpass.dll"
-      Private="False"
-    />
-    <Reference
-      Include="FilesChecker"
-      HintPath="..\Shared\Managed\FilesChecker.dll"
-      Private="False"
-    />
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
+    <Reference Include="Assembly-CSharp-firstpass" HintPath="..\Shared\Managed\Assembly-CSharp-firstpass.dll" Private="False" />
+    <Reference Include="FilesChecker" HintPath="..\Shared\Managed\FilesChecker.dll" Private="False" />
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
-    <Reference
-      Include="UnityEngine.CoreModule"
-      HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll"
-      Private="False"
-    />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
     <Reference
       Include="UnityEngine.UnityWebRequestModule"
       HintPath="..\Shared\Managed\UnityEngine.UnityWebRequestModule.dll"
@@ -43,12 +27,7 @@
     />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference
-      Include="Microsoft.NETFramework.ReferenceAssemblies"
-      Version="1.0.3"
-      ExcludeAssets="runtime"
-      PrivateAssets="all"
-    >
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

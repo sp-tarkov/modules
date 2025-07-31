@@ -18,12 +18,7 @@ public class ScavPrestigeFixPatch : ModulePatch
     {
         return AccessTools.Constructor(
             typeof(LocalPrestigeControllerClass),
-            [
-                typeof(Profile),
-                typeof(InventoryController),
-                typeof(QuestBookClass),
-                typeof(ISession),
-            ],
+            [typeof(Profile), typeof(InventoryController), typeof(QuestBookClass), typeof(ISession)],
             false
         );
     }

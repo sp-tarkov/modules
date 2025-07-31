@@ -22,24 +22,15 @@ public class SptSpawnHelper
     {
         IEnumerable<ISpawnPoint> locationSpawnPoints = SpawnPointManagerClass.CreateFromScene();
 
-        var playerSpawns = locationSpawnPoints
-            .Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player))
-            .ToList();
-        this._playerSpawnPoints = locationSpawnPoints
-            .Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player))
-            .ToList();
+        var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
+        this._playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
     }
 
     public void PrintSpawnPoints()
     {
         foreach (var spawnPoint in _playerSpawnPoints)
         {
-            ConsoleScreen.Log(
-                "[SPT PMC Bot spawn] Spawn point "
-                + spawnPoint.Id
-                + " location is "
-                + spawnPoint.Position.ToString()
-            );
+            ConsoleScreen.Log("[SPT PMC Bot spawn] Spawn point " + spawnPoint.Id + " location is " + spawnPoint.Position.ToString());
         }
     }
 
@@ -92,10 +83,7 @@ public class PMCBotSpawnLocationPatch : ModulePatch
             // TODO: Allow for PMC bot groups?
             currentSpawnData.SpawnParams.ShallBeGroup = null;
             var spawnPointDetails = newSpawns[i];
-            var currentZone = __instance.GetClosestZone(
-                spawnPointDetails.Position,
-                out float _
-            );
+            var currentZone = __instance.GetClosestZone(spawnPointDetails.Position, out float _);
 
             // CorePointId of player spawns seems to always be 0. Bots will not activate properly if this ID is used
             // TODO: Verify if CorePointId of 1 is acceptable in all cases
@@ -103,16 +91,9 @@ public class PMCBotSpawnLocationPatch : ModulePatch
             ConsoleScreen.Log(
                 $"[SPT PMC Bot spawn] spawn point chosen: {spawnPointDetails.Name} Core point id was: {spawnPointDetails.CorePointId}"
             );
-            currentSpawnData.AddPosition(
-                spawnPointDetails.Position,
-                spawnPointDetails.CorePointId
-            );
+            currentSpawnData.AddPosition(spawnPointDetails.Position, spawnPointDetails.CorePointId);
 
-            __instance.SpawnBotsInZoneOnPositions(
-                newSpawns.GetRange(i, 1),
-                currentZone,
-                currentSpawnData
-            );
+            __instance.SpawnBotsInZoneOnPositions(newSpawns.GetRange(i, 1), currentZone, currentSpawnData);
         }
 
         return false; // Skip original

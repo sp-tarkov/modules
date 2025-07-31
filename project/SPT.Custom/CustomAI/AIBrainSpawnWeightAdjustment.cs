@@ -30,9 +30,7 @@ public class AIBrainSpawnWeightAdjustment
 
             if (!_aiBrainsCache!.playerScav.TryGetValue(currentMapName.ToLower(), out _))
             {
-                throw new Exception(
-                    $"Bots were refreshed from the server but the assault cache still doesn't contain data"
-                );
+                throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
             }
         }
 
@@ -64,9 +62,7 @@ public class AIBrainSpawnWeightAdjustment
 
             if (!_aiBrainsCache!.assault.TryGetValue(currentMapName.ToLower(), out _))
             {
-                throw new Exception(
-                    $"Bots were refreshed from the server but the assault cache still doesn't contain data"
-                );
+                throw new Exception($"Bots were refreshed from the server but the assault cache still doesn't contain data");
             }
         }
 
@@ -77,30 +73,18 @@ public class AIBrainSpawnWeightAdjustment
         );
         if (Enum.TryParse(randomType, out WildSpawnType newAiType))
         {
-            _logger.LogWarning(
-                $"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain"
-            );
+            _logger.LogWarning($"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain");
             return newAiType;
         }
 
-        _logger.LogWarning(
-            $"Unable to parse brain type: {randomType} for {botOwner.Profile.Info.Nickname}, using default"
-        );
+        _logger.LogWarning($"Unable to parse brain type: {randomType} for {botOwner.Profile.Info.Nickname}, using default");
 
         return WildSpawnType.assault;
     }
 
-    public WildSpawnType GetPmcWildSpawnType(
-        BotOwner botOwner_0,
-        WildSpawnType pmcType,
-        string currentMapName
-    )
+    public WildSpawnType GetPmcWildSpawnType(BotOwner botOwner_0, WildSpawnType pmcType, string currentMapName)
     {
-        if (
-            _aiBrainsCache == null
-            || !_aiBrainsCache.pmc.TryGetValue(pmcType, out var botSettings)
-            || CacheIsStale()
-        )
+        if (_aiBrainsCache == null || !_aiBrainsCache.pmc.TryGetValue(pmcType, out var botSettings) || CacheIsStale())
         {
             ResetCacheDate();
             HydrateCacheWithServerData();
@@ -114,10 +98,7 @@ public class AIBrainSpawnWeightAdjustment
         }
 
         var mapSettings = botSettings[currentMapName.ToLower()];
-        var randomType = WeightedRandom(
-            mapSettings.Keys.ToArray(),
-            mapSettings.Values.ToArray()
-        );
+        var randomType = WeightedRandom(mapSettings.Keys.ToArray(), mapSettings.Values.ToArray());
         if (Enum.TryParse(randomType, out WildSpawnType newAiType))
         {
             _logger.LogWarning(
@@ -166,10 +147,7 @@ public class AIBrainSpawnWeightAdjustment
     /// </summary>
     public class AIBrains
     {
-        public Dictionary<
-            WildSpawnType,
-            Dictionary<string, Dictionary<string, int>>
-        > pmc { get; set; }
+        public Dictionary<WildSpawnType, Dictionary<string, Dictionary<string, int>>> pmc { get; set; }
         public Dictionary<string, Dictionary<string, int>> assault { get; set; }
         public Dictionary<string, Dictionary<string, int>> playerScav { get; set; }
     }

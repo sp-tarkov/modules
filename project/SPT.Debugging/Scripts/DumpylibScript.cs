@@ -80,11 +80,7 @@ public class DumpylibScript : MonoBehaviour
                     TimeFlowType = ETimeFlowType.x1,
                     HourOfDay = -1,
                 },
-                BotSettings = new BotControllerSettings
-                {
-                    IsScavWars = false,
-                    BotAmount = EBotAmount.AsOnline,
-                },
+                BotSettings = new BotControllerSettings { IsScavWars = false, BotAmount = EBotAmount.AsOnline },
                 WavesSettings = new WavesSettings
                 {
                     BotAmount = EBotAmount.AsOnline,
@@ -102,9 +98,7 @@ public class DumpylibScript : MonoBehaviour
             _raidSettingsType = _raidSettings.GetType();
             _locationSettingsFields = _raidSettingsType.GetFields();
 
-            _raidSettingsField = _raidSettings
-                .GetType()
-                .GetField("LocationSettings", BindingFlags.Public | BindingFlags.Instance);
+            _raidSettingsField = _raidSettings.GetType().GetField("LocationSettings", BindingFlags.Public | BindingFlags.Instance);
 
             _raidSettingsField.SetValue(_raidSettings, _locationSettings);
 
@@ -123,10 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new CompleteProfileDescriptorClass(
-                _session.Profile,
-                GClass2072.Instance
-            );
+            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2072.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

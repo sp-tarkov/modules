@@ -13,10 +13,7 @@ public class DisableUseBSGServersCheckbox : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(LocationInfoPanel),
-            nameof(LocationInfoPanel.method_1)
-        );
+        return AccessTools.Method(typeof(LocationInfoPanel), nameof(LocationInfoPanel.method_1));
     }
 
     [PatchPostfix]

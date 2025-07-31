@@ -21,9 +21,7 @@ public class RemoveStopwatchAllocationsEveryCoverPointFramePatch : ModulePatch
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> Transpile(
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> Transpile(IEnumerable<CodeInstruction> instructions)
     {
         List<CodeInstruction> codeList = instructions.ToList();
         // This is the line that stops the Stopwatch

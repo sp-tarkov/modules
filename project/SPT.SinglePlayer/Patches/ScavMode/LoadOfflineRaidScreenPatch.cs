@@ -31,10 +31,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
         // `MatchmakerInsuranceScreen` OnShowNextScreen
-        _onReadyScreenMethod = AccessTools.Method(
-            typeof(MainMenuControllerClass),
-            nameof(MainMenuControllerClass.method_51)
-        );
+        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_51));
 
         _menuControllerField = typeof(TarkovApplication)
             .GetFields(PatchConstants.PrivateFlags)
@@ -51,17 +48,11 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-        return AccessTools.Method(
-            typeof(MainMenuControllerClass),
-            nameof(MainMenuControllerClass.method_78)
-        );
+        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_78));
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> PatchTranspiler(
-        ILGenerator generator,
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> PatchTranspiler(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
     {
         /* The original msil looks something like this:
          *   0	0000	ldarg.0
@@ -93,14 +84,10 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
          *   call instruction and only then we remove it.
          */
         var codes = new List<CodeInstruction>(instructions);
-        var onReadyScreenMethodOperand = AccessTools.Method(
-            typeof(MainMenuControllerClass),
-            _onReadyScreenMethod.Name
-        );
+        var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
 
         var callCodeIndex = codes.FindLastIndex(code =>
-            code.opcode == OpCodes.Call
-            && (MethodInfo)code.operand == onReadyScreenMethodOperand
+            code.opcode == OpCodes.Call && (MethodInfo)code.operand == onReadyScreenMethodOperand
         );
 
         if (callCodeIndex == -1)
@@ -121,10 +108,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         // Overwrite the call instruction with the call to LoadOfflineRaidScreenForScav, preserving the label for the 0020 brfalse jump
         codes[callCodeIndex] = new CodeInstruction(
             OpCodes.Call,
-            AccessTools.Method(
-                typeof(LoadOfflineRaidScreenPatch),
-                nameof(LoadOfflineRaidScreenForScav)
-            )
+            AccessTools.Method(typeof(LoadOfflineRaidScreenPatch), nameof(LoadOfflineRaidScreenForScav))
         )
         {
             labels = codes[loadThisIndex].labels,
@@ -145,15 +129,9 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         var menuController = (object)GetMenuController();
 
         // Get fields from MainMenuController.cs
-        var raidSettings = Traverse
-            .Create(menuController)
-            .Field("RaidSettings_0")
-            .GetValue<RaidSettings>();
+        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
 
-        var offlineRaidSettings = Traverse
-            .Create(menuController)
-            .Field("RaidSettings_1")
-            .GetValue<RaidSettings>();
+        var offlineRaidSettings = Traverse.Create(menuController).Field("RaidSettings_1").GetValue<RaidSettings>();
 
         // Find the private field of type `MatchmakerPlayerControllerClass`
         var matchmakerPlayersController =
@@ -175,11 +153,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
         gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(
-                typeof(OfflineRaidAction),
-                menuController,
-                nameof(MainMenuControllerClass.method_82)
-            );
+            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_82));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
@@ -187,10 +161,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     {
         var menuController = GetMenuController();
 
-        var raidSettings = Traverse
-            .Create(menuController)
-            .Field("RaidSettings_0")
-            .GetValue<RaidSettings>();
+        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
         if (raidSettings.SelectedLocation.Id == "laboratory")
         {
             raidSettings.WavesSettings.IsBosses = true;
@@ -205,7 +176,6 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
     private static MainMenuControllerClass GetMenuController()
     {
-        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp())
-            as MainMenuControllerClass;
+        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuControllerClass;
     }
 }

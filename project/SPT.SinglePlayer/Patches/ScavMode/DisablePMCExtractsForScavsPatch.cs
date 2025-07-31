@@ -24,15 +24,9 @@ public class DisablePMCExtractsForScavsPatch : ModulePatch
         var gameWorld = Singleton<GameWorld>.Instance;
 
         // checks nothing is null otherwise bad things happen
-        if (
-            gameWorld == null
-            || gameWorld.RegisteredPlayers == null
-            || gameWorld.ExfiltrationController == null
-        )
+        if (gameWorld == null || gameWorld.RegisteredPlayers == null || gameWorld.ExfiltrationController == null)
         {
-            Logger.LogError(
-                "Could not find GameWorld or RegisterPlayers... Unable to disable extracts for Scav raid"
-            );
+            Logger.LogError("Could not find GameWorld or RegisterPlayers... Unable to disable extracts for Scav raid");
         }
 
         Player player = gameWorld.MainPlayer;

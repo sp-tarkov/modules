@@ -20,10 +20,7 @@ public class ScavLateStartPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         var desiredType = typeof(TarkovApplication);
-        var desiredMethod = Array.Find(
-            desiredType.GetMethods(PatchConstants.PublicDeclaredFlags),
-            IsTargetMethod
-        );
+        var desiredMethod = Array.Find(desiredType.GetMethods(PatchConstants.PublicDeclaredFlags), IsTargetMethod);
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -36,12 +33,12 @@ public class ScavLateStartPatch : ModulePatch
         // method_46 as of 32128
         var parameters = arg.GetParameters();
         return parameters.Length == 5
-               && parameters[0].Name == "gameWorld"
-               && parameters[1].Name == "timeAndWeather"
-               && parameters[2].Name == "timeHasComeScreenController"
-               && parameters[3].Name == "metricsEvents"
-               && parameters[4].Name == "metricsConfig"
-               && arg.ReturnType == typeof(Task);
+            && parameters[0].Name == "gameWorld"
+            && parameters[1].Name == "timeAndWeather"
+            && parameters[2].Name == "timeHasComeScreenController"
+            && parameters[3].Name == "metricsEvents"
+            && parameters[4].Name == "metricsConfig"
+            && arg.ReturnType == typeof(Task);
     }
 
     [PatchPrefix]
@@ -51,10 +48,7 @@ public class ScavLateStartPatch : ModulePatch
 
         // Create request and send to server, parse response
         var request = new RaidTimeRequest(____raidSettings.Side, currentMapId);
-        var json = RequestHandler.PostJson(
-            "/singleplayer/settings/getRaidTime",
-            Json.Serialize(request)
-        );
+        var json = RequestHandler.PostJson("/singleplayer/settings/getRaidTime", Json.Serialize(request));
         var serverResult = Json.Deserialize<RaidTimeResponse>(json);
 
         // Capture the changes that will be made to the raid so they can be easily accessed by modders

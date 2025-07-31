@@ -28,9 +28,7 @@ public static class PatchConstants
         {
             if (_backEndSession == null)
             {
-                _backEndSession = Singleton<
-                    ClientApplication<ISession>
-                >.Instance.GetClientBackEndSession();
+                _backEndSession = Singleton<ClientApplication<ISession>>.Instance.GetClientBackEndSession();
             }
 
             return _backEndSession;
@@ -41,27 +39,19 @@ public static class PatchConstants
     {
         _ = nameof(ISession.GetPhpSessionId);
 
-        PrivateFlags =
-            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        PrivateFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         PublicFlags = BindingFlags.Public | BindingFlags.Instance;
-        PublicDeclaredFlags =
-            BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        PublicDeclaredFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         EftTypes = typeof(AbstractGame).Assembly.GetTypes();
         FilesCheckerTypes = typeof(ICheckResult).Assembly.GetTypes();
         LocalGameType = EftTypes.SingleCustom(x => x.Name == "LocalGame");
-        ExfilPointManagerType = EftTypes.SingleCustom(x =>
-            x.GetMethod("InitAllExfiltrationPoints") != null
-        );
-        SessionInterfaceType = EftTypes.SingleCustom(x =>
-            x.GetMethods().Select(y => y.Name).Contains("GetPhpSessionId") && x.IsInterface
-        );
+        ExfilPointManagerType = EftTypes.SingleCustom(x => x.GetMethod("InitAllExfiltrationPoints") != null);
+        SessionInterfaceType = EftTypes.SingleCustom(x => x.GetMethods().Select(y => y.Name).Contains("GetPhpSessionId") && x.IsInterface);
         BackendSessionInterfaceType = EftTypes.SingleCustom(x =>
             x.GetMethods().Select(y => y.Name).Contains("ChangeProfileStatus") && x.IsInterface
         );
         BackendProfileInterfaceType = EftTypes.SingleCustom(x =>
-            x.GetMethods().Length == 2
-            && x.GetMethods().Select(y => y.Name).Contains("get_Profile")
-            && x.IsInterface
+            x.GetMethods().Length == 2 && x.GetMethods().Select(y => y.Name).Contains("get_Profile") && x.IsInterface
         );
     }
 
@@ -95,9 +85,7 @@ public static class PatchConstants
 
         if (matchingTypes.Length == 0)
         {
-            throw new InvalidOperationException(
-                "No members match the specified search pattern"
-            );
+            throw new InvalidOperationException("No members match the specified search pattern");
         }
 
         return matchingTypes[0];

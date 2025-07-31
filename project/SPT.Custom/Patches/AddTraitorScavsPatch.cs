@@ -26,12 +26,7 @@ public class AddTraitorScavsPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(
-        ref BotsGroup __result,
-        BotOwner bot,
-        BotZone zone,
-        BotSpawner __instance
-    )
+    public static bool PatchPrefix(ref BotsGroup __result, BotOwner bot, BotZone zone, BotSpawner __instance)
     {
         if (!_traitorChancePercent.HasValue)
         {
@@ -52,21 +47,10 @@ public class AddTraitorScavsPatch : ModulePatch
             var player = Singleton<GameWorld>.Instance.MainPlayer;
             var enemies = new List<BotOwner>();
             var players = new List<Player>() { player };
-            var botsGroup = new BotsGroup(
-                zone,
-                __instance.BotGame,
-                bot,
-                enemies,
-                __instance.DeadBodiesController,
-                players,
-                false
-            );
+            var botsGroup = new BotsGroup(zone, __instance.BotGame, bot, enemies, __instance.DeadBodiesController, players, false);
 
             // Because we don't want to use the zone-specific group, we add the new group with no key. This is similar to free for all
-            Singleton<IBotGame>.Instance.BotsController.BotSpawner.Groups.AddNoKey(
-                botsGroup,
-                zone
-            );
+            Singleton<IBotGame>.Instance.BotsController.BotSpawner.Groups.AddNoKey(botsGroup, zone);
             botsGroup.AddEnemy(player, EBotEnemyCause.checkAddTODO);
 
             // Make it so the player can kill the scav without aggroing the rest of the scavs

@@ -19,23 +19,12 @@ public class TinnitusFixPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix()
     {
-        var baseMethod = AccessTools.Method(
-            typeof(ActiveHealthController),
-            nameof(ActiveHealthController.FindActiveEffect)
-        );
+        var baseMethod = AccessTools.Method(typeof(ActiveHealthController), nameof(ActiveHealthController.FindActiveEffect));
 
         bool shouldInvoke =
             baseMethod
-                .MakeGenericMethod(
-                    typeof(ActiveHealthController).GetNestedType(
-                        "Stun",
-                        BindingFlags.Instance | BindingFlags.NonPublic
-                    )
-                )
-                .Invoke(
-                    Singleton<GameWorld>.Instance.MainPlayer.ActiveHealthController,
-                    new object[] { EBodyPart.Common }
-                ) != null;
+                .MakeGenericMethod(typeof(ActiveHealthController).GetNestedType("Stun", BindingFlags.Instance | BindingFlags.NonPublic))
+                .Invoke(Singleton<GameWorld>.Instance.MainPlayer.ActiveHealthController, new object[] { EBodyPart.Common }) != null;
 
         return shouldInvoke;
     }

@@ -63,9 +63,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
         }
         catch (Exception ex)
         {
-            Logger.LogError(
-                $"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED"
-            );
+            Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
             Logger.LogError($"{GetType().Name}: {ex}");
             MessageBoxHelper.Show(
                 $"A patch in {GetType().Name} FAILED. {ex.Message}. SUBSEQUENT PATCHES HAVE NOT LOADED, CHECK LOG (/bepinex/LogOutput.log) FOR MORE DETAILS",

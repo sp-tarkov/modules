@@ -16,16 +16,11 @@ public class EnableRefForPVEPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(TraderScreensGroup),
-            nameof(TraderScreensGroup.method_4)
-        );
+        return AccessTools.Method(typeof(TraderScreensGroup), nameof(TraderScreensGroup.method_4));
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> PatchTranspile(
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> PatchTranspile(IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
         var searchCode = new CodeInstruction(OpCodes.Ldstr, "6617beeaa9cfa777ca915b7c");
@@ -33,10 +28,7 @@ public class EnableRefForPVEPatch : ModulePatch
 
         for (var i = 0; i < codes.Count; i++)
         {
-            if (
-                codes[i].opcode == searchCode.opcode
-                && codes[i]?.operand == searchCode?.operand
-            )
+            if (codes[i].opcode == searchCode.opcode && codes[i]?.operand == searchCode?.operand)
             {
                 searchIndex = i;
                 break;
@@ -45,9 +37,7 @@ public class EnableRefForPVEPatch : ModulePatch
 
         if (searchIndex == -1)
         {
-            Logger.LogError(
-                $"{nameof(EnableRefForPVEPatch)} failed: Could not find reference code."
-            );
+            Logger.LogError($"{nameof(EnableRefForPVEPatch)} failed: Could not find reference code.");
             return instructions;
         }
 

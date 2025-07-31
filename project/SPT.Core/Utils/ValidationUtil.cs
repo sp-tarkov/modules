@@ -12,13 +12,7 @@ public static class ValidationUtil
     private static bool _hasRun;
 
     [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
-    private static extern int RegOpenKeyEx(
-        IntPtr hKey,
-        string subKey,
-        int options,
-        int samDesired,
-        out IntPtr phkResult
-    );
+    private static extern int RegOpenKeyEx(IntPtr hKey, string subKey, int options, int samDesired, out IntPtr phkResult);
 
     [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
     private static extern int RegQueryValueEx(
@@ -35,8 +29,7 @@ public static class ValidationUtil
 
     public static bool Validate()
     {
-        const string c0 =
-            @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
+        const string c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
         var v0 = 0;
 
         try

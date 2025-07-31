@@ -18,10 +18,7 @@ public class ScavIsPlayerEnemyPatch : ModulePatch
     [PatchPrefix]
     public static bool Prefix(BotsGroup __instance, IPlayer player, ref bool __result)
     {
-        if (
-            player.Side is EPlayerSide.Savage
-            && __instance.InitialBotType is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC
-        )
+        if (player.Side is EPlayerSide.Savage && __instance.InitialBotType is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC)
         {
             __result = true;
             return false;

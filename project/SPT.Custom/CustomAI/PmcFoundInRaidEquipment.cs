@@ -79,11 +79,7 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
         MakeEquipmentNotFiR(___botOwner_0);
 
         // Get inventory items that hold other items (backpack/rig/pockets/armor)
-        IReadOnlyList<Slot> containerGear = ___botOwner_0
-            .Profile
-            .Inventory
-            .Equipment
-            .ContainerSlots;
+        IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
         // Fix issue with values becoming out of sync with server
         if (ValidationUtil._crashHandler == "0")
         {
@@ -141,9 +137,7 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
                 }
 
                 // Check for mods of weapons in backpacks
-                var isChildOfEquippedNonFiRItem = nonFiRRootItems.Any(nonFiRRootItem =>
-                    item.IsChildOf(nonFiRRootItem)
-                );
+                var isChildOfEquippedNonFiRItem = nonFiRRootItems.Any(nonFiRRootItem => item.IsChildOf(nonFiRRootItem));
                 if (isChildOfEquippedNonFiRItem)
                 {
                     continue;
@@ -155,9 +149,7 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
         }
 
         // Set dogtag as FiR
-        var dogtag = ___botOwner_0
-            .Profile.Inventory.GetItemsInSlots([EquipmentSlot.Dogtag])
-            .FirstOrDefault();
+        var dogtag = ___botOwner_0.Profile.Inventory.GetItemsInSlots([EquipmentSlot.Dogtag]).FirstOrDefault();
         if (dogtag != null)
         {
             dogtag.SpawnedInSession = true;

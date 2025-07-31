@@ -52,12 +52,8 @@ public class ScavSellAllRequestPatch : ModulePatch
         };
 
         // We'll re-use the same logic/methods that the base code used
-        TaskCompletionSource<IResult> taskCompletionSource =
-            new TaskCompletionSource<IResult>();
-        _sendOperationMethod.Invoke(
-            __instance,
-            new object[] { request, new Callback(taskCompletionSource.SetResult) }
-        );
+        TaskCompletionSource<IResult> taskCompletionSource = new TaskCompletionSource<IResult>();
+        _sendOperationMethod.Invoke(__instance, new object[] { request, new Callback(taskCompletionSource.SetResult) });
         __result = taskCompletionSource.Task;
 
         // Skip original

@@ -21,10 +21,7 @@ public class SpawnPointNearestPlayerAIPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.FirstMethod(
-            typeof(SpawnPoint),
-            (method) => method.ReturnType == typeof(Player)
-        );
+        return AccessTools.FirstMethod(typeof(SpawnPoint), (method) => method.ReturnType == typeof(Player));
     }
 
     /// <summary>
@@ -39,10 +36,7 @@ public class SpawnPointNearestPlayerAIPatch : ModulePatch
         List<Player> allAlivePlayersList = Singleton<GameWorld>.Instance.AllAlivePlayersList;
         Player closestPlayer = null;
         float minDistance = float.MaxValue;
-        if (
-            Singleton<IBotGame>.Instantiated
-            && Singleton<IBotGame>.Instance.BotsController != null
-        )
+        if (Singleton<IBotGame>.Instantiated && Singleton<IBotGame>.Instance.BotsController != null)
         {
             foreach (Player player in allAlivePlayersList)
             {

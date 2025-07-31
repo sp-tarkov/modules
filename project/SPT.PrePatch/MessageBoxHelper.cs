@@ -42,11 +42,7 @@ internal class MessageBoxHelper
         return GetActiveWindow();
     }
 
-    public static MessageBoxResult Show(
-        string text,
-        string caption,
-        MessageBoxType type = MessageBoxType.DEFAULT
-    )
+    public static MessageBoxResult Show(string text, string caption, MessageBoxType type = MessageBoxType.DEFAULT)
     {
         try
         {

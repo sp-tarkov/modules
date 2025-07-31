@@ -14,10 +14,7 @@ public class CoordinatesPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BaseLocalGame<EftGamePlayerOwner>),
-            nameof(BaseLocalGame<EftGamePlayerOwner>.Update)
-        );
+        return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.Update));
     }
 
     [PatchPrefix]
@@ -59,12 +56,7 @@ public class CoordinatesPatch : ModulePatch
                 return Vector3.zero;
             }
 
-            Physics.Linecast(
-                player.Fireport.position,
-                player.Fireport.position - player.Fireport.up * 1000f,
-                out var raycastHit,
-                331776
-            );
+            Physics.Linecast(player.Fireport.position, player.Fireport.position - player.Fireport.up * 1000f, out var raycastHit, 331776);
             return raycastHit.point;
         }
         catch (Exception e)

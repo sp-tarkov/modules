@@ -47,9 +47,7 @@ public abstract class ModulePatch
             && _ilmanipulatorList.Count == 0
         )
         {
-            throw new Exception(
-                $"{_harmony.Id}: At least one of the patch methods must be specified"
-            );
+            throw new Exception($"{_harmony.Id}: At least one of the patch methods must be specified");
         }
     }
 
@@ -69,14 +67,7 @@ public abstract class ModulePatch
         var T = GetType();
         var methods = new List<HarmonyMethod>();
 
-        foreach (
-            var method in T.GetMethods(
-                BindingFlags.Static
-                | BindingFlags.NonPublic
-                | BindingFlags.Public
-                | BindingFlags.DeclaredOnly
-            )
-        )
+        foreach (var method in T.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly))
         {
             if (method.GetCustomAttribute(attributeType) != null)
             {

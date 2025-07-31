@@ -22,9 +22,9 @@ public class BetaLogoPatch : ModulePatch
         ParameterInfo[] parameters = method.GetParameters();
 
         return method.ReturnType == typeof(Task)
-               && parameters.Length == 4
-               && parameters[0].ParameterType == typeof(Profile)
-               && parameters[1].ParameterType == typeof(ProfileStatusClass);
+            && parameters.Length == 4
+            && parameters[0].ParameterType == typeof(Profile)
+            && parameters[1].ParameterType == typeof(ProfileStatusClass);
     }
 
     [PatchPrefix]
@@ -57,13 +57,7 @@ public class BetaLogoPatch3 : ModulePatch
 
     // Prefix so the logic isn't being duplicated.
     [PatchPrefix]
-    public static bool PatchPrefix(
-        int screenHeight,
-        int screenWidth,
-        int rectHeight,
-        int rectWidth,
-        ref Vector2 __result
-    )
+    public static bool PatchPrefix(int screenHeight, int screenWidth, int rectHeight, int rectWidth, ref Vector2 __result)
     {
         System.Random random = new System.Random();
 

@@ -14,9 +14,7 @@ public class ConsistencyMultiPatch : ModulePatch
         return PatchConstants
             .FilesCheckerTypes.SingleCustom(x => x.Name == "ConsistencyController")
             .GetMethods()
-            .SingleCustom(x =>
-                x.Name == "EnsureConsistency" && x.ReturnType == typeof(Task<ICheckResult>)
-            );
+            .SingleCustom(x => x.Name == "EnsureConsistency" && x.ReturnType == typeof(Task<ICheckResult>));
     }
 
     [PatchPrefix]

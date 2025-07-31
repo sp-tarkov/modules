@@ -17,17 +17,11 @@ public class SetPreRaidSettingsScreenDefaultsPatch : ModulePatch
     {
         return AccessTools
             .GetDeclaredMethods(typeof(MatchmakerOfflineRaidScreen))
-            .SingleCustom(m =>
-                m.Name == nameof(MatchmakerOfflineRaidScreen.Show)
-                && m.GetParameters().Length == 1
-            );
+            .SingleCustom(m => m.Name == nameof(MatchmakerOfflineRaidScreen.Show) && m.GetParameters().Length == 1);
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(
-        CreateRaidSettingsForProfileClass controller,
-        UpdatableToggle ____offlineModeToggle
-    )
+    public static void PatchPrefix(CreateRaidSettingsForProfileClass controller, UpdatableToggle ____offlineModeToggle)
     {
         var offlineRaidSettings = controller.OfflineRaidSettings;
 
@@ -52,8 +46,7 @@ public class SetPreRaidSettingsScreenDefaultsPatch : ModulePatch
         offlineRaidSettings.WavesSettings.IsBosses = defaultSettings.BossEnabled;
         offlineRaidSettings.BotSettings.IsScavWars = false;
         offlineRaidSettings.WavesSettings.IsTaggedAndCursed = defaultSettings.TaggedAndCursed;
-        offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather =
-            defaultSettings.RandomWeather;
+        offlineRaidSettings.TimeAndWeatherSettings.IsRandomWeather = defaultSettings.RandomWeather;
         offlineRaidSettings.TimeAndWeatherSettings.IsRandomTime = defaultSettings.RandomTime;
     }
 

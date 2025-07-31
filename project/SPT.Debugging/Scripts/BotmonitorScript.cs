@@ -15,10 +15,8 @@ public class BotmonitorScript : MonoBehaviour
     public GUIStyle TextStyle;
     private Player _player;
     private Camera _camera;
-    private Dictionary<string, List<Player>> _zoneAndPlayers =
-        new Dictionary<string, List<Player>>();
-    private Dictionary<string, BotRoleAndDiffClass> _playerRoleAndDiff =
-        new Dictionary<string, BotRoleAndDiffClass>();
+    private Dictionary<string, List<Player>> _zoneAndPlayers = new Dictionary<string, List<Player>>();
+    private Dictionary<string, BotRoleAndDiffClass> _playerRoleAndDiff = new Dictionary<string, BotRoleAndDiffClass>();
     private List<BotZone> _zones;
     private GameWorld _gameWorld;
     private IBotGame _botGame;
@@ -65,10 +63,7 @@ public class BotmonitorScript : MonoBehaviour
                         continue;
                     }
 
-                    _playerRoleAndDiff.Add(
-                        player.ProfileId,
-                        GetBotRoleAndDiffClass(player.Profile.Info)
-                    );
+                    _playerRoleAndDiff.Add(player.ProfileId, GetBotRoleAndDiffClass(player.Profile.Info));
                     var theirZone = player.AIData.BotOwner.BotsGroup.BotZone.NameZone;
                     _zoneAndPlayers[theirZone].Add(player);
                 }
@@ -107,10 +102,7 @@ public class BotmonitorScript : MonoBehaviour
         var role = settings.Role.ToString();
         var diff = settings.BotDifficulty.ToString();
 
-        return new BotRoleAndDiffClass(
-            string.IsNullOrEmpty(role) ? "" : role,
-            string.IsNullOrEmpty(diff) ? "" : diff
-        );
+        return new BotRoleAndDiffClass(string.IsNullOrEmpty(role) ? "" : role, string.IsNullOrEmpty(diff) ? "" : diff);
     }
 
     public void OnGUI()
@@ -136,13 +128,9 @@ public class BotmonitorScript : MonoBehaviour
 
             _builder.Clear();
 
-            _builder.Append(
-                $"Alive & Loading = {_botGame.BotsController.BotSpawner.AliveAndLoadingBotsCount}\n"
-            );
+            _builder.Append($"Alive & Loading = {_botGame.BotsController.BotSpawner.AliveAndLoadingBotsCount}\n");
             _builder.Append($"Delayed Bots = {_botGame.BotsController.BotSpawner.BotsDelayed}\n");
-            _builder.Append(
-                $"All Bots With Delayed = {_botGame.BotsController.BotSpawner.AllBotsWithDelayed}\n"
-            );
+            _builder.Append($"All Bots With Delayed = {_botGame.BotsController.BotSpawner.AllBotsWithDelayed}\n");
 
             foreach (var zone in _zoneAndPlayers)
             {
@@ -151,19 +139,11 @@ public class BotmonitorScript : MonoBehaviour
                     continue;
                 }
 
-                _builder.Append(
-                    $"{zone.Key} = {_zoneAndPlayers[zone.Key].FindAll(x => x.HealthController.IsAlive).Count}\n"
-                );
+                _builder.Append($"{zone.Key} = {_zoneAndPlayers[zone.Key].FindAll(x => x.HealthController.IsAlive).Count}\n");
 
-                foreach (
-                    var player in _zoneAndPlayers[zone.Key]
-                        .Where(player => player.HealthController.IsAlive)
-                )
+                foreach (var player in _zoneAndPlayers[zone.Key].Where(player => player.HealthController.IsAlive))
                 {
-                    _distance = Vector3.Distance(
-                        player.Transform.position,
-                        _camera.transform.position
-                    );
+                    _distance = Vector3.Distance(player.Transform.position, _camera.transform.position);
                     _builder.Append(
                         $"> [{_distance:n2}m] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Role}] "
                             + $"[{player.Profile.Side}] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Difficulty}] {player.Profile.Nickname}\n"

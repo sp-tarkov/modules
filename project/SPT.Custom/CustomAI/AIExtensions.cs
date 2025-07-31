@@ -29,7 +29,7 @@ public static class AIExtensions
     public static bool IsSimulatedPlayerScav(this BotOwner botOwner)
     {
         return botOwner.Profile.Info.Settings.Role == WildSpawnType.assault
-               && !string.IsNullOrEmpty(botOwner.Profile.Info.MainProfileNickname);
+            && !string.IsNullOrEmpty(botOwner.Profile.Info.MainProfileNickname);
     }
 
     public static List<BotOwner> GetAllMembers(this BotsGroup group)

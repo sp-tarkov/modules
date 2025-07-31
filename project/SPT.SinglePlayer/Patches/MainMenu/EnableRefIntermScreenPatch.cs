@@ -12,10 +12,7 @@ public class EnableRefIntermScreenPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(MerchantsList.Class2962),
-            nameof(MerchantsList.Class2962.method_0)
-        );
+        return AccessTools.Method(typeof(MerchantsList.Class2962), nameof(MerchantsList.Class2962.method_0));
     }
 
     [PatchPrefix]

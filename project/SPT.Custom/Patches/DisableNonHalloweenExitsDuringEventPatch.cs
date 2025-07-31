@@ -14,10 +14,7 @@ public class DisableNonHalloweenExitsDuringEventPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BotHalloweenEvent),
-            nameof(BotHalloweenEvent.RitualCompleted)
-        );
+        return AccessTools.Method(typeof(BotHalloweenEvent), nameof(BotHalloweenEvent.RitualCompleted));
     }
 
     [PatchPostfix]
@@ -26,9 +23,7 @@ public class DisableNonHalloweenExitsDuringEventPatch : ModulePatch
         GameWorld gameWorld = Singleton<GameWorld>.Instance;
         Random random = new Random();
         // Get all extracts the player has
-        List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass
-            .Instance.EligiblePoints(gameWorld.MainPlayer.Profile)
-            .ToList();
+        List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass.Instance.EligiblePoints(gameWorld.MainPlayer.Profile).ToList();
         List<ExfiltrationPoint> PointsToPickFrom = new List<ExfiltrationPoint>();
 
         foreach (var ExfilPoint in EligiblePoints)

@@ -22,14 +22,9 @@ public class ScavSellAllPriceStorePatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         var scavInventoryScreenType = typeof(ScavengerInventoryScreen);
-        _sessionField = AccessTools
-            .GetDeclaredFields(scavInventoryScreenType)
-            .FirstOrDefault(f => f.FieldType == typeof(ISession));
+        _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(ISession));
 
-        return AccessTools.Method(
-            typeof(ScavengerInventoryScreen),
-            nameof(ScavengerInventoryScreen.method_4)
-        );
+        return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.method_4));
     }
 
     [PatchPrefix]
@@ -43,9 +38,7 @@ public class ScavSellAllPriceStorePatch : ModulePatch
         // gets the list of items in the inventory screen
         if (!__instance.method_3(out var items))
         {
-            Logger.LogError(
-                "ScavSellAllPriceStorePatch - Could not get items from inventory screen"
-            );
+            Logger.LogError("ScavSellAllPriceStorePatch - Could not get items from inventory screen");
         }
 
         var totalPrice = 0;

@@ -140,11 +140,7 @@ public static class VFS
             CreateDirectory(filepath.GetDirectory());
         }
 
-        await using FileStream stream = File.Open(
-            filepath,
-            FileMode.OpenOrCreate,
-            FileAccess.Write
-        );
+        await using FileStream stream = File.Open(filepath, FileMode.OpenOrCreate, FileAccess.Write);
         await stream.WriteAsync(data, 0, data.Length);
     }
 

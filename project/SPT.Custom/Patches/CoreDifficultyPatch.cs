@@ -13,9 +13,7 @@ public class CoreDifficultyPatch : ModulePatch
         var methodName = "LoadCoreByString";
         var flags = BindingFlags.Public | BindingFlags.Static;
 
-        return PatchConstants
-            .EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
-            .GetMethod(methodName, flags);
+        return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null).GetMethod(methodName, flags);
     }
 
     [PatchPrefix]

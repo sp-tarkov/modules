@@ -24,15 +24,14 @@ public class FixAirdropCrashPatch : ModulePatch
     {
         var parameters = method.GetParameters();
         return parameters.Length == 4
-               && parameters[0].Name == "profileId"
-               && parameters[0].ParameterType == typeof(string)
-               && parameters[1].Name == "savageProfile"
-               && parameters[1].ParameterType == typeof(Profile)
-               && parameters[2].Name == "location"
-               && parameters[2].ParameterType == typeof(LocationSettingsClass.Location)
-               && parameters[3].Name == "result"
-               && parameters[3].ParameterType
-               == typeof(Result<ExitStatus, TimeSpan, MetricsClass>);
+            && parameters[0].Name == "profileId"
+            && parameters[0].ParameterType == typeof(string)
+            && parameters[1].Name == "savageProfile"
+            && parameters[1].ParameterType == typeof(Profile)
+            && parameters[2].Name == "location"
+            && parameters[2].ParameterType == typeof(LocationSettingsClass.Location)
+            && parameters[3].Name == "result"
+            && parameters[3].ParameterType == typeof(Result<ExitStatus, TimeSpan, MetricsClass>);
     }
 
     [PatchPrefix]
@@ -49,9 +48,7 @@ public class FixAirdropCrashPatch : ModulePatch
             return;
         }
 
-        List<SynchronizableObject> syncObjects = gameWorld
-            .SynchronizableObjectLogicProcessor
-            .List_0;
+        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor.List_0;
         if (syncObjects is null)
         {
             return;

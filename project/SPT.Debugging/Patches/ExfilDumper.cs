@@ -18,9 +18,7 @@ public class ExfilDumper : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(ExfiltrationControllerClass).GetMethod(
-            nameof(ExfiltrationControllerClass.InitAllExfiltrationPoints)
-        );
+        return typeof(ExfiltrationControllerClass).GetMethod(nameof(ExfiltrationControllerClass.InitAllExfiltrationPoints));
     }
 
     [PatchPostfix]
@@ -32,17 +30,13 @@ public class ExfilDumper : ModulePatch
         var pmcExfilPoints = ExfiltrationControllerClass.Instance.ExfiltrationPoints;
 
         // Both scav and PMC lists include shared, so remove them from the scav list
-        var scavExfilPoints = ExfiltrationControllerClass.Instance.ScavExfiltrationPoints.Where(
-            x => !(x is SharedExfiltrationPoint)
-        );
+        var scavExfilPoints = ExfiltrationControllerClass.Instance.ScavExfiltrationPoints.Where(x => !(x is SharedExfiltrationPoint));
 
         var exfils = new List<SPTExfilData>();
 
         foreach (var exfil in pmcExfilPoints.Concat(scavExfilPoints))
         {
-            LocationExitClass exitSettings = settings.FirstOrDefault(x =>
-                x.Name == exfil.Settings.Name
-            );
+            LocationExitClass exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
             exfils.Add(new SPTExfilData(exfil, exitSettings));
         }
 
@@ -87,10 +81,7 @@ public class ExfilDumper : ModulePatch
         public SPTExfilData(ExfiltrationPoint point, LocationExitClass settings)
         {
             // PMC and shared extracts, prioritize settings over the map data to match base behaviour
-            if (
-                settings != null
-                && (!(point is ScavExfiltrationPoint) || point is SharedExfiltrationPoint)
-            )
+            if (settings != null && (!(point is ScavExfiltrationPoint) || point is SharedExfiltrationPoint))
             {
                 if (settings != null)
                 {

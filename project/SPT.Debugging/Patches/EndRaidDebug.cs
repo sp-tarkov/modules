@@ -44,19 +44,13 @@ public class EndRaidDebug : ModulePatch
         if (___traderInfo_0?.LoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
-            Logger.Log(
-                LogLevel.Error,
-                "[SPT] ___traderInfo_0 or ___traderInfo_0.LoyaltyLevel was null"
-            );
+            Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.LoyaltyLevel was null");
         }
 
         if (___traderInfo_0?.MaxLoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
-            Logger.Log(
-                LogLevel.Error,
-                "[SPT] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null"
-            );
+            Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null");
         }
 
         return true; // Do original method

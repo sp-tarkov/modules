@@ -58,12 +58,7 @@ public class MenuNotificationManager : MonoBehaviour
     /// </summary>
     private bool ShouldShowBetaMessage
     {
-        get
-        {
-            return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0
-                   && release.isBeta
-                   && !_isBetaDisclaimerOpen;
-        }
+        get { return PlayerPrefs.GetInt("SPT_AcceptedBETerms") == 0 && release.isBeta && !_isBetaDisclaimerOpen; }
     }
 
     public void Start()
@@ -88,10 +83,7 @@ public class MenuNotificationManager : MonoBehaviour
             new BetaLogoPatch3().Enable();
         }
 
-        DisallowedPlugins = Chainloader
-            .PluginInfos.Values.Select(pi => pi.Metadata.GUID)
-            .Except(WhitelistedPlugins)
-            .ToArray();
+        DisallowedPlugins = Chainloader.PluginInfos.Values.Select(pi => pi.Metadata.GUID).Except(WhitelistedPlugins).ToArray();
 
         // Prevent client mods if the server is built with mods disabled
         if (!release.isModdable)
@@ -114,10 +106,7 @@ public class MenuNotificationManager : MonoBehaviour
         if (DisallowedPlugins.Any() && release.isBeta && release.isModdable)
         {
             CommitHash += $"\n {release.clientModsLoadedDebugText}";
-            ServerLog.Warn(
-                "SPT.Custom",
-                $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}"
-            );
+            ServerLog.Warn("SPT.Custom", $"{release.clientModsLoadedText}\n{string.Join("\n", DisallowedPlugins)}");
         }
     }
 

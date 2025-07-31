@@ -9,10 +9,7 @@ internal class Patch4002 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(ProfileEndpointFactoryAbstractClass),
-            nameof(ProfileEndpointFactoryAbstractClass.SendMetricsJson)
-        );
+        return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SendMetricsJson));
     }
 
     [PatchPrefix]

@@ -31,8 +31,7 @@ public class QuestAchievementRewardInRaidPatch : ModulePatch
         if (!aiControlled && questController != null && achievementsController != null)
         {
             // This should be called rarely enough that the memory overhead isn't a concern
-            questController.AchievementUnlocked += (achId) =>
-                achievementsController.UnlockAchievementForced(achId);
+            questController.AchievementUnlocked += (achId) => achievementsController.UnlockAchievementForced(achId);
         }
     }
 }

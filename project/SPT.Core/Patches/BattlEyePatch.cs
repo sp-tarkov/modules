@@ -10,10 +10,7 @@ public class BattlEyePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BattleeyePatchClass),
-            nameof(BattleeyePatchClass.RunValidation)
-        );
+        return AccessTools.Method(typeof(BattleeyePatchClass), nameof(BattleeyePatchClass.RunValidation));
     }
 
     [PatchPrefix]

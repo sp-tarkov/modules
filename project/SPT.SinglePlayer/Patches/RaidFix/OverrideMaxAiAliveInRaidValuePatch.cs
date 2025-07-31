@@ -24,9 +24,9 @@ public class OverrideMaxAiAliveInRaidValuePatch : ModulePatch
     {
         var parameters = mi.GetParameters();
         return parameters.Length == 3
-               && parameters[0].Name == "maxCount"
-               && parameters[1].Name == "botPresets"
-               && parameters[2].Name == "botScatterings";
+            && parameters[0].Name == "maxCount"
+            && parameters[1].Name == "botPresets"
+            && parameters[2].Name == "botScatterings";
     }
 
     [PatchPrefix]
@@ -35,23 +35,14 @@ public class OverrideMaxAiAliveInRaidValuePatch : ModulePatch
         var gameWorld = Singleton<GameWorld>.Instance;
         var location = gameWorld.MainPlayer?.Location ?? "default";
 
-        if (
-            int.TryParse(
-                RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location}"),
-                out var parsedMaxCount
-            )
-        )
+        if (int.TryParse(RequestHandler.GetJson($"/singleplayer/settings/bot/maxCap/{location}"), out var parsedMaxCount))
         {
-            Logger.LogInfo(
-                $"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}"
-            );
+            Logger.LogInfo($"Set max bot cap for: {location} from: {maxCount} to: {parsedMaxCount}");
             maxCount = parsedMaxCount;
         }
         else
         {
-            Logger.LogError(
-                $"Unable to parse data from singleplayer/settings/bot/maxCap, using existing: {location} max: {maxCount}"
-            );
+            Logger.LogError($"Unable to parse data from singleplayer/settings/bot/maxCap, using existing: {location} max: {maxCount}");
         }
     }
 }

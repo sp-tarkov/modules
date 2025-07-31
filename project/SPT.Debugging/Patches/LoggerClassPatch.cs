@@ -15,18 +15,11 @@ public class LoggerClassLogPatch : ModulePatch
     {
         return AccessTools
             .GetDeclaredMethods(typeof(LoggerClass))
-            .SingleCustom(m =>
-                m.Name == nameof(LoggerClass.Log) && m.GetParameters().Length == 4
-            );
+            .SingleCustom(m => m.Name == nameof(LoggerClass.Log) && m.GetParameters().Length == 4);
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(
-        string nlogFormat,
-        string unityFormat,
-        LogLevel logLevel,
-        object[] args
-    )
+    public static void PatchPostfix(string nlogFormat, string unityFormat, LogLevel logLevel, object[] args)
     {
         var bsgLevel = LogLevel.FromOrdinal(logLevel.Ordinal);
         var sptLevel = LogLevel.FromOrdinal(SPTDebuggingPlugin.logLevel.verbosity);

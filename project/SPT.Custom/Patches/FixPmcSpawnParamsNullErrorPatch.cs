@@ -30,10 +30,7 @@ public class FixPmcSpawnParamsNullErrorPatch : ModulePatch
 
         if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
         {
-            bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(
-                false,
-                false
-            );
+            bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
         }
     }
 }

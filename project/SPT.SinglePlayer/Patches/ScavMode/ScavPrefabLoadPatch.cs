@@ -30,9 +30,7 @@ public class ScavPrefabLoadPatch : ModulePatch
                 && x.Name.Contains("Struct")
             );
 
-        var desiredMethod = desiredType
-            .GetMethods(PatchConstants.PublicDeclaredFlags)
-            .FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -41,10 +39,7 @@ public class ScavPrefabLoadPatch : ModulePatch
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> PatchTranspile(
-        ILGenerator generator,
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
 
@@ -67,9 +62,7 @@ public class ScavPrefabLoadPatch : ModulePatch
         // Patch failed.
         if (searchIndex == -1)
         {
-            Logger.LogError(
-                $"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code."
-            );
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code.");
             return instructions;
         }
 
@@ -88,18 +81,9 @@ public class ScavPrefabLoadPatch : ModulePatch
                 new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
                 new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),
                 new Code(OpCodes.Brfalse, brFalseLabel),
-                new Code(
-                    OpCodes.Callvirt,
-                    PatchConstants.BackendProfileInterfaceType,
-                    "get_Profile"
-                ),
+                new Code(OpCodes.Callvirt, PatchConstants.BackendProfileInterfaceType, "get_Profile"),
                 new Code(OpCodes.Br, brLabel),
-                new CodeWithLabel(
-                    OpCodes.Callvirt,
-                    brFalseLabel,
-                    PatchConstants.BackendProfileInterfaceType,
-                    "get_ProfileOfPet"
-                ),
+                new CodeWithLabel(OpCodes.Callvirt, brFalseLabel, PatchConstants.BackendProfileInterfaceType, "get_ProfileOfPet"),
                 new CodeWithLabel(OpCodes.Ldc_I4_1, brLabel),
             }
         );

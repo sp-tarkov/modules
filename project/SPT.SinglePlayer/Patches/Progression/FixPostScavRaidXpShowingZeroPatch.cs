@@ -54,13 +54,9 @@ public class FixPostScavRaidXpShowingZeroPatch : ModulePatch
         if (activeProfile.Side == EPlayerSide.Savage)
         {
             side = EPlayerSide.Savage; // Also set side to correct value (defaults to USEC/BEAR when playing as scav)
-            int xpGainedInSession = activeProfile.Stats.Eft.SessionCounters.GetAllInt(
-                new object[] { CounterTag.Exp }
-            );
+            int xpGainedInSession = activeProfile.Stats.Eft.SessionCounters.GetAllInt(new object[] { CounterTag.Exp });
             activeProfile.Stats.Eft.TotalSessionExperience = (int)(
-                xpGainedInSession
-                * activeProfile.Stats.Eft.SessionExperienceMult
-                * activeProfile.Stats.Eft.ExperienceBonusMult
+                xpGainedInSession * activeProfile.Stats.Eft.SessionExperienceMult * activeProfile.Stats.Eft.ExperienceBonusMult
             );
         }
 

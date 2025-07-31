@@ -35,9 +35,7 @@ public static class RaidTimeUtil
     {
         if (!HasRaidLoaded())
         {
-            throw new InvalidOperationException(
-                "The raid-time remaining can only be calculated when a raid is in-progress"
-            );
+            throw new InvalidOperationException("The raid-time remaining can only be calculated when a raid is in-progress");
         }
 
         if (!HasRaidStarted())
@@ -45,8 +43,7 @@ public static class RaidTimeUtil
             return RaidChangesUtil.NewEscapeTimeSeconds;
         }
 
-        float remainingTimeSeconds =
-            Singleton<AbstractGame>.Instance.GameTimer.EscapeTimeSeconds();
+        float remainingTimeSeconds = Singleton<AbstractGame>.Instance.GameTimer.EscapeTimeSeconds();
 
         // Until the raid starts, remainingTimeSeconds is TimeSpan.MaxValue, so it needs to be reduced to the actual starting raid time
         return Math.Min(remainingTimeSeconds, RaidChangesUtil.NewEscapeTimeSeconds);

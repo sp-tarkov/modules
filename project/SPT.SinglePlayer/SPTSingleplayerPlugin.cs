@@ -73,9 +73,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
         }
         catch (Exception ex)
         {
-            Logger.LogError(
-                $"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED"
-            );
+            Logger.LogError($"A PATCH IN {GetType().Name} FAILED. SUBSEQUENT PATCHES HAVE NOT LOADED");
             Logger.LogError($"{GetType().Name}: {ex}");
             throw;
         }

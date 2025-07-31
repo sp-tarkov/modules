@@ -18,15 +18,8 @@ namespace SPT.Custom.Patches;
 /// </summary>
 public class SaveRegistryToSptFolderPatches
 {
-    private static readonly string _sptRegistryPath = Path.Combine(
-        Environment.CurrentDirectory,
-        "user",
-        "sptRegistry"
-    );
-    private static readonly string _registryFilePath = Path.Combine(
-        _sptRegistryPath,
-        "registry.json"
-    );
+    private static readonly string _sptRegistryPath = Path.Combine(Environment.CurrentDirectory, "user", "sptRegistry");
+    private static readonly string _registryFilePath = Path.Combine(_sptRegistryPath, "registry.json");
     private static JObject _sptRegistry = new JObject();
 
     public void Enable()
@@ -65,9 +58,7 @@ public class SaveRegistryToSptFolderPatches
         }
         catch (Exception e)
         {
-            ConsoleScreen.LogError(
-                $"Unable to parse registry file, defaulting to empty: {e.Message}"
-            );
+            ConsoleScreen.LogError($"Unable to parse registry file, defaulting to empty: {e.Message}");
         }
 
         // Make sure we save the registry on exit, for some reason this isn't triggering by Unity itself
@@ -78,10 +69,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.SetInt)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.SetInt));
             return method;
         }
 
@@ -97,10 +85,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.SetFloat)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.SetFloat));
             return method;
         }
 
@@ -116,10 +101,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.SetString)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.SetString));
             return method;
         }
 
@@ -135,11 +117,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.GetInt),
-                [typeof(string), typeof(int)]
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.GetInt), [typeof(string), typeof(int)]);
             return method;
         }
 
@@ -162,11 +140,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.GetFloat),
-                [typeof(string), typeof(float)]
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.GetFloat), [typeof(string), typeof(float)]);
             return method;
         }
 
@@ -189,11 +163,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.GetString),
-                [typeof(string), typeof(string)]
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.GetString), [typeof(string), typeof(string)]);
             return method;
         }
 
@@ -216,10 +186,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.HasKey)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.HasKey));
             return method;
         }
 
@@ -235,10 +202,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.DeleteKey)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.DeleteKey));
             return method;
         }
 
@@ -254,10 +218,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.DeleteAll)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.DeleteAll));
             return method;
         }
 
@@ -273,10 +234,7 @@ public class SaveRegistryToSptFolderPatches
     {
         protected override MethodBase GetTargetMethod()
         {
-            MethodInfo method = AccessTools.Method(
-                typeof(PlayerPrefs),
-                nameof(PlayerPrefs.Save)
-            );
+            MethodInfo method = AccessTools.Method(typeof(PlayerPrefs), nameof(PlayerPrefs.Save));
             return method;
         }
 

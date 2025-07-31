@@ -10,70 +10,22 @@
     <Copyright>Copyright @ SPT 2025</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <Reference
-      Include="Assembly-CSharp"
-      HintPath="..\Shared\Hollowed\hollowed.dll"
-      Private="False"
-    />
-    <Reference
-      Include="bsg.console.core"
-      HintPath="..\Shared\Managed\bsg.console.core.dll"
-      Private="False"
-    />
-    <Reference
-      Include="Sirenix.Serialization"
-      HintPath="..\Shared\Managed\Sirenix.Serialization.dll"
-      Private="False"
-    />
-    <Reference
-      Include="Unity.TextMeshPro"
-      HintPath="..\Shared\Managed\Unity.TextMeshPro.dll"
-      Private="False"
-    />
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
+    <Reference Include="bsg.console.core" HintPath="..\Shared\Managed\bsg.console.core.dll" Private="False" />
+    <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
+    <Reference Include="Unity.TextMeshPro" HintPath="..\Shared\Managed\Unity.TextMeshPro.dll" Private="False" />
     <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
-    <Reference
-      Include="UnityEngine.CoreModule"
-      HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll"
-      Private="False"
-    />
-    <Reference
-      Include="UnityEngine.InputLegacyModule"
-      HintPath="..\Shared\Managed\UnityEngine.InputLegacyModule.dll"
-      Private="False"
-    />
-    <Reference
-      Include="UnityEngine.PhysicsModule"
-      HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll"
-      Private="False"
-    />
-    <Reference
-      Include="UnityEngine.UI"
-      HintPath="..\Shared\Managed\UnityEngine.UI.dll"
-      Private="False"
-    />
-    <Reference
-      Include="UnityEngine.UIModule"
-      HintPath="..\Shared\Managed\UnityEngine.UIModule.dll"
-      Private="False"
-    />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
+    <Reference Include="UnityEngine.InputLegacyModule" HintPath="..\Shared\Managed\UnityEngine.InputLegacyModule.dll" Private="False" />
+    <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
+    <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
+    <Reference Include="UnityEngine.UIModule" HintPath="..\Shared\Managed\UnityEngine.UIModule.dll" Private="False" />
     <Reference Include="Comfort.Common" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
-    <Reference
-      Include="DissonanceVoip"
-      HintPath="..\Shared\Managed\DissonanceVoip.dll"
-      Private="False"
-    />
+    <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
     <Reference Include="Nlog" HintPath="..\Shared\Managed\NLog.dll" Private="False" />
     <Reference Include="Nlog" HintPath="..\Shared\Managed\CommonExtensions.dll" Private="False" />
-    <Reference
-      Include="UnityEngine.IMGUIModule"
-      HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll"
-      Private="False"
-    />
-    <Reference
-      Include="UnityEngine.TextRenderingModule"
-      HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll"
-      Private="False"
-    />
+    <Reference Include="UnityEngine.IMGUIModule" HintPath="..\Shared\Managed\UnityEngine.IMGUIModule.dll" Private="False" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="..\Shared\Managed\UnityEngine.TextRenderingModule.dll" Private="False" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
@@ -82,12 +34,7 @@
     <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference
-      Include="Microsoft.NETFramework.ReferenceAssemblies"
-      Version="1.0.3"
-      ExcludeAssets="runtime"
-      PrivateAssets="all"
-    >
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>

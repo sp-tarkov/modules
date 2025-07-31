@@ -22,9 +22,7 @@ public struct DifficultyInfo
                 case "normal":
                     return normal;
                 default:
-                    throw new ArgumentException(
-                        $"Difficulty '{key}' does not exist in DifficultyInfo."
-                    );
+                    throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo.");
             }
         }
     }

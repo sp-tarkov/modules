@@ -20,12 +20,7 @@ public class EmptyInfilFixPatch : ModulePatch
     {
         var desiredType = PatchConstants.LocalGameType.BaseType;
         var desiredMethod = desiredType
-            .GetMethods(
-                BindingFlags.Public
-                | BindingFlags.Instance
-                | BindingFlags.DeclaredOnly
-                | BindingFlags.CreateInstance
-            )
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.CreateInstance)
             .SingleCustom(IsTargetMethod);
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");

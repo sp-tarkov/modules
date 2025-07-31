@@ -67,21 +67,12 @@ public class BundleUtils : MonoBehaviour
 
     private Rect CreateRectangle(int width, int height)
     {
-        return new Rect(
-            (Screen.width / 2) - (width / 2),
-            (Screen.height / 2) - (height / 2),
-            width,
-            height
-        );
+        return new Rect((Screen.width / 2) - (width / 2), (Screen.height / 2) - (height / 2), width, height);
     }
 
     private void DrawWindow(int windowId)
     {
-        GUI.Label(
-            new Rect(0, 35, 500, 20),
-            $"Loading bundle: {current} / {maximum}",
-            labelStyle
-        );
+        GUI.Label(new Rect(0, 35, 500, 20), $"Loading bundle: {current} / {maximum}", labelStyle);
         GUI.Label(new Rect(0, 50, 500, 20), bundleName, labelStyle);
     }
 }

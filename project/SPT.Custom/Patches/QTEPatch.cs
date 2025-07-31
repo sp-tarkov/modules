@@ -10,10 +10,7 @@ public class QTEPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(HideoutPlayerOwner),
-            nameof(HideoutPlayerOwner.StopWorkout)
-        );
+        return AccessTools.Method(typeof(HideoutPlayerOwner), nameof(HideoutPlayerOwner.StopWorkout));
     }
 
     [PatchPostfix]

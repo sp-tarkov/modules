@@ -41,10 +41,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(PostRaidHealthScreenClass),
-            nameof(PostRaidHealthScreenClass.method_2)
-        );
+        return AccessTools.Method(typeof(PostRaidHealthScreenClass), nameof(PostRaidHealthScreenClass.method_2));
     }
 
     [PatchPrefix]
@@ -60,11 +57,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 
         // Only do below when player is a scav
         var session = (ProfileEndpointFactoryAbstractClass)__instance.ISession;
-        session.AllProfiles =
-        [
-            session.AllProfiles.First(x => x.Side != EPlayerSide.Savage),
-            profile,
-        ];
+        session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 
         // Send scav profile to server so it knows of the items we might transfer

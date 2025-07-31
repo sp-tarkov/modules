@@ -19,11 +19,7 @@ public class WebSocketSslValidationPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         var desiredType = AccessTools.TypeByName("Mono.Net.Security.MobileTlsContext");
-        var desiredMethod = AccessTools.Method(
-            desiredType,
-            "ValidateCertificate",
-            [typeof(X509Certificate2), typeof(X509Chain)]
-        );
+        var desiredMethod = AccessTools.Method(desiredType, "ValidateCertificate", [typeof(X509Certificate2), typeof(X509Chain)]);
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

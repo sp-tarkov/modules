@@ -9,10 +9,7 @@ public class AllScavsHostileHostileToPlayerScavPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BotsController),
-            nameof(BotsController.AddEnemyToAllGroupsInBotZone)
-        );
+        return AccessTools.Method(typeof(BotsController), nameof(BotsController.AddEnemyToAllGroupsInBotZone));
     }
 
     /// <summary>
@@ -22,12 +19,7 @@ public class AllScavsHostileHostileToPlayerScavPatch : ModulePatch
     /// This should fix that.
     /// </summary>
     [PatchPrefix]
-    public static bool PatchPrefix(
-        BotsController __instance,
-        IPlayer aggressor,
-        IPlayer groupOwner,
-        IPlayer target
-    )
+    public static bool PatchPrefix(BotsController __instance, IPlayer aggressor, IPlayer groupOwner, IPlayer target)
     {
         if (!groupOwner.IsAI)
         {

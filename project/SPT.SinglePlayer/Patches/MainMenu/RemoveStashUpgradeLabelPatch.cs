@@ -18,9 +18,7 @@ public class RemoveStashUpgradeLabelPatch : ModulePatch
     [PatchPostfix]
     public static void Postfix(InventoryScreen __instance)
     {
-        var externalObtain = __instance
-            .transform.Find("Items Panel/Stash Panel/Simple Panel/TopPanel/ExternalObtain")
-            .gameObject;
+        var externalObtain = __instance.transform.Find("Items Panel/Stash Panel/Simple Panel/TopPanel/ExternalObtain").gameObject;
         if (externalObtain != null)
         {
             Object.Destroy(externalObtain);
@@ -42,9 +40,7 @@ public class RemoveStashUpgradeLabelPatch2 : ModulePatch
     public static void Postfix(MenuUI __instance)
     {
         var externalObtain = __instance
-            .transform.Find(
-                "UI/Trader Screens Group/TraderDealScreen/Right Person/SimpleStashPanel/TopPanel/ExternalObtain"
-            )
+            .transform.Find("UI/Trader Screens Group/TraderDealScreen/Right Person/SimpleStashPanel/TopPanel/ExternalObtain")
             .gameObject;
         if (externalObtain != null)
         {

@@ -14,18 +14,11 @@ public class DisableGameModeAdjustButtonPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(ChangeGameModeButton),
-            nameof(ChangeGameModeButton.Show)
-        );
+        return AccessTools.Method(typeof(ChangeGameModeButton), nameof(ChangeGameModeButton.Show));
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(
-        ESessionMode sessionMode,
-        Profile profile,
-        ref GameObject ____notAvailableState
-    )
+    public static bool PatchPrefix(ESessionMode sessionMode, Profile profile, ref GameObject ____notAvailableState)
     {
         ____notAvailableState.SetActive(false);
         return false; // Skip original

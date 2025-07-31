@@ -50,12 +50,12 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
                 count = ___ragfairOfferSellHelperClass.OfferItemCount,
                 fee = Mathf.CeilToInt(
                     (float)
-                    FleaTaxCalculatorAbstractClass.CalculateTaxPrice(
-                        ___item_0,
-                        ___ragfairOfferSellHelperClass.OfferItemCount,
-                        ___double_0,
-                        ___bool_0
-                    )
+                        FleaTaxCalculatorAbstractClass.CalculateTaxPrice(
+                            ___item_0,
+                            ___ragfairOfferSellHelperClass.OfferItemCount,
+                            ___double_0,
+                            ___bool_0
+                        )
                 ),
             }.ToJson()
         );

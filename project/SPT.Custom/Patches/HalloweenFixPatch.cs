@@ -17,10 +17,7 @@ public class BotsControllerInitPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(
-        BotsController __instance,
-        LocationSettingsClass.Location.EventsDataClass events
-    )
+    public static void PatchPostfix(BotsController __instance, LocationSettingsClass.Location.EventsDataClass events)
     {
         // Run it again with a non-null _botSpawner.
         __instance.EventsController = new BotsEventsController(
@@ -44,10 +41,7 @@ public class BotsEventsControllerActivatePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BotsEventsController),
-            nameof(BotsEventsController.Activate)
-        );
+        return AccessTools.Method(typeof(BotsEventsController), nameof(BotsEventsController.Activate));
     }
 
     [PatchPrefix]

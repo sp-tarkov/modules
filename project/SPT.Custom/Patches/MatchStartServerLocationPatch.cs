@@ -27,9 +27,7 @@ public class MatchStartServerLocationPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        var desiredMethod = desiredType
-            .GetMethods(PatchConstants.PublicDeclaredFlags)
-            .FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -39,10 +37,7 @@ public class MatchStartServerLocationPatch : ModulePatch
     }
 
     [PatchTranspiler]
-    public static IEnumerable<CodeInstruction> PatchTranspile(
-        ILGenerator generator,
-        IEnumerable<CodeInstruction> instructions
-    )
+    public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
     {
         var codes = new List<CodeInstruction>(instructions);
 
@@ -65,21 +60,15 @@ public class MatchStartServerLocationPatch : ModulePatch
         // Failed to find the target code
         if (searchIndex == -1)
         {
-            Logger.LogError(
-                $"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code."
-            );
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code.");
             return instructions;
         }
 
         // Find the target field (The @class variable)
-        var targetField = AccessTools
-            .GetDeclaredFields(desiredType)
-            .FirstOrDefault(x => x.FieldType == nestedType);
+        var targetField = AccessTools.GetDeclaredFields(desiredType).FirstOrDefault(x => x.FieldType == nestedType);
         if (targetField == null)
         {
-            Logger.LogError(
-                $"Patch {MethodBase.GetCurrentMethod()} failed: Could not find target field."
-            );
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find target field.");
             return instructions;
         }
 
@@ -94,11 +83,7 @@ public class MatchStartServerLocationPatch : ModulePatch
                 new Code(OpCodes.Ldarg_0), // ldarg.0 is `@class`
                 new Code(OpCodes.Ldfld, desiredType, targetField.Name),
                 new Code(OpCodes.Ldloc_2), // ldloc.2 is `localSettings`
-                new Code(
-                    OpCodes.Ldfld,
-                    typeof(LocalSettings),
-                    nameof(LocalSettings.locationLoot)
-                ),
+                new Code(OpCodes.Ldfld, typeof(LocalSettings), nameof(LocalSettings.locationLoot)),
                 new Code(OpCodes.Stfld, nestedType, "location"),
             }
         );
@@ -110,16 +95,16 @@ public class MatchStartServerLocationPatch : ModulePatch
     private static bool IsDesiredType(Type type)
     {
         return type.GetField("timeAndWeather") != null
-               && type.GetField("tarkovApplication_0") != null
-               && type.GetField("gameWorld") != null
-               && type.Name.Contains("Struct");
+            && type.GetField("tarkovApplication_0") != null
+            && type.GetField("gameWorld") != null
+            && type.Name.Contains("Struct");
     }
 
     private static bool IsTargetNestedType(Type nestedType)
     {
         return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Any()
-               && nestedType.GetFields().Length == 5
-               && nestedType.GetField("savageProfile") != null
-               && nestedType.GetField("profile") != null;
+            && nestedType.GetFields().Length == 5
+            && nestedType.GetField("savageProfile") != null
+            && nestedType.GetField("profile") != null;
     }
 }

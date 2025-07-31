@@ -23,9 +23,7 @@ public static class SPTPrePatcher
     {
         // Change icon cache folder path to be local to SPT
         // find the type that contains a method called ClearIconCache, there is currently only one
-        var typeToEdit = assembly
-            .MainModule.GetTypes()
-            .FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache"));
+        var typeToEdit = assembly.MainModule.GetTypes().FirstOrDefault(x => x.Methods.Any(m => m.Name == "ClearIconCache"));
 
         // find the .cctor and change the instructions to use our path instead
         var methodToEdit = typeToEdit.Methods.FirstOrDefault(x => x.Name == ".cctor");
@@ -45,21 +43,13 @@ public static class SPTPrePatcher
     {
         return new List<Instruction>
         {
-            Instruction.Create(
-                OpCodes.Call,
-                assembly.MainModule.ImportReference(
-                    typeof(Environment).GetMethod("get_CurrentDirectory")
-                )
-            ),
+            Instruction.Create(OpCodes.Call, assembly.MainModule.ImportReference(typeof(Environment).GetMethod("get_CurrentDirectory"))),
             Instruction.Create(OpCodes.Ldstr, "user"),
             Instruction.Create(OpCodes.Ldstr, "sptappdata"),
             Instruction.Create(
                 OpCodes.Call,
                 assembly.MainModule.ImportReference(
-                    typeof(Path).GetMethod(
-                        "Combine",
-                        new[] { typeof(string), typeof(string), typeof(string) }
-                    )
+                    typeof(Path).GetMethod("Combine", new[] { typeof(string), typeof(string), typeof(string) })
                 )
             ),
             Instruction.Create(
@@ -79,27 +69,16 @@ public static class SPTPrePatcher
         bool launcherUsed = ValidateLauncherUse(out string launcherError);
 
         // Check that all the expected plugins are in the BepInEx/Plugins/spt/ folder
-        string assemblyFolder = Path.GetDirectoryName(
-            System.Reflection.Assembly.GetExecutingAssembly().Location
-        );
-        string sptPluginPath = Path.GetFullPath(
-            Path.Combine(assemblyFolder, "..", _sptPluginFolder)
-        );
-        bool pluginsValidated = ValidateSptPlugins(
-            sptPluginPath,
-            out string pluginErrorMessage
-        );
+        string assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        string sptPluginPath = Path.GetFullPath(Path.Combine(assemblyFolder, "..", _sptPluginFolder));
+        bool pluginsValidated = ValidateSptPlugins(sptPluginPath, out string pluginErrorMessage);
 
         // If either the launcher wasn't used, or the plugins weren't found, exit
         if (!launcherUsed || !pluginsValidated)
         {
             string errorTitle = (!launcherUsed) ? "Startup Error" : "Missing Core Files";
             string errorMessage = (!launcherUsed) ? launcherError : pluginErrorMessage;
-            MessageBoxHelper.Show(
-                errorMessage,
-                $"[SPT] {errorTitle}",
-                MessageBoxHelper.MessageBoxType.OK
-            );
+            MessageBoxHelper.Show(errorMessage, $"[SPT] {errorTitle}", MessageBoxHelper.MessageBoxType.OK);
             Environment.Exit(0);
         }
     }
@@ -141,17 +120,13 @@ public static class SPTPrePatcher
             "spt-custom.dll",
             "spt-singleplayer.dll",
         };
-        string[] foundPlugins = Directory
-            .GetFiles(sptPluginPath)
-            .Select(x => Path.GetFileName(x))
-            .ToArray();
+        string[] foundPlugins = Directory.GetFiles(sptPluginPath).Select(x => Path.GetFileName(x)).ToArray();
 
         foreach (string pluginNameAndSuffix in sptPlugins)
         {
             if (!foundPlugins.Contains(pluginNameAndSuffix))
             {
-                message =
-                    $"Required SPT plugin: {pluginNameAndSuffix} missing from '{sptPluginPath}' {exitMessage}";
+                message = $"Required SPT plugin: {pluginNameAndSuffix} missing from '{sptPluginPath}' {exitMessage}";
                 logger.LogError(message);
                 return false;
             }

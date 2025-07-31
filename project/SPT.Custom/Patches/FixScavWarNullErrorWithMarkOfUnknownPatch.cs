@@ -11,10 +11,7 @@ public class FixScavWarNullErrorWithMarkOfUnknownPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(
-            typeof(BotsGroupMarkOfUnknown),
-            nameof(BotsGroupMarkOfUnknown.Dispose)
-        );
+        return AccessTools.Method(typeof(BotsGroupMarkOfUnknown), nameof(BotsGroupMarkOfUnknown.Dispose));
     }
 
     [PatchPrefix]

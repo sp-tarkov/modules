@@ -55,12 +55,7 @@ public static class Zlib
 
         using (var ms = new MemoryStream())
         {
-            using (
-                var zs =
-                (level > ZlibCompression.Store)
-                    ? new ZOutputStream(ms, (int)level)
-                    : new ZOutputStream(ms)
-            )
+            using (var zs = (level > ZlibCompression.Store) ? new ZOutputStream(ms, (int)level) : new ZOutputStream(ms))
             {
                 zs.Write(data, 0, data.Length);
             }

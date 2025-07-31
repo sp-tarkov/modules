@@ -14,25 +14,17 @@ public class BotDifficultyPatch : ModulePatch
         const string methodName = "LoadDifficultyStringInternal";
         const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
 
-        return PatchConstants
-            .EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null)
-            .GetMethod(methodName, flags);
+        return PatchConstants.EftTypes.SingleCustom(x => x.GetMethod(methodName, flags) != null).GetMethod(methodName, flags);
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(
-        ref string __result,
-        BotDifficulty botDifficulty,
-        WildSpawnType role
-    )
+    public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
     {
         __result = DifficultyManager.Get(botDifficulty, role);
         var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
         if (resultIsNullEmpty)
         {
-            ConsoleScreen.LogError(
-                $"Unable to get difficulty settings for {role} {botDifficulty}"
-            );
+            ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
 
             return true; // Do original method
         }

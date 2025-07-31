@@ -22,11 +22,7 @@ public class ScavExfilPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(
-        Profile profile,
-        ExfiltrationControllerClass __instance,
-        ref ExfiltrationPoint[] __result
-    )
+    public static bool PatchPrefix(Profile profile, ExfiltrationControllerClass __instance, ref ExfiltrationPoint[] __result)
     {
         if (profile.Info.Side != EPlayerSide.Savage)
         {
