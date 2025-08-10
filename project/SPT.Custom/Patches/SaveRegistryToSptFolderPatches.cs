@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using EFT.UI;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using SPT.Reflection.Patching;
@@ -58,7 +57,8 @@ public class SaveRegistryToSptFolderPatches
         }
         catch (Exception e)
         {
-            ConsoleScreen.LogError($"Unable to parse registry file, defaulting to empty: {e.Message}");
+            Console.WriteLine($"SPT registry file was corrupt and unable to be read, reset file to defaults. {e.Message}");
+            File.WriteAllText(_registryFilePath, new JObject().ToString());
         }
 
         // Make sure we save the registry on exit, for some reason this isn't triggering by Unity itself
