@@ -17,7 +17,7 @@ namespace SPT.Debugging.Scripts;
 public class DumpylibScript : MonoBehaviour
 {
     // Fields are public like this so we can see them using UE
-    public Class309 _session;
+    public Class308 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
     public WaveInfoClass _wavesSettings;
@@ -27,7 +27,7 @@ public class DumpylibScript : MonoBehaviour
     public List<LocationSettingsClass.Location> _locationSettingsDict;
     public RaidEndDescriptorClass _endRaidClass;
     public CompleteProfileDescriptorClass _completeProfile;
-    public GClass844 _parsedDataProfile;
+    public GClass846 _parsedDataProfile;
     public WeatherRequestClass _weather;
     public Type _raidSettingsType;
     public FieldInfo[] _locationSettingsFields;
@@ -51,7 +51,7 @@ public class DumpylibScript : MonoBehaviour
             await Task.Delay(random.Next(4802, 5998));
             Logger.LogError("StartTask");
 
-            _session = ClientAppUtils.GetClientApp().Session as Class309;
+            _session = ClientAppUtils.GetClientApp().Session as Class308;
             _tarkovApplication = ClientAppUtils.GetMainApp();
             _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
             _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal);
@@ -117,7 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2072.Instance);
+            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2240.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

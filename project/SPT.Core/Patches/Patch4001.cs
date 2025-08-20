@@ -9,7 +9,7 @@ internal class Patch4001 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(GClass912), nameof(GClass912.GetMetrics));
+        return AccessTools.Method(typeof(GClass914), nameof(GClass914.GetMetrics));
     }
 
     [PatchPrefix]

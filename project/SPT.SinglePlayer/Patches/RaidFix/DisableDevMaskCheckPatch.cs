@@ -15,7 +15,7 @@ public class DisableDevMaskCheckPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(LocalPlayer.Struct542), nameof(LocalPlayer.Struct542.MoveNext));
+        return AccessTools.Method(typeof(LocalPlayer.Struct569), nameof(LocalPlayer.Struct569.MoveNext));
     }
 
     [PatchTranspiler]

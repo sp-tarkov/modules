@@ -8,6 +8,7 @@ using SPT.SinglePlayer.Models.MainMenu;
 
 namespace SPT.SinglePlayer.Utils.MainMenu;
 
+/*
 public static class TraderServiceManager
 {
     private static Dictionary<string, Profile.ETraderServiceSource> _traderIdToTraderServiceDict = new()
@@ -41,3 +42,4 @@ public static class TraderServiceManager
         _traderIdToTraderServiceField.SetValue(_traderIdToTraderServiceField, _traderIdToTraderServiceDict);
     }
 }
+*/

@@ -42,8 +42,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.10.0
             new DisableWelcomeToPVEModeMessagePatch().Enable();
             new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
-            new EnableRefForPVEPatch().Enable();
-            new EnableRefIntermScreenPatch().Enable();
             new EnablePlayerScavPatch().Enable();
             new ScavFoundInRaidPatch().Enable();
             new GetProfileAtEndOfRaidPatch().Enable();
@@ -58,7 +56,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.11.0
             new ScavPrestigeFixPatch().Enable();
             new DisableDevMaskCheckPatch().Enable();
-            new RemoveStopwatchAllocationsEveryBotFramePatch().Enable();
             new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
             new DisableUseBSGServersCheckbox().Enable();
             new PmcBotSidePatch().Enable();
@@ -83,6 +80,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
 
     public void Start()
     {
-        TraderServiceManager.GetModdedTraderData();
+        //TraderServiceManager.GetModdedTraderData();
     }
 }

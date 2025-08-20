@@ -31,7 +31,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
         // `MatchmakerInsuranceScreen` OnShowNextScreen
-        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_51));
+        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_52));
 
         _menuControllerField = typeof(TarkovApplication)
             .GetFields(PatchConstants.PrivateFlags)
@@ -48,7 +48,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_78));
+        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_77));
     }
 
     [PatchTranspiler]

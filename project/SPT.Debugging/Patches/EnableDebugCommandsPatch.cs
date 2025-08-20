@@ -30,7 +30,7 @@ internal class EnableDebugCommandsPatch : ModulePatch
     [PatchPostfix]
     internal static void PatchPostfix()
     {
-        ConsoleScreen.Processor.RegisterCommandGroup<TraderDialogInteractionScreenClass>();
+        //ConsoleScreen.Processor.RegisterCommandGroup<TraderDialogInteractionScreenClass>();
         ConsoleScreen.Processor.RegisterCommandGroup<DebugCommands>();
     }
 }

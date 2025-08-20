@@ -14,11 +14,11 @@ public class FixAirdropFlareDisposePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(GClass2530), nameof(GClass2530.Dispose));
+        return AccessTools.Method(typeof(GClass2655), nameof(GClass2655.Dispose));
     }
 
     [PatchPrefix]
-    public static void Prefix(GClass2530 __instance)
+    public static void Prefix(GClass2655 __instance)
     {
         if (__instance.Dictionary_0 == null)
         {

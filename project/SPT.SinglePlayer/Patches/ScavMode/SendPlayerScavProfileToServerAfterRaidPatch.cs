@@ -28,7 +28,7 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
         }
         ProfileDescriptor = new CompleteProfileDescriptorClass(
             __instance.Profile_0,
-            GClass2073.Instance /* Has 2 methods */
+            GClass2241.Instance /* Has 2 methods */
         );
     }
 }
