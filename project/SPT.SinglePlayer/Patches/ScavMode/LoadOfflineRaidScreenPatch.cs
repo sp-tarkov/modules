@@ -153,7 +153,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
         gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_82));
+            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_81));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
