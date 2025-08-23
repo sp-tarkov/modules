@@ -25,7 +25,7 @@ public class BotDifficultyPatch : ModulePatch
 
         if (botSettings is null)
         {
-            ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
+            Logger.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
 
             return true; // Do original method
         }
@@ -34,7 +34,7 @@ public class BotDifficultyPatch : ModulePatch
         var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
         if (resultIsNullEmpty)
         {
-            ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
+            Logger.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
 
             return true; // Do original method
         }
