@@ -1,41 +1,35 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace SPT.Custom.Models;
 
 [Serializable]
-public struct DifficultyInfo
+public readonly struct DifficultyInfo
 {
-    public JArray this[string key]
+    public readonly object this[string key]
     {
         get
         {
-            switch (key)
+            return key switch
             {
-                case "easy":
-                    return easy;
-                case "hard":
-                    return hard;
-                case "impossible":
-                    return impossible;
-                case "normal":
-                    return normal;
-                default:
-                    throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo.");
-            }
+                "easy" => easy,
+                "hard" => hard,
+                "impossible" => impossible,
+                "normal" => normal,
+                _ => throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo."),
+            };
         }
     }
 
     [JsonProperty("easy")]
-    public JArray easy;
+    private BotSettingsComponents easy { get; }
 
     [JsonProperty("hard")]
-    public JArray hard;
+    private BotSettingsComponents hard { get; }
 
     [JsonProperty("impossible")]
-    public JArray impossible;
+    private BotSettingsComponents impossible { get; }
 
     [JsonProperty("normal")]
-    public JArray normal;
+    private BotSettingsComponents normal { get; }
 }

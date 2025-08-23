@@ -12,9 +12,7 @@ namespace SPT.Custom.Utils;
 
 public static class DifficultyManager
 {
-    internal static ManualLogSource _logger = new("DifficultyManager");
-
-    public static Dictionary<string, Dictionary<string, JObject>> Difficulties { get; private set; } = [];
+    public static Dictionary<string, Dictionary<string, BotSettingsComponents>> Difficulties { get; private set; } = [];
 
     public static void Update()
     {
@@ -23,21 +21,12 @@ public static class DifficultyManager
 
         // get new difficulties
         var json = RequestHandler.GetJson("/singleplayer/settings/bot/difficulties");
-        Difficulties = Json.Deserialize<Dictionary<string, Dictionary<string, JObject>>>(json);
+        Difficulties = Json.Deserialize<Dictionary<string, Dictionary<string, BotSettingsComponents>>>(json);
     }
 
-    public static BotSettingsComponents Get(BotDifficulty botDifficulty, WildSpawnType role)
+    public static string Get(BotDifficulty botDifficulty, WildSpawnType role)
     {
-        try
-        {
-            var difficultyMatrix = Difficulties[role.ToString().ToLower()];
-            return Json.Deserialize<BotSettingsComponents>(difficultyMatrix[botDifficulty.ToString().ToLower()]);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"Could not deserialize {role} ({botDifficulty}): {ex}");
-
-            return null;
-        }
+        var difficultyMatrix = Difficulties[role.ToString().ToLower()];
+        return Json.Serialize(difficultyMatrix[botDifficulty.ToString().ToLower()]);
     }
 }

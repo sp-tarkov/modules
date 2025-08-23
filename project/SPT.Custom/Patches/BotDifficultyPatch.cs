@@ -21,16 +21,7 @@ public class BotDifficultyPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role, bool isPve)
     {
-        var botSettings = DifficultyManager.Get(botDifficulty, role);
-
-        if (botSettings is null)
-        {
-            Logger.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
-
-            return true; // Do original method
-        }
-
-        __result = Json.Serialize(botSettings);
+        __result = DifficultyManager.Get(botDifficulty, role);
         var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
         if (resultIsNullEmpty)
         {

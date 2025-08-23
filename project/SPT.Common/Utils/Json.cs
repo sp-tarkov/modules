@@ -14,9 +14,4 @@ public static class Json
     {
         return JsonConvert.DeserializeObject<T>(json);
     }
-
-    public static T Deserialize<T>(JObject json)
-    {
-        return json.ToObject<T>();
-    }
 }
