@@ -1,6 +1,7 @@
 using System.Reflection;
 using EFT;
 using EFT.UI;
+using SPT.Common.Utils;
 using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
@@ -20,7 +21,16 @@ public class BotDifficultyPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role, bool isPve)
     {
-        __result = DifficultyManager.Get(botDifficulty, role);
+        var botSettings = DifficultyManager.Get(botDifficulty, role);
+
+        if (botSettings is null)
+        {
+            ConsoleScreen.LogError($"Unable to get difficulty settings for {role} {botDifficulty}");
+
+            return true; // Do original method
+        }
+
+        __result = Json.Serialize(botSettings);
         var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);
         if (resultIsNullEmpty)
         {

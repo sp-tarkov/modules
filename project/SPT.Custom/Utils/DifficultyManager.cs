@@ -1,19 +1,20 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
+using BepInEx.Logging;
 using EFT;
+using Newtonsoft.Json.Linq;
 using SPT.Common.Http;
 using SPT.Common.Utils;
-using SPT.Custom.Models;
+using SPT.Core;
 
 namespace SPT.Custom.Utils;
 
 public static class DifficultyManager
 {
-    public static Dictionary<string, DifficultyInfo> Difficulties { get; private set; }
+    internal static ManualLogSource _logger = new("DifficultyManager");
 
-    static DifficultyManager()
-    {
-        Difficulties = new Dictionary<string, DifficultyInfo>();
-    }
+    public static Dictionary<string, Dictionary<string, JObject>> Difficulties { get; private set; } = [];
 
     public static void Update()
     {
@@ -22,12 +23,21 @@ public static class DifficultyManager
 
         // get new difficulties
         var json = RequestHandler.GetJson("/singleplayer/settings/bot/difficulties");
-        Difficulties = Json.Deserialize<Dictionary<string, DifficultyInfo>>(json);
+        Difficulties = Json.Deserialize<Dictionary<string, Dictionary<string, JObject>>>(json);
     }
 
-    public static string Get(BotDifficulty botDifficulty, WildSpawnType role)
+    public static BotSettingsComponents Get(BotDifficulty botDifficulty, WildSpawnType role)
     {
-        var difficultyMatrix = Difficulties[role.ToString().ToLower()];
-        return Json.Serialize(difficultyMatrix[botDifficulty.ToString().ToLower()]);
+        try
+        {
+            var difficultyMatrix = Difficulties[role.ToString().ToLower()];
+            return Json.Deserialize<BotSettingsComponents>(difficultyMatrix[botDifficulty.ToString().ToLower()]);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Could not deserialize {role} ({botDifficulty}): {ex}");
+
+            return null;
+        }
     }
 }
