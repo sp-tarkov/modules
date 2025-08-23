@@ -7,7 +7,7 @@ public static class Json
 {
     public static string Serialize<T>(T data)
     {
-        return JsonConvert.SerializeObject(data);
+        return JsonConvert.SerializeObject(data, Formatting.Indented);
     }
 
     public static T Deserialize<T>(string json)
