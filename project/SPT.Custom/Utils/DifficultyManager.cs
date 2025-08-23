@@ -7,12 +7,13 @@ using Newtonsoft.Json.Linq;
 using SPT.Common.Http;
 using SPT.Common.Utils;
 using SPT.Core;
+using SPT.Custom.Models;
 
 namespace SPT.Custom.Utils;
 
 public static class DifficultyManager
 {
-    public static Dictionary<string, Dictionary<string, BotSettingsComponents>> Difficulties { get; private set; } = [];
+    public static Dictionary<string, DifficultyInfo> Difficulties { get; private set; } = [];
 
     public static void Update()
     {
@@ -21,7 +22,7 @@ public static class DifficultyManager
 
         // get new difficulties
         var json = RequestHandler.GetJson("/singleplayer/settings/bot/difficulties");
-        Difficulties = Json.Deserialize<Dictionary<string, Dictionary<string, BotSettingsComponents>>>(json);
+        Difficulties = Json.Deserialize<Dictionary<string, DifficultyInfo>>(json);
     }
 
     public static string Get(BotDifficulty botDifficulty, WildSpawnType role)
