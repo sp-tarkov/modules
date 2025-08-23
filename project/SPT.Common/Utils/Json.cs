@@ -7,6 +7,11 @@ public static class Json
 {
     public static string Serialize<T>(T data)
     {
+        return JsonConvert.SerializeObject(data);
+    }
+
+    public static string SerializeIndented<T>(T data)
+    {
         return JsonConvert.SerializeObject(data, Formatting.Indented);
     }
 
