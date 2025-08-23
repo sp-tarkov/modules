@@ -18,7 +18,7 @@ public class BotDifficultyPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role)
+    public static bool PatchPrefix(ref string __result, BotDifficulty botDifficulty, WildSpawnType role, bool isPve)
     {
         __result = DifficultyManager.Get(botDifficulty, role);
         var resultIsNullEmpty = string.IsNullOrWhiteSpace(__result);

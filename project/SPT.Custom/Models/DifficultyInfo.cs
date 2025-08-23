@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SPT.Custom.Models;
 
 [Serializable]
 public struct DifficultyInfo
 {
-    public Dictionary<string, object> this[string key]
+    public JArray this[string key]
     {
         get
         {
@@ -28,14 +28,14 @@ public struct DifficultyInfo
     }
 
     [JsonProperty("easy")]
-    public Dictionary<string, object> easy;
+    public JArray easy;
 
     [JsonProperty("hard")]
-    public Dictionary<string, object> hard;
+    public JArray hard;
 
     [JsonProperty("impossible")]
-    public Dictionary<string, object> impossible;
+    public JArray impossible;
 
     [JsonProperty("normal")]
-    public Dictionary<string, object> normal;
+    public JArray normal;
 }

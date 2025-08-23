@@ -6,6 +6,9 @@ using SPT.Reflection.Utils;
 
 namespace SPT.Custom.Patches;
 
+/// <summary>
+/// Required to force enable Zombies event during halloween
+/// </summary>
 public class CoreDifficultyPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
