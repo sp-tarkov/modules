@@ -93,11 +93,11 @@ public class Client : IDisposable
             {
                 return await SendAsync(method, path, data, compress);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                if (i > _retries)
+                if (i >= _retries)
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
