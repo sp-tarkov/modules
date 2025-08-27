@@ -48,9 +48,15 @@ namespace SPT.Custom
                 new AllowAirdropsInPvEPatch().Enable();
                 new MemoryCollectionPatch().Enable();
 
+                // Halloween event fixes
+                new BotsControllerInitPatch().Enable();
+                new BotsEventsControllerActivatePatch().Enable();
+
                 // 3.11
                 new EnablePrestigeTabPatch().Enable();
                 new MatchStartServerLocationPatch().Enable();
+                new SpawnPointAIPlayerBotLimitPatch().Enable();
+                new SpawnPointNearestPlayerAIPatch().Enable();
 
                 HookObject.AddComponent<MenuNotificationManager>();
             }

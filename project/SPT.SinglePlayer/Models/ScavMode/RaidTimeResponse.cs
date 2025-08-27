@@ -4,10 +4,10 @@ namespace SPT.SinglePlayer.Models.ScavMode
 {
     public class RaidTimeResponse
     {
-        public int RaidTimeMinutes { get; set; }
-        public int? NewSurviveTimeSeconds { get; set; }
-        public int OriginalSurvivalTimeSeconds { get; set; }
-        public List<ExitChanges> ExitChanges { get; set; }
+        public int raidTimeMinutes { get; set; }
+        public int? newSurviveTimeSeconds { get; set; }
+        public int originalSurvivalTimeSeconds { get; set; }
+        public List<ExitChanges> exitChanges { get; set; }
         
     }
 
