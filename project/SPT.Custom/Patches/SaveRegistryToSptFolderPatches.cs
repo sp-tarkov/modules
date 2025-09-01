@@ -4,7 +4,6 @@ using SPT.Reflection.Patching;
 using System;
 using System.IO;
 using System.Reflection;
-using EFT.UI;
 using UnityEngine;
 
 namespace SPT.Custom.Patches
@@ -59,7 +58,8 @@ namespace SPT.Custom.Patches
             }
             catch (Exception e)
             {
-                ConsoleScreen.LogError($"Unable to parse registry file, defaulting to empty: {e.Message}");
+                Console.WriteLine($"SPT registry file was corrupt and unable to be read, reset file to defaults. {e.Message}");
+                File.WriteAllText(_registryFilePath, new JObject().ToString());
             }
 
             // Make sure we save the registry on exit, for some reason this isn't triggering by Unity itself
