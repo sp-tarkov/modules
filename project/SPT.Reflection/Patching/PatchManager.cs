@@ -137,12 +137,21 @@ public class PatchManager
                 throw new PatchException("Could not find any patches defined in the assembly during auto patching");
             }
 
+            var successfulPatches = 0;
             foreach (var type in patches)
             {
-                ((ModulePatch) Activator.CreateInstance(type)).Enable(_harmony);
+                try
+                {
+                    ((ModulePatch)Activator.CreateInstance(type)).Enable(_harmony);
+                    successfulPatches++;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Failed to init [{type.Name}]: {ex.Message}");
+                }
             }
 
-            _logger.LogInfo($"Enabled {patches.Count} patches");
+            _logger.LogInfo($"Enabled {successfulPatches} patches");
             return;
         }
 
@@ -175,12 +184,21 @@ public class PatchManager
                 throw new PatchException("Could not find any patches defined in the assembly during auto patching");
             }
 
+            var disabledPatches = 0;
             foreach (var type in patches)
             {
-                ((ModulePatch) Activator.CreateInstance(type)).Disable(_harmony);
+                try
+                {
+                    ((ModulePatch)Activator.CreateInstance(type)).Disable(_harmony);
+                    disabledPatches++;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Failed to disable [{type.Name}]: {ex.Message}");
+                }
             }
 
-            _logger.LogInfo($"Disabled {patches.Count} patches");
+            _logger.LogInfo($"Disabled {disabledPatches} patches");
             return;
         }
 
