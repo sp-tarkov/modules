@@ -8,7 +8,31 @@ namespace SPT.Reflection.Patching;
 
 public abstract class ModulePatch
 {
-    private readonly Harmony _harmony;
+    /// <summary>
+    ///     Method this patch targets
+    /// </summary>
+    public MethodBase? TargetMethod { get; private set; }
+
+    /// <summary>
+    ///     Is this patch active?
+    /// </summary>
+    public bool IsActive { get; private set; }
+
+    /// <summary>
+    ///     Is this patch managed by the PatchManager?
+    /// </summary>
+    public bool IsManaged { get; private set; }
+
+    /// <summary>
+    ///     The harmony Id assigned to this patch, usually the name of the patch class.
+    /// </summary>
+    public string HarmonyId
+    {
+        get { return _harmony?.Id ?? "Harmony Id is null for this patch"; }
+    }
+
+    private Harmony? _harmony;
+
     private readonly List<HarmonyMethod> _prefixList;
     private readonly List<HarmonyMethod> _postfixList;
     private readonly List<HarmonyMethod> _transpilerList;
@@ -20,10 +44,7 @@ public abstract class ModulePatch
     protected ModulePatch()
         : this(null)
     {
-        if (Logger == null)
-        {
-            Logger = BepInEx.Logging.Logger.CreateLogSource(nameof(ModulePatch));
-        }
+        Logger ??= BepInEx.Logging.Logger.CreateLogSource(nameof(ModulePatch));
     }
 
     /// <summary>
@@ -47,7 +68,7 @@ public abstract class ModulePatch
             && _ilmanipulatorList.Count == 0
         )
         {
-            throw new Exception($"{_harmony.Id}: At least one of the patch methods must be specified");
+            throw new PatchException($"{HarmonyId}: At least one of the patch methods must be specified");
         }
     }
 
@@ -83,47 +104,66 @@ public abstract class ModulePatch
     /// </summary>
     public void Enable()
     {
-        var target = GetTargetMethod();
+        TargetMethod = GetTargetMethod();
 
-        if (target == null)
+        if (TargetMethod == null)
         {
-            throw new InvalidOperationException($"{_harmony.Id}: TargetMethod is null");
+            throw new PatchException($"{HarmonyId}: TargetMethod is null");
         }
 
         try
         {
             foreach (var prefix in _prefixList)
             {
-                _harmony.Patch(target, prefix: prefix);
+                _harmony!.Patch(TargetMethod, prefix: prefix);
             }
 
             foreach (var postfix in _postfixList)
             {
-                _harmony.Patch(target, postfix: postfix);
+                _harmony!.Patch(TargetMethod, postfix: postfix);
             }
 
             foreach (var transpiler in _transpilerList)
             {
-                _harmony.Patch(target, transpiler: transpiler);
+                _harmony!.Patch(TargetMethod, transpiler: transpiler);
             }
 
             foreach (var finalizer in _finalizerList)
             {
-                _harmony.Patch(target, finalizer: finalizer);
+                _harmony!.Patch(TargetMethod, finalizer: finalizer);
             }
 
             foreach (var ilmanipulator in _ilmanipulatorList)
             {
-                _harmony.Patch(target, ilmanipulator: ilmanipulator);
+                _harmony!.Patch(TargetMethod, ilmanipulator: ilmanipulator);
             }
 
-            Logger.LogInfo($"Enabled patch {_harmony.Id}");
+            Logger.LogInfo($"Enabled patch {HarmonyId}");
+
+            ModPatchCache.AddPatch(this);
+            IsActive = true;
         }
         catch (Exception ex)
         {
-            Logger.LogError($"{_harmony.Id}: {ex}");
-            throw new Exception($"{_harmony.Id}:", ex);
+            Logger.LogError($"{HarmonyId}: {ex}");
+            throw new PatchException($"{HarmonyId}:", ex);
         }
+    }
+
+    /// <summary>
+    ///     Internal use only, called from the patch manager.
+    /// </summary>
+    /// <param name="harmony">Harmony instance of the patch manager</param>
+    internal void Enable(Harmony harmony)
+    {
+        if (!ReferenceEquals(_harmony, harmony))
+        {
+            // Override the initial harmony instance with the PatchManagers instance
+            _harmony = harmony;
+        }
+
+        IsManaged = true;
+        Enable();
     }
 
     /// <summary>
@@ -131,22 +171,45 @@ public abstract class ModulePatch
     /// </summary>
     public void Disable()
     {
-        var target = GetTargetMethod();
+        TargetMethod = GetTargetMethod();
 
-        if (target == null)
+        if (TargetMethod == null)
         {
-            throw new InvalidOperationException($"{_harmony.Id}: TargetMethod is null");
+            throw new PatchException($"{_harmony.Id}: TargetMethod is null");
         }
 
         try
         {
-            _harmony.Unpatch(target, HarmonyPatchType.All, _harmony.Id);
+            _harmony.Unpatch(TargetMethod, HarmonyPatchType.All, _harmony.Id);
             Logger.LogInfo($"Disabled patch {_harmony.Id}");
+
+            ModPatchCache.RemovePatch(this);
+            IsActive = false;
         }
         catch (Exception ex)
         {
             Logger.LogError($"{_harmony.Id}: {ex}");
-            throw new Exception($"{_harmony.Id}:", ex);
+            throw new PatchException($"{_harmony.Id}:", ex);
         }
+    }
+
+    /// <summary>
+    ///     Internal use only, called from the patch manager.
+    /// </summary>
+    /// <param name="harmony">Harmony instance of the patch manager</param>
+    internal void Disable(Harmony harmony)
+    {
+        //  Attempting to disable a patch that is not managed by the patch manager
+        if (harmony is null || !ReferenceEquals(_harmony, harmony))
+        {
+            throw new PatchException(
+                $"Patch: {GetType().Name} is attempting to be disabled internally while not managed by the patch manager."
+            );
+        }
+
+        Disable();
+
+        // This patch is no longer considered managed.
+        IsManaged = false;
     }
 }
