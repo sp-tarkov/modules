@@ -17,7 +17,7 @@ public class EnablePrestigeTabPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void Postfix(InventoryScreen.Class2914 __instance)
+    public static void Postfix(InventoryScreen.Class2915 __instance)
     {
         var inventoryScreen = __instance.inventoryScreen_0;
         var tabDictionary = Traverse.Create(inventoryScreen).Field<IReadOnlyDictionary<EInventoryTab, Tab>>("_tabDictionary").Value;
