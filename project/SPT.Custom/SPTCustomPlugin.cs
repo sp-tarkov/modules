@@ -58,6 +58,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
             // Halloween event fixes
             new BotsControllerInitPatch().Enable();
             new BotsEventsControllerActivatePatch().Enable();
+            new EnableInfectionUIPatch().Enable();
 
             HookObject.AddComponent<MenuNotificationManager>();
         }
