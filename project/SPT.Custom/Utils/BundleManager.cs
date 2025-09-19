@@ -66,7 +66,7 @@ public static class BundleManager
         {
             // calculate hash
             var data = await VFS.ReadFileAsync(filepath);
-            var crc = Crc32.Compute(data);
+            var crc = Crc32.HashToUInt32(data);
 
             if (crc == bundle.Crc)
             {
