@@ -117,7 +117,6 @@ public class Client(string address, string accountId, int retries = 3)
         var operation = request.SendWebRequest();
         var startTime = DateTime.UtcNow;
         var lastUpdateTime = startTime;
-        var lastBytesDownloaded = 0L;
         var totalBytes = 0L;
 
         while (!operation.isDone)
@@ -133,21 +132,8 @@ public class Client(string address, string accountId, int retries = 3)
                 }
             }
 
-            var timeDiff = (currentTime - lastUpdateTime).TotalSeconds;
-            var speed = 0.0;
-
-            if (timeDiff >= 1)
-            {
-                var bytesDiff = currentBytes - lastBytesDownloaded;
-                speed = bytesDiff / timeDiff;
-                lastUpdateTime = currentTime;
-                lastBytesDownloaded = currentBytes;
-            }
-            else
-            {
-                var totalTime = (currentTime - startTime).TotalSeconds;
-                speed = totalTime > 0 ? currentBytes / totalTime : 0;
-            }
+            var totalTime = (currentTime - startTime).TotalSeconds;
+            var speed = totalTime > 0 ? currentBytes / totalTime : 0;
 
             progressCallback?.Invoke(
                 new DownloadProgress
