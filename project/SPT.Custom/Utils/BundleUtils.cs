@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-
-namespace SPT.Custom.Utils;
+﻿using SPT.Common.Http;
+using UnityEngine;
 
 public class BundleUtils : MonoBehaviour
 {
@@ -8,6 +7,8 @@ public class BundleUtils : MonoBehaviour
     private int current;
     private int maximum;
     private string bundleName;
+    private string downloadSpeed;
+    private string fileSizeInfo;
     private Texture2D bgTexture;
     private bool started;
     private GUIStyle labelStyle;
@@ -23,7 +24,7 @@ public class BundleUtils : MonoBehaviour
         bundleUtils.maximum = 0;
         bundleUtils.enabled = true;
         bundleUtils.bgTexture = new Texture2D(2, 2);
-        bundleUtils.windowRect = bundleUtils.CreateRectangle(500, 80);
+        bundleUtils.windowRect = bundleUtils.CreateRectangle(500, 100);
         return bundleUtils;
     }
 
@@ -38,6 +39,12 @@ public class BundleUtils : MonoBehaviour
         bundleName = fileName;
     }
 
+    public void SetDownloadProgress(DownloadProgress progress)
+    {
+        downloadSpeed = progress.DownloadSpeed;
+        fileSizeInfo = progress.FileSizeInfo;
+    }
+
     public void Dispose()
     {
         Destroy(rootObject);
@@ -50,7 +57,6 @@ public class BundleUtils : MonoBehaviour
         {
             CreateStyles();
         }
-
         GUI.backgroundColor = Color.black;
         GUI.Window(0, windowRect, DrawWindow, "Bundle Loading", windowStyle);
     }
@@ -58,10 +64,8 @@ public class BundleUtils : MonoBehaviour
     private void CreateStyles()
     {
         labelStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
-
         windowStyle = new GUIStyle(GUI.skin.window) { alignment = TextAnchor.UpperCenter };
         windowStyle.normal.background = bgTexture;
-
         started = true;
     }
 
@@ -72,7 +76,15 @@ public class BundleUtils : MonoBehaviour
 
     private void DrawWindow(int windowId)
     {
-        GUI.Label(new Rect(0, 35, 500, 20), $"Loading bundle: {current} / {maximum}", labelStyle);
+        var actionText =
+            (!string.IsNullOrEmpty(downloadSpeed) && !string.IsNullOrEmpty(fileSizeInfo)) ? "Downloading bundle" : "Loading bundle";
+
+        GUI.Label(new Rect(0, 35, 500, 20), $"{actionText}: {current} / {maximum}", labelStyle);
         GUI.Label(new Rect(0, 50, 500, 20), bundleName, labelStyle);
+
+        if (!string.IsNullOrEmpty(downloadSpeed) && !string.IsNullOrEmpty(fileSizeInfo))
+        {
+            GUI.Label(new Rect(0, 65, 500, 20), $"Speed: {downloadSpeed} | Size: {fileSizeInfo}", labelStyle);
+        }
     }
 }

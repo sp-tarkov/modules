@@ -42,11 +42,10 @@ public static class BundleManager
         }
     }
 
-    public static async Task DownloadBundle(BundleItem bundle)
+    public static async Task DownloadBundle(BundleItem bundle, System.Action<DownloadProgress> progressCallback)
     {
         var filepath = GetBundleFilePath(bundle);
-        var data = await RequestHandler.GetDataAsync($"/files/bundle/{bundle.FileName}");
-        await VFS.WriteFileAsync(filepath, data);
+        await RequestHandler.HttpClient.DownloadAsync($"/files/bundle/{bundle.FileName}", filepath, progressCallback);
     }
 
     // Handles both the check for initially acquiring and also re-acquiring a file.
