@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Networking;
 
-namespace SPT.Core.Models;
+namespace SPT.Common.Models;
 
 public class FakeCertificateHandler : CertificateHandler
 {

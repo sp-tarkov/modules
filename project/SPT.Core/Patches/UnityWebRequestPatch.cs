@@ -1,4 +1,5 @@
 using System.Reflection;
+using SPT.Common.Models;
 using SPT.Core.Models;
 using SPT.Reflection.Patching;
 using UnityEngine.Networking;

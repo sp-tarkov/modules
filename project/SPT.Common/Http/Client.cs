@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BepInEx.Logging;
+using SPT.Common.Models;
 using SPT.Common.Utils;
 using UnityEngine.Networking;
 
@@ -111,7 +112,7 @@ public class Client(string address, string accountId, int retries = 3)
 
         using var request = UnityWebRequest.Get(address + path);
         request.downloadHandler = new DownloadHandlerFile(filePath) { removeFileOnAbort = true };
-        request.certificateHandler = new AcceptAllCertificatesHandler();
+        request.certificateHandler = new FakeCertificateHandler();
 
         var operation = request.SendWebRequest();
         var startTime = DateTime.UtcNow;
@@ -216,13 +217,5 @@ public class DownloadProgress
                 ? $"{bytesPerSecond / (1024 * 1024):F1} MB/s"
                 : $"{bytesPerSecond / (1024 * 1024 * 1024):F1} GB/s";
         }
-    }
-}
-
-public class AcceptAllCertificatesHandler : CertificateHandler
-{
-    protected override bool ValidateCertificate(byte[] certificateData)
-    {
-        return true; // Accept all certificates
     }
 }
