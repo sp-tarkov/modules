@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Diz.Resources;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SPT.Common.Http;
 using SPT.Common.Utils;
 using SPT.Custom.Models;
 using SPT.Custom.Utils;
@@ -104,7 +105,6 @@ public class EasyAssetsPatch : ModulePatch
             if (BundleManager.Bundles.TryGetValue(key, out var bundleInfo))
             {
                 bundleUtils.SetProgress(i, bundleInfo.FileName);
-
                 // we need base path without file extension
                 path = BundleManager.GetBundlePath(bundleInfo);
 
@@ -116,7 +116,9 @@ public class EasyAssetsPatch : ModulePatch
                         VFS.DeleteFile(BundleManager.GetBundleFilePath(bundleInfo));
                     }
 
-                    await BundleManager.DownloadBundle(bundleInfo);
+                    Action<DownloadProgress> progressCallback = bundleUtils.SetDownloadProgress;
+
+                    await BundleManager.DownloadBundle(bundleInfo, progressCallback);
                 }
             }
 

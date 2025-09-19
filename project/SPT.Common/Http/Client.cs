@@ -1,52 +1,46 @@
 using System;
+using System.Collections;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using BepInEx.Logging;
+using SPT.Common.Models;
 using SPT.Common.Utils;
+using UnityEngine.Networking;
 
 namespace SPT.Common.Http;
 
-// NOTE: Don't dispose this, keep a reference for the lifetime of the
-//       application.
-public class Client : IDisposable
+public class Client(string address, string accountId, int retries = 3)
 {
-    public HttpClient HttpClient { get; private set; }
+    private static ManualLogSource _logger = Logger.CreateLogSource(nameof(Client));
 
-    protected readonly string _address;
-    protected readonly string _accountId;
-    protected readonly int _retries;
+    public HttpClient HttpClient { get; } =
+        new HttpClient(
+            new HttpClientHandler
+            {
+                // set cookies in header instead
+                UseCookies = false,
 
-    public Client(string address, string accountId, int retries = 3)
-    {
-        _address = address;
-        _accountId = accountId;
-        _retries = retries;
+                // Bypass Cert validation in the httpServer - discard arguments as we dont use them
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+            }
+        );
 
-        var handler = new HttpClientHandler
-        {
-            // set cookies in header instead
-            UseCookies = false,
-
-            // Bypass Cert validation in the httpServer - discard arguments as we dont use them
-            ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-        };
-
-        HttpClient = new HttpClient(handler);
-    }
-
-    private HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+    public HttpRequestMessage CreateNewHttpRequest(HttpMethod method, string path)
     {
         return new HttpRequestMessage()
         {
             Method = method,
-            RequestUri = new Uri(_address + path),
-            Headers = { { "Cookie", $"PHPSESSID={_accountId}" } },
+            RequestUri = new Uri(address + path),
+            Headers = { { "Cookie", $"PHPSESSID={accountId}" } },
         };
     }
 
     protected async Task<byte[]> SendAsync(HttpMethod method, string path, byte[] data, bool zipped = true)
     {
-        using var request = GetNewRequest(method, path);
+        using var request = CreateNewHttpRequest(method, path);
 
         if (data != null)
         {
@@ -87,15 +81,17 @@ public class Client : IDisposable
     protected async Task<byte[]> SendWithRetriesAsync(HttpMethod method, string path, byte[] data, bool compress = true)
     {
         // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
-        for (var i = 0; i <= _retries; i++)
+        for (var i = 0; i <= retries; i++)
         {
             try
             {
                 return await SendAsync(method, path, data, compress);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (i >= _retries)
+                _logger.LogError(ex);
+
+                if (i >= retries)
                 {
                     throw;
                 }
@@ -105,24 +101,60 @@ public class Client : IDisposable
         return null;
     }
 
+    public async Task DownloadAsync(string path, string filePath, Action<DownloadProgress> progressCallback = null)
+    {
+        var directoryPath = Path.GetDirectoryName(filePath);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        using var request = UnityWebRequest.Get(address + path);
+        request.downloadHandler = new DownloadHandlerFile(filePath) { removeFileOnAbort = true };
+        request.certificateHandler = new FakeCertificateHandler();
+
+        var operation = request.SendWebRequest();
+        var startTime = DateTime.UtcNow;
+        var lastUpdateTime = startTime;
+        var totalBytes = 0L;
+
+        while (!operation.isDone)
+        {
+            var currentTime = DateTime.UtcNow;
+            var currentBytes = (long)request.downloadedBytes;
+
+            if (totalBytes == 0 && request.GetResponseHeader("Content-Length") != null)
+            {
+                if (long.TryParse(request.GetResponseHeader("Content-Length"), out var contentLength))
+                {
+                    totalBytes = contentLength;
+                }
+            }
+
+            var totalTime = (currentTime - startTime).TotalSeconds;
+            var speed = totalTime > 0 ? currentBytes / totalTime : 0;
+
+            progressCallback?.Invoke(
+                new DownloadProgress
+                {
+                    DownloadSpeed = DownloadProgress.FormatDownloadSpeed(speed),
+                    FileSizeInfo = $"{DownloadProgress.FormatFileSize(currentBytes)} / {DownloadProgress.FormatFileSize(totalBytes)}",
+                }
+            );
+
+            await Task.Delay(25);
+        }
+    }
+
     public async Task<byte[]> GetAsync(string path)
     {
         return await SendWithRetriesAsync(HttpMethod.Get, path, null);
     }
 
-    public byte[] Get(string path)
-    {
-        return Task.Run(() => GetAsync(path)).Result;
-    }
-
     public async Task<byte[]> PostAsync(string path, byte[] data, bool compress = true)
     {
         return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
-    }
-
-    public byte[] Post(string path, byte[] data, bool compress = true)
-    {
-        return Task.Run(() => PostAsync(path, data, compress)).Result;
     }
 
     /// <summary>
@@ -133,18 +165,43 @@ public class Client : IDisposable
     {
         return await SendWithRetriesAsync(HttpMethod.Post, path, data, compress);
     }
+}
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <returns>Returns status code as bytes</returns>
-    public byte[] Put(string path, byte[] data, bool compress = true)
+public class DownloadProgress
+{
+    public string DownloadSpeed { get; set; }
+    public string FileSizeInfo { get; set; }
+
+    public static string FormatFileSize(long bytes)
     {
-        return Task.Run(() => PutAsync(path, data, compress)).Result;
+        if (bytes < 1024)
+        {
+            return $"{bytes} B";
+        }
+
+        if (bytes < 1024 * 1024)
+        {
+            return $"{bytes / 1024.0:F1} KB";
+        }
+
+        return bytes < 1024 * 1024 * 1024 ? $"{bytes / (1024.0 * 1024):F1} MB" : $"{bytes / (1024.0 * 1024 * 1024):F1} GB";
     }
 
-    public void Dispose()
+    public static string FormatDownloadSpeed(double bytesPerSecond)
     {
-        HttpClient.Dispose();
+        if (bytesPerSecond < 1024)
+        {
+            return $"{bytesPerSecond:F0} B/s";
+        }
+        else if (bytesPerSecond < 1024 * 1024)
+        {
+            return $"{bytesPerSecond / 1024:F1} KB/s";
+        }
+        else
+        {
+            return bytesPerSecond < 1024 * 1024 * 1024
+                ? $"{bytesPerSecond / (1024 * 1024):F1} MB/s"
+                : $"{bytesPerSecond / (1024 * 1024 * 1024):F1} GB/s";
+        }
     }
 }

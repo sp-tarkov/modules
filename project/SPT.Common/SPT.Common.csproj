@@ -16,6 +16,10 @@
       HintPath="..\Shared\Managed\bsg.componentace.compression.libs.zlib.dll"
       Private="False"
     />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>..\Shared\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BepInEx.Core" Version="5.4.21" />
