@@ -98,7 +98,7 @@ public class PatchManager
 
         foreach (var type in assembly.GetTypes())
         {
-            if (type.BaseType != baseType)
+            if (!baseType.IsAssignableFrom(type) || type.IsAbstract)
             {
                 continue;
             }
