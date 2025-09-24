@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -10,6 +11,7 @@ public static class ValidationUtil
 {
     public static string _crashHandler = "0";
     private static bool _hasRun;
+    
 
     [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
     private static extern int RegOpenKeyEx(IntPtr hKey, string subKey, int options, int samDesired, out IntPtr phkResult);
@@ -30,69 +32,78 @@ public static class ValidationUtil
     public static bool Validate()
     {
         const string c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
-        var v0 = 0;
+        var l1 = 0;
 
         try
         {
-            var v1 = Rfs(c0, "InstallLocation");
+            var l4 = l1ll(c0, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
 
-            var v2 = (v1 != null) ? v1.ToString() : string.Empty;
-            var v3 = new DirectoryInfo(v2);
-
-            var v4 = new FileSystemInfo[]
+            var l3 = (l4 != null) ? l4.ToString() : string.Empty;
+            var l2 = new DirectoryInfo(l3);
+            var l6 = l1l(Directory.GetCurrentDirectory());
+            var ll = new FileSystemInfo[]
             {
-                v3,
-                new FileInfo(Path.Combine(v2, @"BattlEye\BEClient_x64.dll")),
-                new FileInfo(Path.Combine(v2, @"BattlEye\BEService_x64.exe")),
-                new FileInfo(Path.Combine(v2, "ConsistencyInfo")),
-                new FileInfo(Path.Combine(v2, "Uninstall.exe")),
-                new FileInfo(Path.Combine(v2, "UnityCrashHandler64.exe")),
+                l2,
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVDbGllbnRfeDY0LmRsbA==")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVTZXJ2aWNlX3g2NC5leGU=")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("Q29uc2lzdGVuY3lJbmZv")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU="))))
             };
 
-            if (!_hasRun)
+            if (_hasRun ? false : !_hasRun ? true : false)
             {
-                _crashHandler = Gfs(v2, "UnityCrashHandler64.exe")?.Length.ToString() ?? "0";
+                _crashHandler = ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU=")))?.Length.ToString() ?? "0";
                 ServerLog.Debug("SPT.Core", _crashHandler);
-                ServerLog.Debug("SPT.Core", Gfs(v2, "Uninstall.exe")?.Length.ToString() ?? "0");
-                ServerLog.Debug("SPT.Core", Gfs(v2, "Register.bat")?.Length.ToString() ?? "0");
-                if (_crashHandler == "0")
-                    ServerLog.Debug("SPT.Core", "-1");
+                ServerLog.Debug("SPT.Core", ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))?.Length.ToString() ?? "0");
+                ServerLog.Debug("SPT.Core", ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
+                ServerLog.Debug("SPT.Core", ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
+                var lll = ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIgR2FtZS5leGU=")))
+                    ?.Length.ToString() ?? "0";
+                ServerLog.Debug("SPT.Core", lll);
 
-                _hasRun = true;
+                ServerLog.Debug("SPT.Core", Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join(",", l6))));
+                if (_crashHandler == "0" || lll != "0")
+                    ServerLog.Debug("SPT.Core", "-1");
+                    
+
+                _hasRun = !_hasRun ? true : false;
             }
 
-            v0 = v4.Length - 1;
+            l1 = ll.Length - 1;
 
-            foreach (var value in v4)
+            foreach (var l in ll)
             {
-                if (File.Exists(value.FullName))
+                if (File.Exists(l.FullName))
                 {
-                    --v0;
+                    --l1;
                 }
             }
         }
         catch
         {
-            v0 = -1;
+            l1 = -1;
         }
 
-        return v0 == 0;
+        complete = l1 == 0;
+
+        return l1 == 0;
     }
 
-    private static string Rfs(string a, string b)
+    private static string l1ll(string ll, string l1)
     {
         try
         {
             var h = new IntPtr(-2147483646);
-            int r = RegOpenKeyEx(h, a, 0, 0x20019, out IntPtr k);
+            var r = RegOpenKeyEx(h, ll, 0, 0x20019, out IntPtr k);
             if (r == 0)
             {
                 uint s = 0;
-                int sr = RegQueryValueEx(k, b, IntPtr.Zero, out uint t, null, ref s);
+                var sr = RegQueryValueEx(k, l1, IntPtr.Zero, out uint t, null, ref s);
                 if (sr == 0 && s > 0)
                 {
                     var buf = new StringBuilder((int)s);
-                    int vr = RegQueryValueEx(k, b, IntPtr.Zero, out _, buf, ref s);
+                    int vr = RegQueryValueEx(k, l1, IntPtr.Zero, out _, buf, ref s);
                     if (vr == 0)
                     {
                         var res = buf.ToString();
@@ -107,9 +118,34 @@ public static class ValidationUtil
         return null;
     }
 
-    private static FileInfo Gfs(string p, string f)
+    private static FileInfo ll1(string l1, string ll)
     {
-        var a = Path.Combine(p, f);
+        var a = Path.Combine(l1, ll);
         return File.Exists(a) ? new FileInfo(a) : null;
+    }
+
+    public static bool complete = false;
+
+    private static HashSet<string> l1l(string ll)
+    {
+        var l = new HashSet<string>();
+
+        try
+        {
+            if (!Directory.Exists(ll))
+            {
+                return l;
+            }
+
+            foreach (var l7 in Directory.EnumerateFiles(ll))
+            {
+                l.Add(Path.GetFileName(l7));
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+
+        return l;
     }
 }
