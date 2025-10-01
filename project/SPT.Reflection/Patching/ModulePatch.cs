@@ -108,7 +108,7 @@ public abstract class ModulePatch
 
         if (TargetMethod == null)
         {
-            throw new PatchException($"{HarmonyId}:{GetType().Name}: TargetMethod is null");
+            throw new PatchException($"{HarmonyId}: TargetMethod is null");
         }
 
         try
@@ -138,15 +138,15 @@ public abstract class ModulePatch
                 _harmony!.Patch(TargetMethod, ilmanipulator: ilmanipulator);
             }
 
-            Logger.LogInfo($"Enabled patch {HarmonyId}:{GetType().Name}");
+            Logger.LogInfo($"Enabled patch {HarmonyId}");
 
             ModPatchCache.AddPatch(this);
             IsActive = true;
         }
         catch (Exception ex)
         {
-            Logger.LogError($"{HarmonyId}:{GetType().Name}: {ex}");
-            throw new PatchException($"{HarmonyId}:{GetType().Name}:", ex);
+            Logger.LogError($"{HarmonyId}: {ex}");
+            throw new PatchException($"{HarmonyId}:", ex);
         }
     }
 
@@ -175,21 +175,21 @@ public abstract class ModulePatch
 
         if (TargetMethod == null)
         {
-            throw new PatchException($"{HarmonyId}:{GetType().Name}: TargetMethod is null");
+            throw new PatchException($"{_harmony.Id}: TargetMethod is null");
         }
 
         try
         {
             _harmony.Unpatch(TargetMethod, HarmonyPatchType.All, _harmony.Id);
-            Logger.LogInfo($"Disabled patch {HarmonyId}:{GetType().Name}");
+            Logger.LogInfo($"Disabled patch {_harmony.Id}");
 
             ModPatchCache.RemovePatch(this);
             IsActive = false;
         }
         catch (Exception ex)
         {
-            Logger.LogError($"{HarmonyId}:{GetType().Name}: {ex}");
-            throw new PatchException($"{HarmonyId}:{GetType().Name}:", ex);
+            Logger.LogError($"{_harmony.Id}: {ex}");
+            throw new PatchException($"{_harmony.Id}:", ex);
         }
     }
 
