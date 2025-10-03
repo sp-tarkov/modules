@@ -35,7 +35,6 @@ public class SPTDebuggingPlugin : BaseUnityPlugin
             new ReloadClientPatch().Enable();
             // new DumpyLibPatch().Enable();
             new EnableDebugCommandsPatch().Enable();
-            new LocaleFixPatch().Enable();
         }
         catch (Exception ex)
         {

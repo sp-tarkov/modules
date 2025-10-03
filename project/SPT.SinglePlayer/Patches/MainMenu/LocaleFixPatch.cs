@@ -2,16 +2,14 @@
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
-namespace SPT.Debugging.Patches;
+namespace SPT.SinglePlayer.Patches.MainMenu;
 
-/*
- * The purpose of this patch is to prevent the game from loading without the locales
- * Somewhere in BSG's spagetti, the game *sometimes* has the locale string in the dictionary,
- * Even though the locale was not loaded.
- *
- * To workaround this issue, we clear the dictionary before the game usually checks and requests for it.
- *
- */
+/// <summary>
+/// The purpose of this patch is to prevent the game from loading without the locales
+/// Somewhere in BSG's spagetti, the game *sometimes* has the locale string in the dictionary,
+/// Even though the locale was not loaded.
+/// To workaround this issue, we clear the dictionary before the game usually checks and requests for it.
+/// </summary>
 public class LocaleFixPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
