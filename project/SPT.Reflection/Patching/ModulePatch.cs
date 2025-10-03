@@ -68,7 +68,7 @@ public abstract class ModulePatch
             && _ilmanipulatorList.Count == 0
         )
         {
-            throw new PatchException($"{HarmonyId}: At least one of the patch methods must be specified");
+            throw new PatchException($"{GetType().Name}: At least one of the patch methods must be specified");
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class ModulePatch
 
         if (TargetMethod == null)
         {
-            throw new PatchException($"{HarmonyId}:{GetType().Name}: TargetMethod is null");
+            throw new PatchException($"{GetType().Name}: TargetMethod is null");
         }
 
         try
@@ -138,15 +138,15 @@ public abstract class ModulePatch
                 _harmony!.Patch(TargetMethod, ilmanipulator: ilmanipulator);
             }
 
-            Logger.LogInfo($"Enabled patch {HarmonyId}:{GetType().Name}");
+            Logger.LogInfo($"Enabled patch {GetType().Name}");
 
             ModPatchCache.AddPatch(this);
             IsActive = true;
         }
         catch (Exception ex)
         {
-            Logger.LogError($"{HarmonyId}:{GetType().Name}: {ex}");
-            throw new PatchException($"{HarmonyId}:{GetType().Name}:", ex);
+            Logger.LogError($"{GetType().Name}: {ex}");
+            throw new PatchException($"{GetType().Name}:", ex);
         }
     }
 
@@ -175,21 +175,21 @@ public abstract class ModulePatch
 
         if (TargetMethod == null)
         {
-            throw new PatchException($"{HarmonyId}:{GetType().Name}: TargetMethod is null");
+            throw new PatchException($"{GetType().Name}: TargetMethod is null");
         }
 
         try
         {
             _harmony.Unpatch(TargetMethod, HarmonyPatchType.All, _harmony.Id);
-            Logger.LogInfo($"Disabled patch {HarmonyId}:{GetType().Name}");
+            Logger.LogInfo($"Disabled patch {GetType().Name}");
 
             ModPatchCache.RemovePatch(this);
             IsActive = false;
         }
         catch (Exception ex)
         {
-            Logger.LogError($"{HarmonyId}:{GetType().Name}: {ex}");
-            throw new PatchException($"{HarmonyId}:{GetType().Name}:", ex);
+            Logger.LogError($"{GetType().Name}: {ex}");
+            throw new PatchException($"{GetType().Name}:", ex);
         }
     }
 
