@@ -14,7 +14,7 @@ namespace SPT.Custom.Patches;
 ///
 public class RedirectClientImageRequestsPatch : ModulePatch
 {
-    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptappdata");
+    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptappdata");
 
     protected override MethodBase GetTargetMethod()
     {

@@ -17,7 +17,7 @@ namespace SPT.Custom.Patches;
 /// </summary>
 public class SaveRegistryToSptFolderPatches
 {
-    private static readonly string _sptRegistryPath = Path.Combine(Environment.CurrentDirectory, "user", "sptRegistry");
+    private static readonly string _sptRegistryPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptRegistry");
     private static readonly string _registryFilePath = Path.Combine(_sptRegistryPath, "registry.json");
     private static JObject _sptRegistry = new JObject();
 

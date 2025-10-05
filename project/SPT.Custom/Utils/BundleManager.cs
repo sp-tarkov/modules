@@ -10,7 +10,7 @@ namespace SPT.Custom.Utils;
 
 public static class BundleManager
 {
-    private const string CachePath = "user/cache/bundles/";
+    private const string CachePath = "SPT/user/cache/bundles/";
     private static readonly ManualLogSource _logger;
     public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
 
