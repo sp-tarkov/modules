@@ -15,9 +15,6 @@ public static class ModPatchCache
     /// <returns>
     /// List of active patches
     /// </returns>
-    /// <remarks>
-    ///     This should never be called before PreSptLoad is completed, otherwise could be empty.
-    /// </remarks>
     public static IReadOnlyList<ModulePatch> GetActivePatches()
     {
         // We're not exposing _activePatches so it cant be altered outside of this class. Do NOT implement this as a property.
@@ -31,9 +28,6 @@ public static class ModPatchCache
     /// <returns>
     /// List of fully quantified method names; including namespace, type and method name
     /// </returns>
-    /// <remarks>
-    ///     This should never be called before PreSptLoad is completed, otherwise could be empty.
-    /// </remarks>
     public static List<string> GetActivePatchedMethodNames()
     {
         var result = new List<string>();
