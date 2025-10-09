@@ -59,7 +59,7 @@ public class ExfilDumper : ModulePatch
         public float Chance = 0;
         public float ChancePVE = 0;
         public int Count = 0;
-        public int CountPve = 0;
+        public int CountPVE = 0;
         public string EntryPoints = "";
         public bool EventAvailable = false;
         public float ExfiltrationTime = 0;
@@ -99,7 +99,7 @@ public class ExfilDumper : ModulePatch
                     Name = settings.Name;
                     PlayersCount = settings.PlayersCount;
                     PlayersCountPVE = settings.PlayersCount;
-                    CountPve = 0;
+                    CountPVE = 0;
                 }
             }
             // Scav extracts, and those without settings use the point settings
