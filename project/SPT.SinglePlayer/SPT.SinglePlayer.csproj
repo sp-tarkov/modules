@@ -1,42 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>net471</TargetFramework>
-        <AssemblyName>spt-singleplayer</AssemblyName>
-        <Configuration>Release</Configuration>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <Company>SPT</Company>
-        <Copyright>Copyright @ SPT 2025</Copyright>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
-        <Reference Include="Comfort.Unity" HintPath="..\Shared\Managed\Comfort.Unity.dll" Private="False" />
-        <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
-        <Reference Include="ItemComponent.Types" HintPath="..\Shared\Managed\ItemComponent.Types.dll" Private="False" />
-        <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
-        <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
-        <Reference Include="UnityEngine.AIModule" HintPath="..\Shared\Managed\UnityEngine.AIModule.dll" Private="False" />
-        <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
-        <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
-        <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
-        <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
-        <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
-            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
-        <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>spt-singleplayer</AssemblyName>
+    <Configuration>Release</Configuration>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2025</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp" HintPath="..\Shared\Hollowed\hollowed.dll" Private="False" />
+    <Reference Include="Comfort.Unity" HintPath="..\Shared\Managed\Comfort.Unity.dll" Private="False" />
+    <Reference Include="DissonanceVoip" HintPath="..\Shared\Managed\DissonanceVoip.dll" Private="False" />
+    <Reference Include="ItemComponent.Types" HintPath="..\Shared\Managed\ItemComponent.Types.dll" Private="False" />
+    <Reference Include="Comfort" HintPath="..\Shared\Managed\Comfort.dll" Private="False" />
+    <Reference Include="UnityEngine" HintPath="..\Shared\Managed\UnityEngine.dll" Private="False" />
+    <Reference Include="UnityEngine.AIModule" HintPath="..\Shared\Managed\UnityEngine.AIModule.dll" Private="False" />
+    <Reference Include="UnityEngine.AudioModule" HintPath="..\Shared\Managed\UnityEngine.AudioModule.dll" Private="False" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="..\Shared\Managed\UnityEngine.CoreModule.dll" Private="False" />
+    <Reference Include="Sirenix.Serialization" HintPath="..\Shared\Managed\Sirenix.Serialization.dll" Private="False" />
+    <Reference Include="UnityEngine.UI" HintPath="..\Shared\Managed\UnityEngine.UI.dll" Private="False" />
+    <Reference Include="UnityEngine.PhysicsModule" HintPath="..\Shared\Managed\UnityEngine.PhysicsModule.dll" Private="False" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
+    <ProjectReference Include="..\SPT.Reflection\SPT.Reflection.csproj" />
+  </ItemGroup>
 </Project>

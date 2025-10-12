@@ -1,41 +1,40 @@
-﻿using SPT.Common.Http;
-using SPT.Common.Utils;
-using SPT.Reflection.Patching;
-using SPT.Reflection.Utils;
-using SPT.Custom.Models;
+﻿using System.Reflection;
+using Comfort.Common;
 using EFT.UI;
 using HarmonyLib;
-using System.Reflection;
-using Comfort.Common;
+using SPT.Common.Http;
+using SPT.Common.Utils;
+using SPT.Custom.Models;
+using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+public class VersionLabelPatch : ModulePatch
 {
-    public class VersionLabelPatch : ModulePatch
+    private static string _versionLabel;
+
+    protected override MethodBase GetTargetMethod()
     {
-        private static string _versionLabel;
+        return PatchConstants
+            .EftTypes.SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
+            .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
+    }
 
-        protected override MethodBase GetTargetMethod()
+    [PatchPostfix]
+    public static void PatchPostfix(object __result)
+    {
+        if (string.IsNullOrEmpty(_versionLabel))
         {
-            return PatchConstants.EftTypes
-                .SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
-                .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
+            var json = RequestHandler.GetJson("/singleplayer/settings/version");
+            _versionLabel = Json.Deserialize<VersionResponse>(json).Version;
+            Logger.LogInfo($"Server version: {_versionLabel}");
         }
 
-        [PatchPostfix]
-        public static void PatchPostfix(object __result)
-        {
-            if (string.IsNullOrEmpty(_versionLabel))
-            {
-                var json = RequestHandler.GetJson("/singleplayer/settings/version");
-                _versionLabel = Json.Deserialize<VersionResponse>(json).Version;
-                Logger.LogInfo($"Server version: {_versionLabel}");
-            }
-
-            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
-            Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
-            var major = Traverse.Create(__result).Field("Major");
-            var existingValue = major.GetValue();
-            major.SetValue($"{existingValue} {_versionLabel}");
-        }
+        Traverse.Create(Singleton<PreloaderUI>.Instance).Field("_alphaVersionLabel").Property("LocalizationKey").SetValue("{0}");
+        Traverse.Create(Singleton<PreloaderUI>.Instance).Field("string_2").SetValue(_versionLabel);
+        var major = Traverse.Create(__result).Field("Major");
+        var existingValue = major.GetValue();
+        major.SetValue($"{existingValue} {_versionLabel}");
     }
 }

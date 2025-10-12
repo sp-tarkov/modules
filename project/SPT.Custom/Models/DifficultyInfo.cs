@@ -1,42 +1,36 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace SPT.Custom.Models
+namespace SPT.Custom.Models;
+
+[Serializable]
+public class DifficultyInfo
 {
-    [Serializable]
-    public struct DifficultyInfo
+    public object this[string key]
     {
-        public Dictionary<string, object> this[string key]
+        get
         {
-            get
+            return key switch
             {
-                switch (key)
-                {
-                    case "easy":
-                        return easy;
-                    case "hard":
-                        return hard;
-                    case "impossible":
-                        return impossible;
-                    case "normal":
-                        return normal;
-                    default:
-                        throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo.");
-                }
-            }
+                "easy" => easy,
+                "normal" => normal,
+                "hard" => hard,
+                "impossible" => impossible,
+                _ => throw new ArgumentException($"Difficulty '{key}' does not exist in DifficultyInfo."),
+            };
         }
-
-        [JsonProperty("easy")]
-        public Dictionary<string, object> easy;
-
-        [JsonProperty("hard")]
-        public Dictionary<string, object> hard;
-
-        [JsonProperty("impossible")]
-        public Dictionary<string, object> impossible;
-
-        [JsonProperty("normal")]
-        public Dictionary<string, object> normal;
     }
+
+    [JsonProperty("easy")]
+    private JObject easy { get; set; }
+
+    [JsonProperty("normal")]
+    private JObject normal { get; set; }
+
+    [JsonProperty("hard")]
+    private JObject hard { get; set; }
+
+    [JsonProperty("impossible")]
+    private JObject impossible { get; set; }
 }

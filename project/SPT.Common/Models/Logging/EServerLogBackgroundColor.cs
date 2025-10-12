@@ -1,26 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿namespace SPT.Common.Models.Logging;
 
-namespace SPT.Common.Models.Logging
+public enum EServerLogBackgroundColor
 {
-    public enum EServerLogBackgroundColor
-    {
-        [EnumMember(Value = "")]
-        Default,
-        [EnumMember(Value = "blackBG")]
-        Black,
-        [EnumMember(Value = "redBG")]
-        Red,
-        [EnumMember(Value = "greenBG")]
-        Green,
-        [EnumMember(Value = "yellowBG")]
-        Yellow,
-        [EnumMember(Value = "blueBG")]
-        Blue,
-        [EnumMember(Value = "magentaBG")]
-        Magenta,
-        [EnumMember(Value = "cyanBG")]
-        Cyan,
-        [EnumMember(Value = "whiteBG")]
-        White
-    }
+    Black = 40,
+    Red = 41,
+    Green = 42,
+    Yellow = 43,
+    Blue = 44,
+    Magenta = 45,
+    Cyan = 46,
+    White = 47,
+    Default = 49,
 }

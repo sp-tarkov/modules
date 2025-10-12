@@ -1,36 +1,36 @@
-﻿using EFT;
+﻿using System.Reflection;
+using EFT;
 using HarmonyLib;
+using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
-using System.Reflection;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+public class FixPmcSpawnParamsNullErrorPatch : ModulePatch
 {
-    public class FixPmcSpawnParamsNullErrorPatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
+        return AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.GetGroupAndSetEnemies));
+    }
+
+    [PatchPrefix]
+    public static void PatchPrefix(BotOwner bot)
+    {
+        // Is a boss and not a follower and not a PMC
+        if (!bot.Profile.Info.Settings.IsBoss() && !bot.IsPMC())
         {
-            return AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.GetGroupAndSetEnemies));
+            return;
         }
 
-        [PatchPrefix]
-        public static void PatchPrefix(BotOwner bot)
+        // Is a boss and follower and a pmc - nullguard SpawnParams property
+        if (bot.SpawnProfileData.SpawnParams == null)
         {
-            // Is a boss and not a follower and not a PMC
-            if (!bot.Profile.Info.Settings.IsBoss() && !CustomAI.AiHelpers.BotIsSptPmc(bot.Profile.Info.Settings.Role, bot))
-            {
-                return;
-            }
+            bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
+        }
 
-            // Is a boss and follower and a pmc - nullguard SpawnParams property
-            if (bot.SpawnProfileData.SpawnParams == null)
-            {
-                bot.SpawnProfileData.SpawnParams = new BotSpawnParams();
-            }
-            
-            if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
-            {
-                bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
-            }
+        if (bot.SpawnProfileData.SpawnParams.ShallBeGroup == null)
+        {
+            bot.SpawnProfileData.SpawnParams.ShallBeGroup = new ShallBeGroupParams(false, false);
         }
     }
 }

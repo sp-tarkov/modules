@@ -1,82 +1,81 @@
-using SPT.Reflection.Patching;
-using HarmonyLib;
 using System;
 using System.IO;
 using System.Reflection;
-using UnityEngine;
 using System.Threading.Tasks;
+using HarmonyLib;
+using SPT.Reflection.Patching;
+using UnityEngine;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+/// <summary>
+/// Redirects Trader and quest images to the SPT folder, not the app data
+/// </summary>
+///
+public class RedirectClientImageRequestsPatch : ModulePatch
 {
-    /// <summary>
-    /// Redirects Trader and quest images to the SPT folder, not the app data
-    /// </summary>
-    ///
-    public class RedirectClientImageRequestsPatch : ModulePatch
+    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptappdata");
+
+    protected override MethodBase GetTargetMethod()
     {
-        private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "user", "sptappdata");
+        return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_28));
+    }
 
-        protected override MethodBase GetTargetMethod()
+    [PatchPrefix]
+    public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
+    {
+        var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(url.ConvertToResourceLocation());
+
+        if (texture2D != null)
         {
-            return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_28));
+            __result = Task.FromResult(texture2D);
         }
-
-        [PatchPrefix]
-        public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
+        else
         {
-            var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(url.ConvertToResourceLocation());
+            var path = _sptPath + url;
 
-            if (texture2D != null)
+            if (File.Exists(path))
             {
-                __result = Task.FromResult(texture2D);
+                __result = GetTexture0(path);
             }
             else
             {
-                var path = _sptPath + url;
-
-                if (File.Exists(path))
-                {
-                    __result = GetTexture0(path);
-                }
-                else
-                {
-                    __result = GetTexture1(baseUrl + url, path);
-                }
+                __result = GetTexture1(baseUrl + url, path);
             }
-
-            return false; // Skip original
         }
 
-        public static async Task<Texture2D> GetTexture0(string path)
+        return false; // Skip original
+    }
+
+    public static async Task<Texture2D> GetTexture0(string path)
+    {
+        var result = await ProfileEndpointFactoryAbstractClass.smethod_0(path);
+
+        return result.Value;
+    }
+
+    public static async Task<Texture2D> GetTexture1(string path, string localPath)
+    {
+        var result = await ProfileEndpointFactoryAbstractClass.smethod_1(path);
+
+        if (result.Succeed)
         {
-            var result = await ProfileEndpointFactoryAbstractClass.smethod_0(path);
-
-            return result.Value;
-        }
-
-        public static async Task<Texture2D> GetTexture1(string path, string localPath)
-        {
-            var result = await ProfileEndpointFactoryAbstractClass.smethod_1(path);
-
-            if (result.Succeed)
+            try
             {
-                try
+                string directoryName = Path.GetDirectoryName(localPath);
+                if (!Directory.Exists(directoryName))
                 {
-                    string directoryName = Path.GetDirectoryName(localPath);
-                    if (!Directory.Exists(directoryName))
-                    {
-                        Directory.CreateDirectory(directoryName);
-                    }
-                    File.WriteAllBytes(localPath, result.Value.EncodeToPNG());
-                    result.Value.filterMode = FilterMode.Bilinear;
+                    Directory.CreateDirectory(directoryName);
                 }
-                catch (UnauthorizedAccessException ex)
-                {
-                    Debug.LogError("Can't get access to the folder: " + ex);
-                }
+                File.WriteAllBytes(localPath, result.Value.EncodeToPNG());
+                result.Value.filterMode = FilterMode.Bilinear;
             }
-
-            return result.Value;
+            catch (UnauthorizedAccessException ex)
+            {
+                Debug.LogError("Can't get access to the folder: " + ex);
+            }
         }
+
+        return result.Value;
     }
 }

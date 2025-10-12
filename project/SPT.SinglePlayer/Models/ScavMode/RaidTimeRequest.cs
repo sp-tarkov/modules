@@ -1,16 +1,9 @@
 ﻿using EFT;
 
-namespace SPT.SinglePlayer.Models.ScavMode
-{
-    public class RaidTimeRequest
-    {
-        public RaidTimeRequest(ESideType side, string location)
-        {
-            Side = side;
-            Location = location;
-        }
+namespace SPT.SinglePlayer.Models.ScavMode;
 
-        public ESideType Side { get; set; }
-        public string Location { get; set; }
-    }
+public class RaidTimeRequest(ESideType side, string location)
+{
+    public ESideType Side { get; set; } = side;
+    public string Location { get; set; } = location;
 }

@@ -1,9 +1,9 @@
-﻿using SPT.Reflection.Patching;
-using EFT;
-using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.RaidFix;
 
@@ -15,7 +15,7 @@ public class DisableDevMaskCheckPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(LocalPlayer.Struct522), nameof(LocalPlayer.Struct522.MoveNext));
+        return AccessTools.Method(typeof(LocalPlayer.Struct569), nameof(LocalPlayer.Struct569.MoveNext));
     }
 
     [PatchTranspiler]
@@ -30,7 +30,11 @@ public class DisableDevMaskCheckPatch : ModulePatch
         for (int i = 0; i < codeInstructions.Count; i++)
         {
             // Look for the developer check (Is method call)
-            if (codeInstructions[i].opcode == OpCodes.Call && codeInstructions[i].operand is MethodInfo methodInfo && methodInfo.Name == "Is")
+            if (
+                codeInstructions[i].opcode == OpCodes.Call
+                && codeInstructions[i].operand is MethodInfo methodInfo
+                && methodInfo.Name == "Is"
+            )
             {
                 // Check if the next opcode checks for the true condition
                 if (i + 1 < codeInstructions.Count && codeInstructions[i + 1].opcode == OpCodes.Brtrue)
@@ -52,4 +56,4 @@ public class DisableDevMaskCheckPatch : ModulePatch
 
         return codeInstructions;
     }
-}	
+}

@@ -1,24 +1,23 @@
-﻿using SPT.Reflection.Patching;
+﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
-using System.Reflection;
+using SPT.Reflection.Patching;
 
-namespace SPT.SinglePlayer.Patches.MainMenu
+namespace SPT.SinglePlayer.Patches.MainMenu;
+
+public class AmmoUsedCounterPatch : ModulePatch
 {
-    public class AmmoUsedCounterPatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
-        {
-            return AccessTools.Method(typeof(Player), nameof(Player.OnMakingShot));
-        }
+        return AccessTools.Method(typeof(Player), nameof(Player.OnMakingShot));
+    }
 
-        [PatchPostfix]
-        public static void PatchPostfix(Player __instance)
+    [PatchPostfix]
+    public static void PatchPostfix(Player __instance)
+    {
+        if (__instance.IsYourPlayer)
         {
-            if (__instance.IsYourPlayer)
-            {
-                __instance.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
-            }
+            __instance.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
         }
     }
 }

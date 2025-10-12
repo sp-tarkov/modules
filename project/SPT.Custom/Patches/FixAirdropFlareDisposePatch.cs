@@ -1,33 +1,33 @@
-﻿using SPT.Reflection.Patching;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
+using SPT.Reflection.Patching;
 using UnityEngine;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+/// <summary>
+/// This patch prevents the weird pink smoke / flares that are still in the sky the next raid if a player has just extracted
+/// while the airplane is dropping a crate
+/// </summary>
+public class FixAirdropFlareDisposePatch : ModulePatch
 {
-	/// <summary>
-	/// This patch prevents the weird pink smoke / flares that are still in the sky the next raid if a player has just extracted
-	/// while the airplane is dropping a crate
-	/// </summary>
-	public class FixAirdropFlareDisposePatch : ModulePatch
-	{
-		protected override MethodBase GetTargetMethod()
-		{
-			return typeof(GClass2463).GetMethod(nameof(GClass2463.Dispose));
-		}
+    protected override MethodBase GetTargetMethod()
+    {
+        return AccessTools.Method(typeof(GClass2655), nameof(GClass2655.Dispose));
+    }
 
-		[PatchPrefix]
-		public static void Prefix(Dictionary<GameObject, float> ___dictionary_0)
-		{
-			if (___dictionary_0 == null)
-			{
-				return;
-			}
+    [PatchPrefix]
+    public static void Prefix(GClass2655 __instance)
+    {
+        if (__instance.Dictionary_0 == null)
+        {
+            return;
+        }
 
-			foreach (KeyValuePair<GameObject, float> keyValuePair in ___dictionary_0)
-			{
-				Object.Destroy(keyValuePair.Key);
-			}
-		}
-	}
+        foreach (KeyValuePair<GameObject, float> keyValuePair in __instance.Dictionary_0)
+        {
+            Object.Destroy(keyValuePair.Key);
+        }
+    }
 }

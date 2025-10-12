@@ -1,26 +1,24 @@
-﻿using SPT.Common.Http;
-using SPT.Reflection.Patching;
-using System.Reflection;
+﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
+using SPT.Common.Http;
+using SPT.Reflection.Patching;
 
-namespace SPT.Custom.Patches
+namespace SPT.Custom.Patches;
+
+public class QTEPatch : ModulePatch
 {
-    public class QTEPatch : ModulePatch
+    protected override MethodBase GetTargetMethod()
     {
-        protected override MethodBase GetTargetMethod()
-        {
-            return AccessTools.Method(typeof(HideoutPlayerOwner), nameof(HideoutPlayerOwner.StopWorkout));
-        }
+        return AccessTools.Method(typeof(HideoutPlayerOwner), nameof(HideoutPlayerOwner.StopWorkout));
+    }
 
-        [PatchPostfix]
-        public static void PatchPostfix(HideoutPlayerOwner __instance)
-        {
-            RequestHandler.PutJson("/client/hideout/workout", new
-            {
-                skills = new GClass1992(__instance.HideoutPlayer.Skills)
-            }
-            .ToJson());
-        }
+    [PatchPostfix]
+    public static void PatchPostfix(HideoutPlayerOwner __instance)
+    {
+        RequestHandler.PutJson(
+            "/client/hideout/workout",
+            new { skills = new SkillsDescriptorClass(__instance.HideoutPlayer.Skills) }.ToJson()
+        );
     }
 }
