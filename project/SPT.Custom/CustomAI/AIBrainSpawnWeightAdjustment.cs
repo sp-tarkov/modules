@@ -41,7 +41,7 @@ public class AIBrainSpawnWeightAdjustment
         );
         if (Enum.TryParse(randomType, out WildSpawnType newAiType))
         {
-            _logger.LogWarning($"Updated player scav bot to use: {newAiType} brain");
+            _logger.LogInfo($"Updated player scav bot to use: {newAiType} brain");
             return newAiType;
         }
 
@@ -73,7 +73,7 @@ public class AIBrainSpawnWeightAdjustment
         );
         if (Enum.TryParse(randomType, out WildSpawnType newAiType))
         {
-            _logger.LogWarning($"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain");
+            _logger.LogInfo($"Updated assault bot {botOwner.Profile.Info.Nickname} to use: {newAiType} brain");
             return newAiType;
         }
 
@@ -120,7 +120,7 @@ public class AIBrainSpawnWeightAdjustment
         // Get weightings for PMCs from server and store in dict
         var result = RequestHandler.GetJson($"/singleplayer/settings/bot/getBotBehaviours/");
         _aiBrainsCache = JsonConvert.DeserializeObject<AIBrains>(result);
-        _logger.LogWarning($"Cached ai brain weights in client");
+        _logger.LogInfo("Cached ai brain weights in client");
     }
 
     private void ResetCacheDate()

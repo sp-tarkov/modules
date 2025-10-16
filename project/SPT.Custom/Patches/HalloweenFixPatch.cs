@@ -13,7 +13,8 @@ public class BotsControllerInitPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(BotsController), nameof(BotsController.Init));
+        return AccessTools.Method(typeof(BotsController),
+            nameof(BotsController.Init));
     }
 
     [PatchPostfix]
@@ -41,7 +42,8 @@ public class BotsEventsControllerActivatePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(BotsEventsController), nameof(BotsEventsController.Activate));
+        return AccessTools.Method(typeof(BotsEventsController),
+            nameof(BotsEventsController.Activate));
     }
 
     [PatchPrefix]
@@ -49,12 +51,11 @@ public class BotsEventsControllerActivatePatch : ModulePatch
     {
         if (__instance.BotHalloweenEvent.Spawner == null)
         {
-            Logger.LogWarning("__instance.BotHalloweenEvent.Spawner is null skip Activate");
-
+            Logger.LogDebug("__instance.BotHalloweenEvent.Spawner is null skip Activate");
             return false;
         }
 
-        Logger.LogInfo("__instance.BotHalloweenEvent.Spawner is not null run Activate");
+        Logger.LogDebug("__instance.BotHalloweenEvent.Spawner is not null run Activate");
         return true;
     }
 }
