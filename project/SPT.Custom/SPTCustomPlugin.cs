@@ -23,6 +23,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
         {
             // Bundle patch should always load first - DO NOT REMOVE
             new EasyAssetsPatch().Enable();
+            new EasyBundlePatch().Enable();
 
             // Still need
             new GameStartRequestPatch().Enable();
