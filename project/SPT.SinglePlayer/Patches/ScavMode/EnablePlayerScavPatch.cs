@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
@@ -44,10 +45,10 @@ public class EnablePlayerScavPatch : ModulePatch
         // This ensures scav raids show as 'local' instead of 'training', works in conjunction with prefix patches' "RaidMode = local" line
         __instance.RaidSettings_0.IsPveOffline = true;
 
-        // Bosses are never removed from pve raids, this forces the boss array to empty itself if the 'enable bosses' flag is unchecked
+        // Bosses are never removed from PvE raids, When player has disabled bosses removal all bosses EXCEPT PMCs
         if (!__instance.RaidSettings_0.WavesSettings.IsBosses)
         {
-            __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = [];
+            __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = Array.FindAll(__instance.RaidSettings_0.SelectedLocation.BossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
         }
     }
 }
