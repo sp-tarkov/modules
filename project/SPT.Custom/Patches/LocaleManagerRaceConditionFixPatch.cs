@@ -36,7 +36,7 @@ internal class LocaleManagerRaceConditionFixPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(LocaleManagerClass __instance, string localeType)
     {
-        // Code cleaned up and variables renamed for clarity
+        // Code based on original method, cleaned up and variables renamed for clarity
 
         LocaleManagerClass.Class1675 fontAssets = new LocaleManagerClass.Class1675();
         if (__instance.Dictionary_1.TryGetValue(localeType, out fontAssets.mainFallBack))
