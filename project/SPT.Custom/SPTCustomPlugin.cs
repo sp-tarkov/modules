@@ -49,6 +49,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new FixAirdropFlareDisposePatch().Enable();
             new AllowAirdropsInPvEPatch().Enable();
             new MemoryCollectionPatch().Enable();
+            new LocaleManagerRaceConditionFixPatch().Enable();
 
             // 3.11
             new EnablePrestigeTabPatch().Enable();
