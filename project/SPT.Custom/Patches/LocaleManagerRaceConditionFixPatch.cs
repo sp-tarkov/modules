@@ -1,24 +1,30 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
+using SPT.Reflection.CodeWrapper;
 using SPT.Reflection.Patching;
+using SPT.Reflection.Utils;
 using TMPro;
 
 /// <summary>
 /// The LocaleManager has a race condition when attempting to merge the character map that can
-/// be triggered by the Dialogue route returning while the locale route is processing. Work around
-/// the race condition by re-implementing the TMP asset loading to use a copy of the `GClass2347` 
-/// dictionary values instead of a direct reference to it that may be modified in another thread
+/// be triggered by the Dialogue route returning while the locale route is processing. Work around the
+/// race condition by branching to our own method to handle the dictionary that utilizes a copy of
+/// the list of values, so it doesn't throw an exception if it's modified while we run
 ///
 /// Note: This is in SPT.Custom because it references TMPro, which isn't available in SPT.SinglePlayer
 /// </summary>
 
 namespace SPT.Custom.Patches;
-internal class LocaleManagerRaceConditionFixPatch : ModulePatch
+public class LocaleManagerRaceConditionFixPatch : ModulePatch
 {
-    /**
-
-     */
+    private static Type fontAssetsType = typeof(LocaleManagerClass)
+        .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
+        .SingleCustom(IsTargetNestedType);
+    
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.FirstMethod(typeof(LocaleManagerClass), IsTargetMethod);
@@ -33,49 +39,59 @@ internal class LocaleManagerRaceConditionFixPatch : ModulePatch
             && parameters[0].Name == "localeType";
     }
 
-    [PatchPrefix]
-    public static bool PatchPrefix(LocaleManagerClass __instance, string localeType)
+    private static bool IsTargetNestedType(Type nestedType)
     {
-        // Code based on original method, cleaned up and variables renamed for clarity
+        return nestedType.GetFields().Length == 1
+            && nestedType.GetField("mainFallBack") != null;
+    }
 
-        LocaleManagerClass.Class1675 fontAssets = new LocaleManagerClass.Class1675();
-        if (__instance.Dictionary_1.TryGetValue(localeType, out fontAssets.mainFallBack))
+    [PatchTranspiler]
+    public static IEnumerable<CodeInstruction> PatchTranspile(ILGenerator generator, IEnumerable<CodeInstruction> instructions)
+    {
+        var codes = new List<CodeInstruction>(instructions);
+
+        // Search for the last TryGetValue call
+        var codeOffset = codes.FindLastIndex(code =>
+            code.opcode == OpCodes.Callvirt && code.operand.ToString().Contains("TryGetValue")
+        );
+
+        // Failed to find the target code
+        if (codeOffset == -1)
         {
-            foreach (var keyValuePair in __instance.IreadOnlyDictionary_1)
-            {
-                var (fontAsset, fontAssetList) = keyValuePair;
-                LocaleManagerClass.Class1676 fontFallback = new LocaleManagerClass.Class1676();
-                fontFallback.class1675_0 = fontAssets;
-                fontFallback.fallBackCache = __instance.IreadOnlyDictionary_2[fontAsset];
-                fontAssetList.RemoveAll(fontFallback.method_0);
-                foreach (var cacheEntry in fontFallback.fallBackCache)
-                {
-                    if (cacheEntry != fontFallback.class1675_0.mainFallBack)
-                    {
-                        fontAssetList.Add(cacheEntry);
-                    }
-                }
-            }
+            Logger.LogError($"Patch {MethodBase.GetCurrentMethod()} failed: Could not find reference code.");
+            return instructions;
         }
 
-        foreach (TMP_FontAsset dynamicFont in __instance.Ienumerable_0)
-        {
-            if (dynamicFont != fontAssets.mainFallBack)
-            {
-                dynamicFont.ClearFontAssetData(true);
-                dynamicFont.ReadFontAssetDefinition();
-            }
-            else if (fontAssets.mainFallBack != null && fontAssets.mainFallBack.atlasPopulationMode == AtlasPopulationMode.Dynamic && __instance.Dictionary_4.TryGetValue(localeType, out var fontDictionary))
-            {
-                // This is the fix, previously this would reference fontDictionary directly, we now use .Values.ToList() to clone it
-                foreach (var characters in fontDictionary.Values.ToList())
-                {
-                    fontAssets.mainFallBack.TryAddCharacters(characters, false);
-                }
-            }
-        }
+        // Extract the jump location from the instruction after the if condition
+        var jumpTarget = codes[codeOffset + 1].operand;
 
-        // Skip original
-        return false;
+        // Extract a reference to `gclass` from the argument passed to TryGetValue
+        var fontDictionaryOperand = codes[codeOffset - 1].operand;
+
+        codeOffset += 2;
+        var newCodes = CodeGenerator.GenerateInstructions(
+            new List<Code>()
+            {
+                // LocaleManagerRaceConditionFixPatch::AddCharacters(gclass, @class.mainFallBack)
+                new Code(OpCodes.Ldloc_S, fontDictionaryOperand),   // gclass
+                new Code(OpCodes.Ldloc_0),                          // @class
+                new Code(OpCodes.Ldfld, fontAssetsType, "mainFallBack"), // .mainFallBack
+                new Code(OpCodes.Call, typeof(LocaleManagerRaceConditionFixPatch), nameof(AddCharacters)),
+
+                // JMP past the original for loop
+                new Code(OpCodes.Br_S, jumpTarget),
+            }
+        );
+        codes.InsertRange(codeOffset, newCodes);
+
+        return codes.AsEnumerable();
+    }
+
+    public static void AddCharacters(Dictionary<string, string> fontDictionary, TMP_FontAsset mainFallBack)
+    {
+        foreach (var characters in fontDictionary.Values.ToList())
+        {
+            mainFallBack.TryAddCharacters(characters, false);
+        }
     }
 }

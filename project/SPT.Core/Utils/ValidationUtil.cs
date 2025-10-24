@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using BepInEx.Logging;
 using SPT.Common.Utils;
 
 namespace SPT.Core.Utils;
 
 public static class ValidationUtil
 {
+    private static ManualLogSource _logger = Logger.CreateLogSource("SPT.Core");
     public static string _crashHandler = "0";
     private static bool _hasRun;
     
@@ -54,15 +56,15 @@ public static class ValidationUtil
             if (_hasRun ? false : !_hasRun ? true : false)
             {
                 _crashHandler = ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU=")))?.Length.ToString() ?? "0";
-                ServerLog.Debug("SPT.Core", _crashHandler);
-                ServerLog.Debug("SPT.Core", ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))?.Length.ToString() ?? "0");
-                ServerLog.Debug("SPT.Core", ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
-                ServerLog.Debug("SPT.Core", ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
+                _logger.LogInfo(_crashHandler);
+                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))?.Length.ToString() ?? "0");
+                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
+                _logger.LogInfo(ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
                 var lll = ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIgR2FtZS5leGU=")))
                     ?.Length.ToString() ?? "0";
-                ServerLog.Debug("SPT.Core", lll);
+                _logger.LogInfo(lll);
 
-                ServerLog.Debug("SPT.Core", Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join(",", l6))));
+                _logger.LogInfo(Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join(",", l6))));
                 if (_crashHandler == "0" || lll != "0")
                     ServerLog.Debug("SPT.Core", "-1");
                     

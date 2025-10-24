@@ -30,6 +30,14 @@ public class CodeGenerator
             return new CodeInstruction(code.OpCode) { labels = GetLabelList(code) };
         }
 
+        if (code.OpCode == OpCodes.Ldloc_S)
+        {
+            return new CodeInstruction(code.OpCode, code.OperandTarget)
+            {
+                labels = GetLabelList(code),
+            };
+        }
+
         if (code.OpCode == OpCodes.Ldfld || code.OpCode == OpCodes.Ldflda || code.OpCode == OpCodes.Stfld)
         {
             return new CodeInstruction(code.OpCode, AccessTools.Field(code.CallerType, code.OperandTarget as string))
