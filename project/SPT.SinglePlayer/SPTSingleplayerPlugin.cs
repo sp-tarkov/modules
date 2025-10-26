@@ -6,6 +6,7 @@ using SPT.SinglePlayer.Patches.Performance;
 using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
+using SPT.SinglePlayer.Utils.MainMenu;
 
 namespace SPT.SinglePlayer;
 
@@ -80,6 +81,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
 
     public void Start()
     {
-        //TraderServiceManager.GetModdedTraderData();
+        TraderCustomizationManager.AddModdedTraders();
     }
 }
