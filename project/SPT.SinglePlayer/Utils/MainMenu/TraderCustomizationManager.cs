@@ -18,6 +18,13 @@ public static class TraderCustomizationManager
     }
     public static void AddModdedTraders()
     {
+        if (_traderIdToTypeField == null)
+        {
+            Console.WriteLine("TraderCustomizationManager: Reflection failed. Could not find field: TraderIdToType");
+
+            return;
+        }
+
         try
         {
             var json = RequestHandler.GetJson("/singleplayer/moddedTraders");
@@ -28,25 +35,17 @@ public static class TraderCustomizationManager
                 return;
             }
 
+            // Get ref to static dict we want to add custom trader to
+            var traderIdToTypeDictionary = (Dictionary<MongoID, Profile.ETraderType>) _traderIdToTypeField.GetValue(null);
             foreach (var traderId in response.ModdedTraders)
             {
-                var traderType = Profile.ETraderType.Ragman;
-
-                if (_traderIdToTypeField == null)
-                {
-                    return;
-                }
-
-                var traderIdToTypeDictionary = (Dictionary<MongoID, Profile.ETraderType>)
-                    _traderIdToTypeField.GetValue(null);
-
-                traderIdToTypeDictionary[traderId] = traderType;
-
+                // Store modded traders as ragman type as he has the clothing functionality
+                traderIdToTypeDictionary[traderId] = Profile.ETraderType.Ragman;
             }
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Error loading modded customization traders: {ex}");
+            throw new InvalidOperationException($"Error loading modded customization traders", ex);
         }
     }
 }
