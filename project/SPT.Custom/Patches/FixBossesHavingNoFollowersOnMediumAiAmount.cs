@@ -21,11 +21,10 @@ public class FixBossesHavingNoFollowersOnMediumAiAmount : ModulePatch
     [PatchPrefix]
     public static void PatchPrefix(LocalGame __instance, WavesSettings wavesSettings, ref BossLocationSpawn[] bossLocationSpawn)
     {
-        // Player has disabled bosses, filter to only PMCs
+        // Player has disabled bosses, remove bosses and leave everything else (PMCs and zombies)
         if (!wavesSettings.IsBosses)
         {
-            bossLocationSpawn = Array.FindAll(bossLocationSpawn, x => x.BossName is "pmcUSEC" or "pmcBEAR");
-
+            bossLocationSpawn = Array.FindAll(bossLocationSpawn, x => !x.BossName.StartsWith("boss"));
             return;
         }
 
