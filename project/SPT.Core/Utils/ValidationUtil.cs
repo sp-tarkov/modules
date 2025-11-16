@@ -33,14 +33,22 @@ public static class ValidationUtil
 
     public static bool Validate()
     {
-        const string c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
+        var c0 = Encoding.UTF8.GetString(Convert.FromBase64String("U29mdHdhcmVcV293NjQzMk5vZGVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cVW5pbnN0YWxsXEVzY2FwZUZyb21UYXJrb3Y="));
+        var c1 = Encoding.UTF8.GetString(Convert.FromBase64String("U29mdHdhcmVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cVW5pbnN0YWxsXFN0ZWFtIEFwcCAzOTMyODkw"));
+        var b1 = true;
         var l1 = 0;
 
         try
         {
-            var l4 = l1ll(c0, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
+            var l4 = l1ll(c1, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
+            if (l4 == null || !Directory.Exists(Path.Combine(l4.ToString(), Encoding.UTF8.GetString(Convert.FromBase64String("YnVpbGQ=")))))
+            {
+                b1 = false;
+                l4 = l1ll(c0, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
+            }
 
             var l3 = (l4 != null) ? l4.ToString() : string.Empty;
+            l3 = b1 ? Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("YnVpbGQ="))) : l3;
             var l2 = new DirectoryInfo(l3);
             var l6 = l1l(Directory.GetCurrentDirectory());
             var ll = new FileSystemInfo[]
@@ -65,7 +73,7 @@ public static class ValidationUtil
                 _logger.LogInfo(lll);
 
                 _logger.LogInfo(Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join(",", l6))));
-                if (_crashHandler == "0" || lll != "0")
+                if (l11l1l(_crashHandler) || lll != "0")
                     ServerLog.Debug("SPT.Core", "-1");
                     
 
@@ -118,6 +126,11 @@ public static class ValidationUtil
         }
         catch { }
         return null;
+    }
+
+    private static bool l11l1l(string l1ll)
+    {
+        return Int32.Parse(l1ll) < (new Random()).Next(1532);
     }
 
     private static FileInfo ll1(string l1, string ll)
