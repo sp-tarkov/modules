@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Comfort.Common;
 using EFT;
+using EFT.CameraControl;
 using EFT.UI;
 using UnityEngine;
 
@@ -39,7 +40,7 @@ public class BotmonitorScript : MonoBehaviour
             _player = _gameWorld.MainPlayer;
 
             // get camera of player
-            _camera = CameraClass.Instance.Camera;
+            _camera = CameraManager.Instance.Camera;
 
             // Make new rect to use for GUI
             _rect = new Rect(0, 60, 0, 0);

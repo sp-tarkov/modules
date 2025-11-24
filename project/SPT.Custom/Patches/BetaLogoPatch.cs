@@ -24,7 +24,7 @@ public class BetaLogoPatch : ModulePatch
         return method.ReturnType == typeof(Task)
             && parameters.Length == 4
             && parameters[0].ParameterType == typeof(Profile)
-            && parameters[1].ParameterType == typeof(ProfileStatusClass);
+            && parameters[1].ParameterType == typeof(ProfileStatus);
     }
 
     [PatchPrefix]

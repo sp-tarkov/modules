@@ -17,18 +17,18 @@ namespace SPT.Debugging.Scripts;
 public class DumpylibScript : MonoBehaviour
 {
     // Fields are public like this so we can see them using UE
-    public Class308 _session;
+    public EftClientBackendSession _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
     public CountTypeBotWave _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
-    public LocationSettingsClass _locationSettings;
-    public List<LocationSettingsClass.Location> _locationSettingsDict;
-    public RaidEndDescriptorClass _endRaidClass;
+    public LocationSettings _locationSettings;
+    public List<LocationSettings.Location> _locationSettingsDict;
+    public GClass2191 _endRaidClass;
     public GClass2230 _completeProfile;
-    public GClass846 _parsedDataProfile;
-    public WeatherRequestClass _weather;
+    public UnparsedData _parsedDataProfile;
+    public GClass1399 _weather;
     public Type _raidSettingsType;
     public FieldInfo[] _locationSettingsFields;
     public FieldInfo _raidSettingsField;
@@ -51,7 +51,7 @@ public class DumpylibScript : MonoBehaviour
             await Task.Delay(random.Next(4802, 5998));
             Logger.LogError("StartTask");
 
-            _session = ClientAppUtils.GetClientApp().Session as Class308;
+            _session = ClientAppUtils.GetClientApp().Session as EftClientBackendSession;
             _tarkovApplication = ClientAppUtils.GetMainApp();
             _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
             _wavesSettings = new CountTypeBotWave(2, WildSpawnType.assault, BotDifficulty.normal);

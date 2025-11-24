@@ -13,7 +13,6 @@ public class EnablePrestigeTabPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        // Either 5 or 4
         return AccessTools.Method(typeof(InventoryScreen.CG_Class5), nameof(InventoryScreen.CG_Class5.MoveNext));
     }
 

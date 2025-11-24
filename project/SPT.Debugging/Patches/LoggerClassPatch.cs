@@ -14,8 +14,8 @@ public class LoggerClassLogPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools
-            .GetDeclaredMethods(typeof(LoggerClass))
-            .SingleCustom(m => m.Name == nameof(LoggerClass.Log) && m.GetParameters().Length == 4);
+            .GetDeclaredMethods(typeof(GClass708))
+            .SingleCustom(m => m.Name == nameof(GClass708.Log) && m.GetParameters().Length == 4);
     }
 
     [PatchPostfix]

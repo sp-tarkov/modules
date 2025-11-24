@@ -24,11 +24,11 @@ public class FixPostScavRaidXpShowingZeroPatch : ModulePatch
             nameof(SessionResultExitStatus.Show),
             [
                 typeof(Profile),
-                typeof(LastPlayerStateClass),
+                typeof(PlayerVisualRepresentation),
                 typeof(ESideType),
                 typeof(ExitStatus),
                 typeof(TimeSpan),
-                typeof(ISession),
+                typeof(IEftSession),
                 typeof(bool),
             ]
         );
