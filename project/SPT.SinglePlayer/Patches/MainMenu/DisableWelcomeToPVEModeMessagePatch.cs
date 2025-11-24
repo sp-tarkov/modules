@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -8,7 +9,7 @@ public class DisableWelcomeToPVEModeMessagePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(PlayerPrefHelperClass), nameof(PlayerPrefHelperClass.GetBoolForProfile));
+        return AccessTools.Method(typeof(PrefsUtils), nameof(PrefsUtils.GetBoolForProfile));
     }
 
     [PatchPrefix]

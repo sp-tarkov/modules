@@ -20,20 +20,20 @@ public class ScavSellAllRequestPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         _sendOperationMethod = AccessTools.Method(
-            typeof(ProfileEndpointFactoryAbstractClass),
-            nameof(ProfileEndpointFactoryAbstractClass.SendOperationRightNow)
+            typeof(ClientBackendSession),
+            nameof(ClientBackendSession.SendOperationRightNow)
         );
 
         // NEEDS FIXING
         return AccessTools.Method(
-            typeof(ProfileEndpointFactoryAbstractClass),
-            nameof(ProfileEndpointFactoryAbstractClass.SellAllFromSavage)
+            typeof(ClientBackendSession),
+            nameof(ClientBackendSession.SellAllFromSavage)
         );
     }
 
     [PatchPrefix]
     public static bool PatchPrefix(
-        ProfileEndpointFactoryAbstractClass __instance,
+        ClientBackendSession __instance,
         ref Task<IResult> __result,
         string playerId,
         string petId

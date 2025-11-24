@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
 using EFT;
+using EFT.Achievements;
+using EFT.Quests;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -19,8 +21,8 @@ public class QuestAchievementRewardInRaidPatch : ModulePatch
     [PatchPostfix]
     private static async void PatchPostfix(
         Task __result,
-        AbstractQuestControllerClass questController,
-        AbstractAchievementControllerClass achievementsController,
+        QuestController questController,
+        AchievementsController achievementsController,
         bool aiControlled
     )
     {

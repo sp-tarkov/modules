@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using EFT.Airdrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -12,7 +13,7 @@ public class AllowAirdropsInPvEPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.PropertyGetter(typeof(AirdropEventClass), nameof(AirdropEventClass.Int32_0));
+        return AccessTools.PropertyGetter(typeof(ServerAirdropManager), nameof(ServerAirdropManager.Int32_0));
     }
 
     [PatchPrefix]

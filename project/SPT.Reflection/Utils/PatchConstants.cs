@@ -21,14 +21,14 @@ public static class PatchConstants
     public static Type BackendSessionInterfaceType { get; private set; }
     public static Type BackendProfileInterfaceType { get; private set; }
 
-    private static ISession _backEndSession;
-    public static ISession BackEndSession
+    private static IEftSession _backEndSession;
+    public static IEftSession BackEndSession
     {
         get
         {
             if (_backEndSession == null)
             {
-                _backEndSession = Singleton<ClientApplication<ISession>>.Instance.GetClientBackEndSession();
+                _backEndSession = Singleton<ClientApplication<IEftSession>>.Instance.GetClientBackEndSession();
             }
 
             return _backEndSession;
@@ -37,7 +37,7 @@ public static class PatchConstants
 
     static PatchConstants()
     {
-        _ = nameof(ISession.GetPhpSessionId);
+        _ = nameof(IEftSession.GetPhpSessionId);
 
         PrivateFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         PublicFlags = BindingFlags.Public | BindingFlags.Instance;

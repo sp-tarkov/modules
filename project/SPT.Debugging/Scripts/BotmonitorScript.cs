@@ -96,7 +96,7 @@ public class BotmonitorScript : MonoBehaviour
         _playerRoleAndDiff.Remove(player.ProfileId);
     }
 
-    public BotRoleAndDiffClass GetBotRoleAndDiffClass(InfoClass info)
+    public BotRoleAndDiffClass GetBotRoleAndDiffClass(ProfileInfo info)
     {
         var settings = info.Settings;
         var role = settings.Role.ToString();

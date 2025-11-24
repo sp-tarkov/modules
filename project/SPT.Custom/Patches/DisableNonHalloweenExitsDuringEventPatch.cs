@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Comfort.Common;
+using CommonAssets.Scripts.Game;
 using EFT;
 using EFT.Interactive;
 using HarmonyLib;
@@ -23,7 +24,7 @@ public class DisableNonHalloweenExitsDuringEventPatch : ModulePatch
         GameWorld gameWorld = Singleton<GameWorld>.Instance;
         Random random = new Random();
         // Get all extracts the player has
-        List<ExfiltrationPoint> EligiblePoints = ExfiltrationControllerClass.Instance.EligiblePoints(gameWorld.MainPlayer.Profile).ToList();
+        List<ExfiltrationPoint> EligiblePoints = ExfiltrationController.Instance.EligiblePoints(gameWorld.MainPlayer.Profile).ToList();
         List<ExfiltrationPoint> PointsToPickFrom = new List<ExfiltrationPoint>();
 
         foreach (var ExfilPoint in EligiblePoints)
@@ -40,6 +41,6 @@ public class DisableNonHalloweenExitsDuringEventPatch : ModulePatch
         string selectedExtract = PointsToPickFrom[index].Settings.Name;
         //ConsoleScreen.Log(selectedExtract + " Picked for Extract");
 
-        ExfiltrationControllerClass.Instance.EventDisableAllExitsExceptOne(selectedExtract);
+        ExfiltrationController.Instance.EventDisableAllExitsExceptOne(selectedExtract);
     }
 }

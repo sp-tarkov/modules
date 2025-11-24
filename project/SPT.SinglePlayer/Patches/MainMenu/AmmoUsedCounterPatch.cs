@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EFT;
+using EFT.Counters;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -17,7 +18,7 @@ public class AmmoUsedCounterPatch : ModulePatch
     {
         if (__instance.IsYourPlayer)
         {
-            __instance.Profile.EftStats.SessionCounters.AddLong(1L, SessionCounterTypesAbstractClass.AmmoUsed);
+            __instance.Profile.EftStats.SessionCounters.AddLong(1L, PredefinedCounters.AmmoUsed);
         }
     }
 }

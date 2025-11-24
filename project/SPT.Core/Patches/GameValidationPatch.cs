@@ -1,4 +1,5 @@
 using System.Reflection;
+using EFT;
 using HarmonyLib;
 using SPT.Common.Utils;
 using SPT.Core.Utils;
@@ -15,7 +16,7 @@ public class GameValidationPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(BattleeyePatchClass), nameof(BattleeyePatchClass.RunValidation));
+        return AccessTools.Method(typeof(AnticheatValidationOperation), nameof(AnticheatValidationOperation.RunValidation));
     }
 
     [PatchPostfix]

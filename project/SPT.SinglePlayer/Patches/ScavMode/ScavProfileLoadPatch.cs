@@ -72,7 +72,7 @@ public class ScavProfileLoadPatch : ModulePatch
             new List<Code>()
             {
                 new Code(OpCodes.Ldloc_1),
-                new Code(OpCodes.Call, typeof(ClientApplication<ISession>), "get_Session"),
+                new Code(OpCodes.Call, typeof(ClientApplication<IClientSession>), "get_Session"),
                 new Code(OpCodes.Ldloc_1),
                 new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
                 new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),

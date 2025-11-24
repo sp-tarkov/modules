@@ -20,13 +20,13 @@ public class DumpylibScript : MonoBehaviour
     public Class308 _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
-    public WaveInfoClass _wavesSettings;
+    public CountTypeBotWave _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
     public LocationSettingsClass _locationSettings;
     public List<LocationSettingsClass.Location> _locationSettingsDict;
     public RaidEndDescriptorClass _endRaidClass;
-    public CompleteProfileDescriptorClass _completeProfile;
+    public GClass2230 _completeProfile;
     public GClass846 _parsedDataProfile;
     public WeatherRequestClass _weather;
     public Type _raidSettingsType;
@@ -54,7 +54,7 @@ public class DumpylibScript : MonoBehaviour
             _session = ClientAppUtils.GetClientApp().Session as Class308;
             _tarkovApplication = ClientAppUtils.GetMainApp();
             _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
-            _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal);
+            _wavesSettings = new CountTypeBotWave(2, WildSpawnType.assault, BotDifficulty.normal);
             _localRaidSettings = new LocalRaidSettings
             {
                 serverId = null,
@@ -104,7 +104,7 @@ public class DumpylibScript : MonoBehaviour
 
             _weather = await _session.WeatherRequest();
 
-            _endRaidClass = new RaidEndDescriptorClass
+            _endRaidClass = new GClass2191
             {
                 profile = null,
                 result = ExitStatus.Left,
@@ -117,7 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2240.Instance);
+            _completeProfile = new GClass2230(_session.Profile, GClass2240.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

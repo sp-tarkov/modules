@@ -29,7 +29,7 @@ public class SpawnPointAIPlayerBotLimitPatch : ModulePatch
     /// <param name="___Position"></param>
     /// <returns></returns>
     [PatchPrefix]
-    public static bool PatchPrefix(ref bool __result, BotCreationDataClass creationData, Vector3 ___Position)
+    public static bool PatchPrefix(ref bool __result, BotCreationData creationData, Vector3 ___Position)
     {
         if (creationData == null)
         {

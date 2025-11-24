@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -33,10 +34,10 @@ public class LocaleFixPatch : ModulePatch
     {
         var codes = new List<CodeInstruction>(instructions);
 
-        // Search for the code where `LocaleManagerClass::ContainsCulture` is called
+        // Search for the code where `LocalizationManager::ContainsCulture` is called
         var searchCode = new CodeInstruction(
             OpCodes.Callvirt,
-            AccessTools.Method(typeof(LocaleManagerClass), nameof(LocaleManagerClass.ContainsCulture))
+            AccessTools.Method(typeof(LocalizationManager), nameof(LocalizationManager.ContainsCulture))
         );
 
         var searchIndex = -1;

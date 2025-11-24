@@ -15,7 +15,7 @@ public class RemoveClothingItemExternalObtainLabelPatch : ModulePatch
     }
 
     [PatchPrefix]
-    private static void Prefix(ref ClothingItem.ClothingOfferClass offer)
+    private static void Prefix(ref ClothingItem.FullOffer offer)
     {
         offer.Offer.ExternalObtain = false;
     }

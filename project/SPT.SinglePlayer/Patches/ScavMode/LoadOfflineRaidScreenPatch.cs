@@ -24,18 +24,18 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
     static LoadOfflineRaidScreenPatch()
     {
-        _ = nameof(MainMenuControllerClass.InventoryController);
+        _ = nameof(MainMenuShowOperation.InventoryController);
         _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
         _ = nameof(BotControllerSettings.IsScavWars);
         _ = nameof(WavesSettings.IsBosses);
-        _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+        _ = MatchmakerPlayersController.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
         // `MatchmakerInsuranceScreen` OnShowNextScreen
-        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_52));
+        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_52));
 
         _menuControllerField = typeof(TarkovApplication)
             .GetFields(PatchConstants.PrivateFlags)
-            .FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
+            .FirstOrDefault(x => x.FieldType == typeof(MainMenuShowOperation));
 
         if (_menuControllerField == null)
         {
@@ -48,7 +48,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_77));
+        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_77));
     }
 
     [PatchTranspiler]
@@ -84,7 +84,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
          *   call instruction and only then we remove it.
          */
         var codes = new List<CodeInstruction>(instructions);
-        var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
+        var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuShowOperation), _onReadyScreenMethod.Name);
 
         var callCodeIndex = codes.FindLastIndex(code =>
             code.opcode == OpCodes.Call && (MethodInfo)code.operand == onReadyScreenMethodOperand
@@ -138,10 +138,10 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
             menuController
                 .GetType()
                 .GetFields(AccessTools.all)
-                .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
-                .GetValue(menuController) as MatchmakerPlayerControllerClass;
+                .Single(field => field.FieldType == typeof(MatchmakerPlayersController))
+                .GetValue(menuController) as MatchmakerPlayersController;
 
-        var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(
+        var gclass = new MatchmakerOfflineRaidScreen.GClass3917(
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
@@ -153,7 +153,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
         gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_81));
+            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
@@ -174,8 +174,8 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         _onReadyScreenMethod.Invoke(menuController, null);
     }
 
-    private static MainMenuControllerClass GetMenuController()
+    private static MainMenuShowOperation GetMenuController()
     {
-        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuControllerClass;
+        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuShowOperation;
     }
 }

@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using EFT;
+using EFT.Utilities;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using UnityEngine;
@@ -18,13 +20,13 @@ public class RedirectClientImageRequestsPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_28));
+        return AccessTools.Method(typeof(ClientBackendSession), nameof(ClientBackendSession.method_28));
     }
 
     [PatchPrefix]
     public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
     {
-        var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(url.ConvertToResourceLocation());
+        var texture2D = ResourceCache.Pop<Texture2D>(url.ConvertToResourceLocation());
 
         if (texture2D != null)
         {
@@ -49,14 +51,14 @@ public class RedirectClientImageRequestsPatch : ModulePatch
 
     public static async Task<Texture2D> GetTexture0(string path)
     {
-        var result = await ProfileEndpointFactoryAbstractClass.smethod_0(path);
+        var result = await ClientBackendSession.smethod_0(path);
 
         return result.Value;
     }
 
     public static async Task<Texture2D> GetTexture1(string path, string localPath)
     {
-        var result = await ProfileEndpointFactoryAbstractClass.smethod_1(path);
+        var result = await ClientBackendSession.smethod_1(path);
 
         if (result.Succeed)
         {

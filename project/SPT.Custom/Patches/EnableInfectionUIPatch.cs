@@ -27,7 +27,7 @@ public class EnableInfectionUIPatch : ModulePatch
         ref ZombieEventLocationInfectionInfo ____infectionInfo
     )
     {
-        if (!Singleton<BackendConfigSettingsClass>.Instance.SeasonActivityConfig.InfectionHalloweenConfig.DisplayUIEnabled)
+        if (!Singleton<GlobalConfiguration>.Instance.SeasonActivityConfig.InfectionHalloweenConfig.DisplayUIEnabled)
         {
             return;
         }

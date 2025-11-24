@@ -20,7 +20,7 @@ public class SptSpawnHelper
 
     public SptSpawnHelper()
     {
-        IEnumerable<ISpawnPoint> locationSpawnPoints = SpawnPointManagerClass.CreateFromScene();
+        IEnumerable<ISpawnPoint> locationSpawnPoints = GClass3589.CreateFromScene();
 
         var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
         this._playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
@@ -62,7 +62,7 @@ public class PMCBotSpawnLocationPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(BotSpawner __instance, BotCreationDataClass data)
+    public static bool PatchPrefix(BotSpawner __instance, BotCreationData data)
     {
         var firstBotRole = data.Profiles[0].Info.Settings.Role;
         if (firstBotRole is not (WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC))

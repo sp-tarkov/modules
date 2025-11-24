@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Threading.Tasks;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -9,7 +10,7 @@ internal class Patch4002 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.SendMetricsJson));
+        return AccessTools.Method(typeof(ClientBackendSession), nameof(ClientBackendSession.SendMetricsJson));
     }
 
     [PatchPrefix]

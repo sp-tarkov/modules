@@ -14,7 +14,7 @@ using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 using UnityEngine;
 using UnityEngine.Build.Pipeline;
-using DependencyGraph = DependencyGraphClass<IEasyBundle>;
+using DependencyGraph = Diz.DependencyManager.DependencyGraph<Diz.Resources.IEasyBundle>;
 
 namespace SPT.Custom.Patches;
 
@@ -26,14 +26,14 @@ public class EasyAssetsPatch : ModulePatch
     {
         _bundlesField = typeof(EasyAssets)
             .GetFields(PatchConstants.PrivateFlags)
-            .FirstOrDefault(field => field.FieldType == typeof(EasyAssetHelperClass[]));
+            .FirstOrDefault(field => field.FieldType == typeof(EasyBundle[]));
     }
 
     public EasyAssetsPatch()
     {
         _ = nameof(IEasyBundle.SameNameAsset);
         _ = nameof(IBundleLock.IsLocked);
-        _ = nameof(BundleLockClass.MaxConcurrentOperations);
+        _ = nameof(BundleLock.MaxConcurrentOperations);
         _ = nameof(DependencyGraph.GetDefaultNode);
     }
 
@@ -88,10 +88,10 @@ public class EasyAssetsPatch : ModulePatch
         // create bundle lock
         if (bundleLock == null)
         {
-            bundleLock = new BundleLockClass(int.MaxValue);
+            bundleLock = new BundleLock(int.MaxValue);
         }
 
-        var bundles = new EasyAssetHelperClass[bundleNames.Length];
+        var bundles = new EasyBundle[bundleNames.Length];
 
         var bundleUtils = BundleUtils.Create();
         bundleUtils.Init(bundleNames.Length);
@@ -123,7 +123,7 @@ public class EasyAssetsPatch : ModulePatch
             }
 
             // create bundle of obfuscated type
-            bundles[i] = new EasyAssetHelperClass(key, path, manifest, bundleLock, bundleCheck);
+            bundles[i] = new EasyBundle(key, path, manifest, bundleLock, bundleCheck);
         }
 
         bundleUtils.Dispose();

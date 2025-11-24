@@ -17,8 +17,8 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     public SendFleaListingTaxAmountToServerPatch()
     {
         // Remember to update prefix parameter if below lines are broken
-        _ = nameof(RagfairOfferSellHelperClass.IsAllSelectedItemSame);
-        _ = nameof(RagfairOfferSellHelperClass.AutoSelectSimilar);
+        _ = nameof(GClass3813.IsAllSelectedItemSame);
+        _ = nameof(GClass3813.AutoSelectSimilar);
     }
 
     protected override MethodBase GetTargetMethod()
@@ -30,13 +30,13 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
     /// <param name="___item_0">Item sold</param>
-    /// <param name="___ragfairOfferSellHelperClass">OfferItemCount</param>
+    /// <param name="___gclass3813_0">OfferItemCount</param>
     /// <param name="___double_0">RequirementsPrice</param>
     /// <param name="___bool_0">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
         ref Item ___item_0,
-        ref RagfairOfferSellHelperClass ___ragfairOfferSellHelperClass,
+        ref GClass3813 ___gclass3813_0,
         ref double ___double_0,
         ref bool ___bool_0
     )
@@ -47,12 +47,12 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___ragfairOfferSellHelperClass.OfferItemCount,
+                count = ___gclass3813_0.OfferItemCount,
                 fee = Mathf.CeilToInt(
                     (float)
-                        FleaTaxCalculatorAbstractClass.CalculateTaxPrice(
+                        GClass2574.CalculateTaxPrice(
                             ___item_0,
-                            ___ragfairOfferSellHelperClass.OfferItemCount,
+                            ___gclass3813_0.OfferItemCount,
                             ___double_0,
                             ___bool_0
                         )

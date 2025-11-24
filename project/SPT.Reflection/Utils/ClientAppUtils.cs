@@ -5,9 +5,9 @@ namespace SPT.Reflection.Utils;
 
 public static class ClientAppUtils
 {
-    public static ClientApplication<ISession> GetClientApp()
+    public static ClientApplication<IEftSession> GetClientApp()
     {
-        return Singleton<ClientApplication<ISession>>.Instance;
+        return Singleton<ClientApplication<IEftSession>>.Instance;
     }
 
     public static TarkovApplication GetMainApp()

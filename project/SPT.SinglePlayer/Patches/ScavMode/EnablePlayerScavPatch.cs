@@ -14,11 +14,11 @@ public class EnablePlayerScavPatch : ModulePatch
     /// </summary>
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_27));
+        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_27));
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(MainMenuControllerClass __instance)
+    public static void PatchPrefix(MainMenuShowOperation __instance)
     {
         if (__instance.RaidSettings_0.Side == ESideType.Pmc)
         {
@@ -40,7 +40,7 @@ public class EnablePlayerScavPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(MainMenuControllerClass __instance)
+    public static void PatchPostfix(MainMenuShowOperation __instance)
     {
         // This ensures scav raids show as 'local' instead of 'training', works in conjunction with prefix patches' "RaidMode = local" line
         __instance.RaidSettings_0.IsPveOffline = true;

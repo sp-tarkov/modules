@@ -13,7 +13,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode;
 
 /// <summary>
 /// Make alterations to the survive time requirement prior to it being used to create a local game
-/// Singleton<BackendConfigSettingsClass>.Instance.Experience.MatchEnd.SurvivedTimeRequirement
+/// Singleton<GlobalConfiguration>.Instance.Experience.MatchEnd.SurvivedTimeRequirement
 /// </summary>
 public class ScavLateStartPatch : ModulePatch
 {
@@ -69,7 +69,7 @@ public class ScavLateStartPatch : ModulePatch
 
     private static void AdjustSurviveTimeForExtraction(int newSurvivalTimeSeconds)
     {
-        var matchEndConfig = Singleton<BackendConfigSettingsClass>.Instance.Experience.MatchEnd;
+        var matchEndConfig = Singleton<GlobalConfiguration>.Instance.Experience.MatchEnd;
         matchEndConfig.SurvivedTimeRequirement = newSurvivalTimeSeconds;
     }
 }

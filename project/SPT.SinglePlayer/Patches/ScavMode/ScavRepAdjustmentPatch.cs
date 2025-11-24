@@ -2,6 +2,7 @@
 using System.Reflection;
 using Comfort.Common;
 using EFT;
+using EFT.Ballistics;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -13,13 +14,13 @@ public class ScavRepAdjustmentPatch : ModulePatch
     {
         // Correct Gclass has sessionCounters
         return AccessTools.Method(
-            typeof(LocationStatisticsCollectorAbstractClass),
-            nameof(LocationStatisticsCollectorAbstractClass.OnEnemyKill)
+            typeof(GClass2267),
+            nameof(GClass2267.OnEnemyKill)
         );
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(DamageInfoStruct damage, string playerProfileId, out Tuple<Player, bool> __state)
+    public static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
     {
         __state = new Tuple<Player, bool>(null, false);
         var player = (Player)damage.Player.iPlayer;

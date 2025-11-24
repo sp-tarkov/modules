@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Comfort.Common;
+using CommonAssets.Scripts.Game;
 using EFT;
 using EFT.Interactive;
 using EFT.InventoryLogic;
@@ -18,25 +19,25 @@ public class ExfilDumper : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(ExfiltrationControllerClass).GetMethod(nameof(ExfiltrationControllerClass.InitAllExfiltrationPoints));
+        return typeof(ExfiltrationController).GetMethod(nameof(ExfiltrationController.InitAllExfiltrationPoints));
     }
 
     [PatchPostfix]
-    public static void PatchPreFix(LocationExitClass[] settings)
+    public static void PatchPreFix(GClass1431[] settings)
     {
         var gameWorld = Singleton<GameWorld>.Instance;
         string mapName = gameWorld.MainPlayer.Location.ToLower();
 
-        var pmcExfilPoints = ExfiltrationControllerClass.Instance.ExfiltrationPoints;
+        var pmcExfilPoints = ExfiltrationController.Instance.ExfiltrationPoints;
 
         // Both scav and PMC lists include shared, so remove them from the scav list
-        var scavExfilPoints = ExfiltrationControllerClass.Instance.ScavExfiltrationPoints.Where(x => !(x is SharedExfiltrationPoint));
+        var scavExfilPoints = ExfiltrationController.Instance.ScavExfiltrationPoints.Where(x => !(x is SharedExfiltrationPoint));
 
         var exfils = new List<SPTExfilData>();
 
         foreach (var exfil in pmcExfilPoints.Concat(scavExfilPoints))
         {
-            LocationExitClass exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
+            GClass1431 exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
             exfils.Add(new SPTExfilData(exfil, exitSettings));
         }
 
@@ -78,7 +79,7 @@ public class ExfilDumper : ModulePatch
         public string RequirementTip = "";
         public string Side = "";
 
-        public SPTExfilData(ExfiltrationPoint point, LocationExitClass settings)
+        public SPTExfilData(ExfiltrationPoint point, GClass1431 settings)
         {
             // PMC and shared extracts, prioritize settings over the map data to match base behaviour
             if (settings != null && (!(point is ScavExfiltrationPoint) || point is SharedExfiltrationPoint))

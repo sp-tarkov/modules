@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT.Airdrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class FixUnityWarningSpamFromAirdropsPatch : ModulePatch
     {
         // Get the target type using this field to avoid requiring a GClass reference
         var airdropOfflineServerLogicType = AccessTools
-            .Field(typeof(AirdropLogicClass), nameof(AirdropLogicClass.OfflineServerLogic))
+            .Field(typeof(ClientAirdrop), nameof(ClientAirdrop.OfflineServerLogic))
             .FieldType;
 
         return AccessTools.Method(airdropOfflineServerLogicType, "ManualUpdate");

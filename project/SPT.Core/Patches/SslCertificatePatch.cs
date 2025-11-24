@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -10,8 +11,8 @@ public class SslCertificatePatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Method(
-            typeof(SslCertPatchClass),
-            nameof(SslCertPatchClass.ValidateCertificate),
+            typeof(ClientCertificateHandler),
+            nameof(ClientCertificateHandler.ValidateCertificate),
             new[] { typeof(X509Certificate) }
         );
     }

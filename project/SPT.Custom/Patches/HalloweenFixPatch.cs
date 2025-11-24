@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
+using JsonType;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches;
@@ -18,7 +19,7 @@ public class BotsControllerInitPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(BotsController __instance, LocationSettingsClass.Location.EventsDataClass events)
+    public static void PatchPostfix(BotsController __instance, LocationSettings.Location.GClass1424 events)
     {
         // Run it again with a non-null _botSpawner.
         __instance.EventsController = new BotsEventsController(
