@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode;
 /// </summary>
 public class GetProfileAtEndOfRaidPatch : ModulePatch
 {
-    public static GClass2230 ProfileDescriptor { get; private set; }
+    public static ProfileDescriptor ProfileDescriptor { get; private set; }
 
     protected override MethodBase GetTargetMethod()
     {
@@ -26,7 +26,7 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
         {
             __instance.Profile_0.SetSpawnedInSession(false);
         }
-        ProfileDescriptor = new GClass2230(
+        ProfileDescriptor = new ProfileDescriptor(
             __instance.Profile_0,
             GClass2241.Instance /* Has 2 methods */
         );
@@ -56,7 +56,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
         }
 
         // Only do below when player is a scav
-        var session = (ClientBackendSession) __instance.iEftSession;
+        var session = (ClientBackendSession) __instance.IEftSession;
         session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 
