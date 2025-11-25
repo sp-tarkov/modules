@@ -57,7 +57,7 @@ public static class ValidationUtil
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVDbGllbnRfeDY0LmRsbA==")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVTZXJ2aWNlX3g2NC5leGU=")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("Q29uc2lzdGVuY3lJbmZv")))),
-                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlQbGF5ZXIuZGxs")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU="))))
             };
 
@@ -65,7 +65,7 @@ public static class ValidationUtil
             {
                 _crashHandler = ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU=")))?.Length.ToString() ?? "0";
                 _logger.LogInfo(_crashHandler);
-                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))?.Length.ToString() ?? "0");
+                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlQbGF5ZXIuZGxs")))?.Length.ToString() ?? "0");
                 _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
                 _logger.LogInfo(ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
                 var lll = ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIgR2FtZS5leGU=")))
