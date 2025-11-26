@@ -168,7 +168,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         }
 
         // Set offline raid values
-        menuController.Bool_0 = raidSettings.Local;
+        menuController._bool_0 = raidSettings.Local;
 
         // Load ready screen method
         _onReadyScreenMethod.Invoke(menuController, null);

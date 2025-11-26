@@ -18,7 +18,7 @@ public class QTEPatch : ModulePatch
     {
         RequestHandler.PutJson(
             "/client/hideout/workout",
-            new { skills = new GClass2224(__instance.HideoutPlayer.Skills) }.ToJson()
+            new { skills = new SkillsDescriptor(__instance.HideoutPlayer.Skills) }.ToJson()
         );
     }
 }

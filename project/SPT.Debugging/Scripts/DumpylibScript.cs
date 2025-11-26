@@ -26,7 +26,7 @@ public class DumpylibScript : MonoBehaviour
     public LocationSettings _locationSettings;
     public List<LocationSettings.Location> _locationSettingsDict;
     public GClass2191 _endRaidClass;
-    public GClass2230 _completeProfile;
+    public ProfileDescriptor _completeProfile;
     public UnparsedData _parsedDataProfile;
     public GClass1399 _weather;
     public Type _raidSettingsType;
@@ -117,7 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new GClass2230(_session.Profile, GClass2240.Instance);
+            _completeProfile = new ProfileDescriptor(_session.Profile, GClass2240.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

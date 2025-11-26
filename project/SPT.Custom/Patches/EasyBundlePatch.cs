@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Diz.Binding;
 using Diz.DependencyManager;
 using Diz.Resources;
 using HarmonyLib;
@@ -18,7 +19,7 @@ public class EasyBundlePatch : ModulePatch
     {
         _ = nameof(IEasyBundle.SameNameAsset);
         _ = nameof(IBundleLock.IsLocked);
-        _ = nameof(GClass1643<ELoadState>.Bind);
+        _ = nameof(BindableState<ELoadState>.Bind);
     }
 
     protected override MethodBase GetTargetMethod()
@@ -47,7 +48,7 @@ public class EasyBundlePatch : ModulePatch
         __instance.String_1 = filepath;
         __instance.String_0 = Path.GetFileNameWithoutExtension(key);
         __instance.DependencyKeys = dependencies;
-        __instance.LoadState = new GClass1643<ELoadState>(ELoadState.Unloaded);
+        __instance.LoadState = new BindableState<ELoadState>(ELoadState.Unloaded);
         __instance.IBundleLock = bundleLock;
     }
 }
