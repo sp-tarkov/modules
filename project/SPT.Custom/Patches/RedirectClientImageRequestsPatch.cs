@@ -26,7 +26,7 @@ public class RedirectClientImageRequestsPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
     {
-        var texture2D = ResourceCache.Pop<Texture2D>(url.ConvertToResourceLocation());
+        var texture2D = ResourcesCache.Pop<Texture2D>(url.ConvertToResourceLocation());
 
         if (texture2D != null)
         {
