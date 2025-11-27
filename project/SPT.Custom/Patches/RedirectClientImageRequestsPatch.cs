@@ -20,7 +20,7 @@ public class RedirectClientImageRequestsPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ClientBackendSession), nameof(ClientBackendSession.method_28));
+        return AccessTools.Method(typeof(ClientBackendSession), nameof(ClientBackendSession.LoadTextureWithCache));
     }
 
     [PatchPrefix]
@@ -51,14 +51,14 @@ public class RedirectClientImageRequestsPatch : ModulePatch
 
     public static async Task<Texture2D> GetTexture0(string path)
     {
-        var result = await ClientBackendSession.smethod_0(path);
+        var result = await ClientBackendSession.DownloadTexture2D(path);
 
         return result.Value;
     }
 
     public static async Task<Texture2D> GetTexture1(string path, string localPath)
     {
-        var result = await ClientBackendSession.smethod_1(path);
+        var result = await ClientBackendSession.LoadTexture(path);
 
         if (result.Succeed)
         {

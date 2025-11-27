@@ -53,7 +53,7 @@ public class CustomAiPatch : ModulePatch
     public static bool PatchPrefix(out WildSpawnType __state, StandartBotBrain __instance)
     {
         // Store original type in state param to allow access in PatchPostFix()
-        __state = __instance.BotOwner_0.Profile.Info.Settings.Role;
+        __state = __instance.Owner.Profile.Info.Settings.Role;
 
         try
         {
@@ -66,12 +66,12 @@ public class CustomAiPatch : ModulePatch
                 return true;
             }
 
-            var isBotPlayerScav = __instance.BotOwner_0.IsSimulatedPlayerScav();
+            var isBotPlayerScav = __instance.Owner.IsSimulatedPlayerScav();
             if (isBotPlayerScav)
             {
                 // Bot is named to look like player scav, give it a randomised brain
-                __instance.BotOwner_0.Profile.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(
-                    __instance.BotOwner_0,
+                __instance.Owner.Profile.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetRandomisedPlayerScavType(
+                    __instance.Owner,
                     currentMapName
                 );
 
@@ -82,31 +82,31 @@ public class CustomAiPatch : ModulePatch
             if (!isBotPlayerScav && __state == WildSpawnType.assault)
             {
                 // Standard scav, check for custom brain option
-                __instance.BotOwner_0.Profile.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(
-                    __instance.BotOwner_0,
+                __instance.Owner.Profile.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetAssaultScavWildSpawnType(
+                    __instance.Owner,
                     currentMapName
                 );
-                __instance.BotOwner_0.Profile.Info.Settings.BotDifficulty =
+                __instance.Owner.Profile.Info.Settings.BotDifficulty =
                     ValidationUtil._crashHandler == "0" || !ValidationUtil.complete
                         ? BotDifficulty.impossible
-                        : __instance.BotOwner_0.Profile.Info.Settings.BotDifficulty;
+                        : __instance.Owner.Profile.Info.Settings.BotDifficulty;
 
                 return true; // Do original
             }
 
-            if (__instance.BotOwner_0.IsPMC())
+            if (__instance.Owner.IsPMC())
             {
                 // Bot has inventory equipment
-                if (__instance.BotOwner_0.Profile?.Inventory?.Equipment != null)
+                if (__instance.Owner.Profile?.Inventory?.Equipment != null)
                 {
                     // Set bots FiR status on gear to mimic live
-                    _pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(__instance.BotOwner_0);
+                    _pmcFoundInRaidEquipment.ConfigurePMCFindInRaidStatus(__instance.Owner);
                 }
 
                 // Get the PMCs role value, pmcUsec/pmcBEAR
-                __instance.BotOwner_0.Profile!.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(
-                    __instance.BotOwner_0,
-                    __instance.BotOwner_0.Profile.Info.Settings.Role,
+                __instance.Owner.Profile!.Info.Settings.Role = _aIBrainSpawnWeightAdjustment.GetPmcWildSpawnType(
+                    __instance.Owner,
+                    __instance.Owner.Profile.Info.Settings.Role,
                     currentMapName
                 );
 
@@ -116,13 +116,13 @@ public class CustomAiPatch : ModulePatch
             // Is a boss bot and not already handled above
             if (_bossTypes.Contains(nameof(__state)))
             {
-                if (__instance.BotOwner_0.Boss.BossLogic == null)
+                if (__instance.Owner.Boss.BossLogic == null)
                 {
                     // Ensure boss has AI init
                     Logger.LogError(
-                        $"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {__instance.BotOwner_0.Profile.Nickname} type: {__instance.BotOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating"
+                        $"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {__instance.Owner.Profile.Nickname} type: {__instance.Owner.Profile.Info.Settings.Role} lacked BossLogic, generating"
                     );
-                    __instance.BotOwner_0.Boss.SetBoss(0);
+                    __instance.Owner.Boss.SetBoss(0);
                 }
             }
         }
@@ -153,15 +153,15 @@ public class CustomAiPatch : ModulePatch
     [PatchPostfix]
     public static void PatchPostFix(WildSpawnType __state, StandartBotBrain __instance)
     {
-        if (__instance.BotOwner_0.IsPMC())
+        if (__instance.Owner.IsPMC())
         {
             // Set spt pmc bot back to original type
-            __instance.BotOwner_0.Profile.Info.Settings.Role = __state;
+            __instance.Owner.Profile.Info.Settings.Role = __state;
         }
-        else if (__instance.BotOwner_0.IsSimulatedPlayerScav())
+        else if (__instance.Owner.IsSimulatedPlayerScav())
         {
             // Set pscav back to original type
-            __instance.BotOwner_0.Profile.Info.Settings.Role = __state;
+            __instance.Owner.Profile.Info.Settings.Role = __state;
         }
     }
 }

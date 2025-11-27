@@ -27,7 +27,7 @@ public class SaveSettingsToSptFolderPatch : ModulePatch
             Directory.CreateDirectory(_sptPath);
         }
 
-        SettingsManager.String_0 = _sptPath;
-        SettingsManager.String_1 = _sptPath;
+        SettingsManager.OldSettingsFolderPath = _sptPath;
+        SettingsManager.SettingsFolderPath = _sptPath;
     }
 }

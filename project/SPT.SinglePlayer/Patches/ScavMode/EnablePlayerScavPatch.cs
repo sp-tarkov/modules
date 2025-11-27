@@ -14,7 +14,7 @@ public class EnablePlayerScavPatch : ModulePatch
     /// </summary>
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_27));
+        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.Logout));
     }
 
     [PatchPrefix]

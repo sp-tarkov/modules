@@ -14,8 +14,8 @@ public class ScavRepAdjustmentPatch : ModulePatch
     {
         // Correct Gclass has sessionCounters
         return AccessTools.Method(
-            typeof(GClass2267),
-            nameof(GClass2267.OnEnemyKill)
+            typeof(BaseStatisticsManager),
+            nameof(BaseStatisticsManager.OnEnemyKill)
         );
     }
 
@@ -57,7 +57,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
             }
             else
             {
-                player.Loyalty.method_1(killedBot);
+                player.Loyalty.GifterKill(killedBot);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using EFT.Airdrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using UnityEngine;
@@ -14,18 +15,18 @@ public class FixAirdropFlareDisposePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(GClass2655), nameof(GClass2655.Dispose));
+        return AccessTools.Method(typeof(ProjectilesCollector), nameof(ProjectilesCollector.Dispose));
     }
 
     [PatchPrefix]
-    public static void Prefix(GClass2655 __instance)
+    public static void Prefix(ProjectilesCollector __instance)
     {
-        if (__instance.Dictionary_0 == null)
+        if (__instance.ActiveProjectiles == null)
         {
             return;
         }
 
-        foreach (KeyValuePair<GameObject, float> keyValuePair in __instance.Dictionary_0)
+        foreach (KeyValuePair<GameObject, float> keyValuePair in __instance.ActiveProjectiles)
         {
             Object.Destroy(keyValuePair.Key);
         }

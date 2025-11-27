@@ -28,7 +28,7 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
         }
         ProfileDescriptor = new ProfileDescriptor(
             __instance.Profile_0,
-            GClass2241.Instance /* Has 2 methods */
+            VisualsOnlySearchController.Instance /* Has 2 methods */
         );
     }
 }
@@ -41,7 +41,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.method_2));
+        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.Init));
     }
 
     [PatchPrefix]
@@ -56,7 +56,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
         }
 
         // Only do below when player is a scav
-        var session = (ClientBackendSession) __instance._EftSession;
+        var session = (ClientBackendSession) __instance._session;
         session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 

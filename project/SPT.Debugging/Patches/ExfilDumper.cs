@@ -8,6 +8,7 @@ using CommonAssets.Scripts.Game;
 using EFT;
 using EFT.Interactive;
 using EFT.InventoryLogic;
+using JsonType;
 using Newtonsoft.Json;
 using SPT.Reflection.Patching;
 
@@ -23,7 +24,7 @@ public class ExfilDumper : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPreFix(GClass1431[] settings)
+    public static void PatchPreFix(BackendExitTriggerSettings[] settings)
     {
         var gameWorld = Singleton<GameWorld>.Instance;
         string mapName = gameWorld.MainPlayer.Location.ToLower();
@@ -37,7 +38,7 @@ public class ExfilDumper : ModulePatch
 
         foreach (var exfil in pmcExfilPoints.Concat(scavExfilPoints))
         {
-            GClass1431 exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
+            BackendExitTriggerSettings exitSettings = settings.FirstOrDefault(x => x.Name == exfil.Settings.Name);
             exfils.Add(new SPTExfilData(exfil, exitSettings));
         }
 
@@ -79,7 +80,7 @@ public class ExfilDumper : ModulePatch
         public string RequirementTip = "";
         public string Side = "";
 
-        public SPTExfilData(ExfiltrationPoint point, GClass1431 settings)
+        public SPTExfilData(ExfiltrationPoint point, BackendExitTriggerSettings settings)
         {
             // PMC and shared extracts, prioritize settings over the map data to match base behaviour
             if (settings != null && (!(point is ScavExfiltrationPoint) || point is SharedExfiltrationPoint))

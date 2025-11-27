@@ -19,7 +19,7 @@ public class BotsControllerInitPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(BotsController __instance, LocationSettings.Location.GClass1424 events)
+    public static void PatchPostfix(BotsController __instance, LocationSettings.Location.BotLocationEvents events)
     {
         // Run it again with a non-null _botSpawner.
         __instance.EventsController = new BotsEventsController(

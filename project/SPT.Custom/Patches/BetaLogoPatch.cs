@@ -52,7 +52,7 @@ public class BetaLogoPatch3 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.smethod_0));
+        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.GetRandomScreenPoint));
     }
 
     // Prefix so the logic isn't being duplicated.

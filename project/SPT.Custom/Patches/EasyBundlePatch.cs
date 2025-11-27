@@ -45,10 +45,10 @@ public class EasyBundlePatch : ModulePatch
         }
 
         __instance.Key = key;
-        __instance.String_1 = filepath;
-        __instance.String_0 = Path.GetFileNameWithoutExtension(key);
+        __instance.Path = filepath;
+        __instance.KeyWithoutExtension = Path.GetFileNameWithoutExtension(key);
         __instance.DependencyKeys = dependencies;
         __instance.LoadState = new BindableState<ELoadState>(ELoadState.Unloaded);
-        __instance.IBundleLock = bundleLock;
+        __instance.BundleLock = bundleLock;
     }
 }

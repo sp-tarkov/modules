@@ -141,7 +141,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
                 .Single(field => field.FieldType == typeof(MatchmakerPlayersController))
                 .GetValue(menuController) as MatchmakerPlayersController;
 
-        var gclass = new MatchmakerOfflineRaidScreen.GClass3917(
+        var gclass = new MatchmakerOfflineRaidScreen.OfflineRaidScreenController(
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
@@ -168,7 +168,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         }
 
         // Set offline raid values
-        menuController._bool_0 = raidSettings.Local;
+        menuController._isInited = raidSettings.Local;
 
         // Load ready screen method
         _onReadyScreenMethod.Invoke(menuController, null);

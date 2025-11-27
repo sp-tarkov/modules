@@ -23,7 +23,7 @@ public class LocaleFixPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        var targetType = typeof(GClass2306).GetNestedTypes().FirstOrDefault(type => type.Name.Contains("Struct"));
+        var targetType = typeof(EftCreateProfileOperation).GetNestedTypes().FirstOrDefault(type => type.Name.Contains("Struct"));
         Logger.LogDebug($"{this.GetType().Name} Type: {targetType?.Name}");
 
         return AccessTools.Method(targetType, "MoveNext");

@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using EFT.InventoryLogic;
+using EFT.Trading;
+using EFT.UI;
 using EFT.UI.Ragfair;
 using HarmonyLib;
 using SPT.Common.Http;
@@ -17,8 +19,8 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     public SendFleaListingTaxAmountToServerPatch()
     {
         // Remember to update prefix parameter if below lines are broken
-        _ = nameof(GClass3813.IsAllSelectedItemSame);
-        _ = nameof(GClass3813.AutoSelectSimilar);
+        _ = nameof(RagfairNewOfferContext.IsAllSelectedItemSame);
+        _ = nameof(RagfairNewOfferContext.AutoSelectSimilar);
     }
 
     protected override MethodBase GetTargetMethod()
@@ -29,32 +31,32 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// <summary>
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
-    /// <param name="___item_0">Item sold</param>
-    /// <param name="___gclass3813_0">OfferItemCount</param>
-    /// <param name="___double_0">RequirementsPrice</param>
-    /// <param name="___bool_0">SellInOnePiece</param>
+    /// <param name="___selectedItem">Item sold</param>
+    /// <param name="___offerContext">OfferItemCount</param>
+    /// <param name="___requirementsCost">RequirementsPrice</param>
+    /// <param name="___sellInOnePiece">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
-        ref Item ___item_0,
-        ref GClass3813 ___gclass3813_0,
-        ref double ___double_0,
-        ref bool ___bool_0
+        ref Item ___selectedItem,
+        ref RagfairNewOfferContext ___offerContext,
+        ref double ___requirementsCost,
+        ref bool ___sellInOnePiece
     )
     {
         RequestHandler.PutJson(
             "/client/ragfair/offerfees",
             new
             {
-                id = ___item_0.Id,
-                tpl = ___item_0.TemplateId,
-                count = ___gclass3813_0.OfferItemCount,
+                id = ___selectedItem.Id,
+                tpl = ___selectedItem.TemplateId,
+                count = ___offerContext.OfferItemCount,
                 fee = Mathf.CeilToInt(
                     (float)
-                        GClass2574.CalculateTaxPrice(
-                            ___item_0,
-                            ___gclass3813_0.OfferItemCount,
-                            ___double_0,
-                            ___bool_0
+                        PriceCalculator.CalculateTaxPrice(
+                            ___selectedItem,
+                            ___offerContext.OfferItemCount,
+                            ___requirementsCost,
+                            ___sellInOnePiece
                         )
                 ),
             }.ToJson()

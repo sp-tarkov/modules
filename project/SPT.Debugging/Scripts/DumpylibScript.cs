@@ -25,10 +25,10 @@ public class DumpylibScript : MonoBehaviour
     public RaidSettings _raidSettings;
     public LocationSettings _locationSettings;
     public List<LocationSettings.Location> _locationSettingsDict;
-    public GClass2191 _endRaidClass;
+    public SessionResult _endRaidClass;
     public ProfileDescriptor _completeProfile;
     public UnparsedData _parsedDataProfile;
-    public GClass1399 _weather;
+    public WeatherResponse _weather;
     public Type _raidSettingsType;
     public FieldInfo[] _locationSettingsFields;
     public FieldInfo _raidSettingsField;
@@ -104,7 +104,7 @@ public class DumpylibScript : MonoBehaviour
 
             _weather = await _session.WeatherRequest();
 
-            _endRaidClass = new GClass2191
+            _endRaidClass = new SessionResult
             {
                 profile = null,
                 result = ExitStatus.Left,
@@ -117,7 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new ProfileDescriptor(_session.Profile, GClass2240.Instance);
+            _completeProfile = new ProfileDescriptor(_session.Profile, FullySearchedSearchController.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

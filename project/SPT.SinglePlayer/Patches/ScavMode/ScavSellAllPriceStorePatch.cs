@@ -25,7 +25,7 @@ public class ScavSellAllPriceStorePatch : ModulePatch
         var scavInventoryScreenType = typeof(ScavengerInventoryScreen);
         _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(IClientSession));
 
-        return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.method_4));
+        return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.SellAll));
     }
 
     [PatchPrefix]
@@ -37,7 +37,7 @@ public class ScavSellAllPriceStorePatch : ModulePatch
         await traderClass.RefreshAssortment(true, true);
 
         // gets the list of items in the inventory screen
-        if (!__instance.method_3(out var items))
+        if (!__instance.TryGetFirstLevelItems(out var items))
         {
             Logger.LogError("ScavSellAllPriceStorePatch - Could not get items from inventory screen");
         }
