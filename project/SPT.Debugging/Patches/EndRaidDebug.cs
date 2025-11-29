@@ -17,37 +17,36 @@ public class EndRaidDebug : ModulePatch
 
     [PatchPrefix]
     public static bool PatchPreFix(
-        ref LocalizedText ____nickName,
-        ref TMP_Text ____standing,
-        ref RankPanel ____rankPanel,
-        ref Profile.TraderInfo ___traderInfo_0
+        TraderCard __instance,
+        ref Profile.TraderInfo ____trader
     )
     {
-        if (____nickName.LocalizationKey == null)
+
+        if (__instance._nickName.LocalizationKey == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] _nickName.LocalizationKey was null");
         }
 
-        if (____standing.text == null)
+        if (__instance._standing.text == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] _standing.text was null");
         }
 
-        if (____rankPanel == null)
+        if (__instance._rankPanel == null)
         {
             Logger.Log(LogLevel.Error, "[SPT] _rankPanel was null, skipping method_0");
             return false; // skip original
         }
 
-        if (___traderInfo_0?.LoyaltyLevel == null)
+        if (____trader?.LoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.LoyaltyLevel was null");
         }
 
-        if (___traderInfo_0?.MaxLoyaltyLevel == null)
+        if (____trader?.MaxLoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null");

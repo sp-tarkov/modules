@@ -50,7 +50,7 @@ public class BotsEventsControllerActivatePatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(BotsEventsController __instance)
     {
-        if (__instance.BotHalloweenEvent.Spawner == null)
+        if (__instance.BotHalloweenEvent._spawner == null)
         {
             Logger.LogDebug("__instance.BotHalloweenEvent.Spawner is null skip Activate");
             return false;

@@ -24,10 +24,10 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
         if (exitStatus == ExitStatus.Runner)
         {
-            __instance.Profile_0.SetSpawnedInSession(false);
+            __instance.Profile.SetSpawnedInSession(false);
         }
         ProfileDescriptor = new ProfileDescriptor(
-            __instance.Profile_0,
+            __instance.Profile,
             VisualsOnlySearchController.Instance /* Has 2 methods */
         );
     }

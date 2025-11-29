@@ -21,7 +21,7 @@ public class FixUnityWarningSpamFromAirdropsPatch : ModulePatch
     {
         // Get the target type using this field to avoid requiring a GClass reference
         var airdropOfflineServerLogicType = AccessTools
-            .Field(typeof(ClientAirdrop), nameof(ClientAirdrop.OfflineServerLogic))
+            .Field(typeof(ClientAirDrop), nameof(ClientAirDrop.OfflineServerLogic))
             .FieldType;
 
         return AccessTools.Method(airdropOfflineServerLogicType, "ManualUpdate");

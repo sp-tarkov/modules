@@ -20,35 +20,35 @@ public class EnablePlayerScavPatch : ModulePatch
     [PatchPrefix]
     public static void PatchPrefix(MainMenuShowOperation __instance)
     {
-        if (__instance.RaidSettings_0.Side == ESideType.Pmc)
+        if (__instance.raidSettings_0.Side == ESideType.Pmc)
         {
             // Client does some 'online' work before realising it should be pve
-            __instance.RaidSettings_0.RaidMode = ERaidMode.Online; // Sets ___raidSettings_0.Local to true
+            __instance.raidSettings_0.RaidMode = ERaidMode.Online; // Sets ___raidSettings_0.Local to true
         }
         else
         {
             // Needed for scav runs
-            __instance.RaidSettings_0.RaidMode = ERaidMode.Local;
+            __instance.raidSettings_0.RaidMode = ERaidMode.Local;
         }
 
         // Copy values from 'good' location to raidsettings_0 to ensure the rest of raid start process uses them
-        __instance.RaidSettings_0.WavesSettings = __instance.RaidSettings_1.WavesSettings;
-        __instance.RaidSettings_0.BotSettings = __instance.RaidSettings_1.BotSettings;
+        __instance.raidSettings_0.WavesSettings = __instance.raidSettings_1.WavesSettings;
+        __instance.raidSettings_0.BotSettings = __instance.raidSettings_1.BotSettings;
 
         // Update backup to have same values as primary
-        __instance.RaidSettings_1 = __instance.RaidSettings_0.Clone();
+        __instance.raidSettings_1 = __instance.raidSettings_0.Clone();
     }
 
     [PatchPostfix]
     public static void PatchPostfix(MainMenuShowOperation __instance)
     {
         // This ensures scav raids show as 'local' instead of 'training', works in conjunction with prefix patches' "RaidMode = local" line
-        __instance.RaidSettings_0.IsPveOffline = true;
+        __instance.raidSettings_0.IsPveOffline = true;
 
         // Bosses are never removed from PvE raids, When player has disabled bosses removal all bosses EXCEPT PMCs
-        if (!__instance.RaidSettings_0.WavesSettings.IsBosses)
+        if (!__instance.raidSettings_0.WavesSettings.IsBosses)
         {
-            __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = Array.FindAll(__instance.RaidSettings_0.SelectedLocation.BossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
+            __instance.raidSettings_0.SelectedLocation.BossLocationSpawn = Array.FindAll(__instance.raidSettings_0.SelectedLocation.BossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
         }
     }
 }

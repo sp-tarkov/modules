@@ -4,7 +4,6 @@ using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.SynchronizableObjects;
-using EFT.SyncronizableObjects;
 using EFT.Utilities;
 using HarmonyLib;
 using JsonType;
@@ -51,7 +50,7 @@ public class FixAirdropCrashPatch : ModulePatch
             return;
         }
 
-        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor.List_0;
+        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor._activeSynchronizableObjects;
         if (syncObjects is null)
         {
             return;

@@ -17,7 +17,7 @@ public class FixScavWarNullErrorWithMarkOfUnknownPatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(BotsGroupMarkOfUnknown __instance)
     {
-        if (__instance.Groups == null)
+        if (__instance._groups == null)
         {
             return false; // Skip original
         }
