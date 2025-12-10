@@ -31,7 +31,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new ScavProfileLoadPatch().Enable();
             new ScavPrefabLoadPatch().Enable();
             new LoadOfflineRaidScreenPatch().Enable();
-            new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
             new PluginErrorNotifierPatch().Enable();
             new RemoveUsedBotProfilePatch().Enable();
             new ScavLateStartPatch().Enable();
