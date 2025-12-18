@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using Audio.AmbientSubsystem;
-using EFT;
 using HarmonyLib;
-using Newtonsoft.Json;
-using SPT.Common.Http;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches;
