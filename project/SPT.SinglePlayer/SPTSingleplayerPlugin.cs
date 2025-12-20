@@ -68,6 +68,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new RemoveStashUpgradeLabelPatch2().Enable();
             new LocaleFixPatch().Enable();
             new RemoveTransitionRaidModeSetPatch().Enable();
+            new FixDisableBossSpawningOptionPatch().Enable();
         }
         catch (Exception ex)
         {
