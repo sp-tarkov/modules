@@ -64,6 +64,9 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new BotsEventsControllerActivatePatch().Enable();
             new EnableInfectionUIPatch().Enable();
 
+            // Khorovod event fixes
+            new KhorovodDisposeFix().Enable();
+
             HookObject.AddComponent<MenuNotificationManager>();
         }
         catch (Exception ex)
