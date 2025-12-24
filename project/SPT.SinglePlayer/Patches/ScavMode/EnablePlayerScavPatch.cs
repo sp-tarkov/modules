@@ -1,54 +1,29 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using EFT;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
 namespace SPT.SinglePlayer.Patches.ScavMode;
 
+/// <summary>
+/// This patch removes the if check if the player is a scav, it will allow for playing scavs in offline raids.
+/// </summary>
 public class EnablePlayerScavPatch : ModulePatch
 {
-    /// <summary>
-    /// Fixes player loading into a 'practice' raid instead of a 'local' raid
-    /// Also fixes player not loading into raid as a scav
-    /// </summary>
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_27));
+        return AccessTools.Method(typeof(MainMenuControllerClass.Struct444), nameof(MainMenuControllerClass.Struct444.MoveNext));
     }
 
-    [PatchPrefix]
-    public static void PatchPrefix(MainMenuControllerClass __instance)
+
+    [PatchTranspiler]
+    public static IEnumerable<CodeInstruction> PatchTranspiler(IEnumerable<CodeInstruction> originalInstructions)
     {
-        if (__instance.RaidSettings_0.Side == ESideType.Pmc)
-        {
-            // Client does some 'online' work before realising it should be pve
-            __instance.RaidSettings_0.RaidMode = ERaidMode.Online; // Sets ___raidSettings_0.Local to true
-        }
-        else
-        {
-            // Needed for scav runs
-            __instance.RaidSettings_0.RaidMode = ERaidMode.Local;
-        }
+        var instructionsList = new List<CodeInstruction>(originalInstructions);
 
-        // Copy values from 'good' location to raidsettings_0 to ensure the rest of raid start process uses them
-        __instance.RaidSettings_0.WavesSettings = __instance.RaidSettings_1.WavesSettings;
-        __instance.RaidSettings_0.BotSettings = __instance.RaidSettings_1.BotSettings;
+        // Remove the condition in the if check checking if the player is a scav
+        instructionsList.RemoveRange(143, 4);
 
-        // Update backup to have same values as primary
-        __instance.RaidSettings_1 = __instance.RaidSettings_0.Clone();
-    }
-
-    [PatchPostfix]
-    public static void PatchPostfix(MainMenuControllerClass __instance)
-    {
-        // This ensures scav raids show as 'local' instead of 'training', works in conjunction with prefix patches' "RaidMode = local" line
-        __instance.RaidSettings_0.IsPveOffline = true;
-
-        // Bosses are never removed from PvE raids, When player has disabled bosses removal all bosses EXCEPT PMCs
-        if (!__instance.RaidSettings_0.WavesSettings.IsBosses)
-        {
-            __instance.RaidSettings_0.SelectedLocation.BossLocationSpawn = Array.FindAll(__instance.RaidSettings_0.SelectedLocation.BossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
-        }
+        return instructionsList;
     }
 }

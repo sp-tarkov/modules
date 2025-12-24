@@ -5,11 +5,11 @@ BepInEx plugins to alter Escape From Tarkov's behaviour
 **Project**        | **Function**
 ------------------ | --------------------------------------------
 SPT.Build          | Build script
-SPT.Bundles        | External bundle loader
 SPT.Common         | Common utilities used across projects
 SPT.Core           | Required patches to start the game
 SPT.Custom         | SPT enhancements to EFT
 SPT.Debugging      | Debug utilities (disabled in release builds)
+SPT.PrePatch       | SPT enhancements to EFT that require Pre Patching to work
 SPT.Reflection     | Reflection utilities used across the project
 SPT.SinglePlayer   | Simulating online game while offline
 
@@ -26,13 +26,12 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ## Requirements
 - Escape From Tarkov 39390
 - Visual Studio Code -OR- Visual Studio 2022
-- .NET 6 SDK
+- .NET 10 SDK (Any SDK above .NET 6 to be safe)
 - [PowerShell v7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
     - Can also be installed via: `dotnet tool update --global PowerShell`
 
 ## Project Setup
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this project's `Project/Shared/Managed/` folder
-
 
 ## Build (VS Code)
 1. File > Open Workspace > Modules.code-workspace
@@ -44,6 +43,11 @@ Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this proje
 2. Restore nuget packages
 3. Build solution
 4. Copy contents of `/Build` into SPT game folder and overwrite
+
+## Optional Build Steps (This is automatically done in our pipeline.)
+- If you need to build the modules manually and need to have the correct version given for the Dll's
+- Adjust the Build configurations or via CLI include `-p:Version="*.*.*"`
+- From CLI the command to run would be `dotnet build -c Release -p:Version="4.0.8"` this will give the dll's the correct versions.
 
 ## Game Setup
 1. Copy Live EFT files into a separate directory (from now on this will be referred to as the "SPT directory")

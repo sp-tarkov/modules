@@ -51,6 +51,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new MemoryCollectionPatch().Enable();
             new LocaleManagerRaceConditionFixPatch().Enable();
             new AddOfferFilterHangPatch().Enable();
+            new FixPrecipitationAmbientBlenderNullRefPatch().Enable();
 
             // 3.11
             new EnablePrestigeTabPatch().Enable();
@@ -62,6 +63,9 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new BotsControllerInitPatch().Enable();
             new BotsEventsControllerActivatePatch().Enable();
             new EnableInfectionUIPatch().Enable();
+
+            // Khorovod event fixes
+            new KhorovodDisposeFix().Enable();
 
             HookObject.AddComponent<MenuNotificationManager>();
         }
