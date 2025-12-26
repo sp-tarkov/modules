@@ -22,7 +22,7 @@ public class FixDisableBossSpawningOptionPatch : ModulePatch
         // We only need to filter out the bosses here, not the PMCs
         if (!wavesSettings.IsBosses)
         {
-            __result = Array.FindAll(bossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
+            bossLocationSpawn = Array.FindAll(bossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
         }
 
         return true;
