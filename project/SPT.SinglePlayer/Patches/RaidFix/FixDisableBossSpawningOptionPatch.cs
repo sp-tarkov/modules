@@ -25,7 +25,6 @@ public class FixDisableBossSpawningOptionPatch : ModulePatch
             __result = Array.FindAll(bossLocationSpawn, boss => boss.BossName is "pmcUSEC" or "pmcBEAR");
         }
 
-        // Skip the original here, the original doesn't run any code anyway due to checks against if we are in PVE and offline
-        return false;
+        return true;
     }
 }
