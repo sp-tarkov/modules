@@ -51,18 +51,17 @@ public static class BundleManager
     // Handles both the check for initially acquiring and also re-acquiring a file.
     public static async Task<bool> ShouldAcquire(BundleItem bundle)
     {
-        // If this is a local bundle, we never want to re-acquire it, otherwise we risk deleting it from the server
-        if (RequestHandler.IsLocal)
-        {
-            _logger.LogInfo($"MOD: Loading locally {bundle.FileName}");
-            return false;
-        }
-
         // read cache
         var filepath = GetBundleFilePath(bundle);
 
         if (VFS.Exists(filepath))
         {
+            if (RequestHandler.IsLocal)
+            {
+                _logger.LogInfo($"MOD: Loading locally {bundle.FileName}");
+                return false;
+            }
+
             // calculate hash
             var data = await VFS.ReadFileAsync(filepath);
             var crc = Crc32.HashToUInt32(data);
