@@ -120,32 +120,20 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         return codes.AsEnumerable();
     }
 
-    /// <summary>
-    /// TODO: Update references as most things are no longer private
-    /// </summary>
     private static void LoadOfflineRaidScreenForScav()
     {
         var profile = PatchConstants.BackEndSession.Profile;
-        var menuController = (object)GetMenuController();
+        var menuController = GetMenuController();
 
         // Get fields from MainMenuController.cs
-        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
-
-        var offlineRaidSettings = Traverse.Create(menuController).Field("RaidSettings_1").GetValue<RaidSettings>();
-
-        // Find the private field of type `MatchmakerPlayerControllerClass`
-        var matchmakerPlayersController =
-            menuController
-                .GetType()
-                .GetFields(AccessTools.all)
-                .Single(field => field.FieldType == typeof(MatchmakerPlayerControllerClass))
-                .GetValue(menuController) as MatchmakerPlayerControllerClass;
+        var raidSettings = menuController.RaidSettings_0;
+        var offlineRaidSettings = menuController.RaidSettings_1;
 
         var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
-            matchmakerPlayersController,
+            menuController.MatchmakerPlayerControllerClass,
             ESessionMode.Pve
         );
 
@@ -161,14 +149,19 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     {
         var menuController = GetMenuController();
 
-        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
+        var raidSettings = menuController.RaidSettings_0;
         if (raidSettings.SelectedLocation.Id == "laboratory")
         {
             raidSettings.WavesSettings.IsBosses = true;
         }
 
-        // Set offline raid values
+        // Set offline raid values (Is this necessary? Sets InSession)
         menuController.Bool_0 = raidSettings.Local;
+
+        // Copy various settings between raid settings, this prevents scavs from loading in as pmc's
+        raidSettings.WavesSettings = menuController.RaidSettings_1.WavesSettings;
+        raidSettings.BotSettings = menuController.RaidSettings_1.BotSettings;
+        menuController.RaidSettings_1.Side = raidSettings.Side;
 
         // Load ready screen method
         _onReadyScreenMethod.Invoke(menuController, null);
