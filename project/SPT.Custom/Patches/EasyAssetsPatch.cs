@@ -93,6 +93,8 @@ public class EasyAssetsPatch : ModulePatch
 
         var bundles = new EasyAssetHelperClass[bundleNames.Length];
 
+        BundleCrcCache.Load();
+
         var bundleUtils = BundleUtils.Create();
         bundleUtils.Init(bundleNames.Length);
 
@@ -125,6 +127,8 @@ public class EasyAssetsPatch : ModulePatch
             // create bundle of obfuscated type
             bundles[i] = new EasyAssetHelperClass(key, path, manifest, bundleLock, bundleCheck);
         }
+
+        BundleCrcCache.Save();
 
         bundleUtils.Dispose();
 
