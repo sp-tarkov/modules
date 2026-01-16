@@ -31,32 +31,32 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// <summary>
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
-    /// <param name="___selectedItem">Item sold</param>
-    /// <param name="___offerContext">OfferItemCount</param>
-    /// <param name="___requirementsCost">RequirementsPrice</param>
-    /// <param name="___sellInOnePiece">SellInOnePiece</param>
+    /// <param name="____selectedItem">Item sold</param>
+    /// <param name="____offerContext">OfferItemCount</param>
+    /// <param name="____requirementsCost">RequirementsPrice</param>
+    /// <param name="____sellInOnePiece">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
-        ref Item ___selectedItem,
-        ref RagfairNewOfferContext ___offerContext,
-        ref double ___requirementsCost,
-        ref bool ___sellInOnePiece
+        ref Item ____selectedItem,
+        ref RagfairNewOfferContext ____offerContext,
+        ref double ____requirementsCost,
+        ref bool ____sellInOnePiece
     )
     {
         RequestHandler.PutJson(
             "/client/ragfair/offerfees",
             new
             {
-                id = ___selectedItem.Id,
-                tpl = ___selectedItem.TemplateId,
-                count = ___offerContext.OfferItemCount,
+                id = ____selectedItem.Id,
+                tpl = ____selectedItem.TemplateId,
+                count = ____offerContext.MaxAvailableCellsSize,
                 fee = Mathf.CeilToInt(
                     (float)
                         PriceCalculator.CalculateTaxPrice(
-                            ___selectedItem,
-                            ___offerContext.OfferItemCount,
-                            ___requirementsCost,
-                            ___sellInOnePiece
+                            ____selectedItem,
+                            1, // TODO: fix this and count above, just done this to get to Vtables
+                            ____requirementsCost,
+                            ____sellInOnePiece
                         )
                 ),
             }.ToJson()

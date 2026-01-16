@@ -147,7 +147,7 @@ public class BotmonitorScript : MonoBehaviour
                     _distance = Vector3.Distance(player.Transform.position, _camera.transform.position);
                     _builder.Append(
                         $"> [{_distance:n2}m] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Role}] "
-                            + $"[{player.Profile.Side}] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Difficulty}] {player.Profile.Nickname}\n"
+                            + $"[{player.Profile.Side}] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Difficulty}] {player.Profile.Info.MainProfileNickname}\n"
                     );
                 }
             }

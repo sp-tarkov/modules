@@ -41,7 +41,7 @@ public class AddTraitorScavsPatch : ModulePatch
 
         if (bot.IsSimulatedPlayerScav() && new Random().Next(1, 100) < _traitorChancePercent)
         {
-            Logger.LogInfo($"Making {bot.name} ({bot.Profile.Nickname}) hostile to player");
+            Logger.LogInfo($"Making {bot.name} ({bot.Profile.Info.MainProfileNickname}) hostile to player");
 
             // Create a new group for this scav itself to belong to
             var player = Singleton<GameWorld>.Instance.MainPlayer;
