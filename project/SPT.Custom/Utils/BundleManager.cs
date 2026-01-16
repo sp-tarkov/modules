@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.IO;
 using System.Threading.Tasks;
 using BepInEx.Logging;
 using Newtonsoft.Json;
@@ -49,6 +50,7 @@ public static class BundleManager
     }
 
     // Handles both the check for initially acquiring and also re-acquiring a file.
+    /*
     public static async Task<bool> ShouldAcquire(BundleItem bundle)
     {
         // If this is a local bundle, we never want to re-acquire it, otherwise we risk deleting it from the server
@@ -86,5 +88,56 @@ public static class BundleManager
             _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
             return true;
         }
+    }
+    */
+
+    public static async Task<bool> ShouldAcquire(BundleItem bundle)
+    {
+        // If this is a local bundle, never re-acquire
+        if (RequestHandler.IsLocal)
+        {
+            _logger.LogInfo($"MOD: Loading locally {bundle.FileName}");
+            return false;
+        }
+
+        var filepath = GetBundleFilePath(bundle);
+
+        // File missing → must acquire
+        if (!VFS.Exists(filepath))
+        {
+            _logger.LogInfo($"CACHE: Bundle is missing, (re-)acquiring {bundle.FileName}");
+            return true;
+        }
+
+        // File exists
+        var fileInfo = new FileInfo(filepath);
+        var size = fileInfo.Length;
+
+        // Cache hit?
+        if (BundleCrcCache.TryGet(filepath, out var cached))
+        {
+            // Size + CRC match → trust cache
+            if (cached.Size == size && cached.Crc == bundle.Crc)
+            {
+                _logger.LogInfo($"CACHE: Loading locally {bundle.FileName} (cached)");
+                return false;
+            }
+        }
+
+        // Cache miss or mismatch → compute CRC
+        var data = await VFS.ReadFileAsync(filepath);
+        var crc = Crc32.HashToUInt32(data);
+
+        // Update cache
+        BundleCrcCache.Update(filepath, size, crc);
+
+        if (crc == bundle.Crc)
+        {
+            _logger.LogInfo($"CACHE: Loading locally {bundle.FileName}");
+            return false;
+        }
+
+        _logger.LogInfo($"CACHE: Bundle is invalid, (re-)acquiring {bundle.FileName}");
+        return true;
     }
 }
