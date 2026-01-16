@@ -42,7 +42,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
             __state = new Tuple<Player, bool>(killedBot, killedBot.AIData.IsAI);
             var killedPlayerSettings = killedBot.Profile.Info.Settings;
             // Extra check to ensure we only set playerscavs to IsAI = false
-            if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Nickname.Contains("("))
+            if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Info.MainProfileNickname.Contains("("))
             {
                 //killedBot.AIData.IsAI = false;
             }

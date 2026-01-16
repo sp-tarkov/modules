@@ -28,7 +28,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new FixPostScavRaidXpShowingZeroPatch().Enable();
             new DisablePMCExtractsForScavsPatch().Enable();
             new ScavExfilPatch().Enable();
-            new ScavProfileLoadPatch().Enable();
+            // new ScavProfileLoadPatch().Enable(); Failed to patch virtual void EFT.TarkovApplication+CG_Struct13::MoveNext(): System.ArgumentNullException: Invalid argument for call NULL
             new ScavPrefabLoadPatch().Enable();
             new LoadOfflineRaidScreenPatch().Enable();
             new AmmoUsedCounterPatch().Enable(); // Necessary for fixing bug #773
@@ -37,7 +37,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new ScavLateStartPatch().Enable();
             new ScavSellAllPriceStorePatch().Enable();
             new ScavSellAllRequestPatch().Enable();
-            new ScavRepAdjustmentPatch().Enable();
+            // new ScavRepAdjustmentPatch().Enable(); system.NullReferenceException: Unexpected null in System.Void DMD<EFT.BaseStatisticsManager::OnEnemyKill>?189354524::EFT.BaseStatisticsManager::OnEnemyKill(EFT.BaseStatisticsManager,EFT.Ballistics.DamageInfo,EFT.EDamageType,EBodyPart,EFT.EPlayerSide,EFT.WildSpawnType,System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Single,System.Int32,System.Collections.Generic.List`1<System.String>,EFT.HealthSystem.HealthEffects,System.Collections.Generic.List`1<System.String>,System.Boolean,System.Boolean) @ IL_0089: callvirt System.Void Diz.Binding.BindableList`1<EFT.VictimStats>::Add(T)
 
             // 3.10.0
             new DisableWelcomeToPVEModeMessagePatch().Enable();

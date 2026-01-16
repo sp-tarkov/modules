@@ -30,7 +30,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new DisableNonHalloweenExitsDuringEventPatch().Enable();
             new SendFleaListingTaxAmountToServerPatch().Enable();
             new AddTraitorScavsPatch().Enable();
-            new CustomAiPatch().Enable();
+            // new CustomAiPatch().Enable();  SPTCustomPlugin: SPT.Reflection.Patching.PatchException: CustomAiPatch: ---> HarmonyLib.HarmonyException: IL Compile Error (unknown location) ---> HarmonyLib.HarmonyException: IL Compile Error (unknown location) ---> System.ArgumentException: Type name can't be empty
             new SaveSettingsToSptFolderPatch().Enable();
             new SaveRegistryToSptFolderPatches().Enable();
             new QTEPatch().Enable();
@@ -53,7 +53,7 @@ public class SPTCustomPlugin : BaseUnityPlugin
 
             // 3.11
             new EnablePrestigeTabPatch().Enable();
-            new MatchStartServerLocationPatch().Enable();
+            // new MatchStartServerLocationPatch().Enable(); Failed to patch virtual void EFT.TarkovApplication+CG_Struct13::MoveNext(): System.ArgumentNullException: Invalid argument for call NULL
             new SpawnPointAIPlayerBotLimitPatch().Enable();
             new SpawnPointNearestPlayerAIPatch().Enable();
 
