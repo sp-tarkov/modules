@@ -35,6 +35,11 @@ public static class BundleCrcCache
             Formatting.Indented
         );
 
+        if (!Directory.Exists(CachePath.GetDirectory()))
+        {
+            Directory.CreateDirectory(CachePath.GetDirectory());
+        }
+
         File.WriteAllText(CachePath, json);
     }
 
