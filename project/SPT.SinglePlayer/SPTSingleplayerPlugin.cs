@@ -69,6 +69,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new LocaleFixPatch().Enable();
             new RemoveTransitionRaidModeSetPatch().Enable();
             new FixDisableBossSpawningOptionPatch().Enable();
+            new DisableHideoutCounterResetPatch().Enable();
         }
         catch (Exception ex)
         {
