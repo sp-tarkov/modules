@@ -16,7 +16,7 @@ public class PreventClientModsPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.PrepareGameJob));
+        return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_20));
     }
 
     [PatchPrefix]

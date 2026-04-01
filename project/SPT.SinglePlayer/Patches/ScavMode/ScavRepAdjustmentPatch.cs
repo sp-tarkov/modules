@@ -57,7 +57,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
             }
             else
             {
-                player.Loyalty.GifterKill(killedBot);
+                player.Loyalty.method_1(killedBot);
             }
         }
     }

@@ -20,6 +20,6 @@ public class DisableBuffLoggingPatch : ModulePatch
     [PatchPrefix]
     public static void PatchPrefix(BuffComponent __instance)
     {
-        __instance._isErrorIssues = true;
+        __instance.bool_0 = true;
     }
 }

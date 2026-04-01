@@ -25,9 +25,9 @@ public class EmptyInfilFixPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(ref string ____entryPoint)
+    public static void PatchPrefix(ref string ___string_0)
     {
-        if (!string.IsNullOrWhiteSpace(____entryPoint))
+        if (!string.IsNullOrWhiteSpace(___string_0))
         {
             return;
         }
@@ -59,6 +59,6 @@ public class EmptyInfilFixPatch : ModulePatch
             }
         }
 
-        ____entryPoint = closestSpawn.SpawnPoint.Infiltration;
+        ___string_0 = closestSpawn.SpawnPoint.Infiltration;
     }
 }

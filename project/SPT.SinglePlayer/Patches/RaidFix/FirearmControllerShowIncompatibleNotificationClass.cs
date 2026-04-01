@@ -19,6 +19,6 @@ public class FirearmControllerShowIncompatibleNotificationClass : ModulePatch
     [PatchPrefix]
     public static bool Prefix(Player.FirearmController.Idling __instance)
     {
-        return __instance.Player.IsYourPlayer;
+        return __instance.player_0.IsYourPlayer;
     }
 }

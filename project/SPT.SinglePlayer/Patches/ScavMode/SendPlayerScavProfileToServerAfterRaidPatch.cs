@@ -41,7 +41,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.Init));
+        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.method_10));
     }
 
     [PatchPrefix]
@@ -56,7 +56,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
         }
 
         // Only do below when player is a scav
-        var session = (ClientBackendSession) __instance._session;
+        var session = (ClientBackendSession) __instance.ginterface223_0;
         session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 

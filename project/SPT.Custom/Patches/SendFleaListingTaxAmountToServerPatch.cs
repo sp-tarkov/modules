@@ -31,32 +31,32 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// <summary>
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
-    /// <param name="____selectedItem">Item sold</param>
-    /// <param name="____offerContext">OfferItemCount</param>
-    /// <param name="____requirementsCost">RequirementsPrice</param>
-    /// <param name="____sellInOnePiece">SellInOnePiece</param>
+    /// <param name="___item_0">Item sold</param>
+    /// <param name="___gclass3813_0">OfferItemCount</param>
+    /// <param name="___double_0">RequirementsPrice</param>
+    /// <param name="___bool_0">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
-        ref Item ____selectedItem,
-        ref RagfairNewOfferContext ____offerContext,
-        ref double ____requirementsCost,
-        ref bool ____sellInOnePiece
+        ref Item ___item_0,
+        ref RagfairNewOfferContext ___gclass3813_0,
+        ref double ___double_0,
+        ref bool ___bool_0
     )
     {
         RequestHandler.PutJson(
             "/client/ragfair/offerfees",
             new
             {
-                id = ____selectedItem.Id,
-                tpl = ____selectedItem.TemplateId,
-                count = ____offerContext.MaxAvailableCellsSize,
+                id = ___item_0.Id,
+                tpl = ___item_0.TemplateId,
+                count = ___gclass3813_0.MaxAvailableCellsSize,
                 fee = Mathf.CeilToInt(
                     (float)
                         PriceCalculator.CalculateTaxPrice(
-                            ____selectedItem,
+                            ___item_0,
                             1, // TODO: fix this and count above, just done this to get to Vtables
-                            ____requirementsCost,
-                            ____sellInOnePiece
+                            ___double_0,
+                            ___bool_0
                         )
                 ),
             }.ToJson()

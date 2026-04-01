@@ -18,7 +18,7 @@ public class EndRaidDebug : ModulePatch
     [PatchPrefix]
     public static bool PatchPreFix(
         TraderCard __instance,
-        ref Profile.TraderInfo ____trader
+        ref Profile.TraderInfo ___traderInfo_0
     )
     {
 
@@ -40,13 +40,13 @@ public class EndRaidDebug : ModulePatch
             return false; // skip original
         }
 
-        if (____trader?.LoyaltyLevel == null)
+        if (___traderInfo_0?.LoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.LoyaltyLevel was null");
         }
 
-        if (____trader?.MaxLoyaltyLevel == null)
+        if (___traderInfo_0?.MaxLoyaltyLevel == null)
         {
             ConsoleScreen.LogError("This Shouldn't happen!! Please report this in discord");
             Logger.Log(LogLevel.Error, "[SPT] ___traderInfo_0 or ___traderInfo_0.MaxLoyaltyLevel was null");
