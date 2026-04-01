@@ -41,7 +41,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.method_10));
+        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.Init));
     }
 
     [PatchPrefix]

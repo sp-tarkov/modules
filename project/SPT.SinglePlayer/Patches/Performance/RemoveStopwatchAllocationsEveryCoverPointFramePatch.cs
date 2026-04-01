@@ -17,7 +17,7 @@ public class RemoveStopwatchAllocationsEveryCoverPointFramePatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(CoverPointMaster), nameof(CoverPointMaster.method_0));
+        return AccessTools.Method(typeof(CoverPointMaster), nameof(CoverPointMaster.GetCoverPointMain2));
     }
 
     [PatchTranspiler]
