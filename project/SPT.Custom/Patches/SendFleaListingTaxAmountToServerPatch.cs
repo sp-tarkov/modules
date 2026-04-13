@@ -49,7 +49,7 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___gclass3813_0.MaxAvailableCellsSize,
+                count = ___gclass3813_0.Int32_0,
                 fee = Mathf.CeilToInt(
                     (float)
                         PriceCalculator.CalculateTaxPrice(

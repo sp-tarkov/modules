@@ -37,6 +37,6 @@ public class EnableInfectionUIPatch : ModulePatch
             return;
         }
 
-        __instance.InitZombieEvent(raidSettings.SelectedLocation);
+        __instance.method_0(raidSettings.SelectedLocation);
     }
 }
