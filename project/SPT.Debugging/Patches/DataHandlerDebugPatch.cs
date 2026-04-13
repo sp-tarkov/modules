@@ -9,7 +9,7 @@ public class DataHandlerDebugPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(HTTPTransportManager), nameof(HTTPTransportManager.method_5));
+        return AccessTools.Method(typeof(HTTPTransportManager), nameof(HTTPTransportManager.ParseResponseToText));
     }
 
     [PatchPostfix]

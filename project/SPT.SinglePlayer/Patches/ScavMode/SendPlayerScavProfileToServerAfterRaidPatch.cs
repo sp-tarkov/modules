@@ -24,10 +24,10 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
         if (exitStatus == ExitStatus.Runner)
         {
-            __instance.Profile_0.SetSpawnedInSession(false);
+            __instance.Profile.SetSpawnedInSession(false);
         }
         ProfileDescriptor = new ProfileDescriptor(
-            __instance.Profile_0,
+            __instance.Profile,
             VisualsOnlySearchController.Instance /* Has 2 methods */
         );
     }
@@ -41,7 +41,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.method_10));
+        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.Init));
     }
 
     [PatchPrefix]

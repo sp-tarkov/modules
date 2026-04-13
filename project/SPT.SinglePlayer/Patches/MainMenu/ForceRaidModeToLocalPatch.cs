@@ -14,7 +14,7 @@ public class ForceRaidModeToLocalPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.method_43));
+        return AccessTools.Method(typeof(TarkovApplication), nameof(TarkovApplication.LoadMapAndData));
     }
 
     [PatchPrefix]

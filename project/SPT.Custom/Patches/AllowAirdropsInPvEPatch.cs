@@ -13,7 +13,7 @@ public class AllowAirdropsInPvEPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.PropertyGetter(typeof(ServerAirdropManager), nameof(ServerAirdropManager.Int32_0));
+        return AccessTools.PropertyGetter(typeof(ServerAirdropManager), nameof(ServerAirdropManager.MinPlayersCountToSpawnAirdrop));
     }
 
     [PatchPrefix]
