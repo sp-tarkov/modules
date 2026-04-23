@@ -62,6 +62,9 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new BotsEventsControllerActivatePatch().Enable();
             new EnableInfectionUIPatch().Enable();
 
+            // 4.1
+            new FixKeylessDoorsPatch().Enable();
+
             HookObject.AddComponent<MenuNotificationManager>();
         }
         catch (Exception ex)
