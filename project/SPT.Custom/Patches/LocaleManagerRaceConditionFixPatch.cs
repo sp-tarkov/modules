@@ -43,7 +43,7 @@ public class LocaleManagerRaceConditionFixPatch : ModulePatch
     private static bool IsTargetNestedType(Type nestedType)
     {
         return nestedType.GetFields().Length == 1
-            && nestedType.GetField("mainFallBack") != null;
+            && nestedType.GetField("MainFallBack") != null;
     }
 
     [PatchTranspiler]
@@ -76,7 +76,7 @@ public class LocaleManagerRaceConditionFixPatch : ModulePatch
                 // LocaleManagerRaceConditionFixPatch::AddCharacters(gclass, @class.mainFallBack)
                 new Code(OpCodes.Ldloc_S, fontDictionaryOperand),   // gclass
                 new Code(OpCodes.Ldloc_0),                          // @class
-                new Code(OpCodes.Ldfld, fontAssetsType, "mainFallBack"), // .mainFallBack
+                new Code(OpCodes.Ldfld, fontAssetsType, "MainFallBack"), // .mainFallBack
                 new Code(OpCodes.Call, typeof(LocaleManagerRaceConditionFixPatch), nameof(AddCharacters)),
 
                 // JMP past the original for loop

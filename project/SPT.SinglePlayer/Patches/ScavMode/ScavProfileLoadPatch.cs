@@ -20,9 +20,9 @@ public class ScavProfileLoadPatch : ModulePatch
         var desiredType = typeof(TarkovApplication)
             .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
             .SingleCustom(x =>
-                x.GetField("timeAndWeather") != null
-                && x.GetField("gameWorld") != null
-                && x.GetField("metricsConfig") != null
+                x.GetField("TimeAndWeather") != null
+                && x.GetField("GameWorld") != null
+                && x.GetField("MetricsConfig") != null
                 && x.Name.Contains("Struct")
             );
 
@@ -99,7 +99,7 @@ public class ScavProfileLoadPatch : ModulePatch
     {
         return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Any()
             && nestedType.GetFields().Length == 5
-            && nestedType.GetField("savageProfile") != null
-            && nestedType.GetField("profile") != null;
+            && nestedType.GetField("SavageProfile") != null
+            && nestedType.GetField("Profile") != null;
     }
 }

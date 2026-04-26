@@ -25,7 +25,7 @@ public class EasyAssetsPatch : ModulePatch
     static EasyAssetsPatch()
     {
         _bundlesField = typeof(EasyAssets)
-            .GetFields(PatchConstants.PrivateFlags)
+            .GetFields(PatchConstants.PublicFlags)
             .FirstOrDefault(field => field.FieldType == typeof(EasyBundle[]));
     }
 

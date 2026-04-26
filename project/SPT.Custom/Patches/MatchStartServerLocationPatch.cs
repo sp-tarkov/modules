@@ -94,9 +94,9 @@ public class MatchStartServerLocationPatch : ModulePatch
 
     private static bool IsDesiredType(Type type)
     {
-        return type.GetField("timeAndWeather") != null
-            && type.GetField("tarkovApplication_0") != null
-            && type.GetField("gameWorld") != null
+        return type.GetField("TimeAndWeather") != null
+            && type.GetField("TarkovApplication_0") != null
+            && type.GetField("GameWorld") != null
             && type.Name.Contains("Struct");
     }
 
@@ -104,7 +104,7 @@ public class MatchStartServerLocationPatch : ModulePatch
     {
         return nestedType.GetMethods(PatchConstants.PublicDeclaredFlags).Any()
             && nestedType.GetFields().Length == 5
-            && nestedType.GetField("savageProfile") != null
-            && nestedType.GetField("profile") != null;
+            && nestedType.GetField("SavageProfile") != null
+            && nestedType.GetField("Profile") != null;
     }
 }

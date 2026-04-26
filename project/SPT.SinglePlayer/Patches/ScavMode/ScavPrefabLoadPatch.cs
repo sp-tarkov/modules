@@ -24,9 +24,9 @@ public class ScavPrefabLoadPatch : ModulePatch
         var desiredType = typeof(TarkovApplication)
             .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
             .SingleCustom(x =>
-                x.GetField("timeAndWeather") != null
-                && x.GetField("tarkovApplication_0") != null
-                && x.GetField("inTransition") != null
+                x.GetField("TimeAndWeather") != null
+                && x.GetField("TarkovApplication_0") != null
+                && x.GetField("InTransition") != null
                 && x.Name.Contains("Struct")
             );
 

@@ -34,7 +34,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_52));
 
         _menuControllerField = typeof(TarkovApplication)
-            .GetFields(PatchConstants.PrivateFlags)
+            .GetFields(PatchConstants.PublicFlags)
             .FirstOrDefault(x => x.FieldType == typeof(MainMenuShowOperation));
 
         if (_menuControllerField == null)

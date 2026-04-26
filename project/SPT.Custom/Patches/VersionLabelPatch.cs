@@ -17,7 +17,7 @@ public class VersionLabelPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return PatchConstants
-            .EftTypes.SingleCustom(x => x.GetField("Taxonomy", BindingFlags.Public | BindingFlags.Instance) != null)
+            .EftTypes.SingleCustom(x => x.GetField("Major", BindingFlags.Public | BindingFlags.Instance) != null)
             .GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
     }
 

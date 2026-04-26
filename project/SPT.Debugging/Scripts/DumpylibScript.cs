@@ -53,7 +53,7 @@ public class DumpylibScript : MonoBehaviour
 
             _session = ClientAppUtils.GetClientApp().Session as EftClientBackendSession;
             _tarkovApplication = ClientAppUtils.GetMainApp();
-            _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
+            _mainMenuController = _tarkovApplication.GetType().GetField("MainMenuController");
             _wavesSettings = new CountTypeBotWave(2, WildSpawnType.assault, BotDifficulty.normal);
             _localRaidSettings = new LocalRaidSettings
             {
