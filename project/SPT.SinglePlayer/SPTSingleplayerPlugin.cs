@@ -56,7 +56,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.11.0
             new ScavPrestigeFixPatch().Enable();
             new DisableDevMaskCheckPatch().Enable();
-            new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
             new DisableUseBSGServersCheckbox().Enable();
             new PmcBotSidePatch().Enable();
             new QuestAchievementRewardInRaidPatch().Enable();
@@ -70,6 +69,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
 
             // Disabled: Handled by AsmTool
             //new LocaleFixPatch().Enable();
+            //new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
         }
         catch (Exception ex)
         {
