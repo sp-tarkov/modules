@@ -50,7 +50,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new RemoveClothingItemExternalObtainLabelPatch().Enable();
             new ForceRaidModeToLocalPatch().Enable();
             new ScavIsPlayerEnemyPatch().Enable();
-            new FirearmControllerShowIncompatibleNotificationClass().Enable();
             new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
 
             // 3.11.0
@@ -70,6 +69,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new LocaleFixPatch().Enable();
             //new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
             //new DisableDevMaskCheckPatch().Enable();
+            //new FirearmControllerShowIncompatibleNotificationClass().Enable();
         }
         catch (Exception ex)
         {
