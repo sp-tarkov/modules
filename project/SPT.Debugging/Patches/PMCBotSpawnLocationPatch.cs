@@ -20,7 +20,7 @@ public class SptSpawnHelper
 
     public SptSpawnHelper()
     {
-        IEnumerable<ISpawnPoint> locationSpawnPoints = GClass3589.CreateFromScene();
+        IEnumerable<ISpawnPoint> locationSpawnPoints = SpawnPointsCollection.CreateFromScene();
 
         var playerSpawns = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
         this._playerSpawnPoints = locationSpawnPoints.Where(x => x.Categories.HasFlag(ESpawnCategoryMask.Player)).ToList();
