@@ -57,7 +57,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new DisableUseBSGServersCheckbox().Enable();
             new PmcBotSidePatch().Enable();
             new QuestAchievementRewardInRaidPatch().Enable();
-            new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
             // 4.0.0
             ReadyButtonPatches.Patch();
@@ -70,6 +69,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
             //new DisableDevMaskCheckPatch().Enable();
             //new FirearmControllerShowIncompatibleNotificationClass().Enable();
+            //new FixUnityWarningSpamFromAirdropsPatch().Enable();
         }
         catch (Exception ex)
         {
