@@ -37,12 +37,7 @@ public class MenuNotificationManager : MonoBehaviour
     internal static ReleaseResponse release;
     private bool _isBetaDisclaimerOpen;
     private ManualLogSource _logger;
-
-    /// <summary>
-    /// This GClass can be found by looking at <see cref="ErrorScreen"/> and seeing what the ErrorScreen class inherits from: <see cref="Window{T}"/> <br/>
-    /// The constrained generic is the class to use
-    /// </summary>
-    private GClass3835 _betaMessageContext;
+    private ErrorWindowContext _betaMessageContext;
 
     /// <summary>
     /// Retrieves the current build from the registry to check against the current build <br/>
