@@ -120,7 +120,7 @@ public class CustomAiPatch : ModulePatch
                 {
                     // Ensure boss has AI init
                     Logger.LogError(
-                        $"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {__instance.botOwner_0.Profile.Info.MainProfileNickname} type: {__instance.botOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating"
+                        $"[SPT.CUSTOM] [CUSTOMAIPATCH] : bot: {__instance.botOwner_0.Profile.Info.Nickname} type: {__instance.botOwner_0.Profile.Info.Settings.Role} lacked BossLogic, generating"
                     );
                     __instance.botOwner_0.Boss.SetBoss(0);
                 }
