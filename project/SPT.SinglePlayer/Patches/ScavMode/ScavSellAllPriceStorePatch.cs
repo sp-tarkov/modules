@@ -23,7 +23,12 @@ public class ScavSellAllPriceStorePatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         var scavInventoryScreenType = typeof(ScavengerInventoryScreen);
-        _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(IClientSession));
+        _sessionField = AccessTools.GetDeclaredFields(scavInventoryScreenType).FirstOrDefault(f => f.FieldType == typeof(IEftSession));
+
+        if (_sessionField == null)
+        {
+            Logger.LogError("ScavSellAllPriceStorePatch - Unable to find ScavengerInventoryScreen Session field");
+        }
 
         return AccessTools.Method(typeof(ScavengerInventoryScreen), nameof(ScavengerInventoryScreen.SellAll));
     }
@@ -31,7 +36,7 @@ public class ScavSellAllPriceStorePatch : ModulePatch
     [PatchPrefix]
     public static async void PatchPrefix(ScavengerInventoryScreen __instance)
     {
-        var session = _sessionField.GetValue(__instance) as IClientSession;
+        var session = _sessionField.GetValue(__instance) as IEftSession;
         var traderClass = session.Traders.FirstOrDefault(x => x.Id == _fenceID);
 
         await traderClass.RefreshAssortment(true, true);
