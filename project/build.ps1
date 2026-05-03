@@ -12,7 +12,7 @@ if (Test-Path "$buildFolder") { Remove-Item -Path "$buildFolder" -Recurse -Force
 # Create build folder and subfolders if they don't exist
 $foldersToCreate = @("$buildFolder", "$bepinexFolder", "$bepinexPatchFolder", "$bepinexPluginFolder", "$bepinexSptFolder")
 foreach ($folder in $foldersToCreate) {
-    if (-not (Test-Path "$folder")) { New-Item -Path "$folder" -ItemType Directory }
+    if (-not (Test-Path "$folder")) { New-Item -Path "$folder" -ItemType Directory | Out-Null}
 }
 
 # Move DLLs from project's bin-release folder to the build folder
