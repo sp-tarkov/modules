@@ -22,10 +22,13 @@ public class SPTCorePlugin : BaseUnityPlugin
             new ConsistencySinglePatch().Enable();
             new ConsistencyMultiPatch().Enable();
             new GameValidationPatch().Enable();
-            new SslCertificatePatch().Enable();
             new UnityWebRequestPatch().Enable();
             new WebSocketSslValidationPatch().Enable();
             new Patch4002().Enable();
+
+            // Disabled, handled by Asm tool
+            //new SslCertificatePatch().Enable();
+
         }
         catch (Exception ex)
         {
