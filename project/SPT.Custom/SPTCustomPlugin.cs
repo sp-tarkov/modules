@@ -47,7 +47,6 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
             new FixAirdropCrashPatch().Enable();
             new FixAirdropFlareDisposePatch().Enable();
-            new AllowAirdropsInPvEPatch().Enable();
             new MemoryCollectionPatch().Enable();
             new LocaleManagerRaceConditionFixPatch().Enable();
             new AddOfferFilterHangPatch().Enable();
@@ -69,6 +68,9 @@ public class SPTCustomPlugin : BaseUnityPlugin
 
             // 4.1
             new FixKeylessDoorsPatch().Enable();
+
+            // Disabled, handled by Asm tool
+            //new AllowAirdropsInPvEPatch().Enable();
 
             HookObject.AddComponent<MenuNotificationManager>();
         }
