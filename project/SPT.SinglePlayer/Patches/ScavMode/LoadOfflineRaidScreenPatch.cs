@@ -140,8 +140,9 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-        gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
+        // Note: We disable the Ready button now, this should no longer be necessary
+        //gclass.OnShowReadyScreen += (OfflineRaidAction)
+        //    Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
