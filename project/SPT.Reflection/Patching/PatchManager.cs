@@ -142,7 +142,10 @@ public class PatchManager
             {
                 try
                 {
-                    ((ModulePatch)Activator.CreateInstance(type)).Enable(_harmony);
+                    var patch = (ModulePatch)Activator.CreateInstance(type);
+                    patch.Enable(_harmony);
+
+                    _patches.Add(patch);
                     successfulPatches++;
                 }
                 catch (Exception ex)
@@ -175,33 +178,6 @@ public class PatchManager
     /// </exception>
     public void DisablePatches()
     {
-        if (_autoPatch)
-        {
-            var patches = GetPatches(Assembly.GetCallingAssembly());
-
-            if (patches.Count == 0)
-            {
-                throw new PatchException("Could not find any patches defined in the assembly during auto patching");
-            }
-
-            var disabledPatches = 0;
-            foreach (var type in patches)
-            {
-                try
-                {
-                    ((ModulePatch)Activator.CreateInstance(type)).Disable(_harmony);
-                    disabledPatches++;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Failed to disable [{type.Name}]: {ex.Message}");
-                }
-            }
-
-            _logger.LogInfo($"Disabled {disabledPatches} patches");
-            return;
-        }
-
         if (_patches.Count == 0)
         {
             throw new PatchException("There were no patches to disable");
@@ -211,6 +187,12 @@ public class PatchManager
         for (var i = 0; i < _patches.Count; i++)
         {
             _patches[i].Disable(_harmony);
+        }
+
+        if (_autoPatch)
+        {
+            _logger.LogInfo($"Disabled {_patches.Count} patches");
+            _patches.Clear();
         }
     }
 

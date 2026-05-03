@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using BepInEx.Logging;
 using SPT.Common.Utils;
 
@@ -33,14 +34,21 @@ public static class ValidationUtil
 
     public static bool Validate()
     {
-        const string c0 = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkov";
+        var c0 = Encoding.UTF8.GetString(Convert.FromBase64String("U29mdHdhcmVcV293NjQzMk5vZGVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cVW5pbnN0YWxsXEVzY2FwZUZyb21UYXJrb3Y="));
+        var b1 = true;
         var l1 = 0;
 
         try
         {
-            var l4 = l1ll(c0, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
+            var l4 = lIl();
+            if (l4 == null || !Directory.Exists(Path.Combine(l4.ToString(), Encoding.UTF8.GetString(Convert.FromBase64String("YnVpbGQ=")))))
+            {
+                b1 = false;
+                l4 = l1ll(c0, Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbExvY2F0aW9u")));
+            }
 
             var l3 = (l4 != null) ? l4.ToString() : string.Empty;
+            l3 = b1 ? Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("YnVpbGQ="))) : l3;
             var l2 = new DirectoryInfo(l3);
             var l6 = l1l(Directory.GetCurrentDirectory());
             var ll = new FileSystemInfo[]
@@ -49,7 +57,7 @@ public static class ValidationUtil
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVDbGllbnRfeDY0LmRsbA==")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("QmF0dGxFeWVcQkVTZXJ2aWNlX3g2NC5leGU=")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("Q29uc2lzdGVuY3lJbmZv")))),
-                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))),
+                new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlQbGF5ZXIuZGxs")))),
                 new FileInfo(Path.Combine(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU="))))
             };
 
@@ -57,7 +65,7 @@ public static class ValidationUtil
             {
                 _crashHandler = ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlDcmFzaEhhbmRsZXI2NC5leGU=")))?.Length.ToString() ?? "0";
                 _logger.LogInfo(_crashHandler);
-                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pbnN0YWxsLmV4ZQ==")))?.Length.ToString() ?? "0");
+                _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("VW5pdHlQbGF5ZXIuZGxs")))?.Length.ToString() ?? "0");
                 _logger.LogInfo(ll1(l3, Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
                 _logger.LogInfo(ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIuYmF0")))?.Length.ToString() ?? "0");
                 var lll = ll1(Directory.GetCurrentDirectory(), Encoding.UTF8.GetString(Convert.FromBase64String("UmVnaXN0ZXIgR2FtZS5leGU=")))
@@ -65,7 +73,7 @@ public static class ValidationUtil
                 _logger.LogInfo(lll);
 
                 _logger.LogInfo(Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join(",", l6))));
-                if (_crashHandler == "0" || lll != "0")
+                if (l11l1l(_crashHandler) || lll != "0")
                     ServerLog.Debug("SPT.Core", "-1");
                     
 
@@ -120,6 +128,11 @@ public static class ValidationUtil
         return null;
     }
 
+    private static bool l11l1l(string l1ll)
+    {
+        return Int32.Parse(l1ll) < (new Random()).Next(1532);
+    }
+
     private static FileInfo ll1(string l1, string ll)
     {
         var a = Path.Combine(l1, ll);
@@ -149,5 +162,51 @@ public static class ValidationUtil
         }
 
         return l;
+    }
+
+    private static string lIl()
+    {
+        var c = l1ll(Encoding.UTF8.GetString(Convert.FromBase64String("U29mdHdhcmVcV293NjQzMk5vZGVcVmFsdmVcU3RlYW0=")), Encoding.UTF8.GetString(Convert.FromBase64String("SW5zdGFsbFBhdGg=")));
+        if (string.IsNullOrEmpty(c))
+            return null;
+
+        var f = llII1I1l(Path.Combine(c,
+            Encoding.UTF8.GetString(Convert.FromBase64String("c3RlYW1hcHBz")),
+            Encoding.UTF8.GetString(Convert.FromBase64String("bGlicmFyeWZvbGRlcnMudmRm"))),
+            Encoding.UTF8.GetString(Convert.FromBase64String("cGF0aA==")));
+        return f.Length > 0 ? IIIlIIl1(f) : null;
+    }
+
+    private static string IIIlIIl1(string[] j)
+    {
+        foreach (var l in j)
+        {
+            var m = Path.Combine(l,
+                Encoding.UTF8.GetString(Convert.FromBase64String("c3RlYW1hcHBz")),
+                Encoding.UTF8.GetString(Convert.FromBase64String("YXBwbWFuaWZlc3RfMzkzMjg5MC5hY2Y=")));
+            if (!File.Exists(m)) continue;
+
+            var n = llII1I1l(m, Encoding.UTF8.GetString(Convert.FromBase64String("aW5zdGFsbGRpcg==")));
+            if (n.Length > 0) return Path.Combine(l,
+                Encoding.UTF8.GetString(Convert.FromBase64String("c3RlYW1hcHBz")),
+                Encoding.UTF8.GetString(Convert.FromBase64String("Y29tbW9u"))
+                , n[0]);
+        }
+
+        return null;
+    }
+
+    private static string[] llII1I1l(string l, string k)
+    {
+        if (!File.Exists(l)) return Array.Empty<string>();
+        var q = new List<string>();
+        var s = $@"""{k}""\s+""(.*)""";
+        foreach (var r in File.ReadLines(l))
+        {
+            var p = Regex.Match(r, s);
+            if (p.Success) q.Add(Regex.Unescape(p.Groups[1].Value));
+        }
+
+        return q.ToArray();
     }
 }

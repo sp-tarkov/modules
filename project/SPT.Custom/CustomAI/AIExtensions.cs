@@ -28,8 +28,20 @@ public static class AIExtensions
     /// </returns>
     public static bool IsSimulatedPlayerScav(this BotOwner botOwner)
     {
-        return botOwner.Profile.Info.Settings.Role == WildSpawnType.assault
-            && !string.IsNullOrEmpty(botOwner.Profile.Info.MainProfileNickname);
+        return botOwner.HasMainProfileNickname() && botOwner.Profile.Info.Settings.Role == WildSpawnType.assault;
+    }
+
+    /// <summary>
+    /// Determines if the bot has a PMC name in its main profile (which is set when the server generates player Scavs)
+    /// </summary>
+    /// <param name="botOwner">The bot owner instance to evaluate</param>
+    /// <returns>
+    /// <see langword="true"/> if the bot owner's main profile nickname is not empty <br/>
+    /// <see langword="false"/> otherwise
+    /// </returns>
+    public static bool HasMainProfileNickname(this BotOwner botOwner)
+    {
+        return !string.IsNullOrEmpty(botOwner.Profile.Info.MainProfileNickname);
     }
 
     public static List<BotOwner> GetAllMembers(this BotsGroup group)
