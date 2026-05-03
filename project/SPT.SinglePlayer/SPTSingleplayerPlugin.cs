@@ -41,7 +41,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.10.0
             new DisableWelcomeToPVEModeMessagePatch().Enable();
             new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
-            new EnablePlayerScavPatch().Enable();
             new ScavFoundInRaidPatch().Enable();
             new GetProfileAtEndOfRaidPatch().Enable();
             new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
@@ -73,6 +72,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new DisableDevMaskCheckPatch().Enable();
             //new FirearmControllerShowIncompatibleNotificationClass().Enable();
             //new FixUnityWarningSpamFromAirdropsPatch().Enable();
+            //new EnablePlayerScavPatch().Enable();
         }
         catch (Exception ex)
         {
