@@ -120,40 +120,29 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         return codes.AsEnumerable();
     }
 
-    /// <summary>
-    /// TODO: Update references as most things are no longer private
-    /// </summary>
     private static void LoadOfflineRaidScreenForScav()
     {
         var profile = PatchConstants.BackEndSession.Profile;
-        var menuController = (object)GetMenuController();
+        var menuController = GetMenuController();
 
         // Get fields from MainMenuController.cs
-        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
-
-        var offlineRaidSettings = Traverse.Create(menuController).Field("RaidSettings_1").GetValue<RaidSettings>();
-
-        // Find the private field of type `MatchmakerPlayerControllerClass`
-        var matchmakerPlayersController =
-            menuController
-                .GetType()
-                .GetFields(AccessTools.all)
-                .Single(field => field.FieldType == typeof(MatchmakerPlayersController))
-                .GetValue(menuController) as MatchmakerPlayersController;
+        var raidSettings = menuController.raidSettings_0;
+        var offlineRaidSettings = menuController.raidSettings_1;
 
         var gclass = new MatchmakerOfflineRaidScreen.OfflineRaidScreenController(
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
-            matchmakerPlayersController,
+            menuController.gclass3927_0,
             ESessionMode.Pve
         );
 
         gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-        gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
+        // Note: We disable the Ready button now, this should no longer be necessary
+        //gclass.OnShowReadyScreen += (OfflineRaidAction)
+        //    Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
@@ -161,14 +150,19 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     {
         var menuController = GetMenuController();
 
-        var raidSettings = Traverse.Create(menuController).Field("RaidSettings_0").GetValue<RaidSettings>();
+        var raidSettings = menuController.raidSettings_0;
         if (raidSettings.SelectedLocation.Id == "laboratory")
         {
             raidSettings.WavesSettings.IsBosses = true;
         }
 
-        // Set offline raid values
+        // Set offline raid values (Is this necessary? Sets InSession)
         menuController.bool_0 = raidSettings.Local;
+
+        // Copy various settings between raid settings, this prevents scavs from loading in as pmc's
+        raidSettings.WavesSettings = menuController.raidSettings_1.WavesSettings;
+        raidSettings.BotSettings = menuController.raidSettings_1.BotSettings;
+        menuController.raidSettings_1.Side = raidSettings.Side;
 
         // Load ready screen method
         _onReadyScreenMethod.Invoke(menuController, null);

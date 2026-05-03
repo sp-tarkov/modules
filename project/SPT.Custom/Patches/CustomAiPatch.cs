@@ -158,7 +158,7 @@ public class CustomAiPatch : ModulePatch
             // Set spt pmc bot back to original type
             __instance.botOwner_0.Profile.Info.Settings.Role = __state;
         }
-        else if (__instance.botOwner_0.IsSimulatedPlayerScav())
+        else if (__instance.botOwner_0.HasMainProfileNickname() && __state == WildSpawnType.assault)
         {
             // Set pscav back to original type
             __instance.botOwner_0.Profile.Info.Settings.Role = __state;

@@ -46,6 +46,7 @@ public static class RequestHandler
         if (data == null)
         {
             _logger.LogError($"[REQUEST FAILED] {path}");
+            return;
         }
 
         _logger.LogInfo($"[REQUEST SUCCESSFUL] {path}");
@@ -56,6 +57,7 @@ public static class RequestHandler
         if (string.IsNullOrWhiteSpace(json))
         {
             _logger.LogError($"[REQUEST FAILED] {path}");
+            return;
         }
 
         _logger.LogInfo($"[REQUEST SUCCESSFUL] {path}");
