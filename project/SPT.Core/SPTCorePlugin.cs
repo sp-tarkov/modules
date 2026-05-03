@@ -24,7 +24,6 @@ public class SPTCorePlugin : BaseUnityPlugin
             new GameValidationPatch().Enable();
             new UnityWebRequestPatch().Enable();
             new WebSocketSslValidationPatch().Enable();
-            new Patch4002().Enable();
 
             // Disabled, handled by Asm tool
             //new SslCertificatePatch().Enable();
