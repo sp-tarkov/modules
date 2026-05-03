@@ -19,7 +19,7 @@ public class ScavPrestigeFixPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Constructor(
-            typeof(PrestigeControllerClientGame),
+            typeof(PrestigeControllerClientBackend),
             [typeof(Profile), typeof(InventoryController), typeof(QuestBook), typeof(IClientSession)],
             false
         );
