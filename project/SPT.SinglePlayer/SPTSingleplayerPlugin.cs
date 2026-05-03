@@ -58,7 +58,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
 
             // 4.0.0
             ReadyButtonPatches.Patch();
-            new DisableDiscardLimitsPatch().Enable();
             new DisableBuffLoggingPatch().Enable();
             new RemoveStashUpgradeLabelPatch2().Enable();
 
@@ -73,6 +72,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new FirearmControllerShowIncompatibleNotificationClass().Enable();
             //new FixUnityWarningSpamFromAirdropsPatch().Enable();
             //new EnablePlayerScavPatch().Enable();
+            //new DisableDiscardLimitsPatch().Enable();
         }
         catch (Exception ex)
         {
