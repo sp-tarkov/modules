@@ -40,7 +40,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.10.0
             new DisableWelcomeToPVEModeMessagePatch().Enable();
             new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
-            new ScavFoundInRaidPatch().Enable();
             new GetProfileAtEndOfRaidPatch().Enable();
             new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
             new RemoveStashUpgradeLabelPatch().Enable();
@@ -73,6 +72,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new EnablePlayerScavPatch().Enable();
             //new DisableDiscardLimitsPatch().Enable();
             //new FixPostScavRaidXpShowingZeroPatch().Enable();
+            //new ScavFoundInRaidPatch().Enable();
         }
         catch (Exception ex)
         {
