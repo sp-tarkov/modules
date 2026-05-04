@@ -25,7 +25,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new OverrideMaxAiAliveInRaidValuePatch().Enable();
 
             // Still need
-            new FixPostScavRaidXpShowingZeroPatch().Enable();
             new DisablePMCExtractsForScavsPatch().Enable();
             new ScavExfilPatch().Enable();
             new ScavProfileLoadPatch().Enable();
@@ -73,6 +72,7 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             //new FixUnityWarningSpamFromAirdropsPatch().Enable();
             //new EnablePlayerScavPatch().Enable();
             //new DisableDiscardLimitsPatch().Enable();
+            //new FixPostScavRaidXpShowingZeroPatch().Enable();
         }
         catch (Exception ex)
         {
