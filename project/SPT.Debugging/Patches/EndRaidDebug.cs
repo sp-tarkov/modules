@@ -12,7 +12,7 @@ public class EndRaidDebug : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TraderCard), nameof(TraderCard.method_0));
+        return AccessTools.Method(typeof(TraderCard), nameof(TraderCard.UpdateView));
     }
 
     [PatchPrefix]

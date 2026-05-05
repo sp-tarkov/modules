@@ -25,7 +25,7 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.method_5));
+        return AccessTools.Method(typeof(AddOfferWindow), nameof(AddOfferWindow.AddOffer));
     }
 
     /// <summary>

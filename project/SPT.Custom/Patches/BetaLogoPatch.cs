@@ -38,7 +38,7 @@ public class BetaLogoPatch2 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.method_0));
+        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.Show));
     }
 
     [PatchPostfix]

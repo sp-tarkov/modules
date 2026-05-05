@@ -4,12 +4,12 @@ using HarmonyLib;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches;
-
+// TODO: Move to asm tool
 public class FixPrecipitationAmbientBlenderNullRefPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(PrecipitationAmbientBlender), nameof(PrecipitationAmbientBlender.method_4));
+        return AccessTools.Method(typeof(PrecipitationAmbientBlender), nameof(PrecipitationAmbientBlender.SetClip));
     }
 
     [PatchPrefix]
