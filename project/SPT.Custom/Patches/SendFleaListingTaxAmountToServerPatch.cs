@@ -32,13 +32,13 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
     /// <param name="___item_0">Item sold</param>
-    /// <param name="___gclass3813_0">OfferItemCount</param>
+    /// <param name="____ragfairNewOfferContext">OfferItemCount</param>
     /// <param name="___double_0">RequirementsPrice</param>
     /// <param name="___bool_0">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
         ref Item ___item_0,
-        ref RagfairNewOfferContext ___gclass3813_0,
+        ref RagfairNewOfferContext ____ragfairNewOfferContext,
         ref double ___double_0,
         ref bool ___bool_0
     )
@@ -49,7 +49,7 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
             {
                 id = ___item_0.Id,
                 tpl = ___item_0.TemplateId,
-                count = ___gclass3813_0.Int32_0,
+                count = ____ragfairNewOfferContext.Int32_0,
                 fee = Mathf.CeilToInt(
                     (float)
                         PriceCalculator.CalculateTaxPrice(

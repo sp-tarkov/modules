@@ -49,6 +49,6 @@ public class EasyBundlePatch : ModulePatch
         __instance.string_0 = Path.GetFileNameWithoutExtension(key);
         __instance.DependencyKeys = dependencies;
         __instance.LoadState = new BindableState<ELoadState>(ELoadState.Unloaded);
-        __instance.ginterface159_0 = bundleLock;
+        __instance.iBundleLock = bundleLock;
     }
 }

@@ -13,17 +13,17 @@ public class FixPrecipitationAmbientBlenderNullRefPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(IAudioCrossfader ___ginterface100_0, ref int ___int_0, PrecipitationAmbientBlender __instance)
+    public static bool PatchPrefix(IAudioCrossfader ___iAudioCrossfader, ref int ___int_0, PrecipitationAmbientBlender __instance)
     {
         // Skip original as BSG added no null checks here
-        if (___ginterface100_0 == null)
+        if (___iAudioCrossfader == null)
         {
             return false;
         }
 
         if (__instance.CurrentPrecipitationIntensity == RainController.ERainIntensity.None)
         {
-            ___ginterface100_0.MixSource.clip = null;
+            ___iAudioCrossfader.MixSource.clip = null;
             ___int_0 = -1;
             return false;
         }
@@ -36,7 +36,7 @@ public class FixPrecipitationAmbientBlenderNullRefPatch : ModulePatch
                 return false;
             }
 
-            ___ginterface100_0.MixSource.clip = audioClip;
+            ___iAudioCrossfader.MixSource.clip = audioClip;
             ___int_0 = audioClip.GetHashCode();
         }
 

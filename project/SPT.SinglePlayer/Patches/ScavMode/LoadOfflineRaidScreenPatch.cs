@@ -133,7 +133,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
-            menuController.gclass3927_0,
+            menuController.MatchmakerPlayersController,
             ESessionMode.Pve
         );
 
