@@ -17,7 +17,7 @@ public class RemoveTransitionRaidModeSetPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TarkovApplication.CG_Struct31), nameof(TarkovApplication.CG_Struct31.MoveNext));
+        return AccessTools.Method(typeof(TarkovApplication.CG_Struct35), nameof(TarkovApplication.CG_Struct35.MoveNext));
     }
 
     [PatchTranspiler]
