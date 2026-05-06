@@ -23,13 +23,13 @@ public class ScavProfileLoadPatch : ModulePatch
                 x.GetField("timeAndWeather") != null
                 && x.GetField("gameWorld") != null
                 && x.GetField("metricsConfig") != null
-                && x.Name.Contains("Struct")
+                && x.Name.Contains("CG_")
             );
 
         var desiredMethod = AccessTools.Method(desiredType, "MoveNext");
 
-        Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-        Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
+        Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
+        Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
 
         return desiredMethod;
     }

@@ -48,7 +48,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_77));
+        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.CG_method_77));
     }
 
     [PatchTranspiler]

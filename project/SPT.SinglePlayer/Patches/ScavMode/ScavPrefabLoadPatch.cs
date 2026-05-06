@@ -27,7 +27,7 @@ public class ScavPrefabLoadPatch : ModulePatch
                 x.GetField("timeAndWeather") != null
                 && x.GetField("tarkovApplication_0") != null
                 && x.GetField("inTransition") != null
-                && x.Name.Contains("Struct")
+                && x.Name.Contains("CG_")
             );
 
         var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");

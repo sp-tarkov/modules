@@ -13,7 +13,7 @@ public class EnablePlayerScavPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(MainMenuShowOperation.CG_Struct14), nameof(MainMenuShowOperation.CG_Struct14.MoveNext));
+        return AccessTools.Method(typeof(MainMenuShowOperation.CG_Struct444), nameof(MainMenuShowOperation.CG_Struct444.MoveNext));
     }
 
 
