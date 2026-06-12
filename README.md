@@ -27,8 +27,6 @@ git config --local user.email "USERNAME@SOMETHING.com"
 - Escape From Tarkov 39390
 - Visual Studio Code -OR- Visual Studio 2022
 - .NET 10 SDK (Any SDK above .NET 6 to be safe)
-- [PowerShell v7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
-    - Can also be installed via: `dotnet tool update --global PowerShell`
 
 ## Project Setup
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this project's `Project/Shared/Managed/` folder
