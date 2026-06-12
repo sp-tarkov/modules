@@ -1,0 +1,16 @@
+<Project>
+  <!-- Shared configuration imported by every project under project/. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Configuration>Release</Configuration>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2025</Copyright>
+  </PropertyGroup>
+  <!-- Required by every project, declared once here. Version comes from Directory.Packages.props. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
