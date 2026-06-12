@@ -6,6 +6,14 @@
     <Configuration>Release</Configuration>
     <Company>SPT</Company>
     <Copyright>Copyright @ SPT 2025</Copyright>
+    <!--
+        Build version; pass -p:SptVersion=x.y.z
+        Stamps FileVersion/AssemblyVersion and SPTPluginInfo.PLUGIN_VERSION.
+    -->
+    <SptVersion Condition="'$(SptVersion)' == ''">1.0.0</SptVersion>
+    <FileVersion>$(SptVersion)</FileVersion>
+    <AssemblyVersion>$(SptVersion)</AssemblyVersion>
+    <InformationalVersion>$(SptVersion)</InformationalVersion>
   </PropertyGroup>
   <!-- Required by every project, declared once here. Version comes from Directory.Packages.props. -->
   <ItemGroup>

@@ -22,7 +22,6 @@ git config --local user.name "USERNAME"
 git config --local user.email "USERNAME@SOMETHING.com"
 ```
 
-
 ## Requirements
 - Escape From Tarkov 39390
 - Visual Studio Code -OR- Visual Studio 2022
@@ -44,8 +43,8 @@ Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this proje
 
 ## Optional Build Steps (This is automatically done in our pipeline.)
 - If you need to build the modules manually and need to have the correct version given for the Dll's
-- Adjust the Build configurations or via CLI include `-p:Version="*.*.*"`
-- From CLI the command to run would be `dotnet build -c Release -p:Version="4.0.8"` this will give the dll's the correct versions.
+- Adjust the Build configurations or via CLI include `-p:SptVersion="*.*.*"`
+- From CLI the command to run would be `dotnet build -c Release -p:SptVersion="4.0.8"` this will give the dll's the correct versions.
 
 ## Game Setup
 1. Copy Live EFT files into a separate directory (from now on this will be referred to as the "SPT directory")
