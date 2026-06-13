@@ -10,7 +10,7 @@
         Build version; pass -p:SptVersion=x.y.z
         Stamps FileVersion/AssemblyVersion and SPTPluginInfo.PLUGIN_VERSION.
     -->
-    <SptVersion Condition="'$(SptVersion)' == ''">1.0.0</SptVersion>
+    <SptVersion Condition="'$(SptVersion)' == ''">4.1.0</SptVersion>
     <FileVersion>$(SptVersion)</FileVersion>
     <AssemblyVersion>$(SptVersion)</AssemblyVersion>
     <InformationalVersion>$(SptVersion)</InformationalVersion>
