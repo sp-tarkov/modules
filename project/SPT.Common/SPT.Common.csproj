@@ -21,8 +21,6 @@
   <Target
     Name="AddGeneratedFile"
     BeforeTargets="BeforeCompile;CoreCompile"
-    Inputs="$(MSBuildAllProjects)"
-    Outputs="$(IntermediateOutputPath)SPTPluginInfo.cs"
   >
     <PropertyGroup>
       <GeneratedFilePath>$(IntermediateOutputPath)SPTPluginInfo.cs</GeneratedFilePath>
@@ -44,6 +42,6 @@ namespace $(RootNamespace)
       <Compile Include="$(GeneratedFilePath)" />
       <FileWrites Include="$(GeneratedFilePath)" />
     </ItemGroup>
-    <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" Overwrite="true" />
+    <WriteLinesToFile Lines="$(GeneratedText)" File="$(GeneratedFilePath)" Overwrite="true" WriteOnlyWhenDifferent="true" />
   </Target>
 </Project>
