@@ -25,7 +25,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ## Requirements
 - Escape From Tarkov 0.16.9.5.40743
 - Visual Studio Code, Visual Studio 2025, or Rider
-- .NET 10 SDK (Any SDK above .NET 6 to be safe)
+- .NET 10 SDK
 
 ## Project Setup
 Copy-paste Live EFT's `EscapeFromTarkov_Data/Managed/` folder to into this project's `Project/Shared/Managed/` folder
