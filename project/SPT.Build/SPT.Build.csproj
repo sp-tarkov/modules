@@ -1,18 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Configuration>Release</Configuration>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Company>SPT</Company>
-    <Copyright>Copyright @ SPT 2025</Copyright>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" ExcludeAssets="runtime" PrivateAssets="all">
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\SPT.Common\SPT.Common.csproj" />
     <ProjectReference Include="..\SPT.Core\SPT.Core.csproj" />
@@ -22,7 +8,22 @@
     <ProjectReference Include="..\SPT.SinglePlayer\SPT.SinglePlayer.csproj" />
     <ProjectReference Include="..\SPT.Custom\SPT.Custom.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass ../build.ps1" WorkingDirectory="$(ProjectDir)" />
+  <!-- Assembles the deployment structure under project/Build after the aggregator builds. -->
+  <Target Name="AssembleBuildOutput" AfterTargets="Build">
+    <PropertyGroup>
+      <BuildRoot>$(MSBuildProjectDirectory)\..\Build</BuildRoot>
+      <PluginsDir>$(BuildRoot)\BepInEx\plugins\spt</PluginsDir>
+      <PatchersDir>$(BuildRoot)\BepInEx\patchers</PatchersDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <!-- The preloader patcher deploys to patchers/, every other spt-*.dll to plugins/spt/. -->
+      <PatcherDll Include="$(TargetDir)spt-prepatch.dll" />
+      <PluginDll Include="$(TargetDir)spt-*.dll" Exclude="@(PatcherDll)" />
+    </ItemGroup>
+    <!-- Start from a clean tree so removed plugins don't linger. -->
+    <RemoveDir Directories="$(BuildRoot)" />
+    <Copy SourceFiles="@(PluginDll)" DestinationFolder="$(PluginsDir)" />
+    <Copy SourceFiles="@(PatcherDll)" DestinationFolder="$(PatchersDir)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\..\..\LICENSE.md" DestinationFiles="$(BuildRoot)\LICENSE-Modules.txt" />
   </Target>
 </Project>
