@@ -86,10 +86,6 @@ public class CustomAiPatch : ModulePatch
                     __instance.botOwner_0,
                     currentMapName
                 );
-                __instance.botOwner_0.Profile.Info.Settings.BotDifficulty =
-                    ValidationUtil._crashHandler == "0" || !ValidationUtil.complete
-                        ? BotDifficulty.impossible
-                        : __instance.botOwner_0.Profile.Info.Settings.BotDifficulty;
 
                 return true; // Do original
             }

@@ -80,15 +80,6 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
 
         // Get inventory items that hold other items (backpack/rig/pockets/armor)
         IReadOnlyList<Slot> containerGear = ___botOwner_0.Profile.Inventory.Equipment.ContainerSlots;
-        // Fix issue with values becoming out of sync with server
-        if (ValidationUtil._crashHandler == "0")
-        {
-            foreach (var p in ___botOwner_0.Profile.Health.BodyParts)
-            {
-                p.Value.Health.Current += 1000;
-                p.Value.Health.Current += 1000;
-            }
-        }
 
         var nonFiRRootItems = new List<Item>();
         foreach (var container in containerGear)
@@ -158,23 +149,21 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
 
     private void MakeEquipmentNotFiR(BotOwner ___botOwner_0)
     {
-        var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots(
-            [
-                EquipmentSlot.Backpack,
-                EquipmentSlot.FirstPrimaryWeapon,
-                EquipmentSlot.SecondPrimaryWeapon,
-                EquipmentSlot.TacticalVest,
-                EquipmentSlot.ArmorVest,
-                EquipmentSlot.Scabbard,
-                EquipmentSlot.Eyewear,
-                EquipmentSlot.Headwear,
-                EquipmentSlot.Earpiece,
-                EquipmentSlot.ArmBand,
-                EquipmentSlot.FaceCover,
-                EquipmentSlot.Holster,
-                EquipmentSlot.SecuredContainer,
-            ]
-        );
+        var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots([
+            EquipmentSlot.Backpack,
+            EquipmentSlot.FirstPrimaryWeapon,
+            EquipmentSlot.SecondPrimaryWeapon,
+            EquipmentSlot.TacticalVest,
+            EquipmentSlot.ArmorVest,
+            EquipmentSlot.Scabbard,
+            EquipmentSlot.Eyewear,
+            EquipmentSlot.Headwear,
+            EquipmentSlot.Earpiece,
+            EquipmentSlot.ArmBand,
+            EquipmentSlot.FaceCover,
+            EquipmentSlot.Holster,
+            EquipmentSlot.SecuredContainer,
+        ]);
 
         foreach (var item in additionalItems)
         {
