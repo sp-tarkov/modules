@@ -25,8 +25,8 @@ public class SPTCorePlugin : BaseUnityPlugin
             new UnityWebRequestPatch().Enable();
             new WebSocketSslValidationPatch().Enable();
 
-            // Disabled, handled by Asm tool
-            //new SslCertificatePatch().Enable();
+            // WIP, handled by Asm tool. Leave enabled for now.
+            new SslCertificatePatch().Enable();
 
         }
         catch (Exception ex)

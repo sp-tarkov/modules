@@ -63,16 +63,16 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new FixDisableBossSpawningOptionPatch().Enable();
             new DisableHideoutCounterResetPatch().Enable();
 
-            // Disabled: Handled by AsmTool
-            //new LocaleFixPatch().Enable();
-            //new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
-            //new DisableDevMaskCheckPatch().Enable();
-            //new FirearmControllerShowIncompatibleNotificationClass().Enable();
-            //new FixUnityWarningSpamFromAirdropsPatch().Enable();
-            //new EnablePlayerScavPatch().Enable();
-            //new DisableDiscardLimitsPatch().Enable();
-            //new FixPostScavRaidXpShowingZeroPatch().Enable();
-            //new ScavFoundInRaidPatch().Enable();
+            // WIP, handled by Asm tool. Leave enabled for now.
+            new LocaleFixPatch().Enable();
+            new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
+            new DisableDevMaskCheckPatch().Enable();
+            new FirearmControllerShowIncompatibleNotificationClass().Enable();
+            new FixUnityWarningSpamFromAirdropsPatch().Enable();
+            new EnablePlayerScavPatch().Enable();
+            new DisableDiscardLimitsPatch().Enable();
+            new FixPostScavRaidXpShowingZeroPatch().Enable();
+            new ScavFoundInRaidPatch().Enable();
         }
         catch (Exception ex)
         {
