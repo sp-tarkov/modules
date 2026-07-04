@@ -22,8 +22,10 @@ public class SPTCorePlugin : BaseUnityPlugin
             new ConsistencySinglePatch().Enable();
             new ConsistencyMultiPatch().Enable();
             new GameValidationPatch().Enable();
+            new BattlEyePatch().Enable();
             new UnityWebRequestPatch().Enable();
             new WebSocketSslValidationPatch().Enable();
+            new Patch4001().Enable();
             new Patch4002().Enable();
 
             // WIP, handled by Asm tool. Leave enabled for now.
