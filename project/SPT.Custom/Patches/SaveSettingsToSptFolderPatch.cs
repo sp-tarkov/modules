@@ -12,7 +12,7 @@ namespace SPT.Custom.Patches;
 /// </summary>
 public class SaveSettingsToSptFolderPatch : ModulePatch
 {
-    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptSettings");
+    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT_Runtime", "user", "sptSettings");
 
     protected override MethodBase GetTargetMethod()
     {
