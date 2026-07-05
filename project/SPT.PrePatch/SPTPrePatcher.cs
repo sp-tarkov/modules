@@ -44,7 +44,7 @@ public static class SPTPrePatcher
         return new List<Instruction>
         {
             Instruction.Create(OpCodes.Call, assembly.MainModule.ImportReference(typeof(Environment).GetMethod("get_CurrentDirectory"))),
-            Instruction.Create(OpCodes.Ldstr, "SPT"),
+            Instruction.Create(OpCodes.Ldstr, "SPT_Runtime"),
             Instruction.Create(OpCodes.Ldstr, "user"),
             Instruction.Create(OpCodes.Ldstr, "sptappdata"),
             Instruction.Create(

@@ -10,7 +10,7 @@ namespace SPT.Custom.Utils;
 public static class BundleCrcCache
 {
     private static readonly string CachePath =
-        Path.Combine(AppContext.BaseDirectory, "SPT/user/cache/bundle_crc_cache.json");
+        Path.Combine(AppContext.BaseDirectory, "SPT_Runtime/user/cache/bundle_crc_cache.json");
 
     private static Dictionary<string, CrcCacheEntry> _cache = new();
 
