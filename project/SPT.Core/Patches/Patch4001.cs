@@ -7,10 +7,9 @@ namespace SPT.Core.Patches;
 
 internal class Patch4001 : ModulePatch
 {
-    //HWEcho doesn't exist in the hollowed but does exist in the client, wtf?
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method("HWEcho:GetMetrics");
+        return AccessTools.Method(typeof(HWEcho), nameof(HWEcho.GetMetrics));
     }
 
     [PatchPrefix]
