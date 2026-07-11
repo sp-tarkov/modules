@@ -33,7 +33,6 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new CustomAiPatch().Enable();
             new SaveSettingsToSptFolderPatch().Enable();
             new SaveRegistryToSptFolderPatches().Enable();
-            new QTEPatch().Enable();
             new RedirectClientImageRequestsPatch().Enable();
             new DisableGameModeAdjustButtonPatch().Enable();
             new FixPmcSpawnParamsNullErrorPatch().Enable();
