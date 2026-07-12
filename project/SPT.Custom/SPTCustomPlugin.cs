@@ -68,8 +68,8 @@ public class SPTCustomPlugin : BaseUnityPlugin
             // 4.1
             new FixKeylessDoorsPatch().Enable();
 
-            // WIP, handled by Asm tool. Leave enabled for now.
-            new AllowAirdropsInPvEPatch().Enable();
+            // Handled by Asm tool.
+            //new AllowAirdropsInPvEPatch().Enable();
 
             HookObject.AddComponent<MenuNotificationManager>();
         }

@@ -5,6 +5,7 @@ using SPT.Reflection.Patching;
 
 namespace SPT.Core.Patches;
 
+/*
 internal class Patch4001 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
@@ -19,3 +20,4 @@ internal class Patch4001 : ModulePatch
         return false;
     }
 }
+*/
