@@ -12,7 +12,7 @@ public static class ServerLog
         EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default
     )
     {
-        Log(source, message, EServerLogLevel.Custom, color, backgroundColor);
+        Log(source, message, EServerLogLevel.Information, color, backgroundColor);
     }
 
     public static void Error(string source, string message)
@@ -22,17 +22,17 @@ public static class ServerLog
 
     public static void Warn(string source, string message)
     {
-        Log(source, message, EServerLogLevel.Warn);
+        Log(source, message, EServerLogLevel.Warning);
     }
 
     public static void Success(string source, string message)
     {
-        Log(source, message, EServerLogLevel.Success);
+        Log(source, message, EServerLogLevel.Information, EServerLogTextColor.Black, EServerLogBackgroundColor.Green);
     }
 
     public static void Info(string source, string message)
     {
-        Log(source, message, EServerLogLevel.Info);
+        Log(source, message);
     }
 
     public static void Debug(string source, string message)
@@ -43,12 +43,12 @@ public static class ServerLog
     public static void Log(
         string source,
         string message,
-        EServerLogLevel level = EServerLogLevel.Info,
+        EServerLogLevel level = EServerLogLevel.Information,
         EServerLogTextColor color = EServerLogTextColor.White,
         EServerLogBackgroundColor backgroundColor = EServerLogBackgroundColor.Default
     )
     {
-        ServerLogRequest request = new ServerLogRequest
+        var request = new ServerLogRequest
         {
             Source = source,
             Message = message,
