@@ -2,8 +2,6 @@ using System;
 using BepInEx;
 using SPT.Common;
 using SPT.SinglePlayer.Patches.MainMenu;
-using SPT.SinglePlayer.Patches.Performance;
-using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using SPT.SinglePlayer.Utils.MainMenu;
@@ -62,17 +60,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new RemoveTransitionRaidModeSetPatch().Enable();
             new FixDisableBossSpawningOptionPatch().Enable();
             new DisableHideoutCounterResetPatch().Enable();
-
-            // Handled by Asm tool
-            //new LocaleFixPatch().Enable();
-            //new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
-            //new DisableDevMaskCheckPatch().Enable();
-            //new FirearmControllerShowIncompatibleNotificationClass().Enable();
-            //new FixUnityWarningSpamFromAirdropsPatch().Enable();
-            //new EnablePlayerScavPatch().Enable();
-            //new DisableDiscardLimitsPatch().Enable();
-            //new FixPostScavRaidXpShowingZeroPatch().Enable();
-            //new ScavFoundInRaidPatch().Enable();
         }
         catch (Exception ex)
         {

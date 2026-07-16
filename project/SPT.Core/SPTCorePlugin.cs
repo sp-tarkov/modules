@@ -25,11 +25,6 @@ public class SPTCorePlugin : BaseUnityPlugin
             new BattlEyePatch().Enable();
             new UnityWebRequestPatch().Enable();
             new WebSocketSslValidationPatch().Enable();
-
-            // Handled by Asm tool.
-            //new Patch4001().Enable();
-            //new Patch4002().Enable();
-            //new SslCertificatePatch().Enable();
         }
         catch (Exception ex)
         {
