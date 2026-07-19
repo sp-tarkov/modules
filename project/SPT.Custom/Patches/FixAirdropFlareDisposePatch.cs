@@ -21,12 +21,12 @@ public class FixAirdropFlareDisposePatch : ModulePatch
     [PatchPrefix]
     public static void Prefix(ProjectilesCollector __instance)
     {
-        if (__instance.dictionary_0 == null)
+        if (__instance._activeProjectiles == null)
         {
             return;
         }
 
-        foreach (KeyValuePair<GameObject, float> keyValuePair in __instance.dictionary_0)
+        foreach (KeyValuePair<GameObject, float> keyValuePair in __instance._activeProjectiles)
         {
             Object.Destroy(keyValuePair.Key);
         }

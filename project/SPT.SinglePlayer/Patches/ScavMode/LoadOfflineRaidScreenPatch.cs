@@ -157,7 +157,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         }
 
         // Set offline raid values (Is this necessary? Sets InSession)
-        menuController.bool_0 = raidSettings.Local;
+        menuController._isInSession = raidSettings.Local;
 
         // Copy various settings between raid settings, this prevents scavs from loading in as pmc's
         raidSettings.WavesSettings = menuController.raidSettings_1.WavesSettings;

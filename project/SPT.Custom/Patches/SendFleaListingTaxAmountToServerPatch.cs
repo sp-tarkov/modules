@@ -31,32 +31,32 @@ public class SendFleaListingTaxAmountToServerPatch : ModulePatch
     /// <summary>
     /// Calculate tax to charge player and send to server before the offer is sent
     /// </summary>
-    /// <param name="___item_0">Item sold</param>
+    /// <param name="___selectedItem">Item sold</param>
     /// <param name="____ragfairNewOfferContext">OfferItemCount</param>
-    /// <param name="___double_0">RequirementsPrice</param>
-    /// <param name="___bool_0">SellInOnePiece</param>
+    /// <param name="____requirementsCost">RequirementsPrice</param>
+    /// <param name="_sellInOnePiece">SellInOnePiece</param>
     [PatchPrefix]
     public static void PatchPrefix(
-        ref Item ___item_0,
-        ref RagfairNewOfferContext ____ragfairNewOfferContext,
-        ref double ___double_0,
-        ref bool ___bool_0
+        ref Item ____selectedItem,
+        ref RagfairNewOfferContext ____offerContext,
+        ref double ____requirementsCost,
+        ref bool ____sellInOnePiece
     )
     {
         RequestHandler.PutJson(
             "/client/ragfair/offerfees",
             new
             {
-                id = ___item_0.Id,
-                tpl = ___item_0.TemplateId,
-                count = ____ragfairNewOfferContext.MaxAvailableCellsSize,
+                id = ____selectedItem.Id,
+                tpl = ____selectedItem.TemplateId,
+                count = ____offerContext.MaxAvailableCellsSize,
                 fee = Mathf.CeilToInt(
                     (float)
                         PriceCalculator.CalculateTaxPrice(
-                            ___item_0,
+                            ____selectedItem,
                             1, // TODO: fix this and count above, just done this to get to Vtables
-                            ___double_0,
-                            ___bool_0
+                            ____requirementsCost,
+                            ____sellInOnePiece
                         )
                 ),
             }.ToJson()

@@ -56,7 +56,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
         }
 
         // Only do below when player is a scav
-        var session = (ClientBackendSession) __instance._eftSession;
+        var session = (ClientBackendSession) __instance._session;
         session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 

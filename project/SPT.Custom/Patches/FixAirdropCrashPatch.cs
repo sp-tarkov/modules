@@ -50,7 +50,7 @@ public class FixAirdropCrashPatch : ModulePatch
             return;
         }
 
-        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor.list_0;
+        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor._activeSynchronizableObjects;
         if (syncObjects is null)
         {
             return;

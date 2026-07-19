@@ -149,7 +149,7 @@ public class PmcFoundInRaidEquipment(ManualLogSource logger)
 
     private void MakeEquipmentNotFiR(BotOwner ___botOwner_0)
     {
-        var additionalItems = ___botOwner_0.Profile.Inventory.GetItemsInSlots([
+        var additionalItems = ___botOwner_0.Profile.InventoryInfo.GetItemsInSlots([
             EquipmentSlot.Backpack,
             EquipmentSlot.FirstPrimaryWeapon,
             EquipmentSlot.SecondPrimaryWeapon,
