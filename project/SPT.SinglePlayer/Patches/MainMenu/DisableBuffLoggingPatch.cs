@@ -14,7 +14,7 @@ public class DisableBuffLoggingPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(BuffComponent), nameof(BuffComponent.method_0));
+        return AccessTools.Method(typeof(BuffComponent), nameof(BuffComponent.UpdateModifiers));
     }
 
     [PatchPrefix]
