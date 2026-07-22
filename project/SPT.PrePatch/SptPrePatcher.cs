@@ -5,18 +5,66 @@ using System.Linq;
 using BepInEx.Logging;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Newtonsoft.Json;
 
 namespace SPT.PrePatch;
 
-public static class SPTPrePatcher
+public static class SptPrePatcher
 {
     public static IEnumerable<string> TargetDLLs { get; } = new[] { "Assembly-CSharp.dll" };
     private const string _sptPluginFolder = "plugins/spt";
+
+    private const string EnumEntriesRoute = "/singleplayer/customEnumEntries";
+
+    private static ManualLogSource _logger = Logger.CreateLogSource(nameof(SptPrePatcher));
 
     public static void Patch(ref AssemblyDefinition assembly)
     {
         PerformPreValidation();
         ChangeAppDataPath(assembly);
+
+        EnumPatcher.PatchEnums(_logger, ref assembly, GetCustomEnumEntries());
+    }
+
+    private static List<EnumEntryDefinition> GetCustomEnumEntries()
+    {
+        var backendUrl = GetBackendUrl();
+        var requestUri = new Uri(new Uri(backendUrl.TrimEnd('/') + "/"), EnumEntriesRoute.TrimStart('/'));
+
+        var response = WinHttpClient.GetString(requestUri);
+        if (string.IsNullOrWhiteSpace(response))
+        {
+            throw new InvalidOperationException($"The server returned an empty response from {EnumEntriesRoute}.");
+        }
+
+        var resp = JsonConvert.DeserializeObject<List<EnumEntryDefinition>>(response);
+        if (resp is null)
+        {
+            throw new InvalidOperationException($"The response from {EnumEntriesRoute} is null.");
+        }
+
+        return resp;
+    }
+
+    private static string GetBackendUrl()
+    {
+        const string configPrefix = "-config=";
+        var configArgument = Environment
+            .GetCommandLineArgs()
+            .FirstOrDefault(argument => argument.StartsWith(configPrefix, StringComparison.OrdinalIgnoreCase));
+
+        if (configArgument is null)
+        {
+            throw new InvalidOperationException("Could not find SPT's -config launch argument containing the backend URL.");
+        }
+
+        var launcherConfig = JsonConvert.DeserializeObject<LauncherConfig>(configArgument[configPrefix.Length..]);
+        if (string.IsNullOrWhiteSpace(launcherConfig?.BackendUrl))
+        {
+            throw new InvalidOperationException("SPT's -config launch argument did not contain a backend URL.");
+        }
+
+        return launcherConfig.BackendUrl;
     }
 
     private static void ChangeAppDataPath(AssemblyDefinition assembly)
@@ -102,13 +150,12 @@ public static class SPTPrePatcher
     private static bool ValidateSptPlugins(string sptPluginPath, out string message)
     {
         string exitMessage = "\n\nPlease re-install SPT. Exiting.";
-        ManualLogSource logger = Logger.CreateLogSource(nameof(SPTPrePatcher));
 
         // Validate that the SPT plugin path exists
         if (!Directory.Exists(sptPluginPath))
         {
             message = $"'{sptPluginPath}' directory not found{exitMessage}";
-            logger.LogError(message);
+            _logger.LogError(message);
             return false;
         }
 
@@ -128,12 +175,17 @@ public static class SPTPrePatcher
             if (!foundPlugins.Contains(pluginNameAndSuffix))
             {
                 message = $"Required SPT plugin: {pluginNameAndSuffix} missing from '{sptPluginPath}' {exitMessage}";
-                logger.LogError(message);
+                _logger.LogError(message);
                 return false;
             }
         }
 
         message = "";
         return true;
+    }
+
+    private sealed class LauncherConfig
+    {
+        public string BackendUrl { get; set; }
     }
 }
