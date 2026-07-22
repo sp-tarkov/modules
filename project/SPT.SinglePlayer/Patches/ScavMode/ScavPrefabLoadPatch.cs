@@ -30,7 +30,7 @@ public class ScavPrefabLoadPatch : ModulePatch
                 && x.Name.Contains("CG_")
             );
 
-        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");

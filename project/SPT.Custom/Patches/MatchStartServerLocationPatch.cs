@@ -27,7 +27,7 @@ public class MatchStartServerLocationPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
         Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
