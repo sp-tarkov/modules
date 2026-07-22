@@ -13,7 +13,7 @@ public class EnablePrestigeTabPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(InventoryScreen.CG_ShowWithTab), nameof(InventoryScreen.CG_ShowWithTab.MoveNext));
+        return AccessTools.Method(typeof(InventoryScreen.CG_ShowWithTab), "MoveNext");
     }
 
     [PatchPostfix]
