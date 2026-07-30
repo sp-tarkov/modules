@@ -17,7 +17,7 @@ public class RemoveTransitionRaidModeSetPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(TarkovApplication.Struct406), nameof(TarkovApplication.Struct406.MoveNext));
+        return AccessTools.Method(typeof(TarkovApplication.CG_Run), "MoveNext");
     }
 
     [PatchTranspiler]
@@ -26,7 +26,7 @@ public class RemoveTransitionRaidModeSetPatch : ModulePatch
         var instructionsList = new List<CodeInstruction>(originalInstructions);
 
         var transitionStatusField = AccessTools.Field(typeof(TarkovApplication), "transitionStatus");
-        var getInTransition = AccessTools.Method(typeof(TransitionStatusStruct), "get_InTransition");
+        var getInTransition = AccessTools.Method(typeof(TransitionStatus), "get_InTransition");
 
         instructionsList[30] = new CodeInstruction(OpCodes.Ldflda, transitionStatusField);
         instructionsList.Insert(31, new CodeInstruction(OpCodes.Call, getInTransition));

@@ -33,7 +33,6 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new CustomAiPatch().Enable();
             new SaveSettingsToSptFolderPatch().Enable();
             new SaveRegistryToSptFolderPatches().Enable();
-            new QTEPatch().Enable();
             new RedirectClientImageRequestsPatch().Enable();
             new DisableGameModeAdjustButtonPatch().Enable();
             new FixPmcSpawnParamsNullErrorPatch().Enable();
@@ -47,7 +46,6 @@ public class SPTCustomPlugin : BaseUnityPlugin
             new FixBossesHavingNoFollowersOnMediumAiAmount().Enable();
             new FixAirdropCrashPatch().Enable();
             new FixAirdropFlareDisposePatch().Enable();
-            new AllowAirdropsInPvEPatch().Enable();
             new MemoryCollectionPatch().Enable();
             new LocaleManagerRaceConditionFixPatch().Enable();
             new AddOfferFilterHangPatch().Enable();
@@ -66,6 +64,12 @@ public class SPTCustomPlugin : BaseUnityPlugin
 
             // Khorovod event fixes
             new KhorovodDisposeFix().Enable();
+
+            // 4.1
+            new FixKeylessDoorsPatch().Enable();
+
+            // Handled by Asm tool.
+            //new AllowAirdropsInPvEPatch().Enable();
 
             HookObject.AddComponent<MenuNotificationManager>();
         }

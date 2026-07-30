@@ -2,6 +2,7 @@
 using System.Reflection;
 using Comfort.Common;
 using EFT;
+using EFT.Ballistics;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -13,13 +14,13 @@ public class ScavRepAdjustmentPatch : ModulePatch
     {
         // Correct Gclass has sessionCounters
         return AccessTools.Method(
-            typeof(LocationStatisticsCollectorAbstractClass),
-            nameof(LocationStatisticsCollectorAbstractClass.OnEnemyKill)
+            typeof(BaseStatisticsManager),
+            nameof(BaseStatisticsManager.OnEnemyKill)
         );
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(DamageInfoStruct damage, string playerProfileId, out Tuple<Player, bool> __state)
+    public static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
     {
         __state = new Tuple<Player, bool>(null, false);
         var player = (Player)damage.Player.iPlayer;
@@ -41,7 +42,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
             __state = new Tuple<Player, bool>(killedBot, killedBot.AIData.IsAI);
             var killedPlayerSettings = killedBot.Profile.Info.Settings;
             // Extra check to ensure we only set playerscavs to IsAI = false
-            if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Nickname.Contains("("))
+            if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Info.MainProfileNickname.Contains("("))
             {
                 //killedBot.AIData.IsAI = false;
             }
@@ -56,7 +57,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
             }
             else
             {
-                player.Loyalty.method_1(killedBot);
+                player.Loyalty.GifterKill(killedBot);
             }
         }
     }

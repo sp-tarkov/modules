@@ -24,18 +24,18 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
 
     static LoadOfflineRaidScreenPatch()
     {
-        _ = nameof(MainMenuControllerClass.InventoryController);
+        _ = nameof(MainMenuShowOperation.InventoryController);
         _ = nameof(TimeAndWeatherSettings.IsRandomWeather);
         _ = nameof(BotControllerSettings.IsScavWars);
         _ = nameof(WavesSettings.IsBosses);
-        _ = MatchmakerPlayerControllerClass.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
+        _ = MatchmakerPlayersController.MAX_SCAV_COUNT; // UPDATE REFS TO THIS CLASS BELOW !!!
 
         // `MatchmakerInsuranceScreen` OnShowNextScreen
-        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_52));
+        _onReadyScreenMethod = AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.method_52));
 
         _menuControllerField = typeof(TarkovApplication)
             .GetFields(PatchConstants.PrivateFlags)
-            .FirstOrDefault(x => x.FieldType == typeof(MainMenuControllerClass));
+            .FirstOrDefault(x => x.FieldType == typeof(MainMenuShowOperation));
 
         if (_menuControllerField == null)
         {
@@ -48,7 +48,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         // `MatchMakerSelectionLocationScreen` OnShowNextScreen
-        return AccessTools.Method(typeof(MainMenuControllerClass), nameof(MainMenuControllerClass.method_77));
+        return AccessTools.Method(typeof(MainMenuShowOperation), nameof(MainMenuShowOperation.CG_method_77));
     }
 
     [PatchTranspiler]
@@ -84,7 +84,7 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
          *   call instruction and only then we remove it.
          */
         var codes = new List<CodeInstruction>(instructions);
-        var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuControllerClass), _onReadyScreenMethod.Name);
+        var onReadyScreenMethodOperand = AccessTools.Method(typeof(MainMenuShowOperation), _onReadyScreenMethod.Name);
 
         var callCodeIndex = codes.FindLastIndex(code =>
             code.opcode == OpCodes.Call && (MethodInfo)code.operand == onReadyScreenMethodOperand
@@ -126,22 +126,23 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
         var menuController = GetMenuController();
 
         // Get fields from MainMenuController.cs
-        var raidSettings = menuController.RaidSettings_0;
-        var offlineRaidSettings = menuController.RaidSettings_1;
+        var raidSettings = menuController.raidSettings_0;
+        var offlineRaidSettings = menuController.raidSettings_1;
 
-        var gclass = new MatchmakerOfflineRaidScreen.CreateRaidSettingsForProfileClass(
+        var gclass = new MatchmakerOfflineRaidScreen.OfflineRaidScreenController(
             profile?.Info,
             ref raidSettings,
             ref offlineRaidSettings,
-            menuController.MatchmakerPlayerControllerClass,
+            menuController.MatchmakerPlayersController,
             ESessionMode.Pve
         );
 
         gclass.OnShowNextScreen += LoadOfflineRaidNextScreen;
 
         // `MatchmakerOfflineRaidScreen` OnShowReadyScreen
-        gclass.OnShowReadyScreen += (OfflineRaidAction)
-            Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuControllerClass.method_81));
+        // Note: We disable the Ready button now, this should no longer be necessary
+        //gclass.OnShowReadyScreen += (OfflineRaidAction)
+        //    Delegate.CreateDelegate(typeof(OfflineRaidAction), menuController, nameof(MainMenuShowOperation.method_81));
         gclass.ShowScreen(EScreenState.Queued);
     }
 
@@ -149,26 +150,26 @@ public class LoadOfflineRaidScreenPatch : ModulePatch
     {
         var menuController = GetMenuController();
 
-        var raidSettings = menuController.RaidSettings_0;
+        var raidSettings = menuController.raidSettings_0;
         if (raidSettings.SelectedLocation.Id == "laboratory")
         {
             raidSettings.WavesSettings.IsBosses = true;
         }
 
         // Set offline raid values (Is this necessary? Sets InSession)
-        menuController.Bool_0 = raidSettings.Local;
+        menuController._isInSession = raidSettings.Local;
 
         // Copy various settings between raid settings, this prevents scavs from loading in as pmc's
-        raidSettings.WavesSettings = menuController.RaidSettings_1.WavesSettings;
-        raidSettings.BotSettings = menuController.RaidSettings_1.BotSettings;
-        menuController.RaidSettings_1.Side = raidSettings.Side;
+        raidSettings.WavesSettings = menuController.raidSettings_1.WavesSettings;
+        raidSettings.BotSettings = menuController.raidSettings_1.BotSettings;
+        menuController.raidSettings_1.Side = raidSettings.Side;
 
         // Load ready screen method
         _onReadyScreenMethod.Invoke(menuController, null);
     }
 
-    private static MainMenuControllerClass GetMenuController()
+    private static MainMenuShowOperation GetMenuController()
     {
-        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuControllerClass;
+        return _menuControllerField.GetValue(ClientAppUtils.GetMainApp()) as MainMenuShowOperation;
     }
 }

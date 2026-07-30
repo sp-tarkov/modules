@@ -27,11 +27,11 @@ public class MatchStartServerLocationPatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
-        Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-        Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-        Logger.LogDebug($"{this.GetType().Name} Nested Type: {nestedType?.Name}");
+        Logger.LogDebug($"{GetType().Name} Type: {desiredType?.Name}");
+        Logger.LogDebug($"{GetType().Name} Method: {desiredMethod?.Name}");
+        Logger.LogDebug($"{GetType().Name} Nested Type: {nestedType?.Name}");
 
         return desiredMethod;
     }
@@ -97,7 +97,7 @@ public class MatchStartServerLocationPatch : ModulePatch
         return type.GetField("timeAndWeather") != null
             && type.GetField("tarkovApplication_0") != null
             && type.GetField("gameWorld") != null
-            && type.Name.Contains("Struct");
+            && type.Name.Contains("CG_");
     }
 
     private static bool IsTargetNestedType(Type nestedType)

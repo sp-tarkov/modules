@@ -2,7 +2,10 @@
 using System.Reflection;
 using Comfort.Common;
 using EFT;
+using EFT.Ballistics;
+using EFT.Counters;
 using EFT.InventoryLogic;
+using EFT.Quests;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -16,7 +19,7 @@ public class ArmorDamageCounterPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(DamageInfoStruct damageInfo)
+    public static void PatchPostfix(DamageInfo damageInfo)
     {
         if (damageInfo.Player == null || damageInfo.Player.iPlayer == null || !damageInfo.Player.iPlayer.IsYourPlayer)
         {
@@ -25,7 +28,7 @@ public class ArmorDamageCounterPatch : ModulePatch
 
         if (damageInfo.Weapon is Weapon)
         {
-            if (!Singleton<ItemFactoryClass>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
+            if (!Singleton<ItemFactory>.Instance.ItemTemplates.TryGetValue(damageInfo.SourceId, out var template))
             {
                 return;
             }
@@ -35,7 +38,7 @@ public class ArmorDamageCounterPatch : ModulePatch
                 float absorbedDamage = (float)Math.Round(bulletTemplate.Damage - damageInfo.Damage);
                 damageInfo.Player.iPlayer.Profile.EftStats.SessionCounters.AddFloat(
                     absorbedDamage,
-                    SessionCounterTypesAbstractClass.CauseArmorDamage
+                    PredefinedCounters.CauseArmorDamage
                 );
             }
         }

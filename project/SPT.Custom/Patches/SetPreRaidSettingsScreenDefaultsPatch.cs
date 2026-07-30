@@ -21,7 +21,7 @@ public class SetPreRaidSettingsScreenDefaultsPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(CreateRaidSettingsForProfileClass controller, UpdatableToggle ____offlineModeToggle)
+    public static void PatchPrefix(OfflineRaidScreenController controller, UpdatableToggle ____offlineModeToggle)
     {
         var offlineRaidSettings = controller.OfflineRaidSettings;
 

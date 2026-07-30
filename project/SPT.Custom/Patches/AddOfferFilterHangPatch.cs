@@ -19,11 +19,11 @@ public class AddOfferFilterHangPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(RagFairClass), nameof(RagFairClass.FilterMyOffers));
+        return AccessTools.Method(typeof(RagFair), nameof(RagFair.FilterMyOffers));
     }
 
     [PatchPrefix]
-    public static bool Prefix(RagFairClass __instance)
+    public static bool Prefix(RagFair __instance)
     {
         return __instance.FilterRule.ViewListType == EViewListType.MyOffers;
     }

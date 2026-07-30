@@ -29,6 +29,6 @@ public class ReloadClientPatch : ModulePatch
     )]
     public static void Reload()
     {
-        Reflection.Utils.ClientAppUtils.GetMainApp().method_56().HandleExceptions();
+        Reflection.Utils.ClientAppUtils.GetMainApp().CG_method_56().HandleExceptions();
     }
 }

@@ -13,7 +13,7 @@ public class RemoveUsedBotProfilePatch : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return typeof(BotsPresets).BaseType.GetMethods().SingleCustom(m => m.Name == nameof(BotsPresets.GetNewProfile) && m.IsVirtual);
+        return typeof(BotProfileClient).BaseType.GetMethods().SingleCustom(m => m.Name == nameof(BotProfileClient.GetNewProfile) && m.IsVirtual);
     }
 
     /// <summary>

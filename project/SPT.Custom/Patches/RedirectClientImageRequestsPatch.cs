@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using EFT;
+using EFT.Utilities;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using UnityEngine;
@@ -14,17 +16,17 @@ namespace SPT.Custom.Patches;
 ///
 public class RedirectClientImageRequestsPatch : ModulePatch
 {
-    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptappdata");
+    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT_Runtime", "user", "sptappdata");
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ProfileEndpointFactoryAbstractClass), nameof(ProfileEndpointFactoryAbstractClass.method_28));
+        return AccessTools.Method(typeof(ClientBackendSession), nameof(ClientBackendSession.LoadTextureWithCache));
     }
 
     [PatchPrefix]
     public static bool PatchPrefix(string baseUrl, string url, ref Task<Texture2D> __result)
     {
-        var texture2D = CacheResourcesPopAbstractClass.Pop<Texture2D>(url.ConvertToResourceLocation());
+        var texture2D = ResourcesCache.Pop<Texture2D>(url.ConvertToResourceLocation());
 
         if (texture2D != null)
         {
@@ -49,14 +51,14 @@ public class RedirectClientImageRequestsPatch : ModulePatch
 
     public static async Task<Texture2D> GetTexture0(string path)
     {
-        var result = await ProfileEndpointFactoryAbstractClass.smethod_0(path);
+        var result = await ClientBackendSession.DownloadTexture2D(path);
 
         return result.Value;
     }
 
     public static async Task<Texture2D> GetTexture1(string path, string localPath)
     {
-        var result = await ProfileEndpointFactoryAbstractClass.smethod_1(path);
+        var result = await ClientBackendSession.LoadTexture(path);
 
         if (result.Succeed)
         {

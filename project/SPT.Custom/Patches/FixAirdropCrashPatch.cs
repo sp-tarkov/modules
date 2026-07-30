@@ -4,7 +4,9 @@ using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.SynchronizableObjects;
+using EFT.Utilities;
 using HarmonyLib;
+using JsonType;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches;
@@ -29,9 +31,9 @@ public class FixAirdropCrashPatch : ModulePatch
             && parameters[1].Name == "savageProfile"
             && parameters[1].ParameterType == typeof(Profile)
             && parameters[2].Name == "location"
-            && parameters[2].ParameterType == typeof(LocationSettingsClass.Location)
+            && parameters[2].ParameterType == typeof(LocationSettings.Location)
             && parameters[3].Name == "result"
-            && parameters[3].ParameterType == typeof(Result<ExitStatus, TimeSpan, MetricsClass>);
+            && parameters[3].ParameterType == typeof(Result<ExitStatus, TimeSpan, ClientMetrics>);
     }
 
     [PatchPrefix]
@@ -48,7 +50,7 @@ public class FixAirdropCrashPatch : ModulePatch
             return;
         }
 
-        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor.List_0;
+        List<SynchronizableObject> syncObjects = gameWorld.SynchronizableObjectLogicProcessor._activeSynchronizableObjects;
         if (syncObjects is null)
         {
             return;
@@ -65,7 +67,7 @@ public class FixAirdropCrashPatch : ModulePatch
         {
             if (
                 gameWorld.SynchronizableObjectLogicProcessor
-                is SynchronizableObjectLogicProcessorClass synchronizableObjectLogicProcessorClass
+                is ClientSynchronizableObjectLogicProcessor synchronizableObjectLogicProcessorClass
             )
             {
                 synchronizableObjectLogicProcessorClass.ServerAirdropManager?.Dispose();

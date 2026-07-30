@@ -13,11 +13,11 @@ public class EnablePrestigeTabPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(InventoryScreen.Class2915), nameof(InventoryScreen.Class2915.MoveNext));
+        return AccessTools.Method(typeof(InventoryScreen.CG_ShowWithTab), "MoveNext");
     }
 
     [PatchPostfix]
-    public static void Postfix(InventoryScreen.Class2915 __instance)
+    public static void Postfix(InventoryScreen.CG_ShowWithTab __instance)
     {
         var inventoryScreen = __instance.inventoryScreen_0;
         var tabDictionary = Traverse.Create(inventoryScreen).Field<IReadOnlyDictionary<EInventoryTab, Tab>>("_tabDictionary").Value;

@@ -16,11 +16,11 @@ public class KhorovodDisposeFix : ModulePatch
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(RunddansControllerAbstractClass), nameof(RunddansControllerAbstractClass.Dispose));
+        return AccessTools.Method(typeof(RunddansController), nameof(RunddansController.Dispose));
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(RunddansControllerAbstractClass __instance)
+    public static void PatchPrefix(RunddansController __instance)
     {
         var objects = __instance.Objects;
 

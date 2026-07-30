@@ -27,7 +27,7 @@ public class EnableInfectionUIPatch : ModulePatch
         ref ZombieEventLocationInfectionInfo ____infectionInfo
     )
     {
-        if (!Singleton<BackendConfigSettingsClass>.Instance.SeasonActivityConfig.InfectionHalloweenConfig.DisplayUIEnabled)
+        if (!Singleton<GlobalConfiguration>.Instance.SeasonActivityConfig.InfectionHalloweenConfig.DisplayUIEnabled)
         {
             return;
         }
@@ -37,6 +37,6 @@ public class EnableInfectionUIPatch : ModulePatch
             return;
         }
 
-        __instance.method_0(raidSettings.SelectedLocation);
+        __instance.InitZombieEvent(raidSettings.SelectedLocation);
     }
 }

@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="SPT.Build/SPT.Build.csproj" />
+  <Project Path="SPT.Common/SPT.Common.csproj" />
+  <Project Path="SPT.Core/SPT.Core.csproj" />
+  <Project Path="SPT.Custom/SPT.Custom.csproj" />
+  <Project Path="SPT.Debugging/SPT.Debugging.csproj" />
+  <Project Path="SPT.PrePatch/SPT.PrePatch.csproj" />
+  <Project Path="SPT.Reflection/SPT.Reflection.csproj" />
+  <Project Path="SPT.SinglePlayer/SPT.SinglePlayer.csproj" />
+</Solution>

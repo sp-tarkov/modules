@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Comfort.Common;
 using EFT;
+using EFT.CameraControl;
 using EFT.UI;
 using UnityEngine;
 
@@ -39,7 +40,7 @@ public class BotmonitorScript : MonoBehaviour
             _player = _gameWorld.MainPlayer;
 
             // get camera of player
-            _camera = CameraClass.Instance.Camera;
+            _camera = CameraManager.Instance.Camera;
 
             // Make new rect to use for GUI
             _rect = new Rect(0, 60, 0, 0);
@@ -96,7 +97,7 @@ public class BotmonitorScript : MonoBehaviour
         _playerRoleAndDiff.Remove(player.ProfileId);
     }
 
-    public BotRoleAndDiffClass GetBotRoleAndDiffClass(InfoClass info)
+    public BotRoleAndDiffClass GetBotRoleAndDiffClass(ProfileInfo info)
     {
         var settings = info.Settings;
         var role = settings.Role.ToString();
@@ -146,7 +147,7 @@ public class BotmonitorScript : MonoBehaviour
                     _distance = Vector3.Distance(player.Transform.position, _camera.transform.position);
                     _builder.Append(
                         $"> [{_distance:n2}m] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Role}] "
-                            + $"[{player.Profile.Side}] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Difficulty}] {player.Profile.Nickname}\n"
+                            + $"[{player.Profile.Side}] [{_playerRoleAndDiff.First(x => x.Key == player.ProfileId).Value.Difficulty}] {player.Profile.Info.Nickname}\n"
                     );
                 }
             }

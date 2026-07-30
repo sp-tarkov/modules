@@ -39,7 +39,7 @@ public class PluginErrorNotifierPatch : ModulePatch
         // Show a toast in the bottom right of the screen indicating how many plugins failed to load
         var consoleHeaderMessage = $"{failedPluginCount} plugin{(failedPluginCount > 1 ? "s" : "")} failed to load due to errors";
         var toastMessage = $"{consoleHeaderMessage}. Please check the console for details.";
-        NotificationManagerClass.DisplayMessageNotification(
+        NotificationManager.DisplayMessageNotification(
             toastMessage,
             ENotificationDurationType.Infinite,
             ENotificationIconType.Alert,

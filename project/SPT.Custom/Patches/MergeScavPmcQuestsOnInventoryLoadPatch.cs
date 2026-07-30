@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Comfort.Common;
 using EFT;
+using EFT.Quests;
 using EFT.UI.DragAndDrop;
 using HarmonyLib;
 using SPT.Reflection.Patching;

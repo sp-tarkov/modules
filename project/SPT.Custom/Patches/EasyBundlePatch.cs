@@ -2,12 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Diz.Binding;
 using Diz.DependencyManager;
-using UnityEngine.Build.Pipeline;
+using Diz.Resources;
+using HarmonyLib;
 using SPT.Custom.Models;
 using SPT.Custom.Utils;
 using SPT.Reflection.Patching;
-using HarmonyLib;
+using UnityEngine.Build.Pipeline;
 
 namespace SPT.Custom.Patches;
 
@@ -17,16 +19,16 @@ public class EasyBundlePatch : ModulePatch
     {
         _ = nameof(IEasyBundle.SameNameAsset);
         _ = nameof(IBundleLock.IsLocked);
-        _ = nameof(BindableStateClass<ELoadState>.Bind);
+        _ = nameof(BindableState<ELoadState>.Bind);
     }
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.GetDeclaredConstructors(typeof(EasyAssetHelperClass)).First();
+        return AccessTools.GetDeclaredConstructors(typeof(EasyBundle)).First();
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(EasyAssetHelperClass __instance, string key, string rootPath, CompatibilityAssetBundleManifest manifest, IBundleLock bundleLock)
+    public static void PatchPostfix(EasyBundle __instance, string key, string rootPath, CompatibilityAssetBundleManifest manifest, IBundleLock bundleLock)
     {
         var filepath = rootPath + key;
         var dependencies = manifest.GetDirectDependencies(key) ?? Array.Empty<string>();
@@ -43,10 +45,10 @@ public class EasyBundlePatch : ModulePatch
         }
 
         __instance.Key = key;
-        __instance.String_1 = filepath;
-        __instance.String_0 = Path.GetFileNameWithoutExtension(key);
+        __instance._path = filepath;
+        __instance._keyWithoutExtension = Path.GetFileNameWithoutExtension(key);
         __instance.DependencyKeys = dependencies;
-        __instance.LoadState = new BindableStateClass<ELoadState>(ELoadState.Unloaded);
-        __instance.IBundleLock = bundleLock;
+        __instance.LoadState = new BindableState<ELoadState>(ELoadState.Unloaded);
+        __instance._bundleLock = bundleLock;
     }
 }

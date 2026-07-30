@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using EFT;
 using HarmonyLib;
 using SPT.Reflection.CodeWrapper;
 using SPT.Reflection.Patching;
@@ -21,13 +22,13 @@ using TMPro;
 namespace SPT.Custom.Patches;
 public class LocaleManagerRaceConditionFixPatch : ModulePatch
 {
-    private static Type fontAssetsType = typeof(LocaleManagerClass)
+    private static Type fontAssetsType = typeof(LocalizationManager)
         .GetNestedTypes(PatchConstants.PublicDeclaredFlags)
         .SingleCustom(IsTargetNestedType);
     
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.FirstMethod(typeof(LocaleManagerClass), IsTargetMethod);
+        return AccessTools.FirstMethod(typeof(LocalizationManager), IsTargetMethod);
     }
 
     private bool IsTargetMethod(MethodInfo method)

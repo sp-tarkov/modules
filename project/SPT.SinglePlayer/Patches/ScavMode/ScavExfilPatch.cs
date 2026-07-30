@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Comfort.Common;
+using CommonAssets.Scripts.Game;
 using EFT;
 using EFT.Interactive;
 using HarmonyLib;
@@ -15,14 +16,14 @@ public class ScavExfilPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Method(
-            typeof(ExfiltrationControllerClass),
-            nameof(ExfiltrationControllerClass.EligiblePoints),
+            typeof(ExfiltrationController),
+            nameof(ExfiltrationController.EligiblePoints),
             [typeof(Profile)]
         );
     }
 
     [PatchPrefix]
-    public static bool PatchPrefix(Profile profile, ExfiltrationControllerClass __instance, ref ExfiltrationPoint[] __result)
+    public static bool PatchPrefix(Profile profile, ExfiltrationController __instance, ref ExfiltrationPoint[] __result)
     {
         if (profile.Info.Side != EPlayerSide.Savage)
         {

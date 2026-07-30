@@ -24,7 +24,7 @@ public class BetaLogoPatch : ModulePatch
         return method.ReturnType == typeof(Task)
             && parameters.Length == 4
             && parameters[0].ParameterType == typeof(Profile)
-            && parameters[1].ParameterType == typeof(ProfileStatusClass);
+            && parameters[1].ParameterType == typeof(ProfileStatus);
     }
 
     [PatchPrefix]
@@ -38,7 +38,7 @@ public class BetaLogoPatch2 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.method_0));
+        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.StartRandomWatermarkPlacement));
     }
 
     [PatchPostfix]
@@ -52,7 +52,7 @@ public class BetaLogoPatch3 : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.smethod_0));
+        return AccessTools.Method(typeof(ClientWatermark), nameof(ClientWatermark.GetRandomScreenPoint));
     }
 
     // Prefix so the logic isn't being duplicated.

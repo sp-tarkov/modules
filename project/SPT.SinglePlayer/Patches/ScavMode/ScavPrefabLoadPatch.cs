@@ -27,10 +27,10 @@ public class ScavPrefabLoadPatch : ModulePatch
                 x.GetField("timeAndWeather") != null
                 && x.GetField("tarkovApplication_0") != null
                 && x.GetField("inTransition") != null
-                && x.Name.Contains("Struct")
+                && x.Name.Contains("CG_")
             );
 
-        var desiredMethod = desiredType.GetMethods(PatchConstants.PublicDeclaredFlags).FirstOrDefault(x => x.Name == "MoveNext");
+        var desiredMethod = desiredType.GetMethods(PatchConstants.PrivateFlags).FirstOrDefault(x => x.Name == "MoveNext");
 
         Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
         Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
@@ -76,7 +76,7 @@ public class ScavPrefabLoadPatch : ModulePatch
             new List<Code>()
             {
                 new Code(OpCodes.Ldloc_1),
-                new Code(OpCodes.Call, typeof(ClientApplication<ISession>), "get_Session"),
+                new Code(OpCodes.Call, typeof(ClientApplication<IClientSession>), "get_Session"),
                 new Code(OpCodes.Ldloc_1),
                 new Code(OpCodes.Ldfld, typeof(TarkovApplication), "_raidSettings"),
                 new Code(OpCodes.Callvirt, typeof(RaidSettings), "get_IsPmc"),

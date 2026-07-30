@@ -12,7 +12,7 @@ namespace SPT.SinglePlayer.Patches.ScavMode;
 /// </summary>
 public class GetProfileAtEndOfRaidPatch : ModulePatch
 {
-    public static CompleteProfileDescriptorClass ProfileDescriptor { get; private set; }
+    public static ProfileDescriptor ProfileDescriptor { get; private set; }
 
     protected override MethodBase GetTargetMethod()
     {
@@ -24,11 +24,11 @@ public class GetProfileAtEndOfRaidPatch : ModulePatch
     {
         if (exitStatus == ExitStatus.Runner)
         {
-            __instance.Profile_0.SetSpawnedInSession(false);
+            __instance.Profile.SetSpawnedInSession(false);
         }
-        ProfileDescriptor = new CompleteProfileDescriptorClass(
-            __instance.Profile_0,
-            GClass2241.Instance /* Has 2 methods */
+        ProfileDescriptor = new ProfileDescriptor(
+            __instance.Profile,
+            VisualsOnlySearchController.Instance /* Has 2 methods */
         );
     }
 }
@@ -41,11 +41,11 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Method(typeof(PostRaidHealthScreenClass), nameof(PostRaidHealthScreenClass.method_2));
+        return AccessTools.Method(typeof(SessionResultShowOperation), nameof(SessionResultShowOperation.Init));
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(PostRaidHealthScreenClass __instance)
+    public static void PatchPrefix(SessionResultShowOperation __instance)
     {
         Profile profile = new(GetProfileAtEndOfRaidPatch.ProfileDescriptor);
 
@@ -56,7 +56,7 @@ public class SendPlayerScavProfileToServerAfterRaidPatch : ModulePatch
         }
 
         // Only do below when player is a scav
-        var session = (ProfileEndpointFactoryAbstractClass)__instance.ISession;
+        var session = (ClientBackendSession) __instance._session;
         session.AllProfiles = [session.AllProfiles.First(x => x.Side != EPlayerSide.Savage), profile];
         session.ProfileOfPet.LearnAll();
 

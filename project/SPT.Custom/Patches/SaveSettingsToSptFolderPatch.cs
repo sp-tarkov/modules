@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using EFT.Settings;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -11,11 +12,11 @@ namespace SPT.Custom.Patches;
 /// </summary>
 public class SaveSettingsToSptFolderPatch : ModulePatch
 {
-    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT", "user", "sptSettings");
+    private static readonly string _sptPath = Path.Combine(Environment.CurrentDirectory, "SPT_Runtime", "user", "sptSettings");
 
     protected override MethodBase GetTargetMethod()
     {
-        return AccessTools.Constructor(typeof(SharedGameSettingsClass));
+        return AccessTools.Constructor(typeof(SettingsManager));
     }
 
     [PatchPrefix]
@@ -26,7 +27,7 @@ public class SaveSettingsToSptFolderPatch : ModulePatch
             Directory.CreateDirectory(_sptPath);
         }
 
-        SharedGameSettingsClass.String_0 = _sptPath;
-        SharedGameSettingsClass.String_1 = _sptPath;
+        SettingsManager.OldSettingsFolderPath = _sptPath;
+        SettingsManager.SettingsFolderPath = _sptPath;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using EFT;
 using HarmonyLib;
+using JsonType;
 using SPT.Reflection.Patching;
 
 namespace SPT.Custom.Patches;
@@ -18,7 +19,7 @@ public class BotsControllerInitPatch : ModulePatch
     }
 
     [PatchPostfix]
-    public static void PatchPostfix(BotsController __instance, LocationSettingsClass.Location.EventsDataClass events)
+    public static void PatchPostfix(BotsController __instance, LocationSettings.Location.BotLocationEvents events)
     {
         // Run it again with a non-null _botSpawner.
         __instance.EventsController = new BotsEventsController(
@@ -49,7 +50,7 @@ public class BotsEventsControllerActivatePatch : ModulePatch
     [PatchPrefix]
     public static bool PatchPrefix(BotsEventsController __instance)
     {
-        if (__instance.BotHalloweenEvent.Spawner == null)
+        if (__instance.BotHalloweenEvent._spawner == null)
         {
             Logger.LogDebug("__instance.BotHalloweenEvent.Spawner is null skip Activate");
             return false;

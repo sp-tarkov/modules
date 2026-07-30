@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using EFT;
 using EFT.InventoryLogic;
+using EFT.Prestige;
+using EFT.Quests;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
@@ -17,8 +19,8 @@ public class ScavPrestigeFixPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Constructor(
-            typeof(LocalPrestigeControllerClass),
-            [typeof(Profile), typeof(InventoryController), typeof(QuestBookClass), typeof(ISession)],
+            typeof(PrestigeControllerClientBackend),
+            [typeof(Profile), typeof(InventoryController), typeof(QuestBook), typeof(IClientSession)],
             false
         );
     }

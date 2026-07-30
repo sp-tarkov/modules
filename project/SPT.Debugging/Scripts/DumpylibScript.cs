@@ -17,18 +17,18 @@ namespace SPT.Debugging.Scripts;
 public class DumpylibScript : MonoBehaviour
 {
     // Fields are public like this so we can see them using UE
-    public Class308 _session;
+    public EftClientBackendSession _session;
     public TarkovApplication _tarkovApplication;
     public FieldInfo _mainMenuController;
-    public WaveInfoClass _wavesSettings;
+    public CountTypeBotWave _wavesSettings;
     public LocalRaidSettings _localRaidSettings;
     public RaidSettings _raidSettings;
-    public LocationSettingsClass _locationSettings;
-    public List<LocationSettingsClass.Location> _locationSettingsDict;
-    public RaidEndDescriptorClass _endRaidClass;
-    public CompleteProfileDescriptorClass _completeProfile;
-    public GClass846 _parsedDataProfile;
-    public WeatherRequestClass _weather;
+    public LocationSettings _locationSettings;
+    public List<LocationSettings.Location> _locationSettingsDict;
+    public SessionResult _endRaidClass;
+    public ProfileDescriptor _completeProfile;
+    public UnparsedData _parsedDataProfile;
+    public WeatherResponse _weather;
     public Type _raidSettingsType;
     public FieldInfo[] _locationSettingsFields;
     public FieldInfo _raidSettingsField;
@@ -51,10 +51,10 @@ public class DumpylibScript : MonoBehaviour
             await Task.Delay(random.Next(4802, 5998));
             Logger.LogError("StartTask");
 
-            _session = ClientAppUtils.GetClientApp().Session as Class308;
+            _session = ClientAppUtils.GetClientApp().Session as EftClientBackendSession;
             _tarkovApplication = ClientAppUtils.GetMainApp();
             _mainMenuController = _tarkovApplication.GetType().GetField("mainMenuController");
-            _wavesSettings = new WaveInfoClass(2, WildSpawnType.assault, BotDifficulty.normal);
+            _wavesSettings = new CountTypeBotWave(2, WildSpawnType.assault, BotDifficulty.normal);
             _localRaidSettings = new LocalRaidSettings
             {
                 serverId = null,
@@ -104,7 +104,7 @@ public class DumpylibScript : MonoBehaviour
 
             _weather = await _session.WeatherRequest();
 
-            _endRaidClass = new RaidEndDescriptorClass
+            _endRaidClass = new SessionResult
             {
                 profile = null,
                 result = ExitStatus.Left,
@@ -117,7 +117,7 @@ public class DumpylibScript : MonoBehaviour
                 InsuredItems = [],
                 ProfileId = "",
             };
-            _completeProfile = new CompleteProfileDescriptorClass(_session.Profile, GClass2240.Instance);
+            _completeProfile = new ProfileDescriptor(_session.Profile, FullySearchedSearchController.Instance);
 
             _parsedDataProfile = _completeProfile.ToUnparsedData();
             _endRaidClass.profile = _completeProfile.ToUnparsedData();

@@ -2,8 +2,6 @@ using System;
 using BepInEx;
 using SPT.Common;
 using SPT.SinglePlayer.Patches.MainMenu;
-using SPT.SinglePlayer.Patches.Performance;
-using SPT.SinglePlayer.Patches.Progression;
 using SPT.SinglePlayer.Patches.RaidFix;
 using SPT.SinglePlayer.Patches.ScavMode;
 using SPT.SinglePlayer.Utils.MainMenu;
@@ -25,7 +23,6 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             new OverrideMaxAiAliveInRaidValuePatch().Enable();
 
             // Still need
-            new FixPostScavRaidXpShowingZeroPatch().Enable();
             new DisablePMCExtractsForScavsPatch().Enable();
             new ScavExfilPatch().Enable();
             new ScavProfileLoadPatch().Enable();
@@ -41,32 +38,25 @@ public class SPTSingleplayerPlugin : BaseUnityPlugin
             // 3.10.0
             new DisableWelcomeToPVEModeMessagePatch().Enable();
             new DisableMatchmakerPlayerPreviewButtonsPatch().Enable();
-            new EnablePlayerScavPatch().Enable();
-            new ScavFoundInRaidPatch().Enable();
             new GetProfileAtEndOfRaidPatch().Enable();
             new SendPlayerScavProfileToServerAfterRaidPatch().Enable();
             new RemoveStashUpgradeLabelPatch().Enable();
             new RemoveClothingItemExternalObtainLabelPatch().Enable();
             new ForceRaidModeToLocalPatch().Enable();
             new ScavIsPlayerEnemyPatch().Enable();
-            new FirearmControllerShowIncompatibleNotificationClass().Enable();
             new FixKeyAlreadyExistsErrorOnAchievementPatch().Enable();
 
             // 3.11.0
             new ScavPrestigeFixPatch().Enable();
-            new DisableDevMaskCheckPatch().Enable();
-            new RemoveStopwatchAllocationsEveryCoverPointFramePatch().Enable();
             new DisableUseBSGServersCheckbox().Enable();
             new PmcBotSidePatch().Enable();
             new QuestAchievementRewardInRaidPatch().Enable();
-            new FixUnityWarningSpamFromAirdropsPatch().Enable();
 
             // 4.0.0
             ReadyButtonPatches.Patch();
-            new DisableDiscardLimitsPatch().Enable();
             new DisableBuffLoggingPatch().Enable();
             new RemoveStashUpgradeLabelPatch2().Enable();
-            new LocaleFixPatch().Enable();
+
             new RemoveTransitionRaidModeSetPatch().Enable();
             new FixDisableBossSpawningOptionPatch().Enable();
             new DisableHideoutCounterResetPatch().Enable();

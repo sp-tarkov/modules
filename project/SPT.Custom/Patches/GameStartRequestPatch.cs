@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using BepInEx.Bootstrap;
+using EFT;
 using HarmonyLib;
 using SPT.Common.Http;
 using SPT.Common.Utils;
@@ -18,8 +19,8 @@ internal class GameStartRequestPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Method(
-            typeof(BackendAbstractClass<IBackEndSession>),
-            nameof(BackendAbstractClass<IBackEndSession>.RegenerateToken)
+            typeof(ClientBackend<IEftSession>),
+            nameof(ClientBackend<IEftSession>.RegenerateToken)
         );
     }
 

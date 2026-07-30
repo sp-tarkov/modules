@@ -4,6 +4,7 @@ using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
+using HarmonyLib;
 using SPT.Reflection.Patching;
 using SPT.Reflection.Utils;
 using UnityEngine;
@@ -13,36 +14,20 @@ namespace SPT.SinglePlayer.Patches.RaidFix;
 /// <summary>
 /// An empty EntryPoint string (string_0 in BaseLocalGame) causes exfil point initialization to be skipped.
 /// This patch sets an EntryPoint string if it's missing.
+/// Leaving the above as history:
+/// BaseLocalGame now includes _entryPoint and is used in the method we target (vmethod_6)
 /// </summary>
 public class EmptyInfilFixPatch : ModulePatch
 {
     protected override MethodBase GetTargetMethod()
     {
-        var desiredType = PatchConstants.LocalGameType.BaseType;
-        var desiredMethod = desiredType
-            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.CreateInstance)
-            .SingleCustom(IsTargetMethod);
-
-        Logger.LogDebug($"{this.GetType().Name} Type: {desiredType?.Name}");
-        Logger.LogDebug($"{this.GetType().Name} Method: {desiredMethod?.Name}");
-
-        return desiredMethod;
-    }
-
-    private static bool IsTargetMethod(MethodInfo methodInfo)
-    {
-        return (
-            methodInfo.IsVirtual
-            && methodInfo.GetParameters().Length == 0
-            && methodInfo.ReturnType == typeof(void)
-            && methodInfo.GetMethodBody().LocalVariables.Count > 0
-        );
+        return AccessTools.Method(typeof(BaseLocalGame<EftGamePlayerOwner>), nameof(BaseLocalGame<EftGamePlayerOwner>.vmethod_6));
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(ref string ___string_0)
+    public static void PatchPrefix(ref string ____entryPoint)
     {
-        if (!string.IsNullOrWhiteSpace(___string_0))
+        if (!string.IsNullOrWhiteSpace(____entryPoint))
         {
             return;
         }
@@ -74,6 +59,6 @@ public class EmptyInfilFixPatch : ModulePatch
             }
         }
 
-        ___string_0 = closestSpawn.SpawnPoint.Infiltration;
+        ____entryPoint = closestSpawn.SpawnPoint.Infiltration;
     }
 }

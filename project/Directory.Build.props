@@ -1,0 +1,24 @@
+<Project>
+  <!-- Shared configuration imported by every project under project/. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Configuration>Release</Configuration>
+    <Company>SPT</Company>
+    <Copyright>Copyright @ SPT 2025</Copyright>
+    <!--
+        Build version; pass -p:SptVersion=x.y.z
+        Stamps FileVersion/AssemblyVersion and SPTPluginInfo.PLUGIN_VERSION.
+    -->
+    <SptVersion Condition="'$(SptVersion)' == ''">4.1.0</SptVersion>
+    <FileVersion>$(SptVersion)</FileVersion>
+    <AssemblyVersion>$(SptVersion)</AssemblyVersion>
+    <InformationalVersion>$(SptVersion)</InformationalVersion>
+  </PropertyGroup>
+  <!-- Required by every project, declared once here. Version comes from Directory.Packages.props. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" ExcludeAssets="runtime" PrivateAssets="all">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

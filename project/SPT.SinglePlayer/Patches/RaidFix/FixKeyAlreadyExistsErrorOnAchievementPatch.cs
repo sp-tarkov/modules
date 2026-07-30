@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using EFT.Achievements;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -9,13 +10,13 @@ public class FixKeyAlreadyExistsErrorOnAchievementPatch : ModulePatch
     protected override MethodBase GetTargetMethod()
     {
         return AccessTools.Method(
-            typeof(AbstractAchievementControllerClass),
-            nameof(AbstractAchievementControllerClass.OnConditionalStatusChangedEvent)
+            typeof(AchievementsController),
+            nameof(AchievementsController.OnConditionalStatusChangedEvent)
         );
     }
 
     [PatchPrefix]
-    public static bool Prefix(AchievementTaskClass achievement, bool notify, AbstractAchievementControllerClass __instance)
+    public static bool Prefix(Achievement achievement, bool notify, AchievementsController __instance)
     {
         if (achievement.IsDone() && __instance.Profile.AchievementsData.ContainsKey(achievement.Id))
         {
