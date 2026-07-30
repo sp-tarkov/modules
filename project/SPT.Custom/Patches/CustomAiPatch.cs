@@ -6,7 +6,6 @@ using EFT;
 using HarmonyLib;
 using Newtonsoft.Json;
 using SPT.Common.Http;
-using SPT.Core.Utils;
 using SPT.Custom.CustomAI;
 using SPT.Reflection.Patching;
 

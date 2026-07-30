@@ -1,9 +1,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
-using BattlEye;
 using EFT;
 using HarmonyLib;
-using SPT.Core.Utils;
 using SPT.Reflection.Patching;
 
 namespace SPT.Core.Patches;
@@ -18,7 +16,6 @@ public class BattlEyePatch : ModulePatch
     [PatchPrefix]
     private static bool PatchPrefix(AnticheatValidationOperation __instance, ref Task __result)
     {
-        __instance._succeed = ValidationUtil.Validate();
         __result = Task.CompletedTask;
         return false; // Skip original
     }

@@ -3,7 +3,6 @@ using System.Linq;
 using BepInEx.Logging;
 using EFT;
 using EFT.InventoryLogic;
-using SPT.Core.Utils;
 
 namespace SPT.Custom.CustomAI;
 
