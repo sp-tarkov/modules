@@ -16,6 +16,7 @@ public class BattlEyePatch : ModulePatch
     [PatchPrefix]
     private static bool PatchPrefix(AnticheatValidationOperation __instance, ref Task __result)
     {
+        __instance._succeed = true;
         __result = Task.CompletedTask;
         return false; // Skip original
     }
