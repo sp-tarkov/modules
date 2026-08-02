@@ -23,7 +23,7 @@ public class TinnitusFixPatch : ModulePatch
 
         bool shouldInvoke =
             baseMethod
-                .MakeGenericMethod(typeof(ActiveHealthController).GetNestedType("Stun", BindingFlags.Instance | BindingFlags.NonPublic))
+                .MakeGenericMethod(typeof(ActiveHealthController.Stun))
                 .Invoke(Singleton<GameWorld>.Instance.MainPlayer.ActiveHealthController, new object[] { EBodyPart.Common }) != null;
 
         return shouldInvoke;

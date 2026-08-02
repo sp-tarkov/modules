@@ -12,7 +12,7 @@ namespace SPT.Custom.Patches;
 
 public class KhorovodDisposeFix : ModulePatch
 {
-    private static readonly FieldInfo triggerField = typeof(EventObject).GetField("_trigger", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly FieldInfo triggerField = AccessTools.Field(typeof(EventObject), "_trigger");
 
     protected override MethodBase GetTargetMethod()
     {
