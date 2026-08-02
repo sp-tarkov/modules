@@ -50,11 +50,7 @@ public class DisablePMCExtractsForScavsPatch : ModulePatch
                     // Disabling extracts that aren't scav extracts
                     exfil.Disable();
                     // _authorityToChangeStatusExternally Changing this to false stop buttons from re-enabling extracts (d-2 extract, zb-013)
-                    exfil
-                        .GetType()
-                        .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                        .First(x => x.Name == "_authorityToChangeStatusExternally")
-                        .SetValue(exfil, false);
+                    AccessTools.Field(typeof(ExfiltrationPoint), "_authorityToChangeStatusExternally").SetValue(exfil, false);
                 }
             }
         }
