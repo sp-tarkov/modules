@@ -11,7 +11,8 @@ namespace SPT.Custom.Utils;
 
 public static class BundleManager
 {
-    private const string CachePath = "SPT_Runtime/user/cache/bundles/";
+    private const string RuntimePath = "SPT_Runtime/";
+    private const string CachePath = RuntimePath + "user/cache/bundles/";
     private static readonly ManualLogSource _logger;
     public static readonly ConcurrentDictionary<string, BundleItem> Bundles;
 
@@ -23,7 +24,7 @@ public static class BundleManager
 
     public static string GetBundlePath(BundleItem bundle)
     {
-        return RequestHandler.IsLocal ? $"SPT/{bundle.ModPath}/bundles/" : CachePath;
+        return RequestHandler.IsLocal ? $"{RuntimePath}{bundle.ModPath}/bundles/" : CachePath;
     }
 
     public static string GetBundleFilePath(BundleItem bundle)
