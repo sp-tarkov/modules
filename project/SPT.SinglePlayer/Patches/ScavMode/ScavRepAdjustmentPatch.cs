@@ -20,9 +20,8 @@ public class ScavRepAdjustmentPatch : ModulePatch
     }
 
     [PatchPrefix]
-    public static void PatchPrefix(DamageInfo damage, string playerProfileId, out Tuple<Player, bool> __state)
+    public static void PatchPrefix(DamageInfo damage, string playerProfileId)
     {
-        __state = new Tuple<Player, bool>(null, false);
         var player = (Player)damage.Player.iPlayer;
 
         // Add safeguards to make sure no calculations happen from other bots
@@ -39,13 +38,7 @@ public class ScavRepAdjustmentPatch : ModulePatch
 
         if (Singleton<GameWorld>.Instance.GetEverExistedPlayerByID(playerProfileId) is Player killedBot)
         {
-            __state = new Tuple<Player, bool>(killedBot, killedBot.AIData.IsAI);
             var killedPlayerSettings = killedBot.Profile.Info.Settings;
-            // Extra check to ensure we only set playerscavs to IsAI = false
-            if (killedPlayerSettings.Role == WildSpawnType.assault && killedBot.Profile.Info.MainProfileNickname.Contains("("))
-            {
-                //killedBot.AIData.IsAI = false;
-            }
 
             // If Victim is a PMC and has killed a Scav or Marksman.
             if (killedPlayerSettings.Role is WildSpawnType.pmcBEAR or WildSpawnType.pmcUSEC)
@@ -59,15 +52,6 @@ public class ScavRepAdjustmentPatch : ModulePatch
             {
                 player.Loyalty.GifterKill(killedBot);
             }
-        }
-    }
-
-    [PatchPostfix]
-    private static void PatchPostfix(Tuple<Player, bool> __state)
-    {
-        if (__state.Item1 != null)
-        {
-            //__state.Item1.AIData.IsAI = __state.Item2;
         }
     }
 
